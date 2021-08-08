@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MaterialApp(
       title: 'Library',
@@ -18,7 +22,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String email = '';
+  String password = '';
   final _formKey = GlobalKey<FormState>();
+  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,6 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
+                      onChanged: (value) {
+                        email = value;
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
@@ -101,6 +111,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
+                      onChanged: (value) {
+                        password = value;
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
@@ -113,15 +126,105 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.only(top: 20),
                     color: Colors.blue,
                     width: 300,
-                    height: 50,
+                    height: 70,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          UserCredential userCredential =
+                              await auth.createUserWithEmailAndPassword(
+                                  email: email, password: password);
+                          print("USER CREATED !");
+                        } on FirebaseAuthException catch (e) {
+                          switch (e.code) {
+                            case "email-already-in-use":
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Container(
+                                        color: Colors.red,
+                                        child: Text("EMAIL ALREADY USED!!!"),
+                                      ),
+                                    );
+                                  });
+                              break;
+                          }
+                        }
+                      },
                       child: Text(
                         "REGISTER ACCOUNT",
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
                   ),
+                  Container(
+                    color: Colors.red,
+                    margin: EdgeInsets.only(left: 45, right: 45, top: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: Colors.green,
+                            child: TextButton(
+                              onPressed: () async {
+                                try {
+                                  UserCredential userCredential =
+                                      await auth.signInWithEmailAndPassword(
+                                          email: email, password: password);
+                                  print("Sign In Successful");
+                                } on FirebaseException catch (e) {
+                                  print(e.code);
+                                  switch (e.code) {
+                                    case "invalid-email":
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              content: Container(
+                                                color: Colors.red,
+                                                child:
+                                                    Text("INVALID EMAIL !!!"),
+                                              ),
+                                            );
+                                          });
+                                      break;
+                                  }
+                                }
+                              },
+                              child: Text(
+                                "LOG-IN",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: Colors.brown,
+                            child: TextButton(
+                              onPressed: () async {
+                                try {
+                                  UserCredential result =
+                                      await auth.signInAnonymously();
+                                  print("Signed in Succesful");
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              },
+                              child: Text(
+                                "GUEST",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             )
