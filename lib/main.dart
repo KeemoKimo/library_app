@@ -142,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                               await auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           print("USER CREATED !");
+
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
                         } on FirebaseAuthException catch (e) {
