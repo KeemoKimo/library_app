@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'HomeScreen.dart';
+import 'DatabaseSerivces.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -142,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                               await auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           print("USER CREATED !");
-
+                          await DatabaseServices(uid: userCredential.user!.uid)
+                              .updateUserData('Bunthong', '14', email);
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
                         } on FirebaseAuthException catch (e) {

@@ -38,14 +38,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                Form(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        drawer: Drawer(
+            child: MediaQuery.removePadding(
+          removeTop: true,
+          context: context,
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                title: const Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),
+        )),
+        body: SafeArea(
+          child: Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Form(
                     key: _formKey,
                     child: Column(
                       children: [
@@ -55,9 +86,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         //   'email': loggedInUser.email,
                         //   'username': username,
                         // });
+                        Center(
+                          child: Text(
+                            "WELCOME BACK",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
-                    ))
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
