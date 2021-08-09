@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'HomeScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,8 +9,14 @@ void main() async {
   runApp(
     MaterialApp(
       title: 'Library',
+      //first route when app start
+      initialRoute: 'home',
+      //list of route that will be included in this project
+      routes: {
+        'home': (context) => const LoginPage(),
+        'main': (context) => const HomeScreen(),
+      },
       theme: ThemeData(primaryColor: Colors.blue),
-      home: LoginPage(),
     ),
   );
 }
@@ -94,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
                       style: TextStyle(color: Colors.white),
+                      obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Enter Password...",
                         labelStyle: TextStyle(color: Colors.white),
@@ -134,6 +142,8 @@ class _LoginPageState extends State<LoginPage> {
                               await auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           print("USER CREATED !");
+                          //this line is to make user go second screen
+                          Navigator.pushNamed(context, 'main');
                         } on FirebaseAuthException catch (e) {
                           switch (e.code) {
                             case "email-already-in-use":
@@ -172,6 +182,8 @@ class _LoginPageState extends State<LoginPage> {
                                       await auth.signInWithEmailAndPassword(
                                           email: email, password: password);
                                   print("Sign In Successful");
+                                  //this line is to make user go second screen
+                                  Navigator.pushNamed(context, 'main');
                                 } on FirebaseException catch (e) {
                                   print(e.code);
                                   switch (e.code) {
@@ -209,6 +221,8 @@ class _LoginPageState extends State<LoginPage> {
                                   UserCredential result =
                                       await auth.signInAnonymously();
                                   print("Signed in Succesful");
+                                  //this line is to make user go second screen
+                                  Navigator.pushNamed(context, 'main');
                                 } catch (e) {
                                   print(e.toString());
                                 }
