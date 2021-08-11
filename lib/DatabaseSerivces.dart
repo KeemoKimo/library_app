@@ -20,4 +20,40 @@ class DatabaseServices {
       },
     );
   }
+
+  Future getUserData() async {
+    return userCollection
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        //print out a specific field of data
+        print('Document data: ${(documentSnapshot.data() as Map)['userName']}');
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+  }
+
+  //update whenever something change
+  userDataStream() async {
+    await for (var snapshot in userCollection.snapshots()) {
+      for (var datas in snapshot.docs) {
+        print(datas.data());
+      }
+    }
+  }
+
+  //get the userName
+  Future<String> getUserName() async {
+    return userCollection.doc(uid).get().then(
+      (DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          //print out a specific field of data
+          return (documentSnapshot.data() as Map)['userName'];
+        }
+        return 'Error with something';
+      },
+    );
+  }
 }
