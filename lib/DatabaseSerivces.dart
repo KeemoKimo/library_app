@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'HomeScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:file_picker/file_picker.dart';
 
 class DatabaseServices {
   late String uid;
@@ -10,6 +14,21 @@ class DatabaseServices {
   //reference to the firestore collection
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+  CollectionReference booksCollection =
+      FirebaseFirestore.instance.collection('books');
+
+  Future updateBooksData(String category, String title, String author,
+      String numberOfPages, String description) async {
+    return await booksCollection.doc(uid).set(
+      {
+        'category': category,
+        'title': title,
+        'author': author,
+        'numberOfPages': numberOfPages,
+        'description': description,
+      },
+    );
+  }
 
   Future updateUserData(String username, String age, String email) async {
     return await userCollection.doc(uid).set(
@@ -55,5 +74,16 @@ class DatabaseServices {
         return 'Error with something';
       },
     );
+  }
+
+  //Upload Files for photo
+  static UploadTask? uploadFile(String destination, File file) {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      return ref.putFile(file);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

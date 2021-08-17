@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,9 +7,11 @@ import 'DatabaseSerivces.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Library',
       //first route when app start
       initialRoute: 'home',
@@ -17,7 +20,7 @@ void main() async {
         'home': (context) => const LoginPage(),
         'main': (context) => const HomeScreen(),
       },
-      theme: ThemeData(primaryColor: Colors.blue),
+      theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Lato'),
     ),
   );
 }
@@ -52,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "REGISTER",
+              "WELCOME!",
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 color: Colors.white,
@@ -133,11 +136,16 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
-                    color: Colors.blue,
-                    width: 300,
-                    height: 70,
-                    child: TextButton(
+                    child: CupertinoButton(
+                      color: Colors.yellow[700],
+                      child: Text('Register Account'),
                       onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Registered Succesful!')),
+                          );
+                        }
                         try {
                           UserCredential userCredential =
                               await auth.createUserWithEmailAndPassword(
@@ -164,84 +172,46 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         }
                       },
-                      child: Text(
-                        "REGISTER ACCOUNT",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
                     ),
                   ),
                   Container(
-                    color: Colors.red,
-                    margin: EdgeInsets.only(left: 45, right: 45, top: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            color: Colors.green,
-                            child: TextButton(
-                              onPressed: () async {
-                                try {
-                                  UserCredential userCredential =
-                                      await auth.signInWithEmailAndPassword(
-                                          email: email, password: password);
-                                  print("Sign In Successful");
-                                  //this line is to make user go second screen
-                                  Navigator.pushNamed(context, 'main');
-                                } on FirebaseException catch (e) {
-                                  print(e.code);
-                                  switch (e.code) {
-                                    case "invalid-email":
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              content: Container(
-                                                color: Colors.red,
-                                                child:
-                                                    Text("INVALID EMAIL !!!"),
-                                              ),
-                                            );
-                                          });
-                                      break;
-                                  }
-                                }
-                              },
-                              child: Text(
-                                "LOG-IN",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            color: Colors.brown,
-                            child: TextButton(
-                              onPressed: () async {
-                                try {
-                                  UserCredential result =
-                                      await auth.signInAnonymously();
-                                  print("Signed in Succesful");
-                                  //this line is to make user go second screen
-                                  Navigator.pushNamed(context, 'main');
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              },
-                              child: Text(
-                                "GUEST",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    margin: EdgeInsets.only(top: 20),
+                    child: CupertinoButton(
+                      color: Colors.green[700],
+                      child: Text('Sign In'),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Sign In succesful!')),
+                          );
+                        }
+                        try {
+                          UserCredential userCredential =
+                              await auth.signInWithEmailAndPassword(
+                                  email: email, password: password);
+                          print("Sign In Successful");
+                          //this line is to make user go second screen
+                          Navigator.pushNamed(context, 'main');
+                        } on FirebaseException catch (e) {
+                          print(e.code);
+                          switch (e.code) {
+                            case "invalid-email":
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Container(
+                                        color: Colors.red,
+                                        child: Text("INVALID EMAIL !!!"),
+                                      ),
+                                    );
+                                  });
+                              break;
+                          }
+                        }
+                      },
                     ),
-                  )
+                  ),
                 ],
               ),
             )
