@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
-  late String username = '';
+  late String? username = '';
   late String? userEmail = loggedInUser.email;
   late String? userUID = loggedInUser.uid;
   late String age = '';
@@ -29,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
       FirebaseFirestore.instance.collection('users');
   File? file;
   late String imageUrl = '';
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -84,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    late String? title = '';
     var drawer2 = Drawer(
       child: MediaQuery.removePadding(
         removeTop: true,
@@ -263,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       loggedInUser
                                                                           .uid)
                                                               .updateUserData(
-                                                                  username,
+                                                                  username!,
                                                                   age,
                                                                   userEmail!);
                                                           uploadFile();
@@ -403,6 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -413,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 StreamBuilder<QuerySnapshot>(
-                  stream: firestore.collection('users').snapshots(),
+                  stream: firestore.collection('books').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -422,17 +425,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     }
-                    final currentUserData = snapshot.data!.docs;
-                    List<Widget> userDatas = [];
-                    for (var datas in currentUserData) {
-                      var name = (datas.data() as Map)['userName'];
-                      var email = (datas.data() as Map)['email'];
-                      var age = (datas.data() as Map)['age'];
+                    final books = snapshot.data!.docs;
+
+                    List<Text> bookWidgets = [];
+                    for (var book in books) {
+                      title = (book.data() as Map)['title'];
+                      var author = (book.data() as Map)['author'];
+                      var owner = (book.data() as Map)['owner'];
+
+                      if (owner == userEmail) {
+                        final bookWidget =
+                            Text('$title from $owner by $author');
+                        bookWidgets.add(bookWidget);
+                      }
                     }
 
-                    //   var userData =
-                    //       Text('Name : $name , Email : $email , Age : $age');
-                    //   userDatas.add(userData);
                     return Column(
                       children: [
                         Container(
@@ -547,6 +554,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
+                        Column(
+                          children: bookWidgets,
+                        )
                       ],
                     );
                     // return Column(

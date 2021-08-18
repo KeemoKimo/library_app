@@ -20,6 +20,7 @@ class _addBookPageState extends State<addBookPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
+  late String? owner = userEmail;
   late String category = 'Choose a category';
   late String title;
   late String author;
@@ -29,6 +30,7 @@ class _addBookPageState extends State<addBookPage> {
     super.initState();
     getCurrentUser().whenComplete(() {
       setState(() {
+        print(loggedInUser);
         build(context);
       });
     });
@@ -287,7 +289,7 @@ class _addBookPageState extends State<addBookPage> {
                       onPressed: () async {
                         await DatabaseServices(uid: loggedInUser.uid)
                             .updateBooksData(category, title, author,
-                                numberOfPages, description);
+                                numberOfPages, description, owner!);
                         await showDialog(
                           context: context,
                           builder: (BuildContext context) {

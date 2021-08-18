@@ -18,14 +18,15 @@ class DatabaseServices {
       FirebaseFirestore.instance.collection('books');
 
   Future updateBooksData(String category, String title, String author,
-      String numberOfPages, String description) async {
-    return await booksCollection.doc(uid).set(
+      String numberOfPages, String description, String owner) async {
+    return await booksCollection.doc(title + owner).set(
       {
         'category': category,
         'title': title,
         'author': author,
         'numberOfPages': numberOfPages,
         'description': description,
+        'owner': owner,
       },
     );
   }
