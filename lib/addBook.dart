@@ -1,10 +1,12 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/DatabaseSerivces.dart';
-import 'package:library_app/main.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 
 // ignore: camel_case_types
 class addBookPage extends StatefulWidget {
@@ -16,8 +18,11 @@ class addBookPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _addBookPageState extends State<addBookPage> {
+  File? _image;
+  String? imageURL;
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseStorage storage = FirebaseStorage.instance;
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
@@ -26,15 +31,6 @@ class _addBookPageState extends State<addBookPage> {
   late String author;
   late String numberOfPages;
   late String description;
-  void initState() {
-    super.initState();
-    getCurrentUser().whenComplete(() {
-      setState(() {
-        print(loggedInUser);
-        build(context);
-      });
-    });
-  }
 
   getCurrentUser() async {
     try {
@@ -49,10 +45,45 @@ class _addBookPageState extends State<addBookPage> {
     }
   }
 
+  void initState() {
+    super.initState();
+    getCurrentUser().whenComplete(() {
+      setState(() {
+        print(loggedInUser);
+        build(context);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    Future pickImage() async {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
+      print('eee');
 
+      setState(() {
+        if (image == null) {
+          print('Image was null');
+        } else {
+          _image = File(image.path);
+        }
+      });
+    }
+
+    Future uploadImage(BuildContext context) async {
+      // Reference storageReference =
+      //     storage.ref().child('$userEmail/$title cover');
+      // UploadTask uploadTask = storageReference.putFile(_image!);
+      var snapshot =
+          await storage.ref().child('$userEmail/$title cover').putFile(_image!);
+      String? downloadURL = await snapshot.ref.getDownloadURL();
+      setState(() {
+        imageURL = downloadURL;
+      });
+    }
+
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Books'),
@@ -65,6 +96,34 @@ class _addBookPageState extends State<addBookPage> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      'Choose book Cover',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.red,
+                    width: 200,
+                    height: 300,
+                    child: _image != null
+                        ? Image.file(
+                            _image!,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            'https://www.brother.ca/resources/images/no-product-image.png',
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                  IconButton(
+                    color: Colors.black,
+                    onPressed: () => pickImage(),
+                    icon: Icon(Icons.add_a_photo),
+                  ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Text(
@@ -287,9 +346,12 @@ class _addBookPageState extends State<addBookPage> {
                       color: Colors.yellow[700],
                       child: Text('Add Book !'),
                       onPressed: () async {
+                        await uploadImage(context);
+                        print('Finished updating book data');
                         await DatabaseServices(uid: loggedInUser.uid)
                             .updateBooksData(category, title, author,
-                                numberOfPages, description, owner!);
+                                numberOfPages, description, owner!, imageURL!);
+                        print('Uploaded Image');
                         await showDialog(
                           context: context,
                           builder: (BuildContext context) {

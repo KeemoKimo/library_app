@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'HomeScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:file_picker/file_picker.dart';
 
 class DatabaseServices {
   late String uid;
@@ -17,8 +15,14 @@ class DatabaseServices {
   CollectionReference booksCollection =
       FirebaseFirestore.instance.collection('books');
 
-  Future updateBooksData(String category, String title, String author,
-      String numberOfPages, String description, String owner) async {
+  Future updateBooksData(
+      String category,
+      String title,
+      String author,
+      String numberOfPages,
+      String description,
+      String owner,
+      String imageURL) async {
     return await booksCollection.doc(title + owner).set(
       {
         'category': category,
@@ -27,6 +31,7 @@ class DatabaseServices {
         'numberOfPages': numberOfPages,
         'description': description,
         'owner': owner,
+        'imageURL': imageURL,
       },
     );
   }

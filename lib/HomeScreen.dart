@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/DatabaseSerivces.dart';
 import 'package:library_app/addBook.dart';
 import 'package:library_app/main.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as Path;
 
@@ -427,15 +426,54 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     final books = snapshot.data!.docs;
 
-                    List<Text> bookWidgets = [];
+                    List<Card> bookWidgets = [];
                     for (var book in books) {
                       title = (book.data() as Map)['title'];
                       var author = (book.data() as Map)['author'];
                       var owner = (book.data() as Map)['owner'];
 
                       if (owner == userEmail) {
-                        final bookWidget =
-                            Text('$title from $owner by $author');
+                        final bookWidget = Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          // child: Image.network(
+                          //   'https://placeimg.com/640/480/any',
+                          //   fit: BoxFit.fill,
+                          // ),
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Icon(
+                                  Icons.book,
+                                  color: Colors.black,
+                                ),
+                                title: Text(title.toString()),
+                                subtitle: Text('The Book is by $author'),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  TextButton(
+                                    child: const Text('EDIT'),
+                                    onPressed: () {},
+                                  ),
+                                  const SizedBox(width: 8),
+                                  TextButton(
+                                    child: const Text('INFO'),
+                                    onPressed: () {},
+                                  ),
+                                  const SizedBox(width: 8),
+                                ],
+                              ),
+                            ],
+                          ),
+                          color: Colors.yellow,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5,
+                          margin: EdgeInsets.all(10),
+                        );
                         bookWidgets.add(bookWidget);
                       }
                     }
@@ -535,23 +573,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
                             ),
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('nie'),
-                              Text('Add Book'),
-                            ],
                           ),
                         ),
                         Column(
