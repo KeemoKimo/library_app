@@ -7,6 +7,7 @@ import 'package:library_app/DatabaseSerivces.dart';
 import 'package:library_app/addBook.dart';
 import 'package:library_app/main.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:library_app/myAccount.dart';
 import 'package:path/path.dart' as Path;
 
 class HomeScreen extends StatefulWidget {
@@ -114,6 +115,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               )),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: const Text('My Account'),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyAccountPage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.settings),
@@ -435,6 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             title.toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
+                                              fontSize: 17,
                                             ),
                                           ),
                                         ),
