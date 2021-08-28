@@ -26,11 +26,20 @@ class _addBookPageState extends State<addBookPage> {
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
-  late String category = 'Choose a category';
-  late String title;
-  late String author;
-  late String numberOfPages;
-  late String description;
+  var titleController = TextEditingController();
+  var authorController = TextEditingController();
+  var numberOfPageController = TextEditingController();
+  var descriptionController = TextEditingController();
+  String dropdownInitialValue = 'Fictional';
+  var categoryItems = [
+    'Fictional',
+    'Non - Fiction',
+    'Historical',
+    'Philosophy',
+    'Sci-Fi',
+    'Comic',
+    'Biography'
+  ];
 
   getCurrentUser() async {
     try {
@@ -49,7 +58,7 @@ class _addBookPageState extends State<addBookPage> {
     super.initState();
     getCurrentUser().whenComplete(() {
       setState(() {
-        print(loggedInUser);
+        print(userEmail);
         build(context);
       });
     });
@@ -59,28 +68,35 @@ class _addBookPageState extends State<addBookPage> {
   Widget build(BuildContext context) {
     Future pickImage() async {
       final ImagePicker _picker = ImagePicker();
-      XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
-      print('eee');
+      try {
+        XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
+        print('eee');
 
-      setState(() {
-        if (image == null) {
-          print('Image was null');
-        } else {
-          _image = File(image.path);
-        }
-      });
+        setState(() {
+          if (image == null) {
+            print('Image was null');
+          } else {
+            _image = File(image.path);
+          }
+        });
+      } catch (e) {
+        print(e);
+      }
     }
 
     Future uploadImage(BuildContext context) async {
-      // Reference storageReference =
-      //     storage.ref().child('$userEmail/$title cover');
-      // UploadTask uploadTask = storageReference.putFile(_image!);
-      var snapshot =
-          await storage.ref().child('$userEmail/$title cover').putFile(_image!);
-      String? downloadURL = await snapshot.ref.getDownloadURL();
-      setState(() {
-        imageURL = downloadURL;
-      });
+      try {
+        var snapshot = await storage
+            .ref()
+            .child('$userEmail/$titleController.text cover')
+            .putFile(_image!);
+        String? downloadURL = await snapshot.ref.getDownloadURL();
+        setState(() {
+          imageURL = downloadURL;
+        });
+      } catch (e) {
+        print(e);
+      }
     }
 
     final _formKey = GlobalKey<FormState>();
@@ -106,7 +122,10 @@ class _addBookPageState extends State<addBookPage> {
                     ),
                   ),
                   Container(
-                    color: Colors.red,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 5, color: Colors.black),
+                    ),
                     width: 200,
                     height: 300,
                     child: _image != null
@@ -137,6 +156,7 @@ class _addBookPageState extends State<addBookPage> {
                     margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      controller: titleController,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
@@ -156,15 +176,15 @@ class _addBookPageState extends State<addBookPage> {
                           ),
                         ),
                       ),
-                      onChanged: (value) {
-                        title = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
+                      // onChanged: (value) {
+                      //   titleController = value;
+                      // },
+                      // validator: (value) {
+                      //   if (value == null || value.isEmpty) {
+                      //     return 'Please enter some text';
+                      //   }
+                      //   return null;
+                      // },
                     ),
                   ),
                   Container(
@@ -180,6 +200,7 @@ class _addBookPageState extends State<addBookPage> {
                     margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      controller: authorController,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
@@ -199,15 +220,6 @@ class _addBookPageState extends State<addBookPage> {
                           ),
                         ),
                       ),
-                      onChanged: (value) {
-                        author = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   Container(
@@ -219,39 +231,21 @@ class _addBookPageState extends State<addBookPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: TextFormField(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
-                      decoration: InputDecoration(
-                        labelText: "Enter the book category",
-                        labelStyle: TextStyle(color: Colors.black),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        category = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
+                  DropdownButton(
+                    elevation: 10,
+                    icon: Icon(Icons.arrow_drop_down),
+                    value: dropdownInitialValue,
+                    items: categoryItems.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownInitialValue = newValue!;
+                      });
+                    },
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
@@ -266,6 +260,7 @@ class _addBookPageState extends State<addBookPage> {
                     margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      controller: numberOfPageController,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
@@ -285,15 +280,6 @@ class _addBookPageState extends State<addBookPage> {
                           ),
                         ),
                       ),
-                      onChanged: (value) {
-                        numberOfPages = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   Container(
@@ -309,6 +295,7 @@ class _addBookPageState extends State<addBookPage> {
                     margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      controller: descriptionController,
                       maxLines: 10,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black),
@@ -329,15 +316,6 @@ class _addBookPageState extends State<addBookPage> {
                           ),
                         ),
                       ),
-                      onChanged: (value) {
-                        description = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   Container(
@@ -346,11 +324,19 @@ class _addBookPageState extends State<addBookPage> {
                       color: Colors.yellow[700],
                       child: Text('Add Book !'),
                       onPressed: () async {
+                        print(userEmail);
+                        print(titleController);
                         await uploadImage(context);
                         print('Finished updating book data');
                         await DatabaseServices(uid: loggedInUser.uid)
-                            .updateBooksData(category, title, author,
-                                numberOfPages, description, owner!, imageURL!);
+                            .updateBooksData(
+                                dropdownInitialValue,
+                                titleController.text,
+                                authorController.text,
+                                numberOfPageController.text,
+                                descriptionController.text,
+                                owner!,
+                                imageURL!);
                         print('Uploaded Image');
                         await showDialog(
                           context: context,

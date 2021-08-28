@@ -152,24 +152,11 @@ class _LoginPageState extends State<LoginPage> {
                                   email: email, password: password);
                           print("USER CREATED !");
                           await DatabaseServices(uid: userCredential.user!.uid)
-                              .updateUserData('Bunthong', '14', email);
+                              .updateUserData('new_User', 'age', email);
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
                         } on FirebaseAuthException catch (e) {
-                          switch (e.code) {
-                            case "email-already-in-use":
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      content: Container(
-                                        color: Colors.red,
-                                        child: Text("EMAIL ALREADY USED!!!"),
-                                      ),
-                                    );
-                                  });
-                              break;
-                          }
+                          print(e.toString());
                         }
                       },
                     ),

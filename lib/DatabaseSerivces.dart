@@ -23,7 +23,7 @@ class DatabaseServices {
       String description,
       String owner,
       String imageURL) async {
-    return await booksCollection.doc(title + owner).set(
+    return await booksCollection.doc(title + ' from ' + owner).set(
       {
         'category': category,
         'title': title,
@@ -66,30 +66,6 @@ class DatabaseServices {
       for (var datas in snapshot.docs) {
         print(datas.data());
       }
-    }
-  }
-
-  //get the userName
-  Future<String> getUserName() async {
-    return userCollection.doc(uid).get().then(
-      (DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          //print out a specific field of data
-          return (documentSnapshot.data() as Map)['userName'];
-        }
-        return 'Error with something';
-      },
-    );
-  }
-
-  //Upload Files for photo
-  static UploadTask? uploadFile(String destination, File file) {
-    try {
-      final ref = FirebaseStorage.instance.ref(destination);
-
-      return ref.putFile(file);
-    } catch (e) {
-      print(e.toString());
     }
   }
 }

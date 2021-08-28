@@ -28,9 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
       FirebaseFirestore.instance.collection('users');
   File? file;
   late String imageUrl = '';
-
-  final _formKey = GlobalKey<FormState>();
-
   @override
   void initState() {
     super.initState();
@@ -63,23 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         file = File(path!);
       });
-    }
-  }
-
-  Future uploadFile() async {
-    if (file == null)
-      return;
-    else {
-      final fileName = Path.basename(file!.path);
-      final destination = '$userUID/$fileName';
-      var task = DatabaseServices.uploadFile(destination, file!);
-      if (task == null)
-        return;
-      else {
-        final snapshot = await task.whenComplete(() {});
-        final urlDownload = await snapshot.ref.getDownloadURL();
-        return imageUrl = urlDownload;
-      }
     }
   }
 
@@ -267,29 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   username!,
                                                                   age,
                                                                   userEmail!);
-                                                          uploadFile();
-                                                          setState(() {});
-                                                          print("Edited User");
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .lightGreen,
-                                                                content: Text(
-                                                                  "Profile Edited!",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          );
+                                                          Navigator.pop(
+                                                              context);
                                                         } catch (e) {
                                                           print(e.toString());
                                                         }
@@ -419,9 +378,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.blue,
-                        ),
+                        child: Container(
+                            color: Colors.red,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            )),
                       );
                     }
                     final books = snapshot.data!.docs;
@@ -431,43 +392,73 @@ class _HomeScreenState extends State<HomeScreen> {
                       title = (book.data() as Map)['title'];
                       var author = (book.data() as Map)['author'];
                       var owner = (book.data() as Map)['owner'];
+                      var bookCoverURL = (book.data() as Map)['imageURL'];
+                      var category = (book.data() as Map)['category'];
 
                       if (owner == userEmail) {
                         final bookWidget = Card(
                           semanticContainer: true,
                           clipBehavior: Clip.antiAliasWithSaveLayer,
-                          // child: Image.network(
-                          //   'https://placeimg.com/640/480/any',
-                          //   fit: BoxFit.fill,
-                          // ),
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                leading: Icon(
-                                  Icons.book,
-                                  color: Colors.black,
-                                ),
-                                title: Text(title.toString()),
-                                subtitle: Text('The Book is by $author'),
-                              ),
+                          child: Stack(
+                            children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  TextButton(
-                                    child: const Text('EDIT'),
-                                    onPressed: () {},
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    height: 140,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(bookCoverURL)),
+                                      border: Border.all(
+                                          color: Colors.black, width: 2),
+                                    ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  TextButton(
-                                    child: const Text('INFO'),
-                                    onPressed: () {},
+                                  Container(
+                                    width: 230,
+                                    //color: Colors.red,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          category.toString(),
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            title.toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            (author),
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.black,
+                                    size: 15,
+                                  )
                                 ],
                               ),
                             ],
                           ),
-                          color: Colors.yellow,
+                          //color: Colors.yellowAccent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
