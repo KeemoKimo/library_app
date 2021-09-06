@@ -36,12 +36,22 @@ class DatabaseServices {
     );
   }
 
-  Future updateUserData(String username, String age, String email) async {
+  Future updateUserData(
+      String username, String age, String email, String profileURL) async {
     return await userCollection.doc(uid).set(
       {
         'userName': username,
         'age': age,
         'email': email,
+        'profileURL': profileURL,
+      },
+    );
+  }
+
+  Future updateUserPhoto(String profileURL) async {
+    return await userCollection.doc(uid).update(
+      {
+        'profileURL': profileURL,
       },
     );
   }

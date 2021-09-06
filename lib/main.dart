@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                                   email: email, password: password);
                           print("USER CREATED !");
                           await DatabaseServices(uid: userCredential.user!.uid)
-                              .updateUserData('new_User', 'age', email);
+                              .updateUserData('new_User', 'age', email, '');
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
                         } on FirebaseAuthException catch (e) {
@@ -176,24 +176,26 @@ class _LoginPageState extends State<LoginPage> {
                           UserCredential userCredential =
                               await auth.signInWithEmailAndPassword(
                                   email: email, password: password);
+
                           print("Sign In Successful");
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
                         } on FirebaseException catch (e) {
                           print(e.code);
-                          switch (e.code) {
-                            case "invalid-email":
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      content: Container(
-                                        color: Colors.red,
-                                        child: Text("INVALID EMAIL !!!"),
-                                      ),
-                                    );
-                                  });
-                              break;
+                          if (e.code == 'user-not-found') {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Container(
+                                    color: Colors.red,
+                                    child: Text("USER NOT FOUND!"),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            print(e);
                           }
                         }
                       },

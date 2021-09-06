@@ -52,18 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
-    if (result == null) {
-      return;
-    } else {
-      final path = result.files.single.path;
-      setState(() {
-        file = File(path!);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     late String? title = '';
@@ -139,163 +127,162 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SafeArea(
                               child: Container(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        padding: EdgeInsets.only(
-                                            left: 20, right: 20),
-                                        child: TextFormField(
-                                          style: TextStyle(color: Colors.black),
-                                          decoration: InputDecoration(
-                                            labelText: "SET USERNAME...",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.black,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
+                                padding: EdgeInsets.only(left: 20, right: 20),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      child: TextFormField(
+                                        style: TextStyle(color: Colors.black),
+                                        decoration: InputDecoration(
+                                          labelText: "SET USERNAME...",
+                                          labelStyle:
+                                              TextStyle(color: Colors.black),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.black,
+                                              width: 2.0,
                                             ),
                                           ),
-                                          onChanged: (value) {
-                                            username = value;
-                                          },
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        padding: EdgeInsets.only(
-                                            left: 20, right: 20),
-                                        child: TextFormField(
-                                          style: TextStyle(color: Colors.black),
-                                          decoration: InputDecoration(
-                                            labelText: "AGE...",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.black,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
                                             ),
                                           ),
-                                          onChanged: (value) {
-                                            age = value;
-                                          },
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
                                         ),
+                                        onChanged: (value) {
+                                          username = value;
+                                        },
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.yellow[800],
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20))),
-                                        width: 300,
-                                        height: 70,
-                                        child: TextButton(
-                                          onPressed: () async {
-                                            showCupertinoDialog(
-                                              context: context,
-                                              builder: (_) =>
-                                                  CupertinoAlertDialog(
-                                                title: Text("EDIT PROFILE"),
-                                                content: Text(
-                                                    "Are you sure you want to edit the content of $userEmail ?"),
-                                                actions: [
-                                                  CupertinoButton(
-                                                      child: Text('Cancel'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      }),
-                                                  CupertinoButton(
-                                                      child: Text(
-                                                        'Edit',
-                                                        style: TextStyle(
-                                                            color: Colors.red),
-                                                      ),
-                                                      onPressed: () async {
-                                                        try {
-                                                          await DatabaseServices(
-                                                                  uid:
-                                                                      loggedInUser
-                                                                          .uid)
-                                                              .updateUserData(
-                                                                  username!,
-                                                                  age,
-                                                                  userEmail!);
-                                                          Navigator.pop(
-                                                              context);
-                                                        } catch (e) {
-                                                          print(e.toString());
-                                                        }
-                                                      }),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          child: Text(
-                                            "CONFIRM CHANGE",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      child: TextFormField(
+                                        style: TextStyle(color: Colors.black),
+                                        decoration: InputDecoration(
+                                          labelText: "AGE...",
+                                          labelStyle:
+                                              TextStyle(color: Colors.black),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.black,
+                                              width: 2.0,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
                                           ),
                                         ),
+                                        onChanged: (value) {
+                                          age = value;
+                                        },
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            top: 20, bottom: 20),
-                                        child: Divider(
-                                          thickness: 1,
-                                          height: 1,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      decoration: BoxDecoration(
+                                          color: Colors.yellow[800],
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      width: 300,
+                                      height: 70,
+                                      child: TextButton(
+                                        onPressed: () async {
+                                          showCupertinoDialog(
+                                            context: context,
+                                            builder: (_) =>
+                                                CupertinoAlertDialog(
+                                              title: Text("EDIT PROFILE"),
+                                              content: Text(
+                                                  "Are you sure you want to edit the content of $userEmail ?"),
+                                              actions: [
+                                                CupertinoButton(
+                                                    child: Text('Cancel'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }),
+                                                CupertinoButton(
+                                                    child: Text(
+                                                      'Edit',
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                    onPressed: () async {
+                                                      try {
+                                                        await DatabaseServices(
+                                                                uid:
+                                                                    loggedInUser
+                                                                        .uid)
+                                                            .updateUserData(
+                                                                username!,
+                                                                age,
+                                                                userEmail!,
+                                                                '');
+                                                        Navigator.pop(context);
+                                                      } catch (e) {
+                                                        print(e.toString());
+                                                      }
+                                                    }),
+                                              ],
+                                            ),
+                                          );
+                                        },
                                         child: Text(
-                                          "CURRENT USER : $userEmail",
+                                          "CONFIRM CHANGE",
                                           style: TextStyle(
-                                            fontSize: 15,
-                                          ),
+                                              color: Colors.black,
+                                              fontSize: 15),
                                         ),
                                       ),
-                                    ],
-                                  )),
+                                    ),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(top: 20, bottom: 20),
+                                      child: Divider(
+                                        thickness: 1,
+                                        height: 1,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      child: Text(
+                                        "CURRENT USER : $userEmail",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
