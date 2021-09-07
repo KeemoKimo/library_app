@@ -36,14 +36,15 @@ class DatabaseServices {
     );
   }
 
-  Future updateUserData(
-      String username, String age, String email, String profileURL) async {
+  Future updateUserData(String username, String age, String email,
+      String profileURL, String totalBooks) async {
     return await userCollection.doc(uid).set(
       {
         'userName': username,
         'age': age,
         'email': email,
         'profileURL': profileURL,
+        'totalBooks': totalBooks,
       },
     );
   }
@@ -56,25 +57,21 @@ class DatabaseServices {
     );
   }
 
-  Future getUserData() async {
-    return userCollection
-        .doc(uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        //print out a specific field of data
-        print('Document data: ${(documentSnapshot.data() as Map)['userName']}');
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
+  Future updateTotalBooks(String totalBooks) async {
+    return await userCollection.doc(uid).update(
+      {
+        'totalBooks': totalBooks,
+      },
+    );
   }
 
   //update whenever something change
-  userDataStream() async {
+  Future userDataStream() async {
     await for (var snapshot in userCollection.snapshots()) {
       for (var datas in snapshot.docs) {
-        print(datas.data());
+        print(
+          datas.data(),
+        );
       }
     }
   }

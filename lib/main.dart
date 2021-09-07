@@ -35,6 +35,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
+  String? totalBooks = '';
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
@@ -152,7 +153,13 @@ class _LoginPageState extends State<LoginPage> {
                                   email: email, password: password);
                           print("USER CREATED !");
                           await DatabaseServices(uid: userCredential.user!.uid)
-                              .updateUserData('new_User', 'age', email, '');
+                              .updateUserData(
+                            'new_User',
+                            'age',
+                            email,
+                            '',
+                            totalBooks!,
+                          );
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
                         } on FirebaseAuthException catch (e) {

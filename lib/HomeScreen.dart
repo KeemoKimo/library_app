@@ -29,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
       FirebaseFirestore.instance.collection('users');
   File? file;
   late String imageUrl = '';
+  late String owner;
+  late String totalBook;
   @override
   void initState() {
     super.initState();
@@ -244,7 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 username!,
                                                                 age,
                                                                 userEmail!,
-                                                                '');
+                                                                '',
+                                                                totalBook);
                                                         Navigator.pop(context);
                                                       } catch (e) {
                                                         print(e.toString());
@@ -389,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     for (var book in books) {
                       title = (book.data() as Map)['title'];
                       var author = (book.data() as Map)['author'];
-                      var owner = (book.data() as Map)['owner'];
+                      owner = (book.data() as Map)['owner'];
                       var bookCoverURL = (book.data() as Map)['imageURL'];
                       var category = (book.data() as Map)['category'];
 
