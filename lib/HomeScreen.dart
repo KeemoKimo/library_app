@@ -117,183 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: const Text('Edit profile'),
-              onTap: () async {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          children: [
-                            SafeArea(
-                              child: Container(
-                                padding: EdgeInsets.only(left: 20, right: 20),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      padding:
-                                          EdgeInsets.only(left: 20, right: 20),
-                                      child: TextFormField(
-                                        style: TextStyle(color: Colors.black),
-                                        decoration: InputDecoration(
-                                          labelText: "SET USERNAME...",
-                                          labelStyle:
-                                              TextStyle(color: Colors.black),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.black,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          username = value;
-                                        },
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      padding:
-                                          EdgeInsets.only(left: 20, right: 20),
-                                      child: TextFormField(
-                                        style: TextStyle(color: Colors.black),
-                                        decoration: InputDecoration(
-                                          labelText: "AGE...",
-                                          labelStyle:
-                                              TextStyle(color: Colors.black),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.black,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          age = value;
-                                        },
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      decoration: BoxDecoration(
-                                          color: Colors.yellow[800],
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      width: 300,
-                                      height: 70,
-                                      child: TextButton(
-                                        onPressed: () async {
-                                          showCupertinoDialog(
-                                            context: context,
-                                            builder: (_) =>
-                                                CupertinoAlertDialog(
-                                              title: Text("EDIT PROFILE"),
-                                              content: Text(
-                                                  "Are you sure you want to edit the content of $userEmail ?"),
-                                              actions: [
-                                                CupertinoButton(
-                                                    child: Text('Cancel'),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    }),
-                                                CupertinoButton(
-                                                    child: Text(
-                                                      'Edit',
-                                                      style: TextStyle(
-                                                          color: Colors.red),
-                                                    ),
-                                                    onPressed: () async {
-                                                      try {
-                                                        await DatabaseServices(
-                                                                uid:
-                                                                    loggedInUser
-                                                                        .uid)
-                                                            .updateUserData(
-                                                                username!,
-                                                                age,
-                                                                userEmail!,
-                                                                '',
-                                                                totalBook);
-                                                        Navigator.pop(context);
-                                                      } catch (e) {
-                                                        print(e.toString());
-                                                      }
-                                                    }),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: Text(
-                                          "CONFIRM CHANGE",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(top: 20, bottom: 20),
-                                      child: Divider(
-                                        thickness: 1,
-                                        height: 1,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      child: Text(
-                                        "CURRENT USER : $userEmail",
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    });
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.favorite),
               title: const Text('Favourites'),
               onTap: () async {
@@ -301,6 +124,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(builder: (context) => addBookPage()),
                 );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: const Text('Help'),
+              onTap: () async {
+                print('Help Pressed');
               },
             ),
             Divider(

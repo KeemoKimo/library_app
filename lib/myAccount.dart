@@ -112,8 +112,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
       );
     }
 
-    Container customCard(String displayText, IconData firstIcon,
-        IconData secondIcon, double marginTop) {
+    Container customCard(
+        String displayText,
+        IconData firstIcon,
+        IconData secondIcon,
+        double marginTop,
+        Color mainIconColor,
+        Color secondIconColor) {
       return Container(
         margin: EdgeInsets.only(left: 20, right: 20),
         child: Column(
@@ -128,7 +133,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Icon(firstIcon),
+                      child: Icon(
+                        firstIcon,
+                        color: mainIconColor,
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
@@ -144,6 +152,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       child: Icon(
                         secondIcon,
                         size: 15,
+                        color: secondIconColor,
                       ),
                     ),
                   ],
@@ -210,7 +219,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
                                     border: Border.all(
-                                        color: Colors.black, width: 3),
+                                        color: Colors.purple, width: 5),
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: profileURL == ''
@@ -415,7 +424,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.purple,
-                                  fontStyle: FontStyle.italic,
                                 ),
                               ),
                               Text(
@@ -444,15 +452,25 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         onTap: () {
                           print('Halo hans');
                         },
-                        child: customCard('My Books', Icons.menu_book_rounded,
-                            Icons.arrow_forward_ios_rounded, 10),
+                        child: customCard(
+                            'My Books',
+                            Icons.menu_book_rounded,
+                            Icons.arrow_forward_ios_rounded,
+                            10,
+                            Colors.purple,
+                            Colors.purple),
                       ),
                       GestureDetector(
                         onTap: () {
                           print('Halo mein Favourite Hans');
                         },
-                        child: customCard('Favourites', Icons.favorite,
-                            Icons.arrow_forward_ios_rounded, 0),
+                        child: customCard(
+                            'Favourites',
+                            Icons.favorite,
+                            Icons.arrow_forward_ios_rounded,
+                            0,
+                            Colors.purple,
+                            Colors.purple),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -470,9 +488,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                         padding: EdgeInsets.all(20),
                         width: double.infinity,
-                        height: 300,
+                        height: 100,
                         decoration: BoxDecoration(
-                          color: Colors.yellow,
+                          color: Colors.purple,
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
@@ -488,14 +506,18 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         child: Column(
                           children: [
                             Text(
-                              "Total Books",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              "Total Books : $totalBooks",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 20),
                               child: Text(
-                                "$totalBooks",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                "Total Favourites : None as of now :(",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ),
                           ],
@@ -503,7 +525,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       ),
                       customDivider(),
                       Text(
-                        'ΝΟ ΡΙΓΗΤ ΡΕΣΕΡΩΕΔ ! ΦΡΕΕ ΤΟ ΘΣΕ!',
+                        '! No copyright !',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
                         ),
