@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late String imageUrl = '';
   late String owner;
   late String totalBook;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
+      firestore.collection('books').snapshots();
   @override
   void initState() {
     super.initState();
@@ -52,6 +55,52 @@ class _HomeScreenState extends State<HomeScreen> {
         e.toString(),
       );
     }
+  }
+
+  Container customSmallContainer(String imagePath, String description) {
+    return Container(
+      margin: EdgeInsets.only(right: 20, left: 20),
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3, // how much spread does this shadow goes
+            blurRadius: 4, // how blurry the shadow is
+            offset: Offset(0, 5), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              image: DecorationImage(
+                  image: AssetImage('$imagePath'), fit: BoxFit.cover),
+            ),
+            height: 130,
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 20),
+            child: Text(
+              '$description',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -205,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 StreamBuilder<QuerySnapshot>(
-                  stream: firestore.collection('books').snapshots(),
+                  stream: bookSnapshot,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -307,11 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: double.infinity,
                           height: 500,
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/wallpaper.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                            color: Colors.red,
+                            color: Colors.yellow,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -326,58 +371,137 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Stack(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 150),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "We're glad to see you back!",
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.stroke
-                                          ..strokeWidth = 10
-                                          ..color = Colors.black,
-                                      ),
+                                    Stack(
+                                      children: [
+                                        Text(
+                                          "We're glad to see you back!",
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            foreground: Paint()
+                                              ..style = PaintingStyle.stroke
+                                              ..strokeWidth = 10
+                                              ..color = Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          "We're glad to see you back!",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 30,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "We're glad to see you back!",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 30,
+                                    Container(
+                                      padding: EdgeInsets.all(20),
+                                      child: Stack(
+                                        children: [
+                                          Text(
+                                            "$userEmail",
+                                            style: TextStyle(
+                                              fontSize: 30,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 10
+                                                ..color = Colors.black,
+                                            ),
+                                          ),
+                                          Text(
+                                            "$userEmail",
+                                            style: TextStyle(
+                                              color: Colors.yellow,
+                                              fontSize: 30,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Stack(
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  height: 200,
+                                  child: Row(
                                     children: [
-                                      Text(
-                                        "$userEmail",
-                                        style: TextStyle(
-                                          fontSize: 30,
-                                          foreground: Paint()
-                                            ..style = PaintingStyle.stroke
-                                            ..strokeWidth = 10
-                                            ..color = Colors.black,
-                                        ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Fictional');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/athena_fictional.jpg',
+                                            'Fictional'),
                                       ),
-                                      Text(
-                                        "$userEmail",
-                                        style: TextStyle(
-                                          color: Colors.yellow,
-                                          fontSize: 30,
-                                        ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Non-Fictional');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/alexander_non_fiction.jpg',
+                                            'Non - Fictional'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Historical');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/napoleon_historical.jpg',
+                                            'Historical'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Philosophy');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/plato_philosopher.jpg',
+                                            'Philosophy'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Sci - Fi');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/sci_fi.jpg',
+                                            'Sci - Fi'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Comic');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/comic.jpg', 'Comic'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Biography');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/biography.jpg',
+                                            'Biography'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('Design');
+                                        },
+                                        child: customSmallContainer(
+                                            'assets/images/design.jpg',
+                                            'Design'),
                                       ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         Container(

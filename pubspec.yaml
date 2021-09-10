@@ -30,6 +30,15 @@ flutter:
     - assets/images/books.jpeg
     - assets/images/sask.jpg
     - assets/images/wallpaper.jpg
+    - assets/images/trojanHorse_Fictional.jpg
+    - assets/images/alexander_non_fiction.jpg
+    - assets/images/athena_fictional.jpg
+    - assets/images/biography.jpg
+    - assets/images/comic.jpg
+    - assets/images/design.jpg
+    - assets/images/napoleon_historical.jpg
+    - assets/images/plato_philosopher.jpg
+    - assets/images/sci_fi.jpg
   fonts:
     - family: Lato
       fonts:

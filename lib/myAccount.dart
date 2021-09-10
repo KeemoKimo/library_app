@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late String? userName = '';
   late String? age = '';
   late String? totalBooks = '';
+  late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
+  late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
+  late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
 
   void initState() {
     super.initState();
@@ -250,192 +254,304 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Dialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                elevation: 5,
-                                child: Container(
-                                  padding: EdgeInsets.all(20),
-                                  height: 400,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        child: TextFormField(
-                                          style: TextStyle(color: Colors.black),
-                                          decoration: InputDecoration(
-                                            labelText: "$userName",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.black,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          onChanged: (value) {
-                                            userName = value;
-                                          },
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        child: TextFormField(
-                                          style: TextStyle(color: Colors.black),
-                                          decoration: InputDecoration(
-                                            labelText: "$age",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.black,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          onChanged: (value) {
-                                            age = value;
-                                          },
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.purple,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(15))),
-                                        width: 300,
-                                        height: 50,
-                                        child: TextButton(
-                                          onPressed: () async {
-                                            showCupertinoDialog(
-                                              context: context,
-                                              builder: (_) =>
-                                                  CupertinoAlertDialog(
-                                                title: Text(
-                                                  "EDIT PROFILE",
-                                                ),
-                                                content: Text(
-                                                    "Are you sure you want to edit the content of $userEmail ?"),
-                                                actions: [
-                                                  CupertinoButton(
-                                                      child: Text('Cancel'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      }),
-                                                  CupertinoButton(
-                                                      child: Text(
-                                                        'Edit',
-                                                        style: TextStyle(
-                                                            color: Colors.red),
-                                                      ),
-                                                      onPressed: () async {
-                                                        try {
-                                                          await DatabaseServices(
-                                                                  uid:
-                                                                      loggedInUser
-                                                                          .uid)
-                                                              .updateUserData(
-                                                                  userName!,
-                                                                  age!,
-                                                                  userEmail!,
-                                                                  profileURL!,
-                                                                  totalBooks!);
-                                                          Navigator.pop(
-                                                              context);
-                                                        } catch (e) {
-                                                          print(e.toString());
-                                                        }
-                                                      }),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          child: Text(
-                                            "CONFIRM CHANGE",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                      customDivider(),
-                                      Text('Signed In as : '),
-                                      Text(
-                                        userEmail!,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      customDivider(),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: [
-                              Text(
-                                userName!,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple,
-                                ),
-                              ),
-                              Text(
-                                userEmail!,
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.grey),
-                              ),
-                            ],
-                          ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          userEmail!,
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                              fontStyle: FontStyle.italic),
                         ),
                       ),
                       customDivider(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: Text(
+                            'Profile',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 200,
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, bottom: 20, top: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius:
+                                  3, // how much spread does this shadow goes
+                              blurRadius: 4, // how blurry the shadow is
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  color: Colors.purple,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Username : $userName',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 20),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.verified_user,
+                                    color: Colors.purple,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Age : $age',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 20),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.calendar_today_rounded,
+                                    color: Colors.purple,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Date Created : $createdDateDate / $createdDateMonth / $createdDateYear',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        elevation: 5,
+                                        child: Container(
+                                          padding: EdgeInsets.all(20),
+                                          height: 270,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                child: TextFormField(
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                  decoration: InputDecoration(
+                                                    labelText: "$userName",
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.black),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2.0,
+                                                      ),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  onChanged: (value) {
+                                                    userName = value;
+                                                  },
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Please enter some text';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 20),
+                                                child: TextFormField(
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                  decoration: InputDecoration(
+                                                    labelText: "$age",
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.black),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2.0,
+                                                      ),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  onChanged: (value) {
+                                                    age = value;
+                                                  },
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Please enter some text';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 20),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.purple,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                15))),
+                                                width: 300,
+                                                height: 50,
+                                                child: TextButton(
+                                                  onPressed: () async {
+                                                    showCupertinoDialog(
+                                                      context: context,
+                                                      builder: (_) =>
+                                                          CupertinoAlertDialog(
+                                                        title: Text(
+                                                          "EDIT PROFILE",
+                                                        ),
+                                                        content: Text(
+                                                            "Are you sure you want to edit the content of $userEmail ?"),
+                                                        actions: [
+                                                          CupertinoButton(
+                                                              child: Text(
+                                                                  'Cancel'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              }),
+                                                          CupertinoButton(
+                                                              child: Text(
+                                                                'Edit',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                try {
+                                                                  await DatabaseServices(
+                                                                          uid: loggedInUser
+                                                                              .uid)
+                                                                      .updateUserData(
+                                                                          userName!,
+                                                                          age!,
+                                                                          userEmail!,
+                                                                          profileURL!,
+                                                                          totalBooks!);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                } catch (e) {
+                                                                  print(e
+                                                                      .toString());
+                                                                }
+                                                              }),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    "CONFIRM CHANGE",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.settings,
+                                        color: Colors.purple,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          'Edit Profile',
+                                          style:
+                                              TextStyle(color: Colors.purple),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
@@ -488,7 +604,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                         padding: EdgeInsets.all(20),
                         width: double.infinity,
-                        height: 100,
+                        height: 110,
                         decoration: BoxDecoration(
                           color: Colors.purple,
                           borderRadius: BorderRadius.circular(15),
@@ -505,19 +621,41 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         ),
                         child: Column(
                           children: [
-                            Text(
-                              "Total Books : $totalBooks",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.library_books_rounded,
+                                  color: Colors.white,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    "Total Books : $totalBooks",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ],
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 20),
-                              child: Text(
-                                "Total Favourites : None as of now :(",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Colors.white,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      "Total Favorites : None as of now :(",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

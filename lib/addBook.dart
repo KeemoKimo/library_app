@@ -38,7 +38,8 @@ class _addBookPageState extends State<addBookPage> {
     'Philosophy',
     'Sci-Fi',
     'Comic',
-    'Biography'
+    'Biography',
+    'Design'
   ];
 
   getCurrentUser() async {
