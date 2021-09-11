@@ -12,29 +12,26 @@ import 'package:library_app/main.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:library_app/myAccount.dart';
 
-// ignore: camel_case_types
-class fictionPage extends StatefulWidget {
-  const fictionPage({Key? key}) : super(key: key);
+class HistoricalPage extends StatefulWidget {
+  const HistoricalPage({Key? key}) : super(key: key);
 
   @override
-  _fictionPageState createState() => _fictionPageState();
+  _HistoricalPageState createState() => _HistoricalPageState();
 }
 
-FirebaseAuth auth = FirebaseAuth.instance;
-FirebaseFirestore firestore = FirebaseFirestore.instance;
-late User loggedInUser;
-late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-    firestore.collection('books').snapshots();
-late String? username = '';
-late String? userUID = loggedInUser.uid;
-late String age = '';
-CollectionReference userCollection =
-    FirebaseFirestore.instance.collection('users');
-File? file;
-late String imageUrl = '';
-
-// ignore: camel_case_types
-class _fictionPageState extends State<fictionPage> {
+class _HistoricalPageState extends State<HistoricalPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late User loggedInUser;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
+      firestore.collection('books').snapshots();
+  late String? username = '';
+  late String? userUID = loggedInUser.uid;
+  late String age = '';
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  File? file;
+  late String imageUrl = '';
   @override
   void initState() {
     super.initState();
@@ -72,13 +69,13 @@ class _fictionPageState extends State<fictionPage> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     late String? title = '';
-
     return Scaffold(
-      backgroundColor: Color(0xFF71A7B7),
+      backgroundColor: Color(0xFFFCF5C7),
       body: Container(
-        color: Color(0xFDCCBA),
+        color: Color(0xFFCF5C7),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -102,12 +99,11 @@ class _fictionPageState extends State<fictionPage> {
                   }
                   final books = snapshot.data!.docs;
                   List<Card> bookWidgets = [];
-
                   for (var book in books) {
                     var owner = (book.data() as Map)['owner'];
                     if (loggedInUser.email == owner) {
                       var category = (book.data() as Map)['category'];
-                      if (category == 'Fictional') {
+                      if (category == 'Historical') {
                         title = (book.data() as Map)['title'];
                         var author = (book.data() as Map)['author'];
                         var bookCoverURL = (book.data() as Map)['imageURL'];
@@ -199,14 +195,14 @@ class _fictionPageState extends State<fictionPage> {
                           ),
                           image: DecorationImage(
                               image: AssetImage(
-                                  'assets/images/athena_fictional.jpg'),
+                                  'assets/images/napoleon_historical.jpg'),
                               fit: BoxFit.cover),
                         ),
                         child: Center(
                           child: Stack(
                             children: [
                               Text(
-                                "Fictions",
+                                "Historical",
                                 style: TextStyle(
                                   fontSize: 30,
                                   foreground: Paint()
@@ -216,7 +212,7 @@ class _fictionPageState extends State<fictionPage> {
                                 ),
                               ),
                               Text(
-                                "Fictions",
+                                "Historical",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
@@ -226,7 +222,7 @@ class _fictionPageState extends State<fictionPage> {
                           ),
                         ),
                       ),
-                      customDivider(Colors.white),
+                      customDivider(Colors.black),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white,

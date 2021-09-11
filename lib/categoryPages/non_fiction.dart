@@ -13,28 +13,28 @@ import 'package:file_picker/file_picker.dart';
 import 'package:library_app/myAccount.dart';
 
 // ignore: camel_case_types
-class fictionPage extends StatefulWidget {
-  const fictionPage({Key? key}) : super(key: key);
+class Non_Fiction_Page extends StatefulWidget {
+  const Non_Fiction_Page({Key? key}) : super(key: key);
 
   @override
-  _fictionPageState createState() => _fictionPageState();
+  _Non_Fiction_PageState createState() => _Non_Fiction_PageState();
 }
 
-FirebaseAuth auth = FirebaseAuth.instance;
-FirebaseFirestore firestore = FirebaseFirestore.instance;
-late User loggedInUser;
-late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-    firestore.collection('books').snapshots();
-late String? username = '';
-late String? userUID = loggedInUser.uid;
-late String age = '';
-CollectionReference userCollection =
-    FirebaseFirestore.instance.collection('users');
-File? file;
-late String imageUrl = '';
-
 // ignore: camel_case_types
-class _fictionPageState extends State<fictionPage> {
+class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late User loggedInUser;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
+      firestore.collection('books').snapshots();
+  late String? username = '';
+  late String? userUID = loggedInUser.uid;
+  late String age = '';
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  File? file;
+  late String imageUrl = '';
+  late String? totalBooks = 'ee';
   @override
   void initState() {
     super.initState();
@@ -72,11 +72,11 @@ class _fictionPageState extends State<fictionPage> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     late String? title = '';
-
     return Scaffold(
-      backgroundColor: Color(0xFF71A7B7),
+      backgroundColor: Color(0xFF203FB4),
       body: Container(
         color: Color(0xFDCCBA),
         child: SingleChildScrollView(
@@ -102,12 +102,11 @@ class _fictionPageState extends State<fictionPage> {
                   }
                   final books = snapshot.data!.docs;
                   List<Card> bookWidgets = [];
-
                   for (var book in books) {
                     var owner = (book.data() as Map)['owner'];
                     if (loggedInUser.email == owner) {
                       var category = (book.data() as Map)['category'];
-                      if (category == 'Fictional') {
+                      if (category == 'Non - Fiction') {
                         title = (book.data() as Map)['title'];
                         var author = (book.data() as Map)['author'];
                         var bookCoverURL = (book.data() as Map)['imageURL'];
@@ -199,14 +198,14 @@ class _fictionPageState extends State<fictionPage> {
                           ),
                           image: DecorationImage(
                               image: AssetImage(
-                                  'assets/images/athena_fictional.jpg'),
+                                  'assets/images/alexander_non_fiction.jpg'),
                               fit: BoxFit.cover),
                         ),
                         child: Center(
                           child: Stack(
                             children: [
                               Text(
-                                "Fictions",
+                                "Non - Fictions",
                                 style: TextStyle(
                                   fontSize: 30,
                                   foreground: Paint()
@@ -216,7 +215,7 @@ class _fictionPageState extends State<fictionPage> {
                                 ),
                               ),
                               Text(
-                                "Fictions",
+                                "Non - Fictions",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,

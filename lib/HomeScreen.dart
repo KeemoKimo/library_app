@@ -6,7 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/addBook.dart';
+import 'package:library_app/categoryPages/biography.dart';
+import 'package:library_app/categoryPages/comic.dart';
+import 'package:library_app/categoryPages/design.dart';
 import 'package:library_app/categoryPages/fiction.dart';
+import 'package:library_app/categoryPages/historical.dart';
+import 'package:library_app/categoryPages/non_fiction.dart';
+import 'package:library_app/categoryPages/philosophy.dart';
+import 'package:library_app/categoryPages/sci_fi.dart';
 import 'package:library_app/main.dart';
 import 'package:library_app/myAccount.dart';
 
@@ -464,7 +471,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Non-Fictional');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Non_Fiction_Page()),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/alexander_non_fiction.jpg',
@@ -472,7 +484,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Historical');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HistoricalPage()),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/napoleon_historical.jpg',
@@ -480,7 +497,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Philosophy');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PhilosophyPage()),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/plato_philosopher.jpg',
@@ -488,7 +510,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Sci - Fi');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => SciFiPage(),
+                                            ),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/sci_fi.jpg',
@@ -496,14 +523,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Comic');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ComicPage(),
+                                            ),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/comic.jpg', 'Comic'),
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Biography');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BiographyPage(),
+                                            ),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/biography.jpg',
@@ -511,7 +549,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          print('Design');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DesignPage(),
+                                            ),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/design.jpg',
