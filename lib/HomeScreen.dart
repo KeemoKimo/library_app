@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:library_app/DatabaseSerivces.dart';
 import 'package:library_app/addBook.dart';
+import 'package:library_app/categoryPages/fiction.dart';
 import 'package:library_app/main.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:library_app/myAccount.dart';
-import 'package:path/path.dart' as Path;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -57,6 +56,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Container customDivider() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Divider(
+        height: 1,
+        thickness: 1,
+        color: Colors.black,
+      ),
+    );
+  }
+
   Container customSmallContainer(String imagePath, String description) {
     return Container(
       margin: EdgeInsets.only(right: 20, left: 20),
@@ -67,9 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.black.withOpacity(0.5),
             spreadRadius: 3, // how much spread does this shadow goes
-            blurRadius: 4, // how blurry the shadow is
+            blurRadius: 0.2, // how blurry the shadow is
             offset: Offset(0, 5), // changes position of shadow
           ),
         ],
@@ -292,8 +302,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(bookCoverURL)),
-                                      border: Border.all(
-                                          color: Colors.black, width: 2),
                                     ),
                                   ),
                                   Container(
@@ -307,7 +315,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: [
                                         Text(
                                           category.toString(),
-                                          style: TextStyle(color: Colors.grey),
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontStyle: FontStyle.italic,
+                                          ),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(top: 10),
@@ -354,9 +365,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Container(
                           width: double.infinity,
-                          height: 500,
+                          height: 400,
                           decoration: BoxDecoration(
-                            color: Colors.yellow,
+                            color: Color(0xFF2E4ECB),
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -373,58 +384,61 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Column(
                             children: [
+                              // Container(
+                              //   margin: EdgeInsets.only(top: 150),
+                              //   child: Column(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     crossAxisAlignment: CrossAxisAlignment.center,
+                              //     children: [
+                              //       Stack(
+                              //         children: [
+                              //           Text(
+                              //             "Σαsyβooks ⚡️",
+                              //             style: TextStyle(
+                              //               fontSize: 30,
+                              //               foreground: Paint()
+                              //                 ..style = PaintingStyle.stroke
+                              //                 ..strokeWidth = 10
+                              //                 ..color = Colors.black,
+                              //             ),
+                              //           ),
+                              //           Text(
+                              //             "Σαsyβooks",
+                              //             style: TextStyle(
+                              //               color: Colors.white,
+                              //               fontSize: 30,
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               Container(
-                                margin: EdgeInsets.only(top: 150),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Text(
-                                          "We're glad to see you back!",
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            foreground: Paint()
-                                              ..style = PaintingStyle.stroke
-                                              ..strokeWidth = 10
-                                              ..color = Colors.black,
-                                          ),
-                                        ),
-                                        Text(
-                                          "We're glad to see you back!",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 30,
-                                          ),
+                                alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(
+                                    left: 20, top: 100, bottom: 30),
+                                padding: EdgeInsets.only(left: 20),
+                                child: SizedBox(
+                                  width: 250.0,
+                                  child: DefaultTextStyle(
+                                    style: const TextStyle(
+                                      fontSize: 30.0,
+                                      fontFamily: 'Lato',
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    child: AnimatedTextKit(
+                                      totalRepeatCount: 5,
+                                      animatedTexts: [
+                                        TypewriterAnimatedText(
+                                          'CATEGORY ⚡️',
                                         ),
                                       ],
+                                      onTap: () {
+                                        print("Tap Event");
+                                      },
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.all(20),
-                                      child: Stack(
-                                        children: [
-                                          Text(
-                                            "$userEmail",
-                                            style: TextStyle(
-                                              fontSize: 30,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 10
-                                                ..color = Colors.black,
-                                            ),
-                                          ),
-                                          Text(
-                                            "$userEmail",
-                                            style: TextStyle(
-                                              color: Colors.yellow,
-                                              fontSize: 30,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
                               SingleChildScrollView(
@@ -437,6 +451,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       GestureDetector(
                                         onTap: () {
                                           print('Fictional');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    fictionPage()),
+                                          );
                                         },
                                         child: customSmallContainer(
                                             'assets/images/athena_fictional.jpg',
@@ -504,18 +524,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
+                        customDivider(),
                         Container(
-                          margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-                          child: Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
+                          margin: EdgeInsets.only(bottom: 20),
                           child: Text(
-                            'Your Book Shelf',
+                            'Your Collection 📚',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,

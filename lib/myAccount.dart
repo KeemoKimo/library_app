@@ -196,6 +196,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   final users = snapshot.data!.docs;
                   for (var user in users) {
                     var email = (user.data() as Map)['email'];
+                    print('user email : $email');
                     countBooks();
                     if (userEmail == email) {
                       profileURL = (user.data() as Map)['profileURL'];

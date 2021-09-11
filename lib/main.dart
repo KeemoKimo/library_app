@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -55,13 +56,26 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              "WELCOME!",
-              textDirection: TextDirection.ltr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
+            DefaultTextStyle(
+              style: const TextStyle(
+                fontSize: 20.0,
+              ),
+              child: AnimatedTextKit(
+                totalRepeatCount: 5,
+                animatedTexts: [
+                  WavyAnimatedText(
+                    'Welcome !',
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 60,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                ],
+                isRepeatingAnimation: true,
+                onTap: () {
+                  print("Tap Event");
+                },
               ),
             ),
             Form(
