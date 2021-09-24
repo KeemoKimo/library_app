@@ -36,10 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
       FirebaseFirestore.instance.collection('users');
   File? file;
   late String imageUrl = '';
-  late String owner;
-  late String totalBook;
+  late String? owner = '';
+  late String? totalBooks = '';
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
       firestore.collection('books').snapshots();
+
   @override
   void initState() {
     super.initState();
@@ -120,9 +121,83 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Card buildListTile(
+    final String bookCoverURL,
+    final String category,
+    final String title,
+    final String author,
+  ) {
+    return Card(
+      semanticContainer: true,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      fit: BoxFit.cover, image: NetworkImage(bookCoverURL)),
+                ),
+              ),
+              Container(
+                width: 230,
+                //color: Colors.red,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      category.toString(),
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text(
+                        title.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text(
+                        (author),
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
+                size: 15,
+              )
+            ],
+          ),
+        ],
+      ),
+      //color: Colors.yellowAccent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 5,
+      margin: EdgeInsets.all(10),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    late String? title = '';
     var drawer2 = Drawer(
       child: MediaQuery.removePadding(
         removeTop: true,
@@ -282,311 +357,296 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                       );
                     }
-                    final books = snapshot.data!.docs;
+                    // final books = snapshot.data!.docs;
 
-                    List<Card> bookWidgets = [];
-                    for (var book in books) {
-                      title = (book.data() as Map)['title'];
-                      var author = (book.data() as Map)['author'];
-                      owner = (book.data() as Map)['owner'];
-                      var bookCoverURL = (book.data() as Map)['imageURL'];
-                      var category = (book.data() as Map)['category'];
+                    // List<Widget> bookWidgets = [];
+                    // for (var book in books) {
+                    //   title = (book.data() as Map)['title'];
+                    //   var author = (book.data() as Map)['author'];
+                    //   owner = (book.data() as Map)['owner'];
+                    //   var bookCoverURL = (book.data() as Map)['imageURL'];
+                    //   var category = (book.data() as Map)['category'];
 
-                      if (owner == userEmail) {
-                        final bookWidget = Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Stack(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 100,
-                                    height: 140,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(bookCoverURL)),
+                    //   if (owner == userEmail) {
+                    //     print(owner! + ' IS THE OWNER!');
+                    //     final bookWidget = Books(
+                    //       bookCoverURL: bookCoverURL,
+                    //       category: category,
+                    //       title: title as String,
+                    //       author: author,
+                    //     );
+                    //     bookWidgets.add(bookWidget);
+                    //   }
+                    // }
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: ScrollPhysics(),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: double.infinity,
+                            height: 400,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF2E4ECB),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.4),
+                                  spreadRadius: 8,
+                                  blurRadius: 8,
+                                  offset: Offset(
+                                      0, 7), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                // Container(
+                                //   margin: EdgeInsets.only(top: 150),
+                                //   child: Column(
+                                //     mainAxisAlignment: MainAxisAlignment.center,
+                                //     crossAxisAlignment: CrossAxisAlignment.center,
+                                //     children: [
+                                //       Stack(
+                                //         children: [
+                                //           Text(
+                                //             "Σαsyβooks ⚡️",
+                                //             style: TextStyle(
+                                //               fontSize: 30,
+                                //               foreground: Paint()
+                                //                 ..style = PaintingStyle.stroke
+                                //                 ..strokeWidth = 10
+                                //                 ..color = Colors.black,
+                                //             ),
+                                //           ),
+                                //           Text(
+                                //             "Σαsyβooks",
+                                //             style: TextStyle(
+                                //               color: Colors.white,
+                                //               fontSize: 30,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 20, top: 100, bottom: 30),
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: SizedBox(
+                                    width: 250.0,
+                                    child: DefaultTextStyle(
+                                      style: const TextStyle(
+                                        fontSize: 30.0,
+                                        fontFamily: 'Lato',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      child: AnimatedTextKit(
+                                        totalRepeatCount: 5,
+                                        animatedTexts: [
+                                          TypewriterAnimatedText(
+                                            'CATEGORY ⚡️',
+                                          ),
+                                        ],
+                                        onTap: () {
+                                          print("Tap Event");
+                                        },
+                                      ),
                                     ),
                                   ),
-                                  Container(
-                                    width: 230,
-                                    //color: Colors.red,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    height: 200,
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          category.toString(),
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontStyle: FontStyle.italic,
-                                          ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print('Fictional');
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      fictionPage()),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/athena_fictional.jpg',
+                                              'Fictional'),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            title.toString(),
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                            ),
-                                          ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Non_Fiction_Page()),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/alexander_non_fiction.jpg',
+                                              'Non - Fictional'),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            (author),
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HistoricalPage()),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/napoleon_historical.jpg',
+                                              'Historical'),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PhilosophyPage()),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/plato_philosopher.jpg',
+                                              'Philosophy'),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SciFiPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/sci_fi.jpg',
+                                              'Sci - Fi'),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ComicPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/comic.jpg',
+                                              'Comic'),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BiographyPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/biography.jpg',
+                                              'Biography'),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DesignPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: customSmallContainer(
+                                              'assets/images/design.jpg',
+                                              'Design'),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black,
-                                    size: 15,
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          //color: Colors.yellowAccent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 5,
-                          margin: EdgeInsets.all(10),
-                        );
-                        bookWidgets.add(bookWidget);
-                      }
-                    }
-
-                    return Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 400,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF2E4ECB),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
+                                )
+                              ],
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.4),
-                                spreadRadius: 8,
-                                blurRadius: 8,
-                                offset:
-                                    Offset(0, 7), // changes position of shadow
-                              ),
-                            ],
                           ),
-                          child: Column(
-                            children: [
-                              // Container(
-                              //   margin: EdgeInsets.only(top: 150),
-                              //   child: Column(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     crossAxisAlignment: CrossAxisAlignment.center,
-                              //     children: [
-                              //       Stack(
-                              //         children: [
-                              //           Text(
-                              //             "Σαsyβooks ⚡️",
-                              //             style: TextStyle(
-                              //               fontSize: 30,
-                              //               foreground: Paint()
-                              //                 ..style = PaintingStyle.stroke
-                              //                 ..strokeWidth = 10
-                              //                 ..color = Colors.black,
-                              //             ),
-                              //           ),
-                              //           Text(
-                              //             "Σαsyβooks",
-                              //             style: TextStyle(
-                              //               color: Colors.white,
-                              //               fontSize: 30,
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                margin: EdgeInsets.only(
-                                    left: 20, top: 100, bottom: 30),
-                                padding: EdgeInsets.only(left: 20),
-                                child: SizedBox(
-                                  width: 250.0,
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(
-                                      fontSize: 30.0,
-                                      fontFamily: 'Lato',
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    child: AnimatedTextKit(
-                                      totalRepeatCount: 5,
-                                      animatedTexts: [
-                                        TypewriterAnimatedText(
-                                          'CATEGORY ⚡️',
-                                        ),
-                                      ],
+                          customDivider(),
+                          Container(
+                            child: Text(
+                              'Your Collection 📚',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                          // ListView.builder(
+                          //   physics: NeverScrollableScrollPhysics(),
+                          //   shrinkWrap: true,
+                          //   itemCount: bookWidgets.length,
+                          //   itemBuilder: (BuildContext context, int index) {
+                          //     return bookWidgets;
+                          //   },
+                          // )
+                          ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              String bookTitle =
+                                  snapshot.data!.docs[index]['title'];
+                              String bookOwner =
+                                  snapshot.data!.docs[index]['owner'];
+                              String bookCover =
+                                  snapshot.data!.docs[index]['imageURL'];
+                              String bookCategory =
+                                  snapshot.data!.docs[index]['category'];
+                              String bookAuthor =
+                                  snapshot.data!.docs[index]['author'];
+                              String bookDescription =
+                                  snapshot.data!.docs[index]['description'];
+                              return (bookOwner == loggedInUser.email)
+                                  ? GestureDetector(
+                                      key: ValueKey(loggedInUser.email),
                                       onTap: () {
-                                        print("Tap Event");
+                                        Navigator.pushNamed(
+                                          context,
+                                          'bookInfo',
+                                          arguments: ScreenArguments(
+                                              bookTitle,
+                                              bookAuthor,
+                                              bookCover,
+                                              bookCategory,
+                                              bookDescription),
+                                        );
                                       },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
-                                  height: 200,
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          print('Fictional');
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    fictionPage()),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/athena_fictional.jpg',
-                                            'Fictional'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Non_Fiction_Page()),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/alexander_non_fiction.jpg',
-                                            'Non - Fictional'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HistoricalPage()),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/napoleon_historical.jpg',
-                                            'Historical'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PhilosophyPage()),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/plato_philosopher.jpg',
-                                            'Philosophy'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => SciFiPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/sci_fi.jpg',
-                                            'Sci - Fi'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => ComicPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/comic.jpg', 'Comic'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BiographyPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/biography.jpg',
-                                            'Biography'),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DesignPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: customSmallContainer(
-                                            'assets/images/design.jpg',
-                                            'Design'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                                      child: buildListTile(bookCover,
+                                          bookCategory, bookTitle, bookAuthor),
+                                    )
+                                  : SizedBox(
+                                      height: 10,
+                                    );
+                            },
                           ),
-                        ),
-                        customDivider(),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'Your Collection 📚',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          children: bookWidgets,
-                        )
-                      ],
+                        ],
+                      ),
                     );
-                    // return Column(
-                    //   children: userDatas,
-                    // );
                   },
                 ),
               ],
@@ -596,4 +656,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class ScreenArguments {
+  late final String bookTitle;
+  late final String bookAuthor;
+  late final String bookCover;
+  late final String bookCategory;
+  late final String bookDescription;
+
+  ScreenArguments(this.bookTitle, this.bookAuthor, this.bookCover,
+      this.bookCategory, this.bookDescription);
 }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:library_app/BookInfo.dart';
 import 'HomeScreen.dart';
 import 'DatabaseSerivces.dart';
 
@@ -20,6 +21,7 @@ void main() async {
       routes: {
         'home': (context) => const LoginPage(),
         'main': (context) => const HomeScreen(),
+        'bookInfo': (context) => const BookInfo(),
       },
       theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Lato'),
     ),

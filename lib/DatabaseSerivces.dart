@@ -23,7 +23,7 @@ class DatabaseServices {
       String description,
       String owner,
       String imageURL) async {
-    return await booksCollection.doc(title + ' from ' + owner).set(
+    return await booksCollection.doc().set(
       {
         'category': category,
         'title': title,
