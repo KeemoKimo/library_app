@@ -19,7 +19,8 @@ class _BookInfoState extends State<BookInfo> {
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
       firestore.collection('books').snapshots();
   late bool isFavouriteState;
-  late IconData icon = Icons.dangerous;
+  CollectionReference bookCollection =
+      FirebaseFirestore.instance.collection('books');
   @override
   void initState() {
     super.initState();
@@ -73,6 +74,43 @@ class _BookInfoState extends State<BookInfo> {
           icon: Icon(Icons.arrow_back, color: Color(0xFFB03A2E)),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: Color(0xFFB03A2E),
+            ),
+            onPressed: () {
+              showCupertinoDialog<void>(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text('Delete Book'),
+                  content: Text(
+                      'Are you sure you want to delete ${bookID.bookTitle} ?'),
+                  actions: <CupertinoDialogAction>[
+                    CupertinoDialogAction(
+                      child: const Text('No'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text('Yes'),
+                      isDestructiveAction: true,
+                      onPressed: () {
+                        bookCollection
+                            .doc(bookID.bookTitle + loggedInUser.uid)
+                            .delete();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         color: Colors.white,
