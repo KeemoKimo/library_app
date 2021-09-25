@@ -631,6 +631,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   snapshot.data!.docs[index]['startDate'];
                               String bookEndDate =
                                   snapshot.data!.docs[index]['endDate'];
+                              bool bookIsFavourite =
+                                  snapshot.data!.docs[index]['isFavourite'];
+                              String bookId =
+                                  snapshot.data!.docs[index]['bookId'];
                               return (bookOwner == loggedInUser.email)
                                   ? GestureDetector(
                                       key: ValueKey(loggedInUser.email),
@@ -639,17 +643,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context,
                                           'bookInfo',
                                           arguments: ScreenArguments(
-                                              bookTitle,
-                                              bookAuthor,
-                                              bookCover,
-                                              bookCategory,
-                                              bookDescription,
-                                              bookOwner,
-                                              bookLanguage,
-                                              bookPublished,
-                                              bookPages,
-                                              bookStartDate,
-                                              bookEndDate),
+                                            bookTitle,
+                                            bookAuthor,
+                                            bookCover,
+                                            bookCategory,
+                                            bookDescription,
+                                            bookOwner,
+                                            bookLanguage,
+                                            bookPublished,
+                                            bookPages,
+                                            bookStartDate,
+                                            bookEndDate,
+                                            bookIsFavourite,
+                                            bookId,
+                                          ),
                                         );
                                       },
                                       child: buildListTile(bookCover,
@@ -686,17 +693,22 @@ class ScreenArguments {
   late final String bookPages;
   late final String bookStartDate;
   late final String bookEndDate;
+  late final bool isFavourite;
+  late final String bookId;
 
   ScreenArguments(
-      this.bookTitle,
-      this.bookAuthor,
-      this.bookCover,
-      this.bookCategory,
-      this.bookDescription,
-      this.bookOwner,
-      this.bookLanguage,
-      this.bookPublishedYear,
-      this.bookPages,
-      this.bookStartDate,
-      this.bookEndDate);
+    this.bookTitle,
+    this.bookAuthor,
+    this.bookCover,
+    this.bookCategory,
+    this.bookDescription,
+    this.bookOwner,
+    this.bookLanguage,
+    this.bookPublishedYear,
+    this.bookPages,
+    this.bookStartDate,
+    this.bookEndDate,
+    this.isFavourite,
+    this.bookId,
+  );
 }

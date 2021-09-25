@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/DatabaseSerivces.dart';
 import 'package:library_app/HomeScreen.dart';
-import 'dart:math' as math;
 
 class BookInfo extends StatefulWidget {
   const BookInfo({Key? key}) : super(key: key);
@@ -14,6 +15,21 @@ class BookInfo extends StatefulWidget {
 class _BookInfoState extends State<BookInfo> {
   late User loggedInUser;
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
+      firestore.collection('books').snapshots();
+  late bool isFavouriteState;
+  late IconData icon = Icons.dangerous;
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser().whenComplete(() {
+      setState(() {
+        build(context);
+      });
+    });
+  }
+
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -89,12 +105,81 @@ class _BookInfoState extends State<BookInfo> {
                     ),
                   ),
                 ),
-                Text(
-                  bookID.bookTitle,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Text(
+                        bookID.bookTitle,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    StreamBuilder(
+                      stream: bookSnapshot,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ),
+                          );
+                        }
+                        return (bookID.isFavourite == false)
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(
+                                    () {
+                                      isFavouriteState = true;
+                                      DatabaseServices(uid: loggedInUser.uid)
+                                          .updateFavouriteStatus(
+                                              isFavouriteState,
+                                              bookID.bookTitle,
+                                              loggedInUser.uid);
+                                      var snackBar = SnackBar(
+                                        content: Text('Added to favourites'),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.favorite_border_outlined,
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  setState(
+                                    () {
+                                      isFavouriteState = false;
+                                      DatabaseServices(uid: loggedInUser.uid)
+                                          .updateFavouriteStatus(
+                                              isFavouriteState,
+                                              bookID.bookTitle,
+                                              loggedInUser.uid);
+                                      var snackBar = SnackBar(
+                                        content:
+                                            Text('Removed from favourites'),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                ),
+                              );
+                      },
+                    ),
+                  ],
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10, bottom: 10),

@@ -26,8 +26,9 @@ class DatabaseServices {
       String language,
       String publishedYear,
       String startDate,
-      String endDate) async {
-    return await booksCollection.doc().set(
+      String endDate,
+      bool isFavourite) async {
+    return await booksCollection.doc(title + uid).set(
       {
         'category': category,
         'title': title,
@@ -40,6 +41,8 @@ class DatabaseServices {
         'publishedYear': publishedYear,
         'startDate': startDate,
         'endDate': endDate,
+        'isFavourite': isFavourite,
+        'bookId': title + uid,
       },
     );
   }
@@ -65,22 +68,20 @@ class DatabaseServices {
     );
   }
 
+  Future updateFavouriteStatus(
+      bool isFavourite, String title, String uid) async {
+    return await booksCollection.doc(title + uid).update(
+      {
+        'isFavourite': isFavourite,
+      },
+    );
+  }
+
   Future updateTotalBooks(String totalBooks) async {
     return await userCollection.doc(uid).update(
       {
         'totalBooks': totalBooks,
       },
     );
-  }
-
-  //update whenever something change
-  Future userDataStream() async {
-    await for (var snapshot in userCollection.snapshots()) {
-      for (var datas in snapshot.docs) {
-        print(
-          datas.data(),
-        );
-      }
-    }
   }
 }

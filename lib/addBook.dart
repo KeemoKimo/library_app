@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
 
 // ignore: camel_case_types
 class addBookPage extends StatefulWidget {
@@ -458,6 +457,7 @@ class _addBookPageState extends State<addBookPage> {
                           publishedYearController.text,
                           _startDate.toString(),
                           _endDate.toString(),
+                          false,
                         );
                         print('Uploaded Image');
                         await showDialog(
