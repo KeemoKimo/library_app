@@ -30,6 +30,10 @@ class _addBookPageState extends State<addBookPage> {
   var authorController = TextEditingController();
   var numberOfPageController = TextEditingController();
   var descriptionController = TextEditingController();
+  var languageController = TextEditingController();
+  var publishedYearController = TextEditingController();
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
   String dropdownInitialValue = 'Fictional';
   var categoryItems = [
     'Fictional',
@@ -251,6 +255,48 @@ class _addBookPageState extends State<addBookPage> {
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Text(
+                      'Start Date',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 35,
+                    child: CupertinoDatePicker(
+                      initialDateTime: _startDate,
+                      mode: CupertinoDatePickerMode.dateAndTime,
+                      onDateTimeChanged: (dateTime) {
+                        setState(() {
+                          _startDate = dateTime;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      'End Date',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 35,
+                    child: CupertinoDatePicker(
+                      initialDateTime: _endDate,
+                      mode: CupertinoDatePickerMode.dateAndTime,
+                      onDateTimeChanged: (dateTime) {
+                        setState(() {
+                          _endDate = dateTime;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
                       'Number of pages',
                       style: TextStyle(
                         fontSize: 20,
@@ -266,6 +312,76 @@ class _addBookPageState extends State<addBookPage> {
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         labelText: "Enter the number of pages...",
+                        labelStyle: TextStyle(color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 2.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      'Published Year',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: TextFormField(
+                      controller: publishedYearController,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        labelText: "Enter the year the book is published",
+                        labelStyle: TextStyle(color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 2.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      'Language',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: TextFormField(
+                      controller: languageController,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        labelText: "Enter the book language",
                         labelStyle: TextStyle(color: Colors.black),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -331,13 +447,18 @@ class _addBookPageState extends State<addBookPage> {
                         print('Finished updating book data');
                         await DatabaseServices(uid: loggedInUser.uid)
                             .updateBooksData(
-                                dropdownInitialValue,
-                                titleController.text,
-                                authorController.text,
-                                numberOfPageController.text,
-                                descriptionController.text,
-                                owner!,
-                                imageURL!);
+                          dropdownInitialValue,
+                          titleController.text,
+                          authorController.text,
+                          numberOfPageController.text,
+                          descriptionController.text,
+                          owner!,
+                          imageURL!,
+                          languageController.text,
+                          publishedYearController.text,
+                          _startDate.toString(),
+                          _endDate.toString(),
+                        );
                         print('Uploaded Image');
                         await showDialog(
                           context: context,

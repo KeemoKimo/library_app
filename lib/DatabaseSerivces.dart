@@ -22,7 +22,11 @@ class DatabaseServices {
       String numberOfPages,
       String description,
       String owner,
-      String imageURL) async {
+      String imageURL,
+      String language,
+      String publishedYear,
+      String startDate,
+      String endDate) async {
     return await booksCollection.doc().set(
       {
         'category': category,
@@ -32,6 +36,10 @@ class DatabaseServices {
         'description': description,
         'owner': owner,
         'imageURL': imageURL,
+        'language': language,
+        'publishedYear': publishedYear,
+        'startDate': startDate,
+        'endDate': endDate,
       },
     );
   }

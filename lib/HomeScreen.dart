@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       category.toString(),
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Color(0xFFB03A2E),
                         fontStyle: FontStyle.italic,
                       ),
                     ),
@@ -621,6 +621,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   snapshot.data!.docs[index]['author'];
                               String bookDescription =
                                   snapshot.data!.docs[index]['description'];
+                              String bookLanguage =
+                                  snapshot.data!.docs[index]['language'];
+                              String bookPublished =
+                                  snapshot.data!.docs[index]['publishedYear'];
+                              String bookPages =
+                                  snapshot.data!.docs[index]['numberOfPages'];
+                              String bookStartDate =
+                                  snapshot.data!.docs[index]['startDate'];
+                              String bookEndDate =
+                                  snapshot.data!.docs[index]['endDate'];
                               return (bookOwner == loggedInUser.email)
                                   ? GestureDetector(
                                       key: ValueKey(loggedInUser.email),
@@ -633,7 +643,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                               bookAuthor,
                                               bookCover,
                                               bookCategory,
-                                              bookDescription),
+                                              bookDescription,
+                                              bookOwner,
+                                              bookLanguage,
+                                              bookPublished,
+                                              bookPages,
+                                              bookStartDate,
+                                              bookEndDate),
                                         );
                                       },
                                       child: buildListTile(bookCover,
@@ -664,7 +680,23 @@ class ScreenArguments {
   late final String bookCover;
   late final String bookCategory;
   late final String bookDescription;
+  late final String bookOwner;
+  late final String bookLanguage;
+  late final String bookPublishedYear;
+  late final String bookPages;
+  late final String bookStartDate;
+  late final String bookEndDate;
 
-  ScreenArguments(this.bookTitle, this.bookAuthor, this.bookCover,
-      this.bookCategory, this.bookDescription);
+  ScreenArguments(
+      this.bookTitle,
+      this.bookAuthor,
+      this.bookCover,
+      this.bookCategory,
+      this.bookDescription,
+      this.bookOwner,
+      this.bookLanguage,
+      this.bookPublishedYear,
+      this.bookPages,
+      this.bookStartDate,
+      this.bookEndDate);
 }
