@@ -84,4 +84,12 @@ class DatabaseServices {
       },
     );
   }
+
+  Future updateTotalFavourites(String totalFavourites) async {
+    return await userCollection.doc(uid).update(
+      {
+        'totalFavourites': totalFavourites,
+      },
+    );
+  }
 }

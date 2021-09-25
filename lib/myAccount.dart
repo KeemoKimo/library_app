@@ -29,6 +29,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late String? userName = '';
   late String? age = '';
   late String? totalBooks = '';
+  late String? totalFavourites = '';
   late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
   late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
   late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
@@ -66,6 +67,22 @@ class _MyAccountPageState extends State<MyAccountPage> {
     totalBooks = _myDocCount.length.toString();
     DatabaseServices(uid: loggedInUser.uid).updateTotalBooks(totalBooks!);
     print(totalBooks);
+  }
+
+  countFavourites() async {
+    QuerySnapshot _myDoc = await firestore
+        .collection('books')
+        .where('owner', isEqualTo: loggedInUser.email.toString())
+        .where(
+          'isFavourite',
+          isEqualTo: true,
+        ) //cannot use ==
+        .get();
+    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
+    totalFavourites = _myDocCount.length.toString();
+    DatabaseServices(uid: loggedInUser.uid)
+        .updateTotalFavourites(totalFavourites!);
+    print(totalFavourites);
   }
 
   @override
@@ -198,11 +215,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     var email = (user.data() as Map)['email'];
                     print('user email : $email');
                     countBooks();
+                    countFavourites();
                     if (userEmail == email) {
                       profileURL = (user.data() as Map)['profileURL'];
                       userName = (user.data() as Map)['userName'];
                       age = (user.data() as Map)['age'];
                       totalBooks = (user.data() as Map)['totalBooks'];
+                      totalFavourites = (user.data() as Map)['totalFavourites'];
                     }
                   }
 
@@ -650,7 +669,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   Container(
                                     margin: EdgeInsets.only(left: 10),
                                     child: Text(
-                                      "Total Favorites : None as of now :(",
+                                      "Total Favorites : $totalFavourites",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
