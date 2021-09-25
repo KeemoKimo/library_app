@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/DatabaseSerivces.dart';
+import 'package:library_app/InfoPages/allBooks.dart';
+import 'package:library_app/InfoPages/all_favourites.dart';
 import 'HomeScreen.dart';
 
 class MyAccountPage extends StatefulWidget {
@@ -586,7 +588,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('Halo hans');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AllBooksPage()),
+                          );
                         },
                         child: customCard(
                             'My Books',
@@ -598,7 +604,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('Halo mein Favourite Hans');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AllFavouritesPage()),
+                          );
                         },
                         child: customCard(
                             'Favourites',

@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/InfoPages/allBooks.dart';
+import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:library_app/addBook.dart';
 import 'package:library_app/categoryPages/biography.dart';
 import 'package:library_app/categoryPages/comic.dart';
@@ -15,6 +17,7 @@ import 'package:library_app/categoryPages/non_fiction.dart';
 import 'package:library_app/categoryPages/philosophy.dart';
 import 'package:library_app/categoryPages/sci_fi.dart';
 import 'package:library_app/main.dart';
+import 'dart:math' as math;
 import 'package:library_app/myAccount.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -258,14 +261,29 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.book),
+              title: const Text('All My Books'),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllBooksPage()),
+                );
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.favorite),
               title: const Text('Favourites'),
               onTap: () async {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => addBookPage()),
+                  MaterialPageRoute(builder: (context) => AllFavouritesPage()),
                 );
               },
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+              color: Colors.black,
             ),
             ListTile(
               leading: Icon(Icons.help),
@@ -273,11 +291,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () async {
                 print('Help Pressed');
               },
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.black,
             ),
             ListTile(
               leading: Icon(Icons.info),
@@ -287,6 +300,23 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () async {
                 print('About Us');
               },
+            ),
+            ListTile(
+              leading: Icon(Icons.add),
+              title: const Text(
+                'Add Books',
+              ),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => addBookPage()),
+                );
+              },
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+              color: Colors.black,
             ),
             ListTile(
               leading: Icon(Icons.logout_outlined),
@@ -387,7 +417,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: double.infinity,
                             height: 400,
                             decoration: BoxDecoration(
-                              color: Color(0xFF2E4ECB),
+                              color: Color(
+                                      (math.Random().nextDouble() * 0xFFFFFF)
+                                          .toInt())
+                                  .withOpacity(1.0),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20),
@@ -434,33 +467,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //     ],
                                 //   ),
                                 // ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 20, top: 100, bottom: 30),
-                                  padding: EdgeInsets.only(left: 20),
-                                  child: SizedBox(
-                                    width: 250.0,
-                                    child: DefaultTextStyle(
-                                      style: const TextStyle(
-                                        fontSize: 30.0,
-                                        fontFamily: 'Lato',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      child: AnimatedTextKit(
-                                        totalRepeatCount: 5,
-                                        animatedTexts: [
-                                          TypewriterAnimatedText(
-                                            'CATEGORY ⚡️',
+                                Row(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      margin: EdgeInsets.only(
+                                          left: 20, top: 100, bottom: 30),
+                                      padding: EdgeInsets.only(left: 20),
+                                      child: SizedBox(
+                                        width: 250.0,
+                                        child: DefaultTextStyle(
+                                          style: const TextStyle(
+                                            fontSize: 30.0,
+                                            fontFamily: 'Lato',
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        ],
-                                        onTap: () {
-                                          print("Tap Event");
-                                        },
+                                          child: AnimatedTextKit(
+                                            totalRepeatCount: 5,
+                                            animatedTexts: [
+                                              TypewriterAnimatedText(
+                                                'CATEGORY ⚡️',
+                                              ),
+                                            ],
+                                            onTap: () {
+                                              print("Tap Event");
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 70),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          setState(() {});
+                                        },
+                                        icon: Icon(Icons.refresh),
+                                        iconSize: 30,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Container(
