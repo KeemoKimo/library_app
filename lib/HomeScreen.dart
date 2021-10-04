@@ -43,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late String? totalBooks = '';
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
       firestore.collection('books').snapshots();
+  late Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshot =
+      firestore.collection('users').snapshots();
 
   @override
   void initState() {
@@ -634,28 +636,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           customDivider(),
-                          Container(
-                            child: Text(
-                              'Your Collection 📚',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                              ),
+                          Text(
+                            'Your Collection 📚',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
                             ),
                           ),
-                          // ListView.builder(
-                          //   physics: NeverScrollableScrollPhysics(),
-                          //   shrinkWrap: true,
-                          //   itemCount: bookWidgets.length,
-                          //   itemBuilder: (BuildContext context, int index) {
-                          //     return bookWidgets;
-                          //   },
-                          // )
                           ListView.builder(
+                            padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: snapshot.data!.docs.length,
+                            itemCount: 5,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
@@ -715,6 +708,126 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                             },
                           ),
+                          Container(
+                            width: double.infinity,
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllBooksPage()),
+                                );
+                              },
+                              child: Text(
+                                'See all your books!',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          customDivider(),
+                          Text(
+                            'Discover People 😎',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: userSnapshot,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ),
+                                );
+                              }
+
+                              return Container(
+                                margin: EdgeInsets.only(right: 20),
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: 3,
+                                  itemBuilder: (context, index) {
+                                    String userNames =
+                                        snapshot.data!.docs[index]['userName'];
+                                    String userPfp = snapshot.data!.docs[index]
+                                        ['profileURL'];
+                                    String userEmail =
+                                        snapshot.data!.docs[index]['email'];
+                                    return Column(
+                                      children: [
+                                        SizedBox(height: 30),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 20),
+                                                  child: Text(
+                                                    userNames,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
+                                                        color:
+                                                            Colors.deepOrange,
+                                                        fontStyle:
+                                                            FontStyle.italic),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Text(
+                                                    userEmail,
+                                                    style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              width: 110.0,
+                                              height: 110.0,
+                                              decoration: BoxDecoration(
+                                                color: Colors.deepOrange,
+                                                image: DecorationImage(
+                                                  image: NetworkImage(userPfp),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(50.0),
+                                                ),
+                                                border: Border.all(
+                                                  color: Colors.red,
+                                                  width: 4.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          customDivider(),
                         ],
                       ),
                     );
