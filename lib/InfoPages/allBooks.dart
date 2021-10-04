@@ -1,23 +1,10 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/HomeScreen.dart';
-import 'package:library_app/addBook.dart';
-import 'package:library_app/categoryPages/biography.dart';
-import 'package:library_app/categoryPages/comic.dart';
-import 'package:library_app/categoryPages/design.dart';
-import 'package:library_app/categoryPages/fiction.dart';
-import 'package:library_app/categoryPages/historical.dart';
-import 'package:library_app/categoryPages/non_fiction.dart';
-import 'package:library_app/categoryPages/philosophy.dart';
-import 'package:library_app/categoryPages/sci_fi.dart';
-import 'package:library_app/main.dart';
 import 'dart:math' as math;
-import 'package:library_app/myAccount.dart';
 
 class AllBooksPage extends StatefulWidget {
   const AllBooksPage({Key? key}) : super(key: key);

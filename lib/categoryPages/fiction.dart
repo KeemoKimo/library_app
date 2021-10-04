@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:library_app/DatabaseSerivces.dart';
-import 'package:library_app/addBook.dart';
-import 'package:library_app/main.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:library_app/myAccount.dart';
+
+import '../HomeScreen.dart';
 
 // ignore: camel_case_types
 class fictionPage extends StatefulWidget {
@@ -72,9 +67,82 @@ class _fictionPageState extends State<fictionPage> {
     );
   }
 
-  Widget build(BuildContext context) {
-    late String? title = '';
+  Card buildListTile(
+    final String bookCoverURL,
+    final String category,
+    final String title,
+    final String author,
+  ) {
+    return Card(
+      semanticContainer: true,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      fit: BoxFit.cover, image: NetworkImage(bookCoverURL)),
+                ),
+              ),
+              Container(
+                width: 230,
+                //color: Colors.red,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      category.toString(),
+                      style: TextStyle(
+                        color: Color(0xFFB03A2E),
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text(
+                        title.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text(
+                        (author),
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
+                size: 15,
+              )
+            ],
+          ),
+        ],
+      ),
+      //color: Colors.yellowAccent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 5,
+      margin: EdgeInsets.all(10),
+    );
+  }
 
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF71A7B7),
       body: Container(
@@ -100,92 +168,7 @@ class _fictionPageState extends State<fictionPage> {
                           )),
                     );
                   }
-                  final books = snapshot.data!.docs;
-                  List<Card> bookWidgets = [];
 
-                  for (var book in books) {
-                    var owner = (book.data() as Map)['owner'];
-                    if (loggedInUser.email == owner) {
-                      var category = (book.data() as Map)['category'];
-                      if (category == 'Fictional') {
-                        title = (book.data() as Map)['title'];
-                        var author = (book.data() as Map)['author'];
-                        var bookCoverURL = (book.data() as Map)['imageURL'];
-                        final bookWidget = Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Stack(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 100,
-                                    height: 140,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(bookCoverURL)),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 230,
-                                    //color: Colors.red,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          category.toString(),
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            title.toString(),
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            (author),
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black,
-                                    size: 15,
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          //color: Colors.yellowAccent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 5,
-                          margin: EdgeInsets.all(10),
-                        );
-                        bookWidgets.add(bookWidget);
-                      }
-                    }
-                  }
                   return Column(
                     children: [
                       Container(
@@ -235,9 +218,73 @@ class _fictionPageState extends State<fictionPage> {
                             topRight: Radius.circular(15),
                           ),
                         ),
-                        child: Column(
-                          children: bookWidgets,
-                        ),
+                        child: Column(children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              String bookTitle =
+                                  snapshot.data!.docs[index]['title'];
+                              String bookOwner =
+                                  snapshot.data!.docs[index]['owner'];
+                              String bookCover =
+                                  snapshot.data!.docs[index]['imageURL'];
+                              String bookCategory =
+                                  snapshot.data!.docs[index]['category'];
+                              String bookAuthor =
+                                  snapshot.data!.docs[index]['author'];
+                              String bookDescription =
+                                  snapshot.data!.docs[index]['description'];
+                              String bookLanguage =
+                                  snapshot.data!.docs[index]['language'];
+                              String bookPublished =
+                                  snapshot.data!.docs[index]['publishedYear'];
+                              String bookPages =
+                                  snapshot.data!.docs[index]['numberOfPages'];
+                              String bookStartDate =
+                                  snapshot.data!.docs[index]['startDate'];
+                              String bookEndDate =
+                                  snapshot.data!.docs[index]['endDate'];
+                              bool bookIsFavourite =
+                                  snapshot.data!.docs[index]['isFavourite'];
+                              String bookId =
+                                  snapshot.data!.docs[index]['bookId'];
+                              return (bookOwner == loggedInUser.email &&
+                                      bookCategory == 'Fictional')
+                                  ? GestureDetector(
+                                      key: ValueKey(loggedInUser.email),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          'bookInfo',
+                                          arguments: ScreenArguments(
+                                            bookTitle,
+                                            bookAuthor,
+                                            bookCover,
+                                            bookCategory,
+                                            bookDescription,
+                                            bookOwner,
+                                            bookLanguage,
+                                            bookPublished,
+                                            bookPages,
+                                            bookStartDate,
+                                            bookEndDate,
+                                            bookIsFavourite,
+                                            bookId,
+                                          ),
+                                        );
+                                      },
+                                      child: buildListTile(bookCover,
+                                          bookCategory, bookTitle, bookAuthor),
+                                    )
+                                  : SizedBox(
+                                      height: 10,
+                                    );
+                            },
+                          ),
+                        ]),
                       ),
                     ],
                   );
