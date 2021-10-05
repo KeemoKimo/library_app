@@ -968,7 +968,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(
-                                          "Last Signed In : 0$lastSignInHour H $lastSignInMinute m - $lastSignInDate / $lastSignInMonth / $lastSignInYear",
+                                          "Last Signed In : $lastSignInHour H $lastSignInMinute m - $lastSignInDate / $lastSignInMonth / $lastSignInYear",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
@@ -1045,7 +1045,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: 10,
+                            itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
@@ -1102,7 +1102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(
-                                      height: 5,
+                                      height: 0,
                                     );
                             },
                           ),

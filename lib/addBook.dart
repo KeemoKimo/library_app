@@ -34,6 +34,7 @@ class _addBookPageState extends State<addBookPage> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   String dropdownInitialValue = 'Fictional';
+  bool isFavourite = false;
   var categoryItems = [
     'Fictional',
     'Non - Fiction',
@@ -106,9 +107,63 @@ class _addBookPageState extends State<addBookPage> {
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Books'),
+        backgroundColor: Color(0xFF004777),
+        title: Text(
+          'Add a new Book',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.info,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showCupertinoDialog<void>(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text('Mark As Favourite'),
+                  content:
+                      Text('Do you want to set this book as a favourite ?'),
+                  actions: <CupertinoDialogAction>[
+                    CupertinoDialogAction(
+                      child: const Text(
+                        'No',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text(
+                        'Yes',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      isDestructiveAction: true,
+                      onPressed: () {
+                        print(isFavourite);
+                        isFavourite = true;
+                        Navigator.pop(context);
+                        print(isFavourite);
+                      },
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
+        color: Color(0xFF004777),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Center(
@@ -119,19 +174,22 @@ class _addBookPageState extends State<addBookPage> {
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Text(
-                      'Choose book Cover',
+                      'Please Choose a book Cover',
                       style: TextStyle(
                         fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(width: 5, color: Colors.black),
+                      border: Border.all(width: 5, color: Colors.white),
                     ),
-                    width: 200,
-                    height: 300,
+                    width: 300,
+                    height: 500,
+                    margin: EdgeInsets.only(top: 20),
                     child: _image != null
                         ? Image.file(
                             _image!,
@@ -143,18 +201,9 @@ class _addBookPageState extends State<addBookPage> {
                           ),
                   ),
                   IconButton(
-                    color: Colors.black,
+                    color: Colors.white,
                     onPressed: () => pickImage(),
                     icon: Icon(Icons.add_a_photo),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Book Title',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 5),
@@ -162,21 +211,21 @@ class _addBookPageState extends State<addBookPage> {
                     child: TextFormField(
                       controller: titleController,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "Enter Book title...",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Colors.black,
+                            color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -193,34 +242,25 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Author Name',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
                       controller: authorController,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        labelText: "Enter the book author name...",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelText: "Enter the Author's name...",
+                        labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Colors.black,
+                            color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -232,37 +272,64 @@ class _addBookPageState extends State<addBookPage> {
                       'Category',
                       style: TextStyle(
                         fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  DropdownButton(
-                    elevation: 10,
-                    icon: Icon(Icons.arrow_drop_down),
-                    value: dropdownInitialValue,
-                    items: categoryItems.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownInitialValue = newValue!;
-                      });
-                    },
+                  Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.only(left: 10),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          isExpanded: true,
+                          elevation: 10,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Color(0xFF004777),
+                          ),
+                          value: dropdownInitialValue,
+                          items: categoryItems.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(
+                                items,
+                                style: TextStyle(color: Color(0xFF004777)),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownInitialValue = newValue!;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text(
                       'Start Date',
                       style: TextStyle(
                         fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 35,
+                  Container(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    height: 50,
                     child: CupertinoDatePicker(
+                      backgroundColor: Colors.white,
+                      use24hFormat: true,
                       initialDateTime: _startDate,
                       mode: CupertinoDatePickerMode.dateAndTime,
                       onDateTimeChanged: (dateTime) {
@@ -273,17 +340,22 @@ class _addBookPageState extends State<addBookPage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text(
                       'End Date',
                       style: TextStyle(
                         fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 35,
+                  Container(
+                    color: Colors.white,
+                    height: 50,
+                    margin: EdgeInsets.only(left: 20, right: 20),
                     child: CupertinoDatePicker(
+                      use24hFormat: true,
                       initialDateTime: _endDate,
                       mode: CupertinoDatePickerMode.dateAndTime,
                       onDateTimeChanged: (dateTime) {
@@ -295,34 +367,27 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Number of pages',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      maxLength: 5,
                       controller: numberOfPageController,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        counterStyle: TextStyle(color: Colors.white),
                         labelText: "Enter the number of pages...",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Colors.black,
+                            color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -330,34 +395,27 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Published Year',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      maxLength: 10,
                       controller: publishedYearController,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        counterStyle: TextStyle(color: Colors.white),
                         labelText: "Enter the year the book is published",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Colors.black,
+                            color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -365,34 +423,25 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Language',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
                       controller: languageController,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "Enter the book language",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Colors.black,
+                            color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -400,35 +449,28 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Description',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
+                      maxLength: 1000,
                       controller: descriptionController,
                       maxLines: 10,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        counterStyle: TextStyle(color: Colors.white),
                         labelText: "Write a brief description...",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Colors.black,
+                            color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -436,6 +478,7 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
+                    width: 300,
                     child: CupertinoButton(
                       color: Colors.yellow[700],
                       child: Text('Add Book !'),
@@ -457,7 +500,7 @@ class _addBookPageState extends State<addBookPage> {
                           publishedYearController.text,
                           _startDate.toString(),
                           _endDate.toString(),
-                          false,
+                          isFavourite,
                         );
                         print('Uploaded Image');
                         await showDialog(
