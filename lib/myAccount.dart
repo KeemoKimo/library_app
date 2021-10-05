@@ -3,13 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/DatabaseSerivces.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
-import 'HomeScreen.dart';
+import 'package:country_picker/country_picker.dart';
 
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -32,7 +31,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late String? age = '';
   late String? totalBooks = '';
   late String? totalFavourites = '';
-  late String? location = '';
+  late String? currentLocation = '';
   late String? about = '';
   late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
   late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
@@ -226,7 +225,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       age = (user.data() as Map)['age'];
                       totalBooks = (user.data() as Map)['totalBooks'];
                       totalFavourites = (user.data() as Map)['totalFavourites'];
-                      location = (user.data() as Map)['location'];
+                      currentLocation = (user.data() as Map)['location'];
                       about = (user.data() as Map)['about'];
                     }
                   }
@@ -525,7 +524,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                                       userEmail!,
                                                                       profileURL!,
                                                                       totalBooks!,
-                                                                      location!,
+                                                                      currentLocation!,
                                                                       about!,
                                                                       totalFavourites!);
                                                                   Navigator.pop(
@@ -620,7 +619,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    'Your Location : $location',
+                                    'Your Location : $currentLocation',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -669,44 +668,73 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                           padding: EdgeInsets.all(20),
                                           child: Column(
                                             children: [
-                                              Container(
-                                                child: TextFormField(
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    labelText: "$location",
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.black),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 2.0,
-                                                      ),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.blue,
-                                                      ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 20),
+                                                  child: Text(
+                                                    'Location :',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
-                                                  onChanged: (value) {
-                                                    location = value;
-                                                  },
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  },
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showCountryPicker(
+                                                    context: context,
+                                                    onSelect:
+                                                        (Country country) {
+                                                      currentLocation =
+                                                          country.name;
+                                                      print(
+                                                          'location : $currentLocation');
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 2),
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 10),
+                                                        child: Text(
+                                                          '$currentLocation',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 20),
+                                                        child: Icon(
+                                                          Icons
+                                                              .swap_horizontal_circle_sharp,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -799,9 +827,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                                       userEmail!,
                                                                       profileURL!,
                                                                       totalBooks!,
-                                                                      location!,
+                                                                      currentLocation!,
                                                                       about!,
                                                                       totalFavourites!);
+                                                                  Navigator.pop(
+                                                                      context);
                                                                   Navigator.pop(
                                                                       context);
                                                                 } catch (e) {
@@ -819,6 +849,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                         color: Colors.white,
                                                         fontSize: 15),
                                                   ),
+                                                ),
+                                              ),
+                                              customDivider(),
+                                              Text(
+                                                'Location will be updated once this pop-up is refreshed!',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
