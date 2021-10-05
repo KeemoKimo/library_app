@@ -32,6 +32,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late String? age = '';
   late String? totalBooks = '';
   late String? totalFavourites = '';
+  late String? location = '';
+  late String? about = '';
   late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
   late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
   late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
@@ -224,6 +226,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       age = (user.data() as Map)['age'];
                       totalBooks = (user.data() as Map)['totalBooks'];
                       totalFavourites = (user.data() as Map)['totalFavourites'];
+                      location = (user.data() as Map)['location'];
+                      about = (user.data() as Map)['about'];
                     }
                   }
 
@@ -515,15 +519,15 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                               onPressed:
                                                                   () async {
                                                                 try {
-                                                                  await DatabaseServices(
-                                                                          uid: loggedInUser
-                                                                              .uid)
-                                                                      .updateUserData(
-                                                                          userName!,
-                                                                          age!,
-                                                                          userEmail!,
-                                                                          profileURL!,
-                                                                          totalBooks!);
+                                                                  await DatabaseServices(uid: loggedInUser.uid).updateUserData(
+                                                                      userName!,
+                                                                      age!,
+                                                                      userEmail!,
+                                                                      profileURL!,
+                                                                      totalBooks!,
+                                                                      location!,
+                                                                      about!,
+                                                                      totalFavourites!);
                                                                   Navigator.pop(
                                                                       context);
                                                                 } catch (e) {
@@ -562,6 +566,280 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(
                                           'Edit Profile',
+                                          style:
+                                              TextStyle(color: Colors.purple),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: Text(
+                            'Extra Information',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, bottom: 20, top: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius:
+                                  3, // how much spread does this shadow goes
+                              blurRadius: 4, // how blurry the shadow is
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.pin_drop,
+                                  color: Colors.purple,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Your Location : $location',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 20, bottom: 20),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.info,
+                                    color: Colors.purple,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'About You : ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              about!,
+                              style: TextStyle(
+                                  wordSpacing: 2,
+                                  letterSpacing: 1,
+                                  height: 1.5),
+                            ),
+                            Container(
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        elevation: 5,
+                                        child: Container(
+                                          padding: EdgeInsets.all(20),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                child: TextFormField(
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                  decoration: InputDecoration(
+                                                    labelText: "$location",
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.black),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2.0,
+                                                      ),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  onChanged: (value) {
+                                                    location = value;
+                                                  },
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Please enter some text';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 20),
+                                                child: TextFormField(
+                                                  maxLines: null,
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                  decoration: InputDecoration(
+                                                    labelText: "Edit About....",
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.black),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2.0,
+                                                      ),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  onChanged: (value) {
+                                                    about = value;
+                                                  },
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Please enter some text';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 20),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.purple,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                15))),
+                                                width: 300,
+                                                height: 50,
+                                                child: TextButton(
+                                                  onPressed: () async {
+                                                    showCupertinoDialog(
+                                                      context: context,
+                                                      builder: (_) =>
+                                                          CupertinoAlertDialog(
+                                                        title: Text(
+                                                          "EDIT PROFILE",
+                                                        ),
+                                                        content: Text(
+                                                            "Are you sure you want to edit the content of $userEmail ?"),
+                                                        actions: [
+                                                          CupertinoButton(
+                                                              child: Text(
+                                                                  'Cancel'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              }),
+                                                          CupertinoButton(
+                                                              child: Text(
+                                                                'Edit',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                try {
+                                                                  await DatabaseServices(uid: loggedInUser.uid).updateUserData(
+                                                                      userName!,
+                                                                      age!,
+                                                                      userEmail!,
+                                                                      profileURL!,
+                                                                      totalBooks!,
+                                                                      location!,
+                                                                      about!,
+                                                                      totalFavourites!);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                } catch (e) {
+                                                                  print(e
+                                                                      .toString());
+                                                                }
+                                                              }),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    "CONFIRM CHANGE",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.settings_accessibility,
+                                        color: Colors.purple,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          'Edit Information',
                                           style:
                                               TextStyle(color: Colors.purple),
                                         ),

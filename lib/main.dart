@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/BookInfo.dart';
+import 'package:library_app/otherUserInfo.dart';
 import 'HomeScreen.dart';
 import 'DatabaseSerivces.dart';
 
@@ -22,6 +23,7 @@ void main() async {
         'home': (context) => const LoginPage(),
         'main': (context) => const HomeScreen(),
         'bookInfo': (context) => const BookInfo(),
+        'otherUserInfo': (context) => const OtherUserInfo(),
       },
       theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Lato'),
     ),
@@ -175,6 +177,9 @@ class _LoginPageState extends State<LoginPage> {
                             email,
                             '',
                             totalBooks!,
+                            'location',
+                            'about me',
+                            '',
                           );
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');

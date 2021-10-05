@@ -47,8 +47,15 @@ class DatabaseServices {
     );
   }
 
-  Future updateUserData(String username, String age, String email,
-      String profileURL, String totalBooks) async {
+  Future updateUserData(
+      String username,
+      String age,
+      String email,
+      String profileURL,
+      String totalBooks,
+      String location,
+      String about,
+      String totalFavourites) async {
     return await userCollection.doc(uid).set(
       {
         'userName': username,
@@ -56,6 +63,9 @@ class DatabaseServices {
         'email': email,
         'profileURL': profileURL,
         'totalBooks': totalBooks,
+        'location': location,
+        'about': about,
+        'totalFavourites': totalFavourites,
       },
     );
   }

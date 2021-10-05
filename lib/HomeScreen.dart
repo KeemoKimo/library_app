@@ -31,20 +31,26 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
-  late String? username = '';
-  late String? userEmail = loggedInUser.email;
   late String? userUID = loggedInUser.uid;
-  late String age = '';
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  File? file;
-  late String imageUrl = '';
-  late String? owner = '';
-  late String? totalBooks = '';
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
       firestore.collection('books').snapshots();
   late Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshot =
       firestore.collection('users').snapshots();
+  late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
+  late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
+  late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
+  //====================================================================
+  late int? lastSignInDate = loggedInUser.metadata.lastSignInTime!.day;
+  late int? lastSignInHour = loggedInUser.metadata.lastSignInTime!.hour;
+  late int? lastSignInMinute = loggedInUser.metadata.lastSignInTime!.minute;
+  late int? lastSignInMonth = loggedInUser.metadata.lastSignInTime!.month;
+  late int? lastSignInYear = loggedInUser.metadata.lastSignInTime!.year;
+  //====================================================================
+  // late List<Widget> bookTitles = [];
+  // late List<Widget> bookCovers = [];
+  // late List<Widget> bookAuthors = [];
 
   @override
   void initState() {
@@ -230,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Stack(
                       children: [
                         Text(
-                          '$userEmail',
+                          '${loggedInUser.email}',
                           style: TextStyle(
                             fontSize: 20,
                             foreground: Paint()
@@ -240,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          '$userEmail',
+                          '${loggedInUser.email}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -331,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (_) => CupertinoAlertDialog(
                     title: Text("LOG OUT"),
                     content: Text(
-                        "Are you sure you want to log out of $userEmail ?"),
+                        "Are you sure you want to log out of ${loggedInUser.email} ?"),
                     actions: [
                       CupertinoButton(
                           child: Text('Cancel'),
@@ -410,6 +416,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     //     bookWidgets.add(bookWidget);
                     //   }
                     // }
+                    // final books = snapshot.data!.docs;
+                    // for (var book in books) {
+                    //   var title = (book.data() as Map)['title'];
+                    //   var author = (book.data() as Map)['author'];
+                    //   var owner = (book.data() as Map)['owner'];
+                    //   var bookCover = (book.data() as Map)['imageURL'];
+
+                    //   if (owner == loggedInUser.email) {
+                    //     Text titleText = Text(title);
+                    //     bookTitles.add(titleText);
+                    //     Text authorText = Text(author);
+                    //     bookAuthors.add(authorText);
+                    //     Text coverText = Text(bookCover);
+                    //     bookCovers.add(coverText);
+                    //   }
+                    // }
+
                     return SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       physics: ScrollPhysics(),
@@ -749,83 +772,361 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
 
                               return Container(
-                                margin: EdgeInsets.only(right: 20),
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: 3,
-                                  itemBuilder: (context, index) {
-                                    String userNames =
-                                        snapshot.data!.docs[index]['userName'];
-                                    String userPfp = snapshot.data!.docs[index]
-                                        ['profileURL'];
-                                    String userEmail =
-                                        snapshot.data!.docs[index]['email'];
-                                    return Column(
-                                      children: [
-                                        SizedBox(height: 30),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                padding: EdgeInsets.all(20),
+                                child: Card(
+                                  shadowColor: Colors.black,
+                                  elevation: 10,
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    padding: EdgeInsets.only(bottom: 20),
+                                    child: ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: 3,
+                                      itemBuilder: (context, index) {
+                                        String userUserName = snapshot
+                                            .data!.docs[index]['userName'];
+                                        String userPfp = snapshot
+                                            .data!.docs[index]['profileURL'];
+                                        String userEmail =
+                                            snapshot.data!.docs[index]['email'];
+                                        String userTotalBooks = snapshot
+                                            .data!.docs[index]['totalBooks'];
+                                        String userTotalFavourites = snapshot
+                                            .data!
+                                            .docs[index]['totalFavourites'];
+                                        String userAge =
+                                            snapshot.data!.docs[index]['age'];
+                                        String userAbout =
+                                            snapshot.data!.docs[index]['about'];
+                                        String userLocation = snapshot
+                                            .data!.docs[index]['location'];
+                                        return Column(
                                           children: [
-                                            Column(
+                                            SizedBox(height: 30),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
                                               children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 20),
-                                                  child: Text(
-                                                    userNames,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                        color:
-                                                            Colors.deepOrange,
-                                                        fontStyle:
-                                                            FontStyle.italic),
-                                                  ),
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          bottom: 20),
+                                                      child: Text(
+                                                        userUserName,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 17,
+                                                            color: Colors
+                                                                .deepOrange,
+                                                            fontStyle: FontStyle
+                                                                .italic),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 20),
+                                                      child: Text(
+                                                        userEmail,
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
-                                                  child: Text(
-                                                    userEmail,
-                                                    style: TextStyle(
-                                                      fontSize: 17,
-                                                      color: Colors.grey,
+                                                GestureDetector(
+                                                  key: ValueKey(
+                                                      loggedInUser.email),
+                                                  onTap: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      'otherUserInfo',
+                                                      arguments: UserArguments(
+                                                          userAge,
+                                                          userEmail,
+                                                          userPfp,
+                                                          userTotalBooks,
+                                                          userUserName,
+                                                          userAbout,
+                                                          userTotalFavourites,
+                                                          userLocation),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: 90.0,
+                                                    height: 90.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.deepOrange,
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            userPfp),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(50.0),
+                                                      ),
+                                                      border: Border.all(
+                                                        color: Colors.red,
+                                                        width: 2.0,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            Container(
-                                              width: 110.0,
-                                              height: 110.0,
-                                              decoration: BoxDecoration(
-                                                color: Colors.deepOrange,
-                                                image: DecorationImage(
-                                                  image: NetworkImage(userPfp),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(50.0),
-                                                ),
-                                                border: Border.all(
-                                                  color: Colors.red,
-                                                  width: 4.0,
-                                                ),
-                                              ),
-                                            ),
                                           ],
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
                               );
                             },
+                          ),
+                          customDivider(),
+                          Text(
+                            'Analytics 📈',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                          Container(
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
+                            padding: EdgeInsets.all(20),
+                            width: double.infinity,
+                            height: 300,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius:
+                                      3, // how much spread does this shadow goes
+                                  blurRadius: 4, // how blurry the shadow is
+                                  offset: Offset(
+                                      0, 5), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.email,
+                                      color: Colors.white,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        "Email : ${loggedInUser.email}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_view_day,
+                                        color: Colors.white,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Joined Date : $createdDateDate / $createdDateMonth / $createdDateYear",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.last_page,
+                                        color: Colors.white,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Last Signed In : 0$lastSignInHour H $lastSignInMinute m - $lastSignInDate / $lastSignInMonth / $lastSignInYear",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.explicit,
+                                        color: Colors.white,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Your profile UID ( Do NOT share! ): ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10, top: 10),
+                                  child: Text(
+                                    "$userUID",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.zero,
+                                  margin: EdgeInsets.only(top: 20),
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyAccountPage()),
+                                      );
+                                    },
+                                    child: Text(
+                                      'See full analytics!',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          customDivider(),
+                          Text(
+                            'Favourites ❤️',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                          ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              String bookTitle =
+                                  snapshot.data!.docs[index]['title'];
+                              String bookOwner =
+                                  snapshot.data!.docs[index]['owner'];
+                              String bookCover =
+                                  snapshot.data!.docs[index]['imageURL'];
+                              String bookCategory =
+                                  snapshot.data!.docs[index]['category'];
+                              String bookAuthor =
+                                  snapshot.data!.docs[index]['author'];
+                              String bookDescription =
+                                  snapshot.data!.docs[index]['description'];
+                              String bookLanguage =
+                                  snapshot.data!.docs[index]['language'];
+                              String bookPublished =
+                                  snapshot.data!.docs[index]['publishedYear'];
+                              String bookPages =
+                                  snapshot.data!.docs[index]['numberOfPages'];
+                              String bookStartDate =
+                                  snapshot.data!.docs[index]['startDate'];
+                              String bookEndDate =
+                                  snapshot.data!.docs[index]['endDate'];
+                              bool bookIsFavourite =
+                                  snapshot.data!.docs[index]['isFavourite'];
+                              String bookId =
+                                  snapshot.data!.docs[index]['bookId'];
+                              return (bookOwner == loggedInUser.email &&
+                                      bookIsFavourite == true)
+                                  ? GestureDetector(
+                                      key: ValueKey(loggedInUser.email),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          'bookInfo',
+                                          arguments: ScreenArguments(
+                                            bookTitle,
+                                            bookAuthor,
+                                            bookCover,
+                                            bookCategory,
+                                            bookDescription,
+                                            bookOwner,
+                                            bookLanguage,
+                                            bookPublished,
+                                            bookPages,
+                                            bookStartDate,
+                                            bookEndDate,
+                                            bookIsFavourite,
+                                            bookId,
+                                          ),
+                                        );
+                                      },
+                                      child: buildListTile(bookCover,
+                                          bookCategory, bookTitle, bookAuthor),
+                                    )
+                                  : SizedBox(
+                                      height: 5,
+                                    );
+                            },
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AllFavouritesPage()),
+                                );
+                              },
+                              child: Text(
+                                'See all your favourites!',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                           customDivider(),
                         ],
@@ -871,5 +1172,27 @@ class ScreenArguments {
     this.bookEndDate,
     this.isFavourite,
     this.bookId,
+  );
+}
+
+class UserArguments {
+  late final String age;
+  late final String email;
+  late final String userPFP;
+  late final String totalBooks;
+  late final String userUserName;
+  late final String userAbout;
+  late final String userTotalFavourites;
+  late final String userLocation;
+
+  UserArguments(
+    this.age,
+    this.email,
+    this.userPFP,
+    this.totalBooks,
+    this.userUserName,
+    this.userAbout,
+    this.userTotalFavourites,
+    this.userLocation,
   );
 }
