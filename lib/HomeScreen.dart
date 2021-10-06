@@ -671,7 +671,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: 5,
+                            itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
@@ -784,7 +784,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount: 3,
+                                      itemCount: snapshot.data!.docs.length,
                                       itemBuilder: (context, index) {
                                         String userUserName = snapshot
                                             .data!.docs[index]['userName'];
@@ -803,6 +803,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                             snapshot.data!.docs[index]['about'];
                                         String userLocation = snapshot
                                             .data!.docs[index]['location'];
+                                        int userCreatedDate = snapshot
+                                            .data!.docs[index]['createdDate'];
+                                        int userCreatedMonth = snapshot
+                                            .data!.docs[index]['createdMonth'];
+                                        int userCreatedYear = snapshot
+                                            .data!.docs[index]['createdYear'];
                                         return Column(
                                           children: [
                                             SizedBox(height: 30),
@@ -814,7 +820,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   children: [
                                                     Container(
                                                       margin: EdgeInsets.only(
-                                                          bottom: 20),
+                                                          bottom: 20,
+                                                          right: 20),
                                                       child: Text(
                                                         userUserName,
                                                         style: TextStyle(
@@ -848,14 +855,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       context,
                                                       'otherUserInfo',
                                                       arguments: UserArguments(
-                                                          userAge,
-                                                          userEmail,
-                                                          userPfp,
-                                                          userTotalBooks,
-                                                          userUserName,
-                                                          userAbout,
-                                                          userTotalFavourites,
-                                                          userLocation),
+                                                        userAge,
+                                                        userEmail,
+                                                        userPfp,
+                                                        userTotalBooks,
+                                                        userUserName,
+                                                        userAbout,
+                                                        userTotalFavourites,
+                                                        userLocation,
+                                                        userCreatedDate,
+                                                        userCreatedMonth,
+                                                        userCreatedYear,
+                                                      ),
                                                     );
                                                   },
                                                   child: Container(
@@ -864,8 +875,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     decoration: BoxDecoration(
                                                       color: Colors.deepOrange,
                                                       image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            userPfp),
+                                                        image: userPfp == ''
+                                                            ? NetworkImage(
+                                                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
+                                                            : NetworkImage(
+                                                                '$userPfp'),
                                                         fit: BoxFit.cover,
                                                       ),
                                                       borderRadius:
@@ -1184,6 +1198,9 @@ class UserArguments {
   late final String userAbout;
   late final String userTotalFavourites;
   late final String userLocation;
+  late final int userCreatedDate;
+  late final int userCreatedMonth;
+  late final int userCreatedYear;
 
   UserArguments(
     this.age,
@@ -1194,5 +1211,8 @@ class UserArguments {
     this.userAbout,
     this.userTotalFavourites,
     this.userLocation,
+    this.userCreatedDate,
+    this.userCreatedMonth,
+    this.userCreatedYear,
   );
 }

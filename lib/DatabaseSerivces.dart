@@ -55,7 +55,14 @@ class DatabaseServices {
       String totalBooks,
       String location,
       String about,
-      String totalFavourites) async {
+      String totalFavourites,
+      int createdDate,
+      int createdMonth,
+      int createdYear,
+      bool showLocationStatus,
+      bool showAgeStatus,
+      bool showBookStatus,
+      bool showFavouriteStatus) async {
     return await userCollection.doc(uid).set(
       {
         'userName': username,
@@ -66,6 +73,13 @@ class DatabaseServices {
         'location': location,
         'about': about,
         'totalFavourites': totalFavourites,
+        'createdDate': createdDate,
+        'createdMonth': createdMonth,
+        'createdYear': createdYear,
+        'showLocation': showLocationStatus,
+        'showAge': showAgeStatus,
+        'showBook': showBookStatus,
+        'showFavourite': showFavouriteStatus,
       },
     );
   }
@@ -74,6 +88,38 @@ class DatabaseServices {
     return await userCollection.doc(uid).update(
       {
         'profileURL': profileURL,
+      },
+    );
+  }
+
+  Future updateLocationPrivacyStatus(bool showLocationStatus) async {
+    return await userCollection.doc(uid).update(
+      {
+        'showLocation': showLocationStatus,
+      },
+    );
+  }
+
+  Future updateAgePrivacyStatus(bool showAgeStatus) async {
+    return await userCollection.doc(uid).update(
+      {
+        'showAge': showAgeStatus,
+      },
+    );
+  }
+
+  Future updateBooksPrivacyStatus(bool showBookStatus) async {
+    return await userCollection.doc(uid).update(
+      {
+        'showBook': showBookStatus,
+      },
+    );
+  }
+
+  Future updateFavouritePrivacyStatus(bool showFavouriteStatus) async {
+    return await userCollection.doc(uid).update(
+      {
+        'showFavourite': showFavouriteStatus,
       },
     );
   }

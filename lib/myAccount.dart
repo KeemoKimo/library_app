@@ -36,7 +36,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
   late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
   late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
   late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
-
+  bool _switchValueLocation = false;
+  bool _switchValueAge = false;
+  bool _switchValueBooks = false;
+  bool _switchValueFavourite = false;
   void initState() {
     super.initState();
     getCurrentUser().whenComplete(() {
@@ -227,6 +230,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       totalFavourites = (user.data() as Map)['totalFavourites'];
                       currentLocation = (user.data() as Map)['location'];
                       about = (user.data() as Map)['about'];
+                      _switchValueLocation =
+                          (user.data() as Map)['showLocation'];
+                      _switchValueAge = (user.data() as Map)['showAge'];
+                      _switchValueBooks = (user.data() as Map)['showBook'];
+                      _switchValueFavourite =
+                          (user.data() as Map)['showFavourite'];
                     }
                   }
 
@@ -518,15 +527,26 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                               onPressed:
                                                                   () async {
                                                                 try {
-                                                                  await DatabaseServices(uid: loggedInUser.uid).updateUserData(
-                                                                      userName!,
-                                                                      age!,
-                                                                      userEmail!,
-                                                                      profileURL!,
-                                                                      totalBooks!,
-                                                                      currentLocation!,
-                                                                      about!,
-                                                                      totalFavourites!);
+                                                                  await DatabaseServices(
+                                                                          uid: loggedInUser
+                                                                              .uid)
+                                                                      .updateUserData(
+                                                                    userName!,
+                                                                    age!,
+                                                                    userEmail!,
+                                                                    profileURL!,
+                                                                    totalBooks!,
+                                                                    currentLocation!,
+                                                                    about!,
+                                                                    totalFavourites!,
+                                                                    createdDateDate!,
+                                                                    createdDateMonth!,
+                                                                    createdDateYear!,
+                                                                    _switchValueLocation,
+                                                                    _switchValueAge,
+                                                                    _switchValueBooks,
+                                                                    _switchValueFavourite,
+                                                                  );
                                                                   Navigator.pop(
                                                                       context);
                                                                 } catch (e) {
@@ -821,15 +841,26 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                               onPressed:
                                                                   () async {
                                                                 try {
-                                                                  await DatabaseServices(uid: loggedInUser.uid).updateUserData(
-                                                                      userName!,
-                                                                      age!,
-                                                                      userEmail!,
-                                                                      profileURL!,
-                                                                      totalBooks!,
-                                                                      currentLocation!,
-                                                                      about!,
-                                                                      totalFavourites!);
+                                                                  await DatabaseServices(
+                                                                          uid: loggedInUser
+                                                                              .uid)
+                                                                      .updateUserData(
+                                                                    userName!,
+                                                                    age!,
+                                                                    userEmail!,
+                                                                    profileURL!,
+                                                                    totalBooks!,
+                                                                    currentLocation!,
+                                                                    about!,
+                                                                    totalFavourites!,
+                                                                    createdDateDate!,
+                                                                    createdDateMonth!,
+                                                                    createdDateYear!,
+                                                                    _switchValueLocation,
+                                                                    _switchValueAge,
+                                                                    _switchValueBooks,
+                                                                    _switchValueFavourite,
+                                                                  );
                                                                   Navigator.pop(
                                                                       context);
                                                                   Navigator.pop(
@@ -886,6 +917,253 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   ),
                                 ),
                               ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: Text(
+                            'Privacy Settings',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.only(
+                            left: 70, right: 70, bottom: 20, top: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius:
+                                  3, // how much spread does this shadow goes
+                              blurRadius: 4, // how blurry the shadow is
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.privacy_tip,
+                                  color: Colors.purple,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Show Location : ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Transform.scale(
+                                  scale: 0.8,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: CupertinoSwitch(
+                                      value: _switchValueLocation,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _switchValueLocation = value;
+                                          print(_switchValueLocation);
+                                          DatabaseServices(
+                                                  uid: loggedInUser.uid)
+                                              .updateLocationPrivacyStatus(
+                                                  _switchValueLocation);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        margin:
+                            EdgeInsets.only(left: 70, right: 70, bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius:
+                                  3, // how much spread does this shadow goes
+                              blurRadius: 4, // how blurry the shadow is
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  color: Colors.purple,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Show Age : ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Transform.scale(
+                                  scale: 0.8,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 40),
+                                    child: CupertinoSwitch(
+                                      value: _switchValueAge,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _switchValueAge = value;
+                                          print(_switchValueAge);
+                                          DatabaseServices(
+                                                  uid: loggedInUser.uid)
+                                              .updateAgePrivacyStatus(
+                                                  _switchValueAge);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        margin:
+                            EdgeInsets.only(left: 70, right: 70, bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius:
+                                  3, // how much spread does this shadow goes
+                              blurRadius: 4, // how blurry the shadow is
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.book,
+                                  color: Colors.purple,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Show your books : ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Transform.scale(
+                                  scale: 0.8,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 0),
+                                    child: CupertinoSwitch(
+                                      value: _switchValueBooks,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _switchValueBooks = value;
+                                          print(_switchValueBooks);
+                                          DatabaseServices(
+                                                  uid: loggedInUser.uid)
+                                              .updateBooksPrivacyStatus(
+                                                  _switchValueBooks);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        margin:
+                            EdgeInsets.only(left: 70, right: 70, bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius:
+                                  3, // how much spread does this shadow goes
+                              blurRadius: 4, // how blurry the shadow is
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.book,
+                                  color: Colors.purple,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Show Favourites : ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Transform.scale(
+                                  scale: 0.8,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 0),
+                                    child: CupertinoSwitch(
+                                      value: _switchValueFavourite,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _switchValueFavourite = value;
+                                          DatabaseServices(
+                                                  uid: loggedInUser.uid)
+                                              .updateFavouritePrivacyStatus(
+                                                  _switchValueFavourite);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

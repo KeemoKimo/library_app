@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:library_app/DatabaseSerivces.dart';
 import 'package:library_app/HomeScreen.dart';
 
 class OtherUserInfo extends StatefulWidget {
@@ -197,6 +196,24 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "User Location : ${userID.userLocation}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_city,
+                            color: Colors.white,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Account Created : ${userID.userCreatedDate} / ${userID.userCreatedMonth} / ${userID.userCreatedYear}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),

@@ -175,11 +175,18 @@ class _LoginPageState extends State<LoginPage> {
                             'new_User',
                             'age',
                             email,
-                            '',
+                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
                             totalBooks!,
                             'location',
                             'about me',
                             '',
+                            0,
+                            0,
+                            0,
+                            false,
+                            false,
+                            false,
+                            false,
                           );
                           //this line is to make user go second screen
                           Navigator.pushNamed(context, 'main');
