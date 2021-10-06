@@ -671,7 +671,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: snapshot.data!.docs.length - 3,
+                            itemCount: snapshot.data!.docs.length <= 6
+                                ? snapshot.data!.docs.length
+                                : snapshot.data!.docs.length - 2,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
@@ -784,7 +786,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount: snapshot.data!.docs.length,
+                                      itemCount: snapshot.data!.docs.length <= 4
+                                          ? snapshot.data!.docs.length
+                                          : snapshot.data!.docs.length - 1,
                                       itemBuilder: (context, index) {
                                         String userUserName = snapshot
                                             .data!.docs[index]['userName'];
@@ -1071,7 +1075,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: snapshot.data!.docs.length - 3,
+                            itemCount: snapshot.data!.docs.length <= 6
+                                ? snapshot.data!.docs.length
+                                : snapshot.data!.docs.length - 3,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
