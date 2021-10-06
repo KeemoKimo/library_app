@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/BookInfo.dart';
+import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
+import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserInfo.dart';
 import 'HomeScreen.dart';
 import 'DatabaseSerivces.dart';
@@ -24,6 +26,8 @@ void main() async {
         'main': (context) => const HomeScreen(),
         'bookInfo': (context) => const BookInfo(),
         'otherUserInfo': (context) => const OtherUserInfo(),
+        'otherUserBooks': (context) => const OtherUserBooks(),
+        'otherUserFavourites': (context) => const OtherUsersFavourites(),
       },
       theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Lato'),
     ),

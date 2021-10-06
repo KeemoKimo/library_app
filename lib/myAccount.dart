@@ -983,6 +983,15 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                               .updateLocationPrivacyStatus(
                                                   _switchValueLocation);
                                         });
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentSnackBar();
+                                        var snackBar = SnackBar(
+                                          content: _switchValueLocation == true
+                                              ? Text('Location switched on!')
+                                              : Text('Location switched off!'),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
                                       },
                                     ),
                                   ),
@@ -1041,6 +1050,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   uid: loggedInUser.uid)
                                               .updateAgePrivacyStatus(
                                                   _switchValueAge);
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                          var snackBar = SnackBar(
+                                            content: _switchValueAge == true
+                                                ? Text('Age is set to public!')
+                                                : Text(
+                                                    'Age is set to private!'),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
                                         });
                                       },
                                     ),
@@ -1100,6 +1119,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   uid: loggedInUser.uid)
                                               .updateBooksPrivacyStatus(
                                                   _switchValueBooks);
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                          var snackBar = SnackBar(
+                                            content: _switchValueBooks == true
+                                                ? Text(
+                                                    'Books will be displayed!')
+                                                : Text('Books will be hidden!'),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
                                         });
                                       },
                                     ),
@@ -1158,6 +1187,18 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   uid: loggedInUser.uid)
                                               .updateFavouritePrivacyStatus(
                                                   _switchValueFavourite);
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                          var snackBar = SnackBar(
+                                            content: _switchValueFavourite ==
+                                                    true
+                                                ? Text(
+                                                    'Favourites will be displayed!')
+                                                : Text(
+                                                    'Favourites will be kept a secret!'),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
                                         });
                                       },
                                     ),

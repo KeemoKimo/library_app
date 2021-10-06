@@ -671,7 +671,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: snapshot.data!.docs.length,
+                            itemCount: snapshot.data!.docs.length - 3,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
@@ -809,6 +809,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .data!.docs[index]['createdMonth'];
                                         int userCreatedYear = snapshot
                                             .data!.docs[index]['createdYear'];
+                                        bool isShowLocation = snapshot
+                                            .data!.docs[index]['showLocation'];
+                                        bool isShowAge = snapshot
+                                            .data!.docs[index]['showAge'];
+                                        bool isShowBook = snapshot
+                                            .data!.docs[index]['showBook'];
+                                        bool isShowFavourite = snapshot
+                                            .data!.docs[index]['showFavourite'];
                                         return Column(
                                           children: [
                                             SizedBox(height: 30),
@@ -866,6 +874,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         userCreatedDate,
                                                         userCreatedMonth,
                                                         userCreatedYear,
+                                                        isShowLocation,
+                                                        isShowAge,
+                                                        isShowBook,
+                                                        isShowFavourite,
                                                       ),
                                                     );
                                                   },
@@ -1059,7 +1071,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: snapshot.data!.docs.length,
+                            itemCount: snapshot.data!.docs.length - 3,
                             itemBuilder: (context, index) {
                               String bookTitle =
                                   snapshot.data!.docs[index]['title'];
@@ -1201,6 +1213,10 @@ class UserArguments {
   late final int userCreatedDate;
   late final int userCreatedMonth;
   late final int userCreatedYear;
+  late final bool isShowLocation;
+  late final bool isShowAge;
+  late final bool isShowBook;
+  late final bool isShowFavourite;
 
   UserArguments(
     this.age,
@@ -1214,5 +1230,9 @@ class UserArguments {
     this.userCreatedDate,
     this.userCreatedMonth,
     this.userCreatedYear,
+    this.isShowLocation,
+    this.isShowAge,
+    this.isShowBook,
+    this.isShowFavourite,
   );
 }

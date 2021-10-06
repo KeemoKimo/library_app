@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/HomeScreen.dart';
+import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
+
+import 'DatabaseSerivces.dart';
 
 class OtherUserInfo extends StatefulWidget {
   const OtherUserInfo({Key? key}) : super(key: key);
@@ -50,6 +53,58 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
         height: 1,
         thickness: 1,
         color: Colors.black,
+      ),
+    );
+  }
+
+  Container customCard(
+      String displayText,
+      IconData firstIcon,
+      IconData secondIcon,
+      double marginTop,
+      Color mainIconColor,
+      Color secondIconColor) {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: marginTop),
+            height: 60,
+            child: Card(
+              shadowColor: Colors.black,
+              elevation: 5,
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Icon(
+                      firstIcon,
+                      color: mainIconColor,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '$displayText',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 190),
+                    child: Icon(
+                      secondIcon,
+                      size: 15,
+                      color: secondIconColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -194,8 +249,33 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 10),
+                            child: userID.isShowLocation == true
+                                ? Text(
+                                    "User Location : ${userID.userLocation}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )
+                                : Text(
+                                    "Location Disclosed!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.calendar,
+                            color: Colors.white,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
                             child: Text(
-                              "User Location : ${userID.userLocation}",
+                              "Account Created (D/M/Y) : ${userID.userCreatedDate} / ${userID.userCreatedMonth} / ${userID.userCreatedYear}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
@@ -207,17 +287,24 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                       Row(
                         children: [
                           Icon(
-                            Icons.location_city,
+                            CupertinoIcons.person_2,
                             color: Colors.white,
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "Account Created : ${userID.userCreatedDate} / ${userID.userCreatedMonth} / ${userID.userCreatedYear}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
+                            child: userID.isShowAge == true
+                                ? Text(
+                                    "User age : ${userID.age} years old",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )
+                                : Text(
+                                    "User's age is private!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                           ),
                         ],
                       ),
@@ -295,6 +382,81 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     ],
                   ),
                 ),
+                userID.isShowBook == true
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            'otherUserBooks',
+                            arguments: UserArguments(
+                              userID.age,
+                              userID.email,
+                              userID.userPFP,
+                              userID.totalBooks,
+                              userID.userUserName,
+                              userID.userAbout,
+                              userID.userTotalFavourites,
+                              userID.userLocation,
+                              userID.userCreatedDate,
+                              userID.userCreatedMonth,
+                              userID.userCreatedYear,
+                              userID.isShowLocation,
+                              userID.isShowAge,
+                              userID.isShowBook,
+                              userID.isShowFavourite,
+                            ),
+                          );
+                          //print('${userID.email} all books!');
+                        },
+                        child: customCard(
+                            'All Books',
+                            Icons.menu_book_rounded,
+                            Icons.arrow_forward_ios_rounded,
+                            10,
+                            Colors.deepOrange,
+                            Colors.deepOrange),
+                      )
+                    : SizedBox(
+                        height: 30,
+                      ),
+                userID.isShowFavourite == true
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            'otherUserFavourites',
+                            arguments: UserArguments(
+                              userID.age,
+                              userID.email,
+                              userID.userPFP,
+                              userID.totalBooks,
+                              userID.userUserName,
+                              userID.userAbout,
+                              userID.userTotalFavourites,
+                              userID.userLocation,
+                              userID.userCreatedDate,
+                              userID.userCreatedMonth,
+                              userID.userCreatedYear,
+                              userID.isShowLocation,
+                              userID.isShowAge,
+                              userID.isShowBook,
+                              userID.isShowFavourite,
+                            ),
+                          );
+                          //print('${userID.email} favourites books!');
+                        },
+                        child: customCard(
+                            'All Favourite',
+                            CupertinoIcons.star_circle_fill,
+                            Icons.arrow_forward_ios_rounded,
+                            10,
+                            Colors.deepOrange,
+                            Colors.deepOrange),
+                      )
+                    : SizedBox(
+                        height: 30,
+                      ),
+                customDivider(),
               ],
             ),
           ),
