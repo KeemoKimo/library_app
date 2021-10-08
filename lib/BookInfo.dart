@@ -347,6 +347,31 @@ class _BookInfoState extends State<BookInfo> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            'editBook',
+            arguments: ScreenArguments(
+              bookID.bookTitle,
+              bookID.bookAuthor,
+              bookID.bookCover,
+              bookID.bookCategory,
+              bookID.bookDescription,
+              bookID.bookOwner,
+              bookID.bookLanguage,
+              bookID.bookPublishedYear,
+              bookID.bookPages,
+              bookID.bookStartDate,
+              bookID.bookEndDate,
+              bookID.isFavourite,
+              bookID.bookId,
+            ),
+          );
+        },
+        child: const Icon(Icons.edit),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }

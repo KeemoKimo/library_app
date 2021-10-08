@@ -47,6 +47,35 @@ class DatabaseServices {
     );
   }
 
+  Future editBooksData(
+      String category,
+      String title,
+      String author,
+      String numberOfPages,
+      String description,
+      String imageURL,
+      String language,
+      String publishedYear,
+      String oldTitle) async {
+    var oldBookData = booksCollection.doc(oldTitle + uid).get();
+    var data = oldBookData.asStream();
+    booksCollection.doc(title + uid).set(data);
+    booksCollection.doc(oldTitle + uid).delete();
+    // return await booksCollection.doc(title + uid).update(
+    //   {
+    //     'category': category,
+    //     'title': title,
+    //     'author': author,
+    //     'numberOfPages': numberOfPages,
+    //     'description': description,
+    //     'imageURL': imageURL,
+    //     'language': language,
+    //     'publishedYear': publishedYear,
+    //     'bookId': title + uid,
+    //   },
+    // );
+  }
+
   Future updateUserData(
       String username,
       String age,
