@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/BookInfo.dart';
 import 'package:library_app/EditBook.dart';
+import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserInfo.dart';
@@ -30,6 +31,7 @@ void main() async {
         'otherUserBooks': (context) => const OtherUserBooks(),
         'otherUserFavourites': (context) => const OtherUsersFavourites(),
         'editBook': (context) => const EditBook(),
+        'aboutUs': (context) => const AboutUs(),
       },
       theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Lato'),
     ),

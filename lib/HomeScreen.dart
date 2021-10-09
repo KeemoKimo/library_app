@@ -20,6 +20,8 @@ import 'package:library_app/main.dart';
 import 'dart:math' as math;
 import 'package:library_app/myAccount.dart';
 
+import 'InfoPages/aboutUs.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static const String id = 'HomeScreen';
@@ -363,7 +365,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               onTap: () async {
-                print('About Us');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutUs()),
+                );
               },
             ),
             // Divider(
