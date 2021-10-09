@@ -130,25 +130,30 @@ class _EditBookState extends State<EditBook> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'EDIT BOOKS',
+          'EDIT BOOK',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
-        backgroundColor: Color(0xFF06D6A0),
+        backgroundColor: Color(0xFFF7E3AF),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: Container(
-        color: Color(0xFF06D6A0),
+        color: Color(0xFFF7E3AF),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Center(
             child: Column(
               children: [
+                customDivider(),
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
@@ -156,14 +161,17 @@ class _EditBookState extends State<EditBook> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(width: 5, color: Colors.white),
+                    border: Border.all(
+                      width: 5,
+                      color: Colors.black,
+                    ),
                   ),
                   width: 300,
                   height: 500,
@@ -181,7 +189,10 @@ class _EditBookState extends State<EditBook> {
                 IconButton(
                   color: Colors.white,
                   onPressed: () => pickImage(),
-                  icon: Icon(Icons.add_a_photo),
+                  icon: Icon(
+                    Icons.add_a_photo,
+                    color: Colors.black,
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 5),
@@ -189,16 +200,20 @@ class _EditBookState extends State<EditBook> {
                   child: TextFormField(
                     controller: titleController,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
                       labelText: titleController.text == ''
                           ? bookID.bookTitle
                           : titleController.text,
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2.0,
                         ),
                       ),
@@ -226,23 +241,27 @@ class _EditBookState extends State<EditBook> {
                   child: TextFormField(
                     controller: authorController,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
                       labelText: authorController.text == ''
                           ? bookID.bookAuthor
                           : authorController.text,
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -255,22 +274,28 @@ class _EditBookState extends State<EditBook> {
                     maxLength: 5,
                     controller: numberOfPageController,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
-                      counterStyle: TextStyle(color: Colors.white),
+                      counterStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       labelText: "${bookID.bookPages} pages",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -283,22 +308,28 @@ class _EditBookState extends State<EditBook> {
                     maxLength: 10,
                     controller: publishedYearController,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
-                      counterStyle: TextStyle(color: Colors.white),
+                      counterStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       labelText: "Published ${bookID.bookPublishedYear}",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -310,21 +341,25 @@ class _EditBookState extends State<EditBook> {
                   child: TextFormField(
                     controller: languageController,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
                       labelText: "${bookID.bookLanguage}",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -338,15 +373,21 @@ class _EditBookState extends State<EditBook> {
                     controller: descriptionController,
                     maxLines: 10,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
-                      counterStyle: TextStyle(color: Colors.white),
+                      counterStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       labelText: "${bookID.bookDescription}",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2.0,
                         ),
                       ),
@@ -363,8 +404,11 @@ class _EditBookState extends State<EditBook> {
                   margin: EdgeInsets.only(top: 20),
                   width: 300,
                   child: CupertinoButton(
-                    color: Colors.yellow[700],
-                    child: Text('Edit Book !'),
+                    color: Colors.yellow[800],
+                    child: Text(
+                      'Edit Book !',
+                      style: TextStyle(color: Colors.black),
+                    ),
                     onPressed: () async {
                       await uploadImage(context);
                       print('Finished updating book data');
@@ -399,6 +443,7 @@ class _EditBookState extends State<EditBook> {
                     },
                   ),
                 ),
+                customDivider(),
               ],
             ),
           ),
