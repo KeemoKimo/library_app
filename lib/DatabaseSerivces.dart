@@ -57,23 +57,26 @@ class DatabaseServices {
       String language,
       String publishedYear,
       String oldTitle) async {
-    var oldBookData = booksCollection.doc(oldTitle + uid).get();
-    var data = oldBookData.asStream();
-    booksCollection.doc(title + uid).set(data);
-    booksCollection.doc(oldTitle + uid).delete();
-    // return await booksCollection.doc(title + uid).update(
-    //   {
-    //     'category': category,
-    //     'title': title,
-    //     'author': author,
-    //     'numberOfPages': numberOfPages,
-    //     'description': description,
-    //     'imageURL': imageURL,
-    //     'language': language,
-    //     'publishedYear': publishedYear,
-    //     'bookId': title + uid,
-    //   },
-    // );
+    var oldBookData = await booksCollection.doc(oldTitle + uid).get();
+    print('Got the data from $oldTitle $uid!');
+    await booksCollection.doc(oldTitle + uid).delete();
+    print('Deleted a document name : $oldTitle $uid!');
+    await booksCollection.doc(title + uid).set(oldBookData.data());
+    print('Made a new document name : $title $uid!');
+
+    return await booksCollection.doc(title + uid).update(
+      {
+        'category': category,
+        'title': title,
+        'author': author,
+        'numberOfPages': numberOfPages,
+        'description': description,
+        'imageURL': imageURL,
+        'language': language,
+        'publishedYear': publishedYear,
+        'bookId': title + uid,
+      },
+    );
   }
 
   Future updateUserData(

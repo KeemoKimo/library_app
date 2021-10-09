@@ -25,12 +25,7 @@ class _EditBookState extends State<EditBook> {
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
-  var titleController = TextEditingController();
-  var authorController = TextEditingController();
-  var numberOfPageController = TextEditingController();
-  var descriptionController = TextEditingController();
-  var languageController = TextEditingController();
-  var publishedYearController = TextEditingController();
+
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   bool isFavourite = false;
@@ -86,6 +81,14 @@ class _EditBookState extends State<EditBook> {
   Widget build(BuildContext context) {
     final bookID =
         ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    var titleController = TextEditingController(text: bookID.bookTitle);
+    var authorController = TextEditingController(text: bookID.bookAuthor);
+    var numberOfPageController = TextEditingController(text: bookID.bookPages);
+    var descriptionController =
+        TextEditingController(text: bookID.bookDescription);
+    var languageController = TextEditingController(text: bookID.bookLanguage);
+    var publishedYearController =
+        TextEditingController(text: bookID.bookPublishedYear);
     String currentSelectedValue = '';
     currentSelectedValue = bookID.bookCategory;
     String? imageURL = bookID.bookCover;
@@ -107,14 +110,18 @@ class _EditBookState extends State<EditBook> {
 
     Future uploadImage(BuildContext context) async {
       try {
-        var snapshot = await storage
-            .ref()
-            .child('$userEmail/$titleController.text cover')
-            .putFile(_image!);
-        String? downloadURL = await snapshot.ref.getDownloadURL();
-        setState(() {
-          imageURL = downloadURL;
-        });
+        if (_image != null) {
+          var snapshot = await storage
+              .ref()
+              .child('$userEmail/$titleController.text cover')
+              .putFile(_image!);
+          String? downloadURL = await snapshot.ref.getDownloadURL();
+          setState(() {
+            imageURL = downloadURL;
+          });
+        } else {
+          return imageURL;
+        }
       } catch (e) {
         print(e);
       }
@@ -184,7 +191,9 @@ class _EditBookState extends State<EditBook> {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      labelText: "${bookID.bookTitle}",
+                      labelText: titleController.text == ''
+                          ? bookID.bookTitle
+                          : titleController.text,
                       labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
@@ -219,7 +228,9 @@ class _EditBookState extends State<EditBook> {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      labelText: "${bookID.bookAuthor}",
+                      labelText: authorController.text == ''
+                          ? bookID.bookAuthor
+                          : authorController.text,
                       labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
@@ -233,54 +244,6 @@ class _EditBookState extends State<EditBook> {
                         borderSide: BorderSide(
                           color: Colors.white,
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'Category',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 10),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        isExpanded: true,
-                        elevation: 10,
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Color(0xFF004777),
-                        ),
-                        value: currentSelectedValue,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            currentSelectedValue = newValue!;
-                            print(currentSelectedValue);
-                          });
-                        },
-                        items: categoryItems.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(
-                              items,
-                              style: TextStyle(color: Color(0xFF004777)),
-                            ),
-                          );
-                        }).toList(),
                       ),
                     ),
                   ),
@@ -396,51 +359,46 @@ class _EditBookState extends State<EditBook> {
                     ),
                   ),
                 ),
-                //   Container(
-                //     margin: EdgeInsets.only(top: 20),
-                //     width: 300,
-                //     child: CupertinoButton(
-                //       color: Colors.yellow[700],
-                //       child: Text('Add Book !'),
-                //       onPressed: () async {
-                //         print(userEmail);
-                //         print(titleController);
-                //         await uploadImage(context);
-                //         print('Finished updating book data');
-                //         await DatabaseServices(uid: loggedInUser.uid)
-                //             .updateBooksData(
-                //           dropdownInitialValue,
-                //           titleController.text,
-                //           authorController.text,
-                //           numberOfPageController.text,
-                //           descriptionController.text,
-                //           owner!,
-                //           imageURL!,
-                //           languageController.text,
-                //           publishedYearController.text,
-                //           _startDate.toString(),
-                //           _endDate.toString(),
-                //           isFavourite,
-                //         );
-                //         print('Uploaded Image');
-                //         await showDialog(
-                //           context: context,
-                //           builder: (BuildContext context) {
-                //             return AlertDialog(
-                //               backgroundColor: Colors.lightGreen,
-                //               content: Text(
-                //                 "Book Added Succesfully!",
-                //                 style: TextStyle(
-                //                   color: Colors.white,
-                //                 ),
-                //               ),
-                //             );
-                //           },
-                //         );
-                //         Navigator.pop(context);
-                //       },
-                //     ),
-                //   ),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  width: 300,
+                  child: CupertinoButton(
+                    color: Colors.yellow[700],
+                    child: Text('Edit Book !'),
+                    onPressed: () async {
+                      await uploadImage(context);
+                      print('Finished updating book data');
+                      await DatabaseServices(uid: loggedInUser.uid)
+                          .editBooksData(
+                              currentSelectedValue,
+                              titleController.text,
+                              authorController.text,
+                              numberOfPageController.text,
+                              descriptionController.text,
+                              imageURL.toString(),
+                              languageController.text,
+                              publishedYearController.text,
+                              bookID.bookTitle);
+                      print('Uploaded Image');
+                      await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.lightGreen,
+                            content: Text(
+                              "Book Editted Succesfully!",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               ],
             ),
           ),
