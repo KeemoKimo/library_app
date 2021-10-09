@@ -132,13 +132,13 @@ class _BookInfoState extends State<BookInfo> {
                       ),
                     ],
                   ),
-                  width: 200,
-                  height: 300,
+                  width: 300,
+                  height: 450,
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     child: Image.network(
                       bookID.bookCover,
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -324,21 +324,6 @@ class _BookInfoState extends State<BookInfo> {
                         letterSpacing: 1,
                         color: Colors.white,
                         height: 1.5),
-                  ),
-                ),
-                Text(
-                  'Start Date : ${bookID.bookStartDate}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'Finished Date : ${bookID.bookEndDate}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
                 ),
                 customDivider(),

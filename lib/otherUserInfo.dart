@@ -118,13 +118,13 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
           'USER DETAILS',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.deepOrange,
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.deepOrange,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.deepOrange),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

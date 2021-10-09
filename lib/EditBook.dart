@@ -145,6 +145,69 @@ class _EditBookState extends State<EditBook> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              showCupertinoDialog<void>(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text('Delete Book'),
+                  content: Text(
+                      'Are you sure you want to edit ${bookID.bookTitle} ?'),
+                  actions: <CupertinoDialogAction>[
+                    CupertinoDialogAction(
+                      child: const Text('No'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text('Yes'),
+                      isDestructiveAction: true,
+                      onPressed: () async {
+                        await uploadImage(context);
+                        print('Finished updating book data');
+                        await DatabaseServices(uid: loggedInUser.uid)
+                            .editBooksData(
+                                currentSelectedValue,
+                                titleController.text,
+                                authorController.text,
+                                numberOfPageController.text,
+                                descriptionController.text,
+                                imageURL.toString(),
+                                languageController.text,
+                                publishedYearController.text,
+                                bookID.bookTitle);
+                        print('Uploaded Image');
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.lightGreen,
+                              content: Text(
+                                "Book Editted Succesfully!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         color: Color(0xFFF7E3AF),
@@ -398,49 +461,6 @@ class _EditBookState extends State<EditBook> {
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  width: 300,
-                  child: CupertinoButton(
-                    color: Colors.yellow[800],
-                    child: Text(
-                      'Edit Book !',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    onPressed: () async {
-                      await uploadImage(context);
-                      print('Finished updating book data');
-                      await DatabaseServices(uid: loggedInUser.uid)
-                          .editBooksData(
-                              currentSelectedValue,
-                              titleController.text,
-                              authorController.text,
-                              numberOfPageController.text,
-                              descriptionController.text,
-                              imageURL.toString(),
-                              languageController.text,
-                              publishedYearController.text,
-                              bookID.bookTitle);
-                      print('Uploaded Image');
-                      await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            backgroundColor: Colors.lightGreen,
-                            content: Text(
-                              "Book Editted Succesfully!",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
                   ),
                 ),
                 customDivider(),

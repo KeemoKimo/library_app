@@ -96,10 +96,10 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            spreadRadius: 3, // how much spread does this shadow goes
-            blurRadius: 0.2, // how blurry the shadow is
-            offset: Offset(0, 5), // changes position of shadow
+            color: Colors.black.withOpacity(0.7),
+            spreadRadius: 4, // how much spread does this shadow goes
+            blurRadius: 4, // how blurry the shadow is
+            offset: Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -147,8 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                width: 100,
-                height: 140,
+                width: 120,
+                height: 160,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
@@ -200,9 +200,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       //color: Colors.yellowAccent,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
-      elevation: 5,
+      elevation: 10,
       margin: EdgeInsets.all(10),
     );
   }
@@ -734,24 +734,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ),
                           Container(
-                            width: double.infinity,
-                            height: 50,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AllBooksPage()),
-                                );
-                              },
-                              child: Text(
-                                'See all your books!',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                            margin: EdgeInsets.only(top: 20, left: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: FittedBox(
+                                    child: FloatingActionButton(
+                                      heroTag: 'btnViewAllBooks',
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AllBooksPage()),
+                                        );
+                                      },
+                                      child: Icon(CupertinoIcons.eye_fill),
+                                      backgroundColor: Colors.blue,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'All your books!',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           customDivider(),
@@ -775,146 +791,156 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               return Container(
                                 padding: EdgeInsets.all(20),
-                                child: Card(
-                                  shadowColor: Colors.black,
-                                  elevation: 10,
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 20),
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    child: ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: snapshot.data!.docs.length <= 4
-                                          ? snapshot.data!.docs.length
-                                          : snapshot.data!.docs.length - 1,
-                                      itemBuilder: (context, index) {
-                                        String userUserName = snapshot
-                                            .data!.docs[index]['userName'];
-                                        String userPfp = snapshot
-                                            .data!.docs[index]['profileURL'];
-                                        String userEmail =
-                                            snapshot.data!.docs[index]['email'];
-                                        String userTotalBooks = snapshot
-                                            .data!.docs[index]['totalBooks'];
-                                        String userTotalFavourites = snapshot
-                                            .data!
-                                            .docs[index]['totalFavourites'];
-                                        String userAge =
-                                            snapshot.data!.docs[index]['age'];
-                                        String userAbout =
-                                            snapshot.data!.docs[index]['about'];
-                                        String userLocation = snapshot
-                                            .data!.docs[index]['location'];
-                                        int userCreatedDate = snapshot
-                                            .data!.docs[index]['createdDate'];
-                                        int userCreatedMonth = snapshot
-                                            .data!.docs[index]['createdMonth'];
-                                        int userCreatedYear = snapshot
-                                            .data!.docs[index]['createdYear'];
-                                        bool isShowLocation = snapshot
-                                            .data!.docs[index]['showLocation'];
-                                        bool isShowAge = snapshot
-                                            .data!.docs[index]['showAge'];
-                                        bool isShowBook = snapshot
-                                            .data!.docs[index]['showBook'];
-                                        bool isShowFavourite = snapshot
-                                            .data!.docs[index]['showFavourite'];
-                                        return Column(
-                                          children: [
-                                            SizedBox(height: 30),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          bottom: 20,
-                                                          right: 20),
-                                                      child: Text(
-                                                        userUserName,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 17,
-                                                            color: Colors
-                                                                .deepOrange,
-                                                            fontStyle: FontStyle
-                                                                .italic),
-                                                      ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.deepOrange,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius:
+                                            3, // how much spread does this shadow goes
+                                        blurRadius:
+                                            4, // how blurry the shadow is
+                                        offset: Offset(
+                                            0, 5), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  padding:
+                                      EdgeInsets.only(bottom: 20, right: 20),
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot.data!.docs.length <= 4
+                                        ? snapshot.data!.docs.length
+                                        : snapshot.data!.docs.length - 1,
+                                    itemBuilder: (context, index) {
+                                      String userUserName = snapshot
+                                          .data!.docs[index]['userName'];
+                                      String userPfp = snapshot
+                                          .data!.docs[index]['profileURL'];
+                                      String userEmail =
+                                          snapshot.data!.docs[index]['email'];
+                                      String userTotalBooks = snapshot
+                                          .data!.docs[index]['totalBooks'];
+                                      String userTotalFavourites = snapshot
+                                          .data!.docs[index]['totalFavourites'];
+                                      String userAge =
+                                          snapshot.data!.docs[index]['age'];
+                                      String userAbout =
+                                          snapshot.data!.docs[index]['about'];
+                                      String userLocation = snapshot
+                                          .data!.docs[index]['location'];
+                                      int userCreatedDate = snapshot
+                                          .data!.docs[index]['createdDate'];
+                                      int userCreatedMonth = snapshot
+                                          .data!.docs[index]['createdMonth'];
+                                      int userCreatedYear = snapshot
+                                          .data!.docs[index]['createdYear'];
+                                      bool isShowLocation = snapshot
+                                          .data!.docs[index]['showLocation'];
+                                      bool isShowAge =
+                                          snapshot.data!.docs[index]['showAge'];
+                                      bool isShowBook = snapshot
+                                          .data!.docs[index]['showBook'];
+                                      bool isShowFavourite = snapshot
+                                          .data!.docs[index]['showFavourite'];
+                                      return Column(
+                                        children: [
+                                          SizedBox(height: 30),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        bottom: 20, right: 20),
+                                                    child: Text(
+                                                      userUserName,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17,
+                                                          color: Colors.white,
+                                                          fontStyle:
+                                                              FontStyle.italic),
                                                     ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 20),
-                                                      child: Text(
-                                                        userEmail,
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                GestureDetector(
-                                                  key: ValueKey(
-                                                      loggedInUser.email),
-                                                  onTap: () {
-                                                    Navigator.pushNamed(
-                                                      context,
-                                                      'otherUserInfo',
-                                                      arguments: UserArguments(
-                                                        userAge,
-                                                        userEmail,
-                                                        userPfp,
-                                                        userTotalBooks,
-                                                        userUserName,
-                                                        userAbout,
-                                                        userTotalFavourites,
-                                                        userLocation,
-                                                        userCreatedDate,
-                                                        userCreatedMonth,
-                                                        userCreatedYear,
-                                                        isShowLocation,
-                                                        isShowAge,
-                                                        isShowBook,
-                                                        isShowFavourite,
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    width: 90.0,
-                                                    height: 90.0,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.deepOrange,
-                                                      image: DecorationImage(
-                                                        image: userPfp == ''
-                                                            ? NetworkImage(
-                                                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
-                                                            : NetworkImage(
-                                                                '$userPfp'),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                        Radius.circular(50.0),
-                                                      ),
-                                                      border: Border.all(
-                                                        color: Colors.red,
-                                                        width: 2.0,
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 20),
+                                                    child: Text(
+                                                      userEmail,
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.white,
                                                       ),
                                                     ),
                                                   ),
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                key: ValueKey(
+                                                    loggedInUser.email),
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    'otherUserInfo',
+                                                    arguments: UserArguments(
+                                                      userAge,
+                                                      userEmail,
+                                                      userPfp,
+                                                      userTotalBooks,
+                                                      userUserName,
+                                                      userAbout,
+                                                      userTotalFavourites,
+                                                      userLocation,
+                                                      userCreatedDate,
+                                                      userCreatedMonth,
+                                                      userCreatedYear,
+                                                      isShowLocation,
+                                                      isShowAge,
+                                                      isShowBook,
+                                                      isShowFavourite,
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 90.0,
+                                                  height: 90.0,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.deepOrange,
+                                                    image: DecorationImage(
+                                                      image: userPfp == ''
+                                                          ? NetworkImage(
+                                                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
+                                                          : NetworkImage(
+                                                              '$userPfp'),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(50.0),
+                                                    ),
+                                                    border: Border.all(
+                                                      color: Colors.white,
+                                                      width: 2.0,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               );
@@ -935,7 +961,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: double.infinity,
                             height: 300,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: Color(0xFFB03A2E),
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
@@ -1041,7 +1067,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin: EdgeInsets.only(top: 20),
                                   width: double.infinity,
                                   height: 50,
-                                  child: ElevatedButton(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFF1DEDE),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: TextButton(
                                     onPressed: () {
                                       Navigator.push(
                                         context,
@@ -1055,6 +1085,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
@@ -1139,25 +1170,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ),
                           Container(
-                            width: double.infinity,
-                            height: 50,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          AllFavouritesPage()),
-                                );
-                              },
-                              child: Text(
-                                'See all your favourites!',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                            margin: EdgeInsets.only(top: 20, right: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text(
+                                    'All your Favourites!',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: FittedBox(
+                                    child: FloatingActionButton(
+                                      heroTag: 'btnFavourite',
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AllFavouritesPage()),
+                                        );
+                                      },
+                                      child: Icon(CupertinoIcons.heart_fill),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           customDivider(),
