@@ -26,6 +26,58 @@ class AboutUs extends StatefulWidget {
   _AboutUsState createState() => _AboutUsState();
 }
 
+Container customDivider(Color color) {
+  return Container(
+    padding: EdgeInsets.all(20),
+    child: Divider(
+      height: 1,
+      thickness: 1,
+      color: color,
+    ),
+  );
+}
+
+Container rowItem(String imagePath, String firstLineText, String description) {
+  return Container(
+    color: Colors.green,
+    child: Column(
+      children: [
+        Container(
+          width: 300,
+          height: 300,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('$imagePath'), fit: BoxFit.cover),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 20),
+          child: Text(
+            '$firstLineText',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+            color: Colors.blue,
+            width: 300,
+            margin: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.all(10),
+            child: Text(
+              description,
+              style: TextStyle(wordSpacing: 2, fontSize: 15),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
@@ -34,6 +86,7 @@ class _AboutUsState extends State<AboutUs> {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.white,
+        fontFamily: 'Lato',
       ),
       home: Scaffold(
         body: SafeArea(
@@ -51,6 +104,30 @@ class _AboutUsState extends State<AboutUs> {
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
+                  ),
+                  customDivider(Colors.white),
+                  Text(
+                    'Get to know us',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(left: 20),
+                    width: double.infinity,
+                    height: 550,
+                    color: Colors.red,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          rowItem('assets/images/dev.png', 'Development',
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam')
+                        ],
                       ),
                     ),
                   ),

@@ -42,6 +42,9 @@ flutter:
     - assets/images/plato_philosopher.jpg
     - assets/images/sci_fi.jpg
     - assets/images/bookBack.jpg
+    - assets/images/dev.png
+    - assets/images/partnership.png
+    - assets/images/leaderShip.png
   fonts:
     - family: Lato
       fonts:

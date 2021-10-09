@@ -586,7 +586,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ],
                                 ),
-
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Container(
