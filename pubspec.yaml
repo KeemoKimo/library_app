@@ -41,6 +41,7 @@ flutter:
     - assets/images/napoleon_historical.jpg
     - assets/images/plato_philosopher.jpg
     - assets/images/sci_fi.jpg
+    - assets/images/bookBack.jpg
   fonts:
     - family: Lato
       fonts:

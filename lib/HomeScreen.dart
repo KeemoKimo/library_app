@@ -219,13 +219,21 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
                 image: DecorationImage(
-                  image: AssetImage('assets/images/sask.jpg'),
+                  image: AssetImage('assets/images/bookBack.jpg'),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 3, // how much spread does this shadow goes
+                    blurRadius: 3, // how blurry the shadow is
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
               ),
               child: Center(
                   child: Column(
@@ -238,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           '${loggedInUser.email}',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 23,
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
                               ..strokeWidth = 6
@@ -249,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           '${loggedInUser.email}',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 23,
                           ),
                         ),
                       ],
@@ -259,8 +267,13 @@ class _HomeScreenState extends State<HomeScreen> {
               )),
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: const Text('My Account'),
+              leading:
+                  Icon(CupertinoIcons.person_fill, color: Colors.green[800]),
+              title: const Text(
+                'My Account',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
               onTap: () async {
                 Navigator.push(
                   context,
@@ -269,50 +282,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.book),
-              title: const Text('All My Books'),
-              onTap: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AllBooksPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: const Text('Favourites'),
-              onTap: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AllFavouritesPage()),
-                );
-              },
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.black,
-            ),
-            ListTile(
-              leading: Icon(Icons.help),
-              title: const Text('Help'),
-              onTap: () async {
-                print('Help Pressed');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: const Text(
-                'About Us',
+              leading: Icon(
+                CupertinoIcons.add_circled_solid,
+                color: Color(0xFF0CCE6B),
               ),
-              onTap: () async {
-                print('About Us');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add),
               title: const Text(
                 'Add Books',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
               onTap: () async {
                 Navigator.push(
@@ -327,9 +303,81 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.black,
             ),
             ListTile(
-              leading: Icon(Icons.logout_outlined),
+              leading: Icon(
+                CupertinoIcons.book_fill,
+                color: Colors.deepOrange,
+              ),
+              title: const Text(
+                'All My Books',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllBooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(CupertinoIcons.heart_fill, color: Colors.red),
+              title: const Text(
+                'My Favourites',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllFavouritesPage()),
+                );
+              },
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+              color: Colors.black,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.help,
+                color: Colors.yellow[800],
+              ),
+              title: const Text(
+                'Help',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              onTap: () async {
+                print('Help Pressed');
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.info,
+                color: Color(0xFFA50104),
+              ),
+              title: const Text(
+                'About Us',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              onTap: () async {
+                print('About Us');
+              },
+            ),
+            // Divider(
+            //   height: 1,
+            //   thickness: 1,
+            //   color: Colors.black,
+            // ),
+            ListTile(
+              tileColor: Colors.red,
+              leading: Icon(Icons.logout_outlined, color: Colors.white),
               title: const Text(
                 'Log Out',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               onTap: () async {
                 showCupertinoDialog(

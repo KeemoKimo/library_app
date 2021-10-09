@@ -155,7 +155,7 @@ class _EditBookState extends State<EditBook> {
               showCupertinoDialog<void>(
                 context: context,
                 builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text('Delete Book'),
+                  title: Text('EDIT Book'),
                   content: Text(
                       'Are you sure you want to edit ${bookID.bookTitle} ?'),
                   actions: <CupertinoDialogAction>[
