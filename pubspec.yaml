@@ -20,6 +20,7 @@ dependencies:
   permission_handler: ^8.1.4+2
   animated_text_kit: ^4.2.1
   country_picker: ^2.0.8
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,7 @@ flutter:
     - assets/images/norway.png
     - assets/images/denmark.png
     - assets/images/canada.png
+    - assets/images/sending.png
   fonts:
     - family: Lato
       fonts:
