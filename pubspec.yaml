@@ -45,6 +45,19 @@ flutter:
     - assets/images/dev.png
     - assets/images/partnership.png
     - assets/images/leaderShip.png
+    - assets/images/team.png
+    - assets/images/vision.png
+    - assets/images/service.png
+    - assets/images/CEO.png
+    - assets/images/Co-Founder.png
+    - assets/images/manager.png
+    - assets/images/developer.png
+    - assets/images/developer2.png
+    - assets/images/germany.png
+    - assets/images/greece.png
+    - assets/images/norway.png
+    - assets/images/denmark.png
+    - assets/images/canada.png
   fonts:
     - family: Lato
       fonts:
