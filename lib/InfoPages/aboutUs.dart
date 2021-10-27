@@ -272,6 +272,17 @@ class _AboutUsState extends State<AboutUs> {
                       ],
                     ),
                   ),
+                  customDivider(Colors.white),
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    child: Text(
+                      "Copyright © - Bunthong / 2021",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
                 ],
               ),
             ),
