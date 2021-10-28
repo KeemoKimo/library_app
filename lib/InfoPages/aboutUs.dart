@@ -1,24 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:library_app/InfoPages/allBooks.dart';
-import 'package:library_app/InfoPages/all_favourites.dart';
-import 'package:library_app/addBook.dart';
-import 'package:library_app/categoryPages/biography.dart';
-import 'package:library_app/categoryPages/comic.dart';
-import 'package:library_app/categoryPages/design.dart';
-import 'package:library_app/categoryPages/fiction.dart';
-import 'package:library_app/categoryPages/historical.dart';
-import 'package:library_app/categoryPages/non_fiction.dart';
-import 'package:library_app/categoryPages/philosophy.dart';
-import 'package:library_app/categoryPages/sci_fi.dart';
-import 'package:library_app/main.dart';
 import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 
@@ -33,6 +16,7 @@ var nameController = TextEditingController();
 var emailController = TextEditingController();
 var subjectController = TextEditingController();
 var messageController = TextEditingController();
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 Future sendEmail({
   required String name,
@@ -66,6 +50,10 @@ Future sendEmail({
       ),
     );
     print('Email sent');
+    nameController.text = '';
+    emailController.text = '';
+    subjectController.text = '';
+    messageController.text = '';
   } catch (e) {
     print(e);
   }
@@ -205,6 +193,7 @@ class _AboutUsState extends State<AboutUs> {
         fontFamily: 'Lato',
       ),
       home: Scaffold(
+        key: _scaffoldKey,
         body: SafeArea(
           child: Container(
             child: SingleChildScrollView(
@@ -457,7 +446,7 @@ class _AboutUsState extends State<AboutUs> {
                           height: 50,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Colors.black,
+                            color: Color(0xFF222f3e),
                           ),
                           child: TextButton(
                             onPressed: () {
@@ -467,6 +456,45 @@ class _AboutUsState extends State<AboutUs> {
                                 subject: subjectController.text,
                                 message: messageController.text,
                               );
+                              //print('start');
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Color(0xFF222f3e),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Email is sent!",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Text(
+                                          "We will reply to you soon!",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Image(
+                                          image: AssetImage(
+                                              'assets/images/wink.png'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                              //print('stop');
                             },
                             child: Row(
                               children: [

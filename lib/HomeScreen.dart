@@ -342,20 +342,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(
-                Icons.help,
-                color: Colors.yellow[800],
-              ),
-              title: const Text(
-                'Help',
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-              onTap: () async {
-                print('Help Pressed');
-              },
-            ),
-            ListTile(
-              leading: Icon(
                 Icons.info,
                 color: Color(0xFFA50104),
               ),
@@ -365,9 +351,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               onTap: () async {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(builder: (context) => AboutUs()),
+                  'aboutUs',
                 );
               },
             ),

@@ -60,6 +60,7 @@ flutter:
     - assets/images/denmark.png
     - assets/images/canada.png
     - assets/images/sending.png
+    - assets/images/wink.png
   fonts:
     - family: Lato
       fonts:
