@@ -61,6 +61,11 @@ flutter:
     - assets/images/canada.png
     - assets/images/sending.png
     - assets/images/wink.png
+    - assets/images/confirm.png
+    - assets/images/location.png
+    - assets/images/age.png
+    - assets/images/booksIcon.png
+    - assets/images/heart.png
   fonts:
     - family: Lato
       fonts:

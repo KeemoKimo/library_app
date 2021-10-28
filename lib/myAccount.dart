@@ -687,6 +687,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                         child: Container(
                                           padding: EdgeInsets.all(20),
                                           child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Align(
                                                 alignment: Alignment.centerLeft,
@@ -874,11 +875,28 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                       ),
                                                     );
                                                   },
-                                                  child: Text(
-                                                    "CONFIRM CHANGE",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 70,
+                                                            right: 20),
+                                                        child: Text(
+                                                          "CHANGE",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15),
+                                                        ),
+                                                      ),
+                                                      Image(
+                                                        image: AssetImage(
+                                                            'assets/images/confirm.png'),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
@@ -937,7 +955,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
                         margin: EdgeInsets.only(
-                            left: 70, right: 70, bottom: 20, top: 20),
+                            left: 20, right: 20, bottom: 20, top: 20),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -956,12 +974,20 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  Icons.privacy_tip,
-                                  color: Colors.purple,
+                                Container(
+                                  margin: EdgeInsets.only(left: 40),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          'assets/images/location.png'),
+                                    ),
+                                  ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: 10),
+                                  margin: EdgeInsets.only(left: 30),
                                   child: Text(
                                     'Show Location : ',
                                     style:
@@ -1005,7 +1031,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
                         margin:
-                            EdgeInsets.only(left: 70, right: 70, bottom: 20),
+                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -1024,12 +1050,20 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  Icons.person,
-                                  color: Colors.purple,
+                                Container(
+                                  margin: EdgeInsets.only(left: 40),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                          AssetImage('assets/images/age.png'),
+                                    ),
+                                  ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: 10),
+                                  margin: EdgeInsets.only(left: 30),
                                   child: Text(
                                     'Show Age : ',
                                     style:
@@ -1074,7 +1108,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
                         margin:
-                            EdgeInsets.only(left: 70, right: 70, bottom: 20),
+                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -1093,12 +1127,20 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  Icons.book,
-                                  color: Colors.purple,
+                                Container(
+                                  margin: EdgeInsets.only(left: 40),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          'assets/images/booksIcon.png'),
+                                    ),
+                                  ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: 10),
+                                  margin: EdgeInsets.only(left: 25),
                                   child: Text(
                                     'Show your books : ',
                                     style:
@@ -1143,7 +1185,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
                         margin:
-                            EdgeInsets.only(left: 70, right: 70, bottom: 20),
+                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -1162,12 +1204,20 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  Icons.book,
-                                  color: Colors.purple,
+                                Container(
+                                  margin: EdgeInsets.only(left: 40),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                          AssetImage('assets/images/heart.png'),
+                                    ),
+                                  ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: 10),
+                                  margin: EdgeInsets.only(left: 30),
                                   child: Text(
                                     'Show Favourites : ',
                                     style:
