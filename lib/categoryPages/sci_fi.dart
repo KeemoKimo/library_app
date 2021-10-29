@@ -216,7 +216,7 @@ class _SciFiPageState extends State<SciFiPage> {
                       customDivider(Colors.white),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFF2F0601),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

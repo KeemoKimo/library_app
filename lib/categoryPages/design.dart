@@ -149,9 +149,9 @@ class _DesignPageState extends State<DesignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF484D6D),
+      backgroundColor: Color(0xFF0D2C54),
       body: Container(
-        color: Color(0xFF484D6D),
+        color: Color(0xFF0D2C54),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -216,7 +216,7 @@ class _DesignPageState extends State<DesignPage> {
                       customDivider(Colors.white),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFF0D2C54),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

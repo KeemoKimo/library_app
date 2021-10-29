@@ -133,19 +133,20 @@ class _AllBooksPageState extends State<AllBooksPage> {
   Widget build(BuildContext context) {
     countBooks();
     return Scaffold(
+      backgroundColor: Color(0xFFB03A2E),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFB03A2E),
         title: Text(
           'All Your Books',
           style: TextStyle(
-            color: Color(0xff2E4ECC),
+            color: Colors.white,
           ),
         ),
         elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Color(0xff2E4ECC),
+            color: Colors.white,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -153,7 +154,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
           IconButton(
             icon: Icon(
               Icons.info,
-              color: Color(0xff2E4ECC),
+              color: Colors.white,
             ),
             onPressed: () {
               showCupertinoDialog<void>(
@@ -177,7 +178,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
         ],
       ),
       body: Container(
-        color: Colors.white,
+        color: Color(0xFFB03A2E),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(

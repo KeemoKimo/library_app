@@ -207,10 +207,10 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
                           ),
                         ),
                       ),
-                      customDivider(Colors.white),
+                      customDivider(Colors.black),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFFFCD581),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

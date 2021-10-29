@@ -216,7 +216,7 @@ class _BiographyPageState extends State<BiographyPage> {
                       customDivider(Colors.white),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFF484D6D),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

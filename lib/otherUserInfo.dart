@@ -52,7 +52,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
       child: Divider(
         height: 1,
         thickness: 1,
-        color: Colors.black,
+        color: Colors.white,
       ),
     );
   }
@@ -113,6 +113,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
   Widget build(BuildContext context) {
     final userID = ModalRoute.of(context)!.settings.arguments as UserArguments;
     return Scaffold(
+      backgroundColor: Color(0xFF331832),
       appBar: AppBar(
         title: Text(
           'USER DETAILS',
@@ -121,7 +122,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Color(0xFF331832),
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -146,8 +147,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                             height: 400,
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              border: Border.all(
-                                  color: Colors.deepOrange, width: 5),
+                              border: Border.all(color: Colors.white, width: 5),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: userID.userPFP == ''
@@ -167,7 +167,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     height: 150,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(width: 3, color: Colors.black),
+                      border: Border.all(width: 3, color: Colors.white),
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: userID.userPFP == ''
@@ -184,7 +184,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     userID.userUserName,
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -195,7 +195,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     userID.email,
                     style: TextStyle(
                         fontSize: 15,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontStyle: FontStyle.italic),
                   ),
                 ),
@@ -207,8 +207,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     child: Text(
                       'More About ${userID.userUserName}',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),
                 ),
@@ -218,11 +217,11 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                   margin:
                       EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
                   decoration: BoxDecoration(
-                    color: Colors.deepOrange,
+                    color: Color(0xFF331832),
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.white.withOpacity(0.5),
                         spreadRadius:
                             3, // how much spread does this shadow goes
                         blurRadius: 4, // how blurry the shadow is
@@ -319,6 +318,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                       'Statistics',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -328,11 +328,11 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                   padding: EdgeInsets.all(20),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.deepOrange,
+                    color: Color(0xFF331832),
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.white.withOpacity(0.5),
                         spreadRadius:
                             3, // how much spread does this shadow goes
                         blurRadius: 4, // how blurry the shadow is
@@ -409,12 +409,13 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                           //print('${userID.email} all books!');
                         },
                         child: customCard(
-                            'All Books',
-                            Icons.menu_book_rounded,
-                            Icons.arrow_forward_ios_rounded,
-                            10,
-                            Colors.deepOrange,
-                            Colors.deepOrange),
+                          'All Books',
+                          Icons.menu_book_rounded,
+                          Icons.arrow_forward_ios_rounded,
+                          10,
+                          Color(0xFF331832),
+                          Color(0xFF331832),
+                        ),
                       )
                     : SizedBox(
                         height: 30,
@@ -446,12 +447,13 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                           //print('${userID.email} favourites books!');
                         },
                         child: customCard(
-                            'All Favourite',
-                            CupertinoIcons.star_circle_fill,
-                            Icons.arrow_forward_ios_rounded,
-                            10,
-                            Colors.deepOrange,
-                            Colors.deepOrange),
+                          'All Favourite',
+                          CupertinoIcons.star_circle_fill,
+                          Icons.arrow_forward_ios_rounded,
+                          10,
+                          Color(0xFF331832),
+                          Color(0xFF331832),
+                        ),
                       )
                     : SizedBox(
                         height: 30,

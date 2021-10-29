@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      elevation: 10,
+      elevation: 15,
       margin: EdgeInsets.all(10),
     );
   }
@@ -821,6 +821,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
+                              color: Color(0xFF331832),
                             ),
                           ),
                           StreamBuilder<QuerySnapshot>(
@@ -838,7 +839,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: EdgeInsets.all(20),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.deepOrange,
+                                    color: Color(0xFF331832),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10.0),
                                     ),
@@ -997,6 +998,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
+                              color: Colors.red,
                             ),
                           ),
                           ListView.builder(
@@ -1067,41 +1069,60 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                             },
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 20, right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    'All your Favourites!',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AllFavouritesPage()),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(
+                                top: 20,
+                                right: 20,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(15),
+                                  bottomRight: Radius.circular(15),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  child: FittedBox(
-                                    child: FloatingActionButton(
-                                      heroTag: 'btnFavourite',
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AllFavouritesPage()),
-                                        );
-                                      },
-                                      child: Icon(CupertinoIcons.heart_fill),
-                                      backgroundColor: Colors.red,
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(left: 20, right: 20),
+                                    child: Text(
+                                      'See all your favourites!',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    child: Icon(
+                                      Icons.favorite,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           customDivider(),

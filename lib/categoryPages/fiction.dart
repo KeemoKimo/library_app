@@ -209,10 +209,10 @@ class _fictionPageState extends State<fictionPage> {
                           ),
                         ),
                       ),
-                      customDivider(Colors.white),
+                      customDivider(Colors.black),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFF71A7B7),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

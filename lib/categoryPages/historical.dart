@@ -210,7 +210,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
                       customDivider(Colors.black),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFFFCF5C7),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

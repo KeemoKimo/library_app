@@ -216,7 +216,7 @@ class _ComicPageState extends State<ComicPage> {
                       customDivider(Colors.white),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFFF05365),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

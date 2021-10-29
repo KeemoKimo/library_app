@@ -183,7 +183,7 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
                         width: double.infinity,
                         height: 300,
                         decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Color(0xFF203FB4),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(15),
                             bottomRight: Radius.circular(15),
@@ -220,7 +220,7 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
                       customDivider(Colors.white),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xFF203FB4),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),
