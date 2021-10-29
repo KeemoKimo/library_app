@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
   String? totalBooks = '';
+  bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -169,14 +170,14 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: "Enter Email...",
                               labelStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                                borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
                                   color: Colors.white,
                                   width: 2.0,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
+                                borderRadius: BorderRadius.circular(15.0),
                                 borderSide: BorderSide(
                                   color: Colors.white,
                                 ),
@@ -207,24 +208,24 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         Container(
-                          width: 340,
+                          width: 290,
                           margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 10, right: 20),
+                          padding: EdgeInsets.only(left: 10, right: 10),
                           child: TextFormField(
                             style: TextStyle(color: Colors.white),
-                            obscureText: true,
+                            obscureText: isObscure,
                             decoration: InputDecoration(
                               labelText: "Enter Password...",
                               labelStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                                borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
                                   color: Colors.white,
                                   width: 2.0,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
+                                borderRadius: BorderRadius.circular(15.0),
                                 borderSide: BorderSide(
                                   color: Colors.blue,
                                 ),
@@ -239,6 +240,26 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               return null;
                             },
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (isObscure == true) {
+                                isObscure = false;
+                              } else {
+                                isObscure = true;
+                              }
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20),
+                            width: 30,
+                            height: 30,
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/images/eye.png'),
+                            ),
                           ),
                         ),
                       ],
@@ -278,7 +299,12 @@ class _LoginPageState extends State<LoginPage> {
                           if (_formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text('Sign In succesful!')),
+                                backgroundColor: Colors.green,
+                                content: Text(
+                                  'Sign In succesful!',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
                             );
                           }
                           try {
@@ -394,7 +420,12 @@ class _LoginPageState extends State<LoginPage> {
                               if (_formKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text('Registered Succesful!')),
+                                    backgroundColor: Colors.green,
+                                    content: Text(
+                                      'User has been created!',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
                                 );
                               }
                               try {
