@@ -66,6 +66,10 @@ flutter:
     - assets/images/age.png
     - assets/images/booksIcon.png
     - assets/images/heart.png
+    - assets/images/email-2.png
+    - assets/images/password.png
+    - assets/images/login.png
+    - assets/images/error.png
   fonts:
     - family: Lato
       fonts:
