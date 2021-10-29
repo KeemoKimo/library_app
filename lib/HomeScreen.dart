@@ -96,14 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.7),
-            spreadRadius: 4, // how much spread does this shadow goes
-            blurRadius: 4, // how blurry the shadow is
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
       ),
       child: Column(
         children: [
@@ -428,9 +420,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (!snapshot.hasData) {
                       return Center(
                         child: Container(
-                            color: Colors.red,
+                            margin: EdgeInsets.only(top: 500),
                             child: CircularProgressIndicator(
-                              color: Colors.white,
+                              color: Colors.blue,
                             )),
                       );
                     }
@@ -702,6 +694,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
+                              color: Color(0xFFB03A2E),
                             ),
                           ),
                           ListView.builder(
@@ -771,41 +764,55 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                             },
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 20, left: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  child: FittedBox(
-                                    child: FloatingActionButton(
-                                      heroTag: 'btnViewAllBooks',
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AllBooksPage()),
-                                        );
-                                      },
-                                      child: Icon(CupertinoIcons.eye_fill),
-                                      backgroundColor: Colors.blue,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AllBooksPage()),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(top: 20, left: 20),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFB03A2E),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  bottomLeft: Radius.circular(15),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    child: Image(
+                                      image: AssetImage(
+                                          'assets/images/allBooks.png'),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    'All your books!',
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 20,
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      'View all your books!',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           customDivider(),
@@ -983,153 +990,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
-                          ),
-                          customDivider(),
-                          Text(
-                            'Analytics 📈',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 20, left: 20, right: 20),
-                            padding: EdgeInsets.all(20),
-                            width: double.infinity,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFB03A2E),
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius:
-                                      3, // how much spread does this shadow goes
-                                  blurRadius: 4, // how blurry the shadow is
-                                  offset: Offset(
-                                      0, 5), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.email,
-                                      color: Colors.white,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        "Email : ${loggedInUser.email}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_view_day,
-                                        color: Colors.white,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Joined Date : $createdDateDate / $createdDateMonth / $createdDateYear",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.last_page,
-                                        color: Colors.white,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Last Signed In : $lastSignInHour H $lastSignInMinute m - $lastSignInDate / $lastSignInMonth / $lastSignInYear",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.explicit,
-                                        color: Colors.white,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Your profile UID ( Do NOT share! ): ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 10, top: 10),
-                                  child: Text(
-                                    "$userUID",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.zero,
-                                  margin: EdgeInsets.only(top: 20),
-                                  width: double.infinity,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFF1DEDE),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MyAccountPage()),
-                                      );
-                                    },
-                                    child: Text(
-                                      'See full analytics!',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                           customDivider(),
                           Text(
