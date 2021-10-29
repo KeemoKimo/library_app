@@ -107,11 +107,12 @@ class _addBookPageState extends State<addBookPage> {
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF004777),
+        backgroundColor: Color(0xFFB03A2E),
         title: Text(
           'Add a new Book',
           style: TextStyle(
             color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
@@ -163,7 +164,7 @@ class _addBookPageState extends State<addBookPage> {
         ],
       ),
       body: Container(
-        color: Color(0xFF004777),
+        color: Color(0xFFB03A2E),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Center(
@@ -172,12 +173,11 @@ class _addBookPageState extends State<addBookPage> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(top: 50),
                     child: Text(
                       'Please Choose a book Cover',
                       style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
@@ -185,7 +185,7 @@ class _addBookPageState extends State<addBookPage> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(width: 5, color: Colors.white),
+                      border: Border.all(width: 5, color: Colors.black),
                     ),
                     width: 300,
                     height: 500,
@@ -216,14 +216,14 @@ class _addBookPageState extends State<addBookPage> {
                         labelText: "Enter Book title...",
                         labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -251,14 +251,14 @@ class _addBookPageState extends State<addBookPage> {
                         labelText: "Enter the Author's name...",
                         labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -278,13 +278,16 @@ class _addBookPageState extends State<addBookPage> {
                     ),
                   ),
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: Colors.black),
+                    ),
                     width: double.infinity,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                     child: InputDecorator(
                       decoration: InputDecoration(
                         fillColor: Colors.white,
-                        contentPadding: EdgeInsets.only(left: 10),
+                        contentPadding: EdgeInsets.only(left: 10, right: 10),
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
@@ -292,7 +295,7 @@ class _addBookPageState extends State<addBookPage> {
                           elevation: 10,
                           icon: Icon(
                             Icons.arrow_drop_down,
-                            color: Color(0xFF004777),
+                            color: Color(0xFFB03A2E),
                           ),
                           value: dropdownInitialValue,
                           items: categoryItems.map((String items) {
@@ -300,7 +303,10 @@ class _addBookPageState extends State<addBookPage> {
                               value: items,
                               child: Text(
                                 items,
-                                style: TextStyle(color: Color(0xFF004777)),
+                                style: TextStyle(
+                                  color: Color(0xFFB03A2E),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             );
                           }).toList(),
@@ -326,17 +332,26 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 20, right: 20),
-                    height: 50,
-                    child: CupertinoDatePicker(
-                      backgroundColor: Colors.white,
-                      use24hFormat: true,
-                      initialDateTime: _startDate,
-                      mode: CupertinoDatePickerMode.dateAndTime,
-                      onDateTimeChanged: (dateTime) {
-                        setState(() {
-                          _startDate = dateTime;
-                        });
-                      },
+                    height: 100,
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        backgroundColor: Color(0xFFB03A2E),
+                        use24hFormat: true,
+                        initialDateTime: _startDate,
+                        mode: CupertinoDatePickerMode.dateAndTime,
+                        onDateTimeChanged: (dateTime) {
+                          setState(() {
+                            _startDate = dateTime;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   Container(
@@ -351,18 +366,27 @@ class _addBookPageState extends State<addBookPage> {
                     ),
                   ),
                   Container(
-                    color: Colors.white,
-                    height: 50,
+                    height: 100,
                     margin: EdgeInsets.only(left: 20, right: 20),
-                    child: CupertinoDatePicker(
-                      use24hFormat: true,
-                      initialDateTime: _endDate,
-                      mode: CupertinoDatePickerMode.dateAndTime,
-                      onDateTimeChanged: (dateTime) {
-                        setState(() {
-                          _endDate = dateTime;
-                        });
-                      },
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        backgroundColor: Color(0xFFB03A2E),
+                        use24hFormat: true,
+                        initialDateTime: _endDate,
+                        mode: CupertinoDatePickerMode.dateAndTime,
+                        onDateTimeChanged: (dateTime) {
+                          setState(() {
+                            _endDate = dateTime;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   Container(
@@ -378,14 +402,14 @@ class _addBookPageState extends State<addBookPage> {
                         labelText: "Enter the number of pages...",
                         labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -406,14 +430,14 @@ class _addBookPageState extends State<addBookPage> {
                         labelText: "Enter the year the book is published",
                         labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -432,14 +456,14 @@ class _addBookPageState extends State<addBookPage> {
                         labelText: "Enter the book language",
                         labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -461,14 +485,14 @@ class _addBookPageState extends State<addBookPage> {
                         labelText: "Write a brief description...",
                         labelStyle: TextStyle(color: Colors.white),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -479,45 +503,162 @@ class _addBookPageState extends State<addBookPage> {
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     width: 300,
-                    child: CupertinoButton(
-                      color: Colors.yellow[700],
-                      child: Text('Add Book !'),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      child: Text(
+                        'Add Book !',
+                        style: TextStyle(
+                          color: Color(0xFFB03A2E),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                      ),
                       onPressed: () async {
-                        print(userEmail);
-                        print(titleController);
-                        await uploadImage(context);
-                        print('Finished updating book data');
-                        await DatabaseServices(uid: loggedInUser.uid)
-                            .updateBooksData(
-                          dropdownInitialValue,
-                          titleController.text,
-                          authorController.text,
-                          numberOfPageController.text,
-                          descriptionController.text,
-                          owner!,
-                          imageURL!,
-                          languageController.text,
-                          publishedYearController.text,
-                          _startDate.toString(),
-                          _endDate.toString(),
-                          isFavourite,
-                        );
-                        print('Uploaded Image');
-                        await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.lightGreen,
-                              content: Text(
-                                "Book Added Succesfully!",
-                                style: TextStyle(
-                                  color: Colors.white,
+                        try {
+                          await uploadImage(context);
+                          print('Finished updating book data');
+                          await DatabaseServices(uid: loggedInUser.uid)
+                              .updateBooksData(
+                            dropdownInitialValue,
+                            titleController.text,
+                            authorController.text,
+                            numberOfPageController.text,
+                            descriptionController.text,
+                            owner!,
+                            imageURL!,
+                            languageController.text,
+                            publishedYearController.text,
+                            _startDate.toString(),
+                            _endDate.toString(),
+                            isFavourite,
+                          );
+                          print('Uploaded Image');
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/success.png'),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        "ADDED",
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          left: 20, right: 20, top: 20),
+                                      child: Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 20, left: 20, right: 20),
+                                      child: Text(
+                                        'Your book has been added into our database successfully. You can delete it or edit it later!',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.all(20),
+                                      child: Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        color: Colors.green,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                        Navigator.pop(context);
+                              );
+                            },
+                          );
+                          Navigator.pop(context);
+                        } catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/error.png'),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        "ERROR",
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          left: 20, right: 20, top: 20),
+                                      child: Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 20, left: 20, right: 20),
+                                      child: Text(
+                                        'Please check your input data again!!!',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.all(20),
+                                      child: Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   ),

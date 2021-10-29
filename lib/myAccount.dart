@@ -196,6 +196,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
         backgroundColor: Colors.purple,
         title: Text(
           'MY ACCOUNT',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Container(
@@ -256,8 +259,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   height: 400,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                        color: Colors.purple, width: 5),
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: profileURL == ''
@@ -1280,12 +1281,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           );
                         },
                         child: customCard(
-                            'My Books',
-                            Icons.menu_book_rounded,
-                            Icons.arrow_forward_ios_rounded,
-                            10,
-                            Colors.purple,
-                            Colors.purple),
+                          'My Books',
+                          Icons.menu_book_rounded,
+                          Icons.arrow_forward_ios_rounded,
+                          10,
+                          Color(0xFFB03A2E),
+                          Color(0xFFB03A2E),
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -1300,8 +1302,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             Icons.favorite,
                             Icons.arrow_forward_ios_rounded,
                             0,
-                            Colors.purple,
-                            Colors.purple),
+                            Colors.red,
+                            Colors.red),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,

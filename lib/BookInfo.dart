@@ -102,6 +102,7 @@ class _BookInfoState extends State<BookInfo> {
                             .doc(bookID.bookTitle + loggedInUser.uid)
                             .delete();
                         Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                     )
                   ],
