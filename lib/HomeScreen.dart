@@ -18,8 +18,6 @@ import 'package:library_app/categoryPages/philosophy.dart';
 import 'package:library_app/categoryPages/sci_fi.dart';
 import 'dart:math' as math;
 import 'package:library_app/myAccount.dart';
-import 'InfoPages/aboutUs.dart';
-import 'main.dart';
 import 'main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,7 +27,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
@@ -54,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // late List<Widget> bookCovers = [];
   // late List<Widget> bookAuthors = [];
 
+//! FUNCTION WHEN THE SCREEN IS FIRED
   @override
   void initState() {
     super.initState();
@@ -64,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+//! FUNCTION FOR GETTING THE LOGGED IN USER
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+//! FUNCTION TO MAKE A DIVIER
   Container customDivider() {
     return Container(
       padding: EdgeInsets.all(20),
@@ -88,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+//! FUNCTION FOR MAKING A CUSTOM CATEGORY CONTAINER
   Container customSmallContainer(String imagePath, String description) {
     return Container(
       margin: EdgeInsets.only(right: 20, left: 20),
@@ -201,8 +203,24 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+//! GIVING ANIMATION (SLIDING)
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  )..repeat(reverse: true).timeout(Duration(seconds: 2 * 10), onTimeout: () {
+      _controller.forward(from: 0);
+      _controller.stop(canceled: true);
+    });
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(1.5, 0.0),
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.elasticIn,
+  ));
   @override
   Widget build(BuildContext context) {
+    //! DRAWER (THE THING THAT SLIDES FROM THE LEFT SIDE)
     var drawer2 = Drawer(
       child: MediaQuery.removePadding(
         removeTop: true,
@@ -405,6 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
+    //! MAIN SCREEN
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -469,15 +488,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       physics: ScrollPhysics(),
                       child: Column(
                         children: <Widget>[
-                          //Container with categories
+                          //! CONTAINER FOR CATEGORIES
                           Container(
                             width: double.infinity,
                             height: 400,
                             decoration: BoxDecoration(
-                              color: Color(
-                                      (math.Random().nextDouble() * 0xFFFFFF)
-                                          .toInt())
-                                  .withOpacity(1.0),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Color(0xFF614385),
+                                  Color(0xFF516395),
+                                ],
+                              ),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20),
@@ -493,169 +516,97 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(
-                                          left: 20, top: 100, bottom: 30),
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: SizedBox(
-                                        width: 250.0,
-                                        child: DefaultTextStyle(
-                                          style: const TextStyle(
-                                            fontSize: 30.0,
-                                            fontFamily: 'Lato',
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          child: AnimatedTextKit(
-                                            totalRepeatCount: 5,
-                                            animatedTexts: [
-                                              TypewriterAnimatedText(
-                                                'CATEGORY ⚡️',
-                                              ),
-                                            ],
-                                            onTap: () {
-                                              print("Tap Event");
-                                            },
-                                          ),
-                                        ),
-                                      ),
+                                SlideTransition(
+                                  position: _offsetAnimation,
+                                  child: Text(
+                                    "WELCOME !!",
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 70),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                        },
-                                        icon: Icon(Icons.refresh),
-                                        iconSize: 30,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
+                                customDivider(),
+                                Text(
+                                  "We're glad to see you!",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    print("Hello world");
+                                  },
                                   child: Container(
-                                    margin:
+                                    margin: EdgeInsets.only(top: 50),
+                                    width: double.infinity,
+                                    padding:
                                         EdgeInsets.symmetric(horizontal: 20),
-                                    height: 200,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [
+                                          Color(0xFFFFE347),
+                                          Color(0xFF6457A6),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(15),
+                                        bottomRight: Radius.circular(15),
+                                      ),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            print('Fictional');
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      fictionPage()),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/athena_fictional.jpg',
-                                              'Fictional'),
+                                        Container(
+                                          width: 34,
+                                          height: 34,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              alignment:
+                                                  FractionalOffset.topCenter,
+                                              image: AssetImage(
+                                                  "assets/images/categories.png"),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Non_Fiction_Page()),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/alexander_non_fiction.jpg',
-                                              'Non - Fictional'),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HistoricalPage()),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/napoleon_historical.jpg',
-                                              'Historical'),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PhilosophyPage()),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/plato_philosopher.jpg',
-                                              'Philosophy'),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SciFiPage(),
+                                        Container(
+                                          width: 240,
+                                          child: Center(
+                                            child: Text(
+                                              "BROWSE CATEGORIES",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
                                               ),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/sci_fi.jpg',
-                                              'Sci - Fi'),
+                                            ),
+                                          ),
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ComicPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/comic.jpg',
-                                              'Comic'),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BiographyPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/biography.jpg',
-                                              'Biography'),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DesignPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: customSmallContainer(
-                                              'assets/images/design.jpg',
-                                              'Design'),
+                                        Container(
+                                          width: 51,
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.arrow_forward_ios,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -1111,6 +1062,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+//TODO THE CLASS TO PASS ALL OF THE BOOKS (CLICKED) INFO TO ANOTHER SCREEN
 class ScreenArguments {
   late final String bookTitle;
   late final String bookAuthor;
@@ -1143,6 +1095,7 @@ class ScreenArguments {
   );
 }
 
+//TODO THE CLASS TO PASS ALL OF THE  LOGGED IN USER (CLICKED) INFO TO ANOTHER SCREEN
 class UserArguments {
   late final String age;
   late final String email;

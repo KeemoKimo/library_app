@@ -73,6 +73,7 @@ flutter:
     - assets/images/eye.png
     - assets/images/allBooks.png
     - assets/images/success.png
+    - assets/images/categories.png
   fonts:
     - family: Lato
       fonts:
