@@ -162,7 +162,7 @@ class _BookInfoState extends State<BookInfo> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: CircularProgressIndicator(
-                              color: Colors.black,
+                              backgroundColor: Colors.black,
                             ),
                           );
                         }

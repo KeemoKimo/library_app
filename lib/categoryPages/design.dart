@@ -169,7 +169,7 @@ class _DesignPageState extends State<DesignPage> {
                       child: Container(
                           color: Colors.red,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            backgroundColor: Colors.white,
                           )),
                     );
                   }

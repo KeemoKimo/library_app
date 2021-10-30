@@ -169,7 +169,7 @@ class _ComicPageState extends State<ComicPage> {
                       child: Container(
                           color: Colors.red,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            backgroundColor: Colors.white,
                           )),
                     );
                   }

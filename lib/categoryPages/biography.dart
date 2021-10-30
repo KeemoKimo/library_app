@@ -169,7 +169,7 @@ class _BiographyPageState extends State<BiographyPage> {
                       child: Container(
                           color: Colors.red,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            backgroundColor: Colors.white,
                           )),
                     );
                   }

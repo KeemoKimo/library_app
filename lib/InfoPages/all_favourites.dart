@@ -191,7 +191,7 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                     );
                   }

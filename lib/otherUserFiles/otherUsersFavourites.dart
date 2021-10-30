@@ -123,7 +123,7 @@ class _OtherUsersFavouritesState extends State<OtherUsersFavourites> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                     );
                   }

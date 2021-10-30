@@ -214,7 +214,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       child: Container(
                         color: Colors.red,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          backgroundColor: Colors.white,
                         ),
                       ),
                     );
@@ -921,7 +921,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        Icons.settings_accessibility,
+                                        Icons.settings,
                                         color: Colors.purple,
                                       ),
                                       Container(

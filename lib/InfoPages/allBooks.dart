@@ -189,7 +189,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                     );
                   }

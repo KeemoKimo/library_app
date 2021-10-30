@@ -162,7 +162,7 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
                       child: Container(
                           color: Colors.red,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            backgroundColor: Colors.white,
                           )),
                     );
                   }

@@ -164,7 +164,7 @@ class _fictionPageState extends State<fictionPage> {
                       child: Container(
                           color: Colors.red,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            backgroundColor: Colors.white,
                           )),
                     );
                   }

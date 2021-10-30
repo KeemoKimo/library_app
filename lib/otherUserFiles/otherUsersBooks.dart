@@ -123,7 +123,7 @@ class _OtherUserBooksState extends State<OtherUserBooks> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                     );
                   }

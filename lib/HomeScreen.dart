@@ -16,11 +16,11 @@ import 'package:library_app/categoryPages/historical.dart';
 import 'package:library_app/categoryPages/non_fiction.dart';
 import 'package:library_app/categoryPages/philosophy.dart';
 import 'package:library_app/categoryPages/sci_fi.dart';
-import 'package:library_app/main.dart';
 import 'dart:math' as math;
 import 'package:library_app/myAccount.dart';
-
 import 'InfoPages/aboutUs.dart';
+import 'main.dart';
+import 'main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -356,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
             ListTile(
               tileColor: Colors.red,
-              leading: Icon(Icons.logout_outlined, color: Colors.white),
+              leading: Icon(Icons.login_outlined, color: Colors.white),
               title: const Text(
                 'Log Out',
                 style:
@@ -422,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                             margin: EdgeInsets.only(top: 500),
                             child: CircularProgressIndicator(
-                              color: Colors.blue,
+                              backgroundColor: Colors.blue,
                             )),
                       );
                     }
@@ -469,6 +469,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       physics: ScrollPhysics(),
                       child: Column(
                         children: <Widget>[
+                          //Container with categories
                           Container(
                             width: double.infinity,
                             height: 400,
@@ -493,36 +494,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: Column(
                               children: [
-                                // Container(
-                                //   margin: EdgeInsets.only(top: 150),
-                                //   child: Column(
-                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                //     crossAxisAlignment: CrossAxisAlignment.center,
-                                //     children: [
-                                //       Stack(
-                                //         children: [
-                                //           Text(
-                                //             "Σαsyβooks ⚡️",
-                                //             style: TextStyle(
-                                //               fontSize: 30,
-                                //               foreground: Paint()
-                                //                 ..style = PaintingStyle.stroke
-                                //                 ..strokeWidth = 10
-                                //                 ..color = Colors.black,
-                                //             ),
-                                //           ),
-                                //           Text(
-                                //             "Σαsyβooks",
-                                //             style: TextStyle(
-                                //               color: Colors.white,
-                                //               fontSize: 30,
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
                                 Row(
                                   children: [
                                     Container(
@@ -830,7 +801,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (!snapshot.hasData) {
                                 return Center(
                                   child: CircularProgressIndicator(
-                                    color: Colors.black,
+                                    backgroundColor: Colors.black,
                                   ),
                                 );
                               }

@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,9 +8,11 @@ import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserInfo.dart';
+import 'package:page_transition/page_transition.dart';
 import 'HomeScreen.dart';
 import 'DatabaseSerivces.dart';
 
+//todo RUN APP
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -44,14 +45,16 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+//todo MAIN DESIGN CLASS
 class _LoginPageState extends State<LoginPage> {
-  String email = '';
-  String password = '';
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   String? totalBooks = '';
   bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
 
+//!A function to make some custom alert pop up
   AlertDialog makeDialog(String details) {
     return AlertDialog(
       content: Column(
@@ -102,15 +105,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+//! MAIN BUILD METHOD
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/books.jpeg'),
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.5), BlendMode.dstATop),
-          fit: BoxFit.cover,
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [
+            Color(0xFF5F021F),
+            Color(0xFF473BF0),
+          ],
         ),
       ),
       child: Material(
@@ -119,104 +125,79 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            //!Authentication label
             Container(
               margin: EdgeInsets.only(top: 170),
-              child: DefaultTextStyle(
-                style: const TextStyle(
-                  fontSize: 20.0,
-                ),
-                child: AnimatedTextKit(
-                  totalRepeatCount: 3,
-                  animatedTexts: [
-                    WavyAnimatedText(
-                      'Welcome',
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 50,
-                        fontFamily: 'Lato',
-                      ),
-                    ),
-                  ],
-                  isRepeatingAnimation: true,
-                  onTap: () {
-                    print("Tap Event");
-                  },
+              child: Text(
+                "AUTHENTICATION",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+            //!Divider
+            Container(
+              margin: const EdgeInsets.all(20.0),
+              child: Divider(
+                color: Colors.white,
+                height: 1,
+                thickness: 1,
+              ),
+            ),
+            //!The rest of the login form
             Container(
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          width: 30,
-                          height: 30,
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/email-2.png'),
-                          ),
-                        ),
-                        Container(
-                          width: 340,
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 10, right: 20),
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              labelText: "Enter Email...",
-                              labelStyle: TextStyle(color: Colors.white),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
-                              ),
+                    //? EMAIL TEXT BOX
+                    Container(
+                      width: 340,
+                      height: 50,
+                      child: TextFormField(
+                        controller: emailController,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Enter Email...",
+                          hintStyle: TextStyle(color: Colors.white),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2.0,
                             ),
-                            onChanged: (value) {
-                              email = value;
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
+                    //? PASSWORD TEXT BOX / ICON
                     Row(
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          width: 30,
-                          height: 30,
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/password.png'),
-                          ),
-                        ),
                         Container(
                           width: 290,
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                          height: 50,
+                          margin: EdgeInsets.only(top: 20, left: 35),
                           child: TextFormField(
+                            controller: passwordController,
                             style: TextStyle(color: Colors.white),
                             obscureText: isObscure,
                             decoration: InputDecoration(
-                              labelText: "Enter Password...",
-                              labelStyle: TextStyle(color: Colors.white),
+                              hintText: "Password",
+                              hintStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
@@ -231,9 +212,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            onChanged: (value) {
-                              password = value;
-                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
@@ -253,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 20),
+                            margin: EdgeInsets.only(top: 20, left: 20),
                             width: 30,
                             height: 30,
                             child: Image(
@@ -264,36 +242,25 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
+                    //? LOG IN BUTTON
                     Container(
-                      width: 200,
-                      margin: EdgeInsets.only(top: 20, left: 150),
+                      width: double.infinity,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 20, left: 30, right: 30),
                       decoration: BoxDecoration(
-                        color: Colors.yellow[800],
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextButton(
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                'LOGIN',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
+                        child: Container(
+                          child: Text(
+                            'LOGIN',
+                            style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 20),
-                              width: 40,
-                              height: 40,
-                              child: Image(
-                                image: AssetImage('assets/images/login.png'),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -308,12 +275,39 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           }
                           try {
-                            UserCredential userCredential =
-                                await auth.signInWithEmailAndPassword(
-                                    email: email, password: password);
-                            print("Sign In Successful");
-                            //this line is to make user go second screen
-                            Navigator.pushNamed(context, 'main');
+                            if (emailController.text == "" ||
+                                passwordController.text == "") {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return makeDialog(
+                                      'Please enter in your email and password!');
+                                },
+                              );
+                            } else if (emailController.text.contains('@') ==
+                                false) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return makeDialog(
+                                      'Please enter proper email!');
+                                },
+                              );
+                            } else {
+                              await auth.signInWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                              print("Sign In Successful");
+                              //this line is to make user go second screen
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: HomeScreen(),
+                                  type: PageTransitionType.rightToLeftWithFade,
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            }
                           } on FirebaseAuthException catch (e) {
                             switch (e.code) {
                               case "invalid-email":
@@ -386,6 +380,14 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                 );
                             }
+                          } catch (e) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return makeDialog(
+                                    'Something went wrong with this log in, please check it again!!!');
+                              },
+                            );
                           }
                         },
                       ),
@@ -393,12 +395,14 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 100,
                     ),
+                    //? REGISTER ACCOUNT TEXT
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 10, left: 40),
+                          margin: EdgeInsets.only(top: 10),
                           child: Text(
-                            "No account?",
+                            "No account ?",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -410,9 +414,9 @@ class _LoginPageState extends State<LoginPage> {
                           margin: EdgeInsets.only(top: 13),
                           child: CupertinoButton(
                             child: Text(
-                              'Register this credential !!',
+                              'Register this credential !',
                               style: TextStyle(
-                                color: Colors.yellow[800],
+                                color: Colors.lightBlue,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -431,14 +435,15 @@ class _LoginPageState extends State<LoginPage> {
                               try {
                                 UserCredential userCredential =
                                     await auth.createUserWithEmailAndPassword(
-                                        email: email, password: password);
+                                        email: emailController.text,
+                                        password: passwordController.text);
                                 print("USER CREATED !");
                                 await DatabaseServices(
                                         uid: userCredential.user!.uid)
                                     .updateUserData(
                                   'new_User',
                                   'age',
-                                  email,
+                                  emailController.text,
                                   'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
                                   totalBooks!,
                                   'location',
@@ -453,7 +458,15 @@ class _LoginPageState extends State<LoginPage> {
                                   false,
                                 );
                                 //this line is to make user go second screen
-                                Navigator.pushNamed(context, 'main');
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    child: HomeScreen(),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    duration: Duration(seconds: 5),
+                                  ),
+                                );
                               } on FirebaseAuthException catch (e) {
                                 switch (e.code) {
                                   case 'weak-password':
