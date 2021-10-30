@@ -33,6 +33,7 @@ class _addBookPageState extends State<addBookPage> {
   var publishedYearController = TextEditingController();
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
+  DateTime _nowDate = DateTime.now();
   String dropdownInitialValue = 'Fictional';
   bool isFavourite = false;
   var categoryItems = [
@@ -63,7 +64,6 @@ class _addBookPageState extends State<addBookPage> {
     super.initState();
     getCurrentUser().whenComplete(() {
       setState(() {
-        print(userEmail);
         build(context);
       });
     });
@@ -331,27 +331,44 @@ class _addBookPageState extends State<addBookPage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    height: 100,
-                    child: CupertinoTheme(
-                      data: CupertinoThemeData(
-                        textTheme: CupertinoTextThemeData(
-                          dateTimePickerTextStyle: TextStyle(
-                            color: Colors.white,
-                          ),
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: Colors.black),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        _startDate.day.toString() +
+                            " / " +
+                            _startDate.month.toString() +
+                            " / " +
+                            _startDate.year.toString(),
+                        style: TextStyle(
+                          color: Color(0xFFB03A2E),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      child: CupertinoDatePicker(
-                        backgroundColor: Color(0xFFB03A2E),
-                        use24hFormat: true,
-                        initialDateTime: _startDate,
-                        mode: CupertinoDatePickerMode.dateAndTime,
-                        onDateTimeChanged: (dateTime) {
-                          setState(() {
-                            _startDate = dateTime;
-                          });
-                        },
+                      trailing: Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Color(0xFFB03A2E),
                       ),
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: _nowDate,
+                          firstDate: DateTime(DateTime.now().year - 5),
+                          lastDate: DateTime.now(),
+                        );
+                        if (pickedDate != null &&
+                            pickedDate != DateTime.now()) {
+                          setState(() {
+                            _startDate = pickedDate;
+                          });
+                        } else {
+                          _startDate = DateTime.now();
+                        }
+                      },
                     ),
                   ),
                   Container(
@@ -366,27 +383,44 @@ class _addBookPageState extends State<addBookPage> {
                     ),
                   ),
                   Container(
-                    height: 100,
                     margin: EdgeInsets.only(left: 20, right: 20),
-                    child: CupertinoTheme(
-                      data: CupertinoThemeData(
-                        textTheme: CupertinoTextThemeData(
-                          dateTimePickerTextStyle: TextStyle(
-                            color: Colors.white,
-                          ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: Colors.black),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        _endDate.day.toString() +
+                            " / " +
+                            _endDate.month.toString() +
+                            " / " +
+                            _endDate.year.toString(),
+                        style: TextStyle(
+                          color: Color(0xFFB03A2E),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      child: CupertinoDatePicker(
-                        backgroundColor: Color(0xFFB03A2E),
-                        use24hFormat: true,
-                        initialDateTime: _endDate,
-                        mode: CupertinoDatePickerMode.dateAndTime,
-                        onDateTimeChanged: (dateTime) {
-                          setState(() {
-                            _endDate = dateTime;
-                          });
-                        },
+                      trailing: Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Color(0xFFB03A2E),
                       ),
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: _nowDate,
+                          firstDate: DateTime(DateTime.now().year - 5),
+                          lastDate: DateTime.now(),
+                        );
+                        if (pickedDate != null &&
+                            pickedDate != DateTime.now()) {
+                          setState(() {
+                            _endDate = pickedDate;
+                          });
+                        } else {
+                          _endDate = DateTime.now();
+                        }
+                      },
                     ),
                   ),
                   Container(
