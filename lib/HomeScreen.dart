@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:library_app/addBook.dart';
+import 'package:library_app/categoryPages/SelectCategoryPage.dart';
 import 'package:library_app/categoryPages/biography.dart';
 import 'package:library_app/categoryPages/comic.dart';
 import 'package:library_app/categoryPages/design.dart';
@@ -18,6 +19,7 @@ import 'package:library_app/categoryPages/philosophy.dart';
 import 'package:library_app/categoryPages/sci_fi.dart';
 import 'dart:math' as math;
 import 'package:library_app/myAccount.dart';
+import 'package:page_transition/page_transition.dart';
 import 'main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -540,7 +542,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print("Hello world");
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        child: SelectCategoryPage(),
+                                        type: PageTransitionType.fade,
+                                        duration: Duration(seconds: 1),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(top: 50),

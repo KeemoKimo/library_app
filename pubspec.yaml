@@ -74,6 +74,11 @@ flutter:
     - assets/images/allBooks.png
     - assets/images/success.png
     - assets/images/categories.png
+    - assets/images/fictional.jpg
+    - assets/images/anneFrank.jpg
+    - assets/images/wingedHussars.jpg
+    - assets/images/comics.jpg
+    - assets/images/sittingBull.jpg
   fonts:
     - family: Lato
       fonts:
