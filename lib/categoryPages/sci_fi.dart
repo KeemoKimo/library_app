@@ -286,7 +286,7 @@ class _SciFiPageState extends State<SciFiPage> {
                                             ),
                                           );
                                         },
-                                        child: buildListTile(
+                                        child: HomeScreen.buildListTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

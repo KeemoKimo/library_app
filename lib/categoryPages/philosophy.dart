@@ -280,7 +280,7 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
                                             ),
                                           );
                                         },
-                                        child: buildListTile(
+                                        child: HomeScreen.buildListTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

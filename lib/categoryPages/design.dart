@@ -286,7 +286,7 @@ class _DesignPageState extends State<DesignPage> {
                                             ),
                                           );
                                         },
-                                        child: buildListTile(
+                                        child: HomeScreen.buildListTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

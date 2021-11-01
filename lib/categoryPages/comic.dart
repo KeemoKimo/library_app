@@ -286,7 +286,7 @@ class _ComicPageState extends State<ComicPage> {
                                             ),
                                           );
                                         },
-                                        child: buildListTile(
+                                        child: HomeScreen.buildListTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

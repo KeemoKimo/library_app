@@ -279,7 +279,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
                                             ),
                                           );
                                         },
-                                        child: buildListTile(
+                                        child: HomeScreen.buildListTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

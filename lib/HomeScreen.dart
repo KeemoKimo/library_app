@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,128 +7,16 @@ import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:library_app/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
-import 'package:library_app/categoryPages/biography.dart';
-import 'package:library_app/categoryPages/comic.dart';
-import 'package:library_app/categoryPages/design.dart';
-import 'package:library_app/categoryPages/fiction.dart';
-import 'package:library_app/categoryPages/historical.dart';
-import 'package:library_app/categoryPages/non_fiction.dart';
-import 'package:library_app/categoryPages/philosophy.dart';
-import 'package:library_app/categoryPages/sci_fi.dart';
-import 'dart:math' as math;
 import 'package:library_app/myAccount.dart';
 import 'package:page_transition/page_transition.dart';
 import 'main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-  static const String id = 'HomeScreen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
-}
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late User loggedInUser;
-  late String? userUID = loggedInUser.uid;
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-      firestore.collection('books').snapshots();
-  late Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshot =
-      firestore.collection('users').snapshots();
-  late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
-  late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
-  late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
-  //====================================================================
-  late int? lastSignInDate = loggedInUser.metadata.lastSignInTime!.day;
-  late int? lastSignInHour = loggedInUser.metadata.lastSignInTime!.hour;
-  late int? lastSignInMinute = loggedInUser.metadata.lastSignInTime!.minute;
-  late int? lastSignInMonth = loggedInUser.metadata.lastSignInTime!.month;
-  late int? lastSignInYear = loggedInUser.metadata.lastSignInTime!.year;
-  //====================================================================
-  // late List<Widget> bookTitles = [];
-  // late List<Widget> bookCovers = [];
-  // late List<Widget> bookAuthors = [];
-
-//! FUNCTION WHEN THE SCREEN IS FIRED
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser().whenComplete(() {
-      setState(() {
-        build(context);
-      });
-    });
-  }
-
-//! FUNCTION FOR GETTING THE LOGGED IN USER
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
-  }
-
-//! FUNCTION TO MAKE A DIVIER
-  Container customDivider() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: Colors.black,
-      ),
-    );
-  }
-
-//! FUNCTION FOR MAKING A CUSTOM CATEGORY CONTAINER
-  Container customSmallContainer(String imagePath, String description) {
-    return Container(
-      margin: EdgeInsets.only(right: 20, left: 20),
-      width: 200,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              image: DecorationImage(
-                  image: AssetImage('$imagePath'), fit: BoxFit.cover),
-            ),
-            height: 130,
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Text(
-              '$description',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Card buildListTile(
+  static Card buildListTile(
     final String bookCoverURL,
     final String category,
     final String title,
@@ -204,6 +90,58 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       margin: EdgeInsets.all(10),
     );
   }
+}
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late User loggedInUser;
+  late String? userUID = loggedInUser.uid;
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
+      firestore.collection('books').snapshots();
+  late Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshot =
+      firestore.collection('users').snapshots();
+
+//! FUNCTION WHEN THE SCREEN IS FIRED
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser().whenComplete(() {
+      setState(() {
+        build(context);
+      });
+    });
+  }
+
+//! FUNCTION FOR GETTING THE LOGGED IN USER
+  getCurrentUser() async {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(
+        e.toString(),
+      );
+    }
+  }
+
+//! FUNCTION TO MAKE A DIVIER
+  Container customDivider() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Divider(
+        height: 1,
+        thickness: 1,
+        color: Colors.black,
+      ),
+    );
+  }
+
+//! FUNCTION FOR MAKING A BOOK TILE
 
 //! GIVING ANIMATION (SLIDING)
   late final AnimationController _controller = AnimationController(
@@ -220,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     parent: _controller,
     curve: Curves.elasticIn,
   ));
+
   @override
   Widget build(BuildContext context) {
     //! DRAWER (THE THING THAT SLIDES FROM THE LEFT SIDE)
@@ -687,7 +626,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ),
                                         );
                                       },
-                                      child: buildListTile(bookCover,
+                                      child: HomeScreen.buildListTile(bookCover,
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(
@@ -992,7 +931,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ),
                                         );
                                       },
-                                      child: buildListTile(bookCover,
+                                      child: HomeScreen.buildListTile(bookCover,
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(

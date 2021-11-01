@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../HomeScreen.dart';
+import 'package:library_app/HomeScreen.dart';
 
 // ignore: camel_case_types
 class fictionPage extends StatefulWidget {
@@ -64,81 +63,6 @@ class _fictionPageState extends State<fictionPage> {
         thickness: 1,
         color: color,
       ),
-    );
-  }
-
-  Card buildListTile(
-    final String bookCoverURL,
-    final String category,
-    final String title,
-    final String author,
-  ) {
-    return Card(
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 100,
-                height: 140,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      fit: BoxFit.cover, image: NetworkImage(bookCoverURL)),
-                ),
-              ),
-              Container(
-                width: 230,
-                //color: Colors.red,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      category.toString(),
-                      style: TextStyle(
-                        color: Color(0xFFB03A2E),
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        title.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        (author),
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.black,
-                size: 15,
-              )
-            ],
-          ),
-        ],
-      ),
-      //color: Colors.yellowAccent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 10,
-      margin: EdgeInsets.all(10),
     );
   }
 
@@ -282,7 +206,7 @@ class _fictionPageState extends State<fictionPage> {
                                           ),
                                         );
                                       },
-                                      child: buildListTile(bookCover,
+                                      child: HomeScreen.buildListTile(bookCover,
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(
