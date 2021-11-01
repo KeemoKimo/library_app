@@ -633,7 +633,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: snapshot.data!.docs.length <= 6
+                            itemCount: snapshot.data!.docs.length <= 5
                                 ? snapshot.data!.docs.length
                                 : snapshot.data!.docs.length - 2,
                             itemBuilder: (context, index) {
@@ -705,7 +705,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             },
                             child: Container(
                               padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(top: 20, left: 20),
+                              margin: EdgeInsets.only(left: 20),
                               decoration: BoxDecoration(
                                 color: Color(0xFFB03A2E),
                                 borderRadius: BorderRadius.only(
@@ -1011,7 +1011,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             child: Container(
                               padding: EdgeInsets.all(10),
                               margin: EdgeInsets.only(
-                                top: 20,
                                 right: 20,
                               ),
                               decoration: BoxDecoration(

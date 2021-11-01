@@ -257,7 +257,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
                                         bookCategory, bookTitle, bookAuthor),
                                   )
                                 : SizedBox(
-                                    height: 10,
+                                    height: 0,
                                   );
                           },
                         ),

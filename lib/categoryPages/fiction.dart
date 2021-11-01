@@ -143,83 +143,89 @@ class _fictionPageState extends State<fictionPage> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF71A7B7),
-      body: Container(
-        color: Color(0xFDCCBA),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: firestore
-                    .collection('books')
-                    .where('owner',
-                        isEqualTo: loggedInUser
-                            .email) //this only filter the books that have the owner same as the logged in user
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                          color: Colors.red,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          )),
-                    );
-                  }
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [
+            Color(0xFFf47835),
+            Color(0xFFb0482e),
+            Color(0xFFf36714),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          color: Colors.transparent,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: firestore
+                      .collection('books')
+                      .where('owner',
+                          isEqualTo: loggedInUser
+                              .email) //this only filter the books that have the owner same as the logged in user
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Container(
+                            color: Colors.red,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
+                    return Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/fictional.jpg'),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.bottomRight,
+                            ),
                           ),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/athena_fictional.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                        child: Center(
-                          child: Stack(
-                            children: [
-                              Text(
-                                "Fictions",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 10
-                                    ..color = Colors.black,
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                Text(
+                                  "Fictions",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 10
+                                      ..color = Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Fictions",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
+                                Text(
+                                  "Fictions",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      customDivider(Colors.black),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF71A7B7),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                        ),
-                        child: Column(children: [
+                        customDivider(Colors.black),
+                        Column(children: [
                           ListView.builder(
+                            padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
@@ -280,17 +286,17 @@ class _fictionPageState extends State<fictionPage> {
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(
-                                      height: 10,
+                                      height: 0,
                                     );
                             },
                           ),
                         ]),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
