@@ -141,90 +141,96 @@ class _BiographyPageState extends State<BiographyPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      elevation: 5,
+      elevation: 10,
       margin: EdgeInsets.all(10),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF484D6D),
-      body: Container(
-        color: Color(0xFF484D6D),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: firestore
-                    .collection('books')
-                    .where('owner',
-                        isEqualTo: loggedInUser
-                            .email) //this only filter the books that have the owner same as the logged in user
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                          color: Colors.red,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          )),
-                    );
-                  }
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0xFF2A1F14),
+            Color(0xFF78705D),
+            Color(0xFFEFE7CF),
+            Color(0xFFC9BA9D),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: firestore
+                      .collection('books')
+                      .where('owner',
+                          isEqualTo: loggedInUser
+                              .email) //this only filter the books that have the owner same as the logged in user
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Container(
+                            color: Colors.red,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
+                    return Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                            image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/sittingBull.jpg'),
+                                fit: BoxFit.cover),
                           ),
-                          image: DecorationImage(
-                              image: AssetImage('assets/images/biography.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                        child: Center(
-                          child: Stack(
-                            children: [
-                              Text(
-                                "Biography",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 10
-                                    ..color = Colors.black,
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                Text(
+                                  "Biography",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 10
+                                      ..color = Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Biography",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
+                                Text(
+                                  "Biography",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      customDivider(Colors.white),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF484D6D),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                        ),
-                        child: Column(
+                        customDivider(Colors.black),
+                        Column(
                           children: [
                             ListView.builder(
+                              padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
@@ -288,18 +294,18 @@ class _BiographyPageState extends State<BiographyPage> {
                                             bookAuthor),
                                       )
                                     : SizedBox(
-                                        height: 10,
+                                        height: 0,
                                       );
                               },
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

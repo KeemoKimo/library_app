@@ -141,90 +141,95 @@ class _DesignPageState extends State<DesignPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      elevation: 5,
+      elevation: 10,
       margin: EdgeInsets.all(10),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF0D2C54),
-      body: Container(
-        color: Color(0xFF0D2C54),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: firestore
-                    .collection('books')
-                    .where('owner',
-                        isEqualTo: loggedInUser
-                            .email) //this only filter the books that have the owner same as the logged in user
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                          color: Colors.red,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          )),
-                    );
-                  }
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFE6E6E6),
+            Color(0xFF000000),
+            Color(0xFF8B8B8B),
+            Color(0xFF5F5F5F),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: firestore
+                      .collection('books')
+                      .where('owner',
+                          isEqualTo: loggedInUser
+                              .email) //this only filter the books that have the owner same as the logged in user
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Container(
+                            color: Colors.red,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
+                    return Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/design.jpg'),
+                                fit: BoxFit.cover),
                           ),
-                          image: DecorationImage(
-                              image: AssetImage('assets/images/design.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                        child: Center(
-                          child: Stack(
-                            children: [
-                              Text(
-                                "Design",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 10
-                                    ..color = Colors.black,
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                Text(
+                                  "Design",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 10
+                                      ..color = Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Design",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
+                                Text(
+                                  "Design",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      customDivider(Colors.white),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF0D2C54),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                        ),
-                        child: Column(
+                        customDivider(Colors.white),
+                        Column(
                           children: [
                             ListView.builder(
+                              padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
@@ -288,18 +293,18 @@ class _DesignPageState extends State<DesignPage> {
                                             bookAuthor),
                                       )
                                     : SizedBox(
-                                        height: 10,
+                                        height: 0,
                                       );
                               },
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

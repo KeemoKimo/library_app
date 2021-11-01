@@ -30,8 +30,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/biography.jpg
-    - assets/images/comic.jpg
     - assets/images/design.jpg
     - assets/images/plato_philosopher.jpg
     - assets/images/sci_fi.jpg
