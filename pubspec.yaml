@@ -31,10 +31,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/books.jpeg
-    - assets/images/sask.jpg
     - assets/images/wallpaper.jpg
     - assets/images/trojanHorse_Fictional.jpg
-    - assets/images/alexander_non_fiction.jpg
     - assets/images/biography.jpg
     - assets/images/comic.jpg
     - assets/images/design.jpg
