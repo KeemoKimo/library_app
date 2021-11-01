@@ -134,91 +134,96 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      elevation: 5,
+      elevation: 10,
       margin: EdgeInsets.all(10),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFFCD581),
-      body: Container(
-        color: Color(0xFFFCD581),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: firestore
-                    .collection('books')
-                    .where('owner',
-                        isEqualTo: loggedInUser
-                            .email) //this only filter the books that have the owner same as the logged in user
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                          color: Colors.red,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          )),
-                    );
-                  }
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [
+            Color(0xFFD2BFA9),
+            Color(0xFFEADDCA),
+            Color(0xFFA5BBD1),
+            Color(0xFF83735D),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: firestore
+                      .collection('books')
+                      .where('owner',
+                          isEqualTo: loggedInUser
+                              .email) //this only filter the books that have the owner same as the logged in user
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Container(
+                            color: Colors.red,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
+                    return Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/plato_philosopher.jpg'),
+                                fit: BoxFit.cover),
                           ),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/plato_philosopher.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                        child: Center(
-                          child: Stack(
-                            children: [
-                              Text(
-                                "Philosophy",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 10
-                                    ..color = Colors.black,
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                Text(
+                                  "Philosophy",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 10
+                                      ..color = Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Philosophy",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
+                                Text(
+                                  "Philosophy",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      customDivider(Colors.black),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFCD581),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                        ),
-                        child: Column(
+                        customDivider(Colors.black),
+                        Column(
                           children: [
                             ListView.builder(
+                              padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
@@ -282,18 +287,18 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
                                             bookAuthor),
                                       )
                                     : SizedBox(
-                                        height: 10,
+                                        height: 0,
                                       );
                               },
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

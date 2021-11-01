@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../HomeScreen.dart';
 
 class HistoricalPage extends StatefulWidget {
@@ -134,91 +133,96 @@ class _HistoricalPageState extends State<HistoricalPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      elevation: 5,
+      elevation: 10,
       margin: EdgeInsets.all(10),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFFCF5C7),
-      body: Container(
-        color: Color(0xFFCF5C7),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: firestore
-                    .collection('books')
-                    .where('owner',
-                        isEqualTo: loggedInUser
-                            .email) //this only filter the books that have the owner same as the logged in user
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                          color: Colors.red,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          )),
-                    );
-                  }
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF73665d),
+            Color(0xFFf6e09c),
+            Color(0xFF887a61),
+            Color(0xFF53382c),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: firestore
+                      .collection('books')
+                      .where('owner',
+                          isEqualTo: loggedInUser
+                              .email) //this only filter the books that have the owner same as the logged in user
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Container(
+                            color: Colors.red,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
+                    return Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            ),
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/wingedHussars.jpg'),
+                                fit: BoxFit.cover),
                           ),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/napoleon_historical.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                        child: Center(
-                          child: Stack(
-                            children: [
-                              Text(
-                                "Historical",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 10
-                                    ..color = Colors.black,
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                Text(
+                                  "Historical",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 10
+                                      ..color = Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Historical",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
+                                Text(
+                                  "Historical",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      customDivider(Colors.black),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFCF5C7),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                        ),
-                        child: Column(
+                        customDivider(Colors.black),
+                        Column(
                           children: [
                             ListView.builder(
+                              padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
@@ -282,18 +286,18 @@ class _HistoricalPageState extends State<HistoricalPage> {
                                             bookAuthor),
                                       )
                                     : SizedBox(
-                                        height: 10,
+                                        height: 0,
                                       );
                               },
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
