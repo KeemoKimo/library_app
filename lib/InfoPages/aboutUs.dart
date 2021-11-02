@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 
+import '../HomeScreen.dart';
+
 class AboutUs extends StatefulWidget {
   const AboutUs({Key? key}) : super(key: key);
 
@@ -57,17 +59,6 @@ Future sendEmail({
   } catch (e) {
     print(e);
   }
-}
-
-Container customDivider(Color color) {
-  return Container(
-    padding: EdgeInsets.all(20),
-    child: Divider(
-      height: 1,
-      thickness: 1,
-      color: color,
-    ),
-  );
 }
 
 Container rowItem(String imagePath, String firstLineText, String description) {
@@ -212,7 +203,7 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  customDivider(Colors.white),
+                  HomeScreen.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(
@@ -257,7 +248,7 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  customDivider(Colors.white),
+                  HomeScreen.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(
@@ -305,7 +296,7 @@ class _AboutUsState extends State<AboutUs> {
                       ],
                     ),
                   ),
-                  customDivider(Colors.white),
+                  HomeScreen.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(
@@ -526,7 +517,7 @@ class _AboutUsState extends State<AboutUs> {
                       ],
                     ),
                   ),
-                  customDivider(Colors.white),
+                  HomeScreen.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(

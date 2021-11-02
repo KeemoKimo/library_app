@@ -44,17 +44,6 @@ class _BookInfoState extends State<BookInfo> {
     }
   }
 
-  Container customDivider() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: Colors.black,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bookID =
@@ -310,7 +299,7 @@ class _BookInfoState extends State<BookInfo> {
                     ],
                   ),
                 ),
-                customDivider(),
+                HomeScreen.customDivider(Colors.black),
                 Container(
                   padding: EdgeInsets.all(20),
                   margin: EdgeInsets.only(bottom: 20),
@@ -327,7 +316,7 @@ class _BookInfoState extends State<BookInfo> {
                         height: 1.5),
                   ),
                 ),
-                customDivider(),
+                HomeScreen.customDivider(Colors.black),
               ],
             ),
           ),

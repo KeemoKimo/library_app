@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/DatabaseSerivces.dart';
+import 'package:library_app/HomeScreen.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:country_picker/country_picker.dart';
@@ -15,6 +16,58 @@ class MyAccountPage extends StatefulWidget {
 
   @override
   _MyAccountPageState createState() => _MyAccountPageState();
+  //! FUNCTION TO MAKE A CUSTOM CARD
+  static Container customCard(
+      String displayText,
+      IconData firstIcon,
+      IconData secondIcon,
+      double marginTop,
+      Color mainIconColor,
+      Color secondIconColor) {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: marginTop),
+            height: 60,
+            child: Card(
+              shadowColor: Colors.black,
+              elevation: 5,
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Icon(
+                      firstIcon,
+                      color: mainIconColor,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '$displayText',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 190),
+                    child: Icon(
+                      secondIcon,
+                      size: 15,
+                      color: secondIconColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class _MyAccountPageState extends State<MyAccountPage> {
@@ -128,69 +181,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
       }
     }
 
-    Container customDivider() {
-      return Container(
-        padding: EdgeInsets.all(20),
-        child: Divider(
-          height: 1,
-          thickness: 1,
-          color: Colors.black,
-        ),
-      );
-    }
-
-    Container customCard(
-        String displayText,
-        IconData firstIcon,
-        IconData secondIcon,
-        double marginTop,
-        Color mainIconColor,
-        Color secondIconColor) {
-      return Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: marginTop),
-              height: 60,
-              child: Card(
-                shadowColor: Colors.black,
-                elevation: 5,
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 20),
-                      child: Icon(
-                        firstIcon,
-                        color: mainIconColor,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        '$displayText',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 190),
-                      child: Icon(
-                        secondIcon,
-                        size: 15,
-                        color: secondIconColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purple,
@@ -299,7 +289,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               fontStyle: FontStyle.italic),
                         ),
                       ),
-                      customDivider(),
+                      HomeScreen.customDivider(Colors.black),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
@@ -901,7 +891,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   ),
                                                 ),
                                               ),
-                                              customDivider(),
+                                              HomeScreen.customDivider(
+                                                  Colors.black),
                                               Text(
                                                 'Location will be updated once this pop-up is refreshed!',
                                                 style: TextStyle(
@@ -1280,7 +1271,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 builder: (context) => AllBooksPage()),
                           );
                         },
-                        child: customCard(
+                        child: MyAccountPage.customCard(
                           'My Books',
                           Icons.menu_book_rounded,
                           Icons.arrow_forward_ios_rounded,
@@ -1297,7 +1288,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 builder: (context) => AllFavouritesPage()),
                           );
                         },
-                        child: customCard(
+                        child: MyAccountPage.customCard(
                             'Favourites',
                             Icons.favorite,
                             Icons.arrow_forward_ios_rounded,
@@ -1378,7 +1369,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ],
                         ),
                       ),
-                      customDivider(),
+                      HomeScreen.customDivider(Colors.black),
                       Text(
                         '! No copyright !',
                         style: TextStyle(

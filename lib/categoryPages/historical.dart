@@ -52,17 +52,6 @@ class _HistoricalPageState extends State<HistoricalPage> {
     }
   }
 
-  Container customDivider(Color color) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: color,
-      ),
-    );
-  }
-
   Card buildListTile(
     final String bookCoverURL,
     final String category,
@@ -218,7 +207,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
                             ),
                           ),
                         ),
-                        customDivider(Colors.black),
+                        HomeScreen.customDivider(Colors.black),
                         Column(
                           children: [
                             ListView.builder(

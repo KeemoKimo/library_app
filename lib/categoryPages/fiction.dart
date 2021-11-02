@@ -55,17 +55,6 @@ class _fictionPageState extends State<fictionPage> {
     }
   }
 
-  Container customDivider(Color color) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: color,
-      ),
-    );
-  }
-
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -146,7 +135,7 @@ class _fictionPageState extends State<fictionPage> {
                             ),
                           ),
                         ),
-                        customDivider(Colors.black),
+                        HomeScreen.customDivider(Colors.black),
                         Column(children: [
                           ListView.builder(
                             padding: EdgeInsets.zero,

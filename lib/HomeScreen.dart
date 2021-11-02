@@ -16,6 +16,18 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 
+//! FUNCTION TO MAKE A DIVIER
+  static Container customDivider(Color color) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Divider(
+        height: 1,
+        thickness: 1,
+        color: color,
+      ),
+    );
+  }
+
   static Card buildListTile(
     final String bookCoverURL,
     final String category,
@@ -128,20 +140,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       );
     }
   }
-
-//! FUNCTION TO MAKE A DIVIER
-  Container customDivider() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: Colors.black,
-      ),
-    );
-  }
-
-//! FUNCTION FOR MAKING A BOOK TILE
 
 //! GIVING ANIMATION (SLIDING)
   late final AnimationController _controller = AnimationController(
@@ -386,8 +384,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             )),
                       );
                     }
-                    // final books = snapshot.data!.docs;
 
+                    // final books = snapshot.data!.docs;
                     // List<Widget> bookWidgets = [];
                     // for (var book in books) {
                     //   title = (book.data() as Map)['title'];
@@ -395,7 +393,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     //   owner = (book.data() as Map)['owner'];
                     //   var bookCoverURL = (book.data() as Map)['imageURL'];
                     //   var category = (book.data() as Map)['category'];
-
                     //   if (owner == userEmail) {
                     //     print(owner! + ' IS THE OWNER!');
                     //     final bookWidget = Books(
@@ -413,7 +410,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     //   var author = (book.data() as Map)['author'];
                     //   var owner = (book.data() as Map)['owner'];
                     //   var bookCover = (book.data() as Map)['imageURL'];
-
                     //   if (owner == loggedInUser.email) {
                     //     Text titleText = Text(title);
                     //     bookTitles.add(titleText);
@@ -470,7 +466,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                                customDivider(),
+                                HomeScreen.customDivider(Colors.black),
                                 Text(
                                   "We're glad to see you!",
                                   style: TextStyle(
@@ -558,7 +554,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-                          customDivider(),
+                          HomeScreen.customDivider(Colors.black),
+                          //! LIST FOR ALL BOOKS
                           Text(
                             'Your Collection 📚',
                             style: TextStyle(
@@ -685,7 +682,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                             ),
                           ),
-                          customDivider(),
+                          //! LIST FOR ALL USERS (SOME)
+                          HomeScreen.customDivider(Colors.black),
                           Text(
                             'Discover People 😎',
                             style: TextStyle(
@@ -862,7 +860,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               );
                             },
                           ),
-                          customDivider(),
+                          HomeScreen.customDivider(Colors.black),
+                          //! LIST FOR ALL FAVOURITES
                           Text(
                             'Favourites ❤️',
                             style: TextStyle(
@@ -994,7 +993,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                             ),
                           ),
-                          customDivider(),
+                          HomeScreen.customDivider(Colors.black),
                         ],
                       ),
                     );

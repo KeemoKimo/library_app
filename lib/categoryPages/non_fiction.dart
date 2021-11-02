@@ -63,17 +63,6 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
     }
   }
 
-  Container customDivider(Color color) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: color,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -153,7 +142,7 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
                             ),
                           ),
                         ),
-                        customDivider(Colors.black),
+                        HomeScreen.customDivider(Colors.black),
                         Column(
                           children: [
                             ListView.builder(

@@ -41,17 +41,6 @@ class _EditBookState extends State<EditBook> {
     'Design'
   ];
 
-  Container customDivider() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: Colors.black,
-      ),
-    );
-  }
-
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -216,7 +205,7 @@ class _EditBookState extends State<EditBook> {
           child: Center(
             child: Column(
               children: [
-                customDivider(),
+                HomeScreen.customDivider(Colors.black),
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
@@ -463,7 +452,7 @@ class _EditBookState extends State<EditBook> {
                     ),
                   ),
                 ),
-                customDivider(),
+                HomeScreen.customDivider(Colors.black),
               ],
             ),
           ),

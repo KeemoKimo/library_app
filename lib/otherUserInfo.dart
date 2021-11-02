@@ -46,17 +46,6 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
     }
   }
 
-  Container customDivider() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: Colors.white,
-      ),
-    );
-  }
-
   Container customCard(
       String displayText,
       IconData firstIcon,
@@ -199,7 +188,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                         fontStyle: FontStyle.italic),
                   ),
                 ),
-                customDivider(),
+                HomeScreen.customDivider(Colors.white),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -239,7 +228,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                             color: Colors.white,
                             height: 1.5),
                       ),
-                      customDivider(),
+                      HomeScreen.customDivider(Colors.white),
                       Row(
                         children: [
                           Icon(
@@ -458,7 +447,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     : SizedBox(
                         height: 30,
                       ),
-                customDivider(),
+                HomeScreen.customDivider(Colors.white),
               ],
             ),
           ),
