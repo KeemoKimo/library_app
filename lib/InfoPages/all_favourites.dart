@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/HomeScreen.dart';
+import 'package:library_app/Services/UIServices.dart';
 
 class AllFavouritesPage extends StatefulWidget {
   const AllFavouritesPage({Key? key}) : super(key: key);
@@ -180,7 +181,7 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
                                         ),
                                       );
                                     },
-                                    child: HomeScreen.buildListTile(bookCover,
+                                    child: UIServices.buildCardTile(bookCover,
                                         bookCategory, bookTitle, bookAuthor),
                                   )
                                 : SizedBox(

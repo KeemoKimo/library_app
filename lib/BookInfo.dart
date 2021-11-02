@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:library_app/DatabaseSerivces.dart';
+import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/HomeScreen.dart';
+import 'package:library_app/Services/UIServices.dart';
 
 class BookInfo extends StatefulWidget {
   const BookInfo({Key? key}) : super(key: key);
@@ -299,7 +300,7 @@ class _BookInfoState extends State<BookInfo> {
                     ],
                   ),
                 ),
-                HomeScreen.customDivider(Colors.black),
+                UIServices.customDivider(Colors.black),
                 Container(
                   padding: EdgeInsets.all(20),
                   margin: EdgeInsets.only(bottom: 20),
@@ -316,7 +317,7 @@ class _BookInfoState extends State<BookInfo> {
                         height: 1.5),
                   ),
                 ),
-                HomeScreen.customDivider(Colors.black),
+                UIServices.customDivider(Colors.black),
               ],
             ),
           ),

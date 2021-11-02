@@ -10,7 +10,7 @@ import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserInfo.dart';
 import 'package:page_transition/page_transition.dart';
 import 'HomeScreen.dart';
-import 'DatabaseSerivces.dart';
+import 'Services/DatabaseSerivces.dart';
 
 //todo RUN APP
 void main() async {

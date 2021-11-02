@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
+import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
 import 'package:library_app/myAccount.dart';
@@ -15,93 +16,6 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
-
-//! FUNCTION TO MAKE A DIVIER
-  static Container customDivider(Color color) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Divider(
-        height: 1,
-        thickness: 1,
-        color: color,
-      ),
-    );
-  }
-
-  static Card buildListTile(
-    final String bookCoverURL,
-    final String category,
-    final String title,
-    final String author,
-  ) {
-    return Card(
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 120,
-                height: 160,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      fit: BoxFit.cover, image: NetworkImage(bookCoverURL)),
-                ),
-              ),
-              Container(
-                width: 230,
-                //color: Colors.red,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      category.toString(),
-                      style: TextStyle(
-                        color: Color(0xFFB03A2E),
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        title.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        (author),
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.black,
-                size: 15,
-              )
-            ],
-          ),
-        ],
-      ),
-      //color: Colors.yellowAccent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      elevation: 15,
-      margin: EdgeInsets.all(10),
-    );
-  }
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
@@ -466,7 +380,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                                HomeScreen.customDivider(Colors.black),
+                                UIServices.customDivider(Colors.black),
                                 Text(
                                   "We're glad to see you!",
                                   style: TextStyle(
@@ -554,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-                          HomeScreen.customDivider(Colors.black),
+                          UIServices.customDivider(Colors.black),
                           //! LIST FOR ALL BOOKS
                           Text(
                             'Your Collection 📚',
@@ -623,7 +537,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ),
                                         );
                                       },
-                                      child: HomeScreen.buildListTile(bookCover,
+                                      child: UIServices.buildCardTile(bookCover,
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(
@@ -683,7 +597,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                           //! LIST FOR ALL USERS (SOME)
-                          HomeScreen.customDivider(Colors.black),
+                          UIServices.customDivider(Colors.black),
                           Text(
                             'Discover People 😎',
                             style: TextStyle(
@@ -860,7 +774,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               );
                             },
                           ),
-                          HomeScreen.customDivider(Colors.black),
+                          UIServices.customDivider(Colors.black),
                           //! LIST FOR ALL FAVOURITES
                           Text(
                             'Favourites ❤️',
@@ -930,7 +844,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ),
                                         );
                                       },
-                                      child: HomeScreen.buildListTile(bookCover,
+                                      child: UIServices.buildCardTile(bookCover,
                                           bookCategory, bookTitle, bookAuthor),
                                     )
                                   : SizedBox(
@@ -993,7 +907,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                             ),
                           ),
-                          HomeScreen.customDivider(Colors.black),
+                          UIServices.customDivider(Colors.black),
                         ],
                       ),
                     );

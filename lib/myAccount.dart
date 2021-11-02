@@ -5,11 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:library_app/DatabaseSerivces.dart';
-import 'package:library_app/HomeScreen.dart';
+import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:country_picker/country_picker.dart';
+
+import 'Services/UIServices.dart';
 
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -289,7 +290,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               fontStyle: FontStyle.italic),
                         ),
                       ),
-                      HomeScreen.customDivider(Colors.black),
+                      UIServices.customDivider(Colors.black),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
@@ -891,7 +892,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                                   ),
                                                 ),
                                               ),
-                                              HomeScreen.customDivider(
+                                              UIServices.customDivider(
                                                   Colors.black),
                                               Text(
                                                 'Location will be updated once this pop-up is refreshed!',
@@ -1369,7 +1370,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ],
                         ),
                       ),
-                      HomeScreen.customDivider(Colors.black),
+                      UIServices.customDivider(Colors.black),
                       Text(
                         '! No copyright !',
                         style: TextStyle(

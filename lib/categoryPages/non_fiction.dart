@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/Services/UIServices.dart';
 import '../HomeScreen.dart';
 
 // ignore: camel_case_types
@@ -134,7 +135,7 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
                             ),
                           ),
                         ),
-                        HomeScreen.customDivider(Colors.black),
+                        UIServices.customDivider(Colors.black),
                         Column(
                           children: [
                             ListView.builder(
@@ -195,7 +196,7 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
                                             ),
                                           );
                                         },
-                                        child: HomeScreen.buildListTile(
+                                        child: UIServices.buildCardTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

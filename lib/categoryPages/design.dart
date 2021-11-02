@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/Services/UIServices.dart';
 import '../HomeScreen.dart';
 
 class DesignPage extends StatefulWidget {
@@ -131,7 +132,7 @@ class _DesignPageState extends State<DesignPage> {
                             ),
                           ),
                         ),
-                        HomeScreen.customDivider(Colors.white),
+                        UIServices.customDivider(Colors.white),
                         Column(
                           children: [
                             ListView.builder(
@@ -192,7 +193,7 @@ class _DesignPageState extends State<DesignPage> {
                                             ),
                                           );
                                         },
-                                        child: HomeScreen.buildListTile(
+                                        child: UIServices.buildCardTile(
                                             bookCover,
                                             bookCategory,
                                             bookTitle,

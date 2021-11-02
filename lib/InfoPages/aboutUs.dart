@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import '../HomeScreen.dart';
+import 'package:library_app/Services/UIServices.dart';
 
 class AboutUs extends StatefulWidget {
   const AboutUs({Key? key}) : super(key: key);
@@ -202,7 +201,7 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  HomeScreen.customDivider(Colors.white),
+                  UIServices.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(
@@ -247,7 +246,7 @@ class _AboutUsState extends State<AboutUs> {
                       ),
                     ),
                   ),
-                  HomeScreen.customDivider(Colors.white),
+                  UIServices.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(
@@ -295,7 +294,7 @@ class _AboutUsState extends State<AboutUs> {
                       ],
                     ),
                   ),
-                  HomeScreen.customDivider(Colors.white),
+                  UIServices.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(
@@ -516,7 +515,7 @@ class _AboutUsState extends State<AboutUs> {
                       ],
                     ),
                   ),
-                  HomeScreen.customDivider(Colors.white),
+                  UIServices.customDivider(Colors.white),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: Text(

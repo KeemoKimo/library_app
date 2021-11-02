@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/HomeScreen.dart';
+import 'package:library_app/Services/UIServices.dart';
 
 class OtherUserInfo extends StatefulWidget {
   const OtherUserInfo({Key? key}) : super(key: key);
@@ -185,7 +186,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                         fontStyle: FontStyle.italic),
                   ),
                 ),
-                HomeScreen.customDivider(Colors.white),
+                UIServices.customDivider(Colors.white),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -225,7 +226,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                             color: Colors.white,
                             height: 1.5),
                       ),
-                      HomeScreen.customDivider(Colors.white),
+                      UIServices.customDivider(Colors.white),
                       Row(
                         children: [
                           Icon(
@@ -444,7 +445,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                     : SizedBox(
                         height: 30,
                       ),
-                HomeScreen.customDivider(Colors.white),
+                UIServices.customDivider(Colors.white),
               ],
             ),
           ),

@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:library_app/DatabaseSerivces.dart';
+import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:library_app/Services/UIServices.dart';
 
 import 'HomeScreen.dart';
 
@@ -202,7 +203,7 @@ class _EditBookState extends State<EditBook> {
           child: Center(
             child: Column(
               children: [
-                HomeScreen.customDivider(Colors.black),
+                UIServices.customDivider(Colors.black),
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
@@ -449,7 +450,7 @@ class _EditBookState extends State<EditBook> {
                     ),
                   ),
                 ),
-                HomeScreen.customDivider(Colors.black),
+                UIServices.customDivider(Colors.black),
               ],
             ),
           ),
