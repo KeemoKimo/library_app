@@ -44,58 +44,6 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
     }
   }
 
-  Container customCard(
-      String displayText,
-      IconData firstIcon,
-      IconData secondIcon,
-      double marginTop,
-      Color mainIconColor,
-      Color secondIconColor) {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: marginTop),
-            height: 60,
-            child: Card(
-              shadowColor: Colors.black,
-              elevation: 5,
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: Icon(
-                      firstIcon,
-                      color: mainIconColor,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      '$displayText',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 190),
-                    child: Icon(
-                      secondIcon,
-                      size: 15,
-                      color: secondIconColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final userID = ModalRoute.of(context)!.settings.arguments as UserArguments;
@@ -395,7 +343,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                           );
                           //print('${userID.email} all books!');
                         },
-                        child: customCard(
+                        child: UIServices.customCard(
                           'All Books',
                           Icons.menu_book_rounded,
                           Icons.arrow_forward_ios_rounded,
@@ -433,7 +381,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                           );
                           //print('${userID.email} favourites books!');
                         },
-                        child: customCard(
+                        child: UIServices.customCard(
                           'All Favourite',
                           CupertinoIcons.star_circle_fill,
                           Icons.arrow_forward_ios_rounded,

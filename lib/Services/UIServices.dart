@@ -89,7 +89,7 @@ class UIServices {
     );
   }
 
-//!A function to make some custom alert pop up
+//!MAKE CUSTOM ERROR POP UP
   static AlertDialog makeDialog(String details, String imagePath) {
     return AlertDialog(
       content: Column(
@@ -133,6 +133,59 @@ class UIServices {
               height: 1,
               thickness: 1,
               color: Colors.red,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+//!MAKE CUSTOM CARD FOR OTHER USER PAGE
+  static Container customCard(
+      String displayText,
+      IconData firstIcon,
+      IconData secondIcon,
+      double marginTop,
+      Color mainIconColor,
+      Color secondIconColor) {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: marginTop),
+            height: 60,
+            child: Card(
+              shadowColor: Colors.black,
+              elevation: 5,
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Icon(
+                      firstIcon,
+                      color: mainIconColor,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '$displayText',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 190),
+                    child: Icon(
+                      secondIcon,
+                      size: 15,
+                      color: secondIconColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],
