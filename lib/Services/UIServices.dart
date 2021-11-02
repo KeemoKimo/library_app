@@ -88,4 +88,55 @@ class UIServices {
       margin: EdgeInsets.all(10),
     );
   }
+
+//!A function to make some custom alert pop up
+  static AlertDialog makeDialog(String details, String imagePath) {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(imagePath),
+              ),
+            ),
+          ),
+          Container(
+            child: Text(
+              "ERROR",
+              style: TextStyle(
+                  fontSize: 30, fontWeight: FontWeight.bold, color: Colors.red),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+            child: Divider(
+              height: 1,
+              thickness: 1,
+              color: Colors.red,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: Text(
+              details.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(20),
+            child: Divider(
+              height: 1,
+              thickness: 1,
+              color: Colors.red,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

@@ -11,6 +11,7 @@ import 'package:library_app/otherUserInfo.dart';
 import 'package:page_transition/page_transition.dart';
 import 'HomeScreen.dart';
 import 'Services/DatabaseSerivces.dart';
+import 'Services/UIServices.dart';
 
 //todo RUN APP
 void main() async {
@@ -53,57 +54,6 @@ class _LoginPageState extends State<LoginPage> {
   bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
-
-//!A function to make some custom alert pop up
-  AlertDialog makeDialog(String details) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/images/error.png'),
-              ),
-            ),
-          ),
-          Container(
-            child: Text(
-              "ERROR",
-              style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.bold, color: Colors.red),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-            child: Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.red,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Text(
-              details.toString(),
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(20),
-            child: Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.red,
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
 //! MAIN BUILD METHOD
   @override
@@ -280,8 +230,9 @@ class _LoginPageState extends State<LoginPage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return makeDialog(
-                                      'Please enter in your email and password!');
+                                  return UIServices.makeDialog(
+                                      'Please enter in your email and password!',
+                                      'assets/images/error.png');
                                 },
                               );
                             } else if (emailController.text.contains('@') ==
@@ -289,8 +240,9 @@ class _LoginPageState extends State<LoginPage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return makeDialog(
-                                      'Please enter proper email!');
+                                  return UIServices.makeDialog(
+                                      'Please enter a proper email',
+                                      'assets/images/error.png');
                                 },
                               );
                             } else {
@@ -315,8 +267,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'This email does not exist, please create one.');
+                                    return UIServices.makeDialog(
+                                        'This email does not exists!',
+                                        'assets/images/error.png');
                                   },
                                 );
                                 break;
@@ -325,8 +278,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'Your password is incorrect, please check it again.');
+                                    return UIServices.makeDialog(
+                                        'Incorrect password!',
+                                        'assets/images/error.png');
                                   },
                                 );
                                 break;
@@ -335,8 +289,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'This user credential is not found! Please create one, its free!!!');
+                                    return UIServices.makeDialog(
+                                        'User not found, please create one!',
+                                        'assets/images/error.png');
                                   },
                                 );
                                 break;
@@ -345,8 +300,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'This user account has already been disabled!');
+                                    return UIServices.makeDialog(
+                                        'This account has been disabled!',
+                                        'assets/images/error.png');
                                   },
                                 );
                                 break;
@@ -355,8 +311,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'There is too many request being transmitted. Please slow down!');
+                                    return UIServices.makeDialog(
+                                        'There is too many request! Please slow down!',
+                                        'assets/images/error.png');
                                   },
                                 );
                                 break;
@@ -365,8 +322,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'This operation is not being allowed at the current moment!!!');
+                                    return UIServices.makeDialog(
+                                        'This operation is not allowed at the current moment!',
+                                        'assets/images/error.png');
                                   },
                                 );
                                 break;
@@ -375,8 +333,9 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return makeDialog(
-                                        'Something went wrong with this log in, please check it again!!!');
+                                    return UIServices.makeDialog(
+                                        'Something went wrong, please try again!',
+                                        'assets/images/error.png');
                                   },
                                 );
                             }
@@ -384,8 +343,9 @@ class _LoginPageState extends State<LoginPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return makeDialog(
-                                    'Something went wrong with this log in, please check it again!!!');
+                                return UIServices.makeDialog(
+                                    'Something went wrong, please try again!',
+                                    'assets/images/error.png');
                               },
                             );
                           }
@@ -473,24 +433,27 @@ class _LoginPageState extends State<LoginPage> {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return makeDialog(
-                                              'Please create a password with more than 6 characters!!!');
+                                          return UIServices.makeDialog(
+                                              'Create a password with more than 6 characters!',
+                                              'assets/images/error.png');
                                         });
                                     break;
                                   case 'missing-email':
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return makeDialog(
-                                              'Please enter in the email you want to create!!!');
+                                          return UIServices.makeDialog(
+                                              'Enter in your email to create!',
+                                              'assets/images/error.png');
                                         });
                                     break;
                                   case 'email-already-in-use':
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return makeDialog(
-                                              'A user with this email already exists. Please choose a different email!!!');
+                                          return UIServices.makeDialog(
+                                              'This user already exists! Please make a unique one!',
+                                              'assets/images/error.png');
                                         });
                                     break;
                                   default:
@@ -498,8 +461,9 @@ class _LoginPageState extends State<LoginPage> {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return makeDialog(
-                                            'This user provided credential could not be created!!!');
+                                        return UIServices.makeDialog(
+                                            'The provided credintial could not be created!',
+                                            'assets/images/error.png');
                                       },
                                     );
                                 }
