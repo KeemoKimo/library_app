@@ -25,9 +25,6 @@ class _EditBookState extends State<EditBook> {
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
-
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now();
   bool isFavourite = false;
 
   var categoryItems = [

@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/HomeScreen.dart';
-import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
-
-import 'DatabaseSerivces.dart';
 
 class OtherUserInfo extends StatefulWidget {
   const OtherUserInfo({Key? key}) : super(key: key);

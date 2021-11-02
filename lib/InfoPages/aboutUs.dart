@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 
 import '../HomeScreen.dart';
@@ -31,7 +30,7 @@ Future sendEmail({
   final userId = 'user_K1O3yuCrqJUEDru3j777v';
   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
   try {
-    final response = await http.post(
+    await http.post(
       url,
       headers: {
         'origin': 'http://localhost',

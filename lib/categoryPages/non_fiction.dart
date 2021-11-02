@@ -1,17 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:library_app/DatabaseSerivces.dart';
-import 'package:library_app/addBook.dart';
-import 'package:library_app/main.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:library_app/myAccount.dart';
-
 import '../HomeScreen.dart';
 
 // ignore: camel_case_types
