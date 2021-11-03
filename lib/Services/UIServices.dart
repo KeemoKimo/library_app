@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:library_app/HomeScreen.dart';
 
 class UIServices {
-  //!MAKE A DIVIER
+  //!MAKE A DIVIDER
   static Container customDivider(Color color) {
     return Container(
       padding: EdgeInsets.all(20),
@@ -93,7 +93,7 @@ class UIServices {
   }
 
 //!MAKE CUSTOM ERROR POP UP
-  static AlertDialog makeDialog(String details, String imagePath) {
+  static AlertDialog showPopup(String details, String imagePath, bool isError) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -108,21 +108,42 @@ class UIServices {
               ),
             ),
           ),
-          Container(
-            child: Text(
-              "ERROR",
-              style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.bold, color: Colors.red),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-            child: Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.red,
-            ),
-          ),
+          (isError == true)
+              ? Container(
+                  child: Text(
+                    "ERROR",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red),
+                  ),
+                )
+              : Container(
+                  child: Text(
+                    "SUCCESS",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green),
+                  ),
+                ),
+          (isError == true)
+              ? Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.red,
+                  ),
+                )
+              : Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.green,
+                  ),
+                ),
           Container(
             margin: EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Text(
@@ -130,14 +151,23 @@ class UIServices {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(20),
-            child: Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.red,
-            ),
-          )
+          (isError == true)
+              ? Container(
+                  margin: EdgeInsets.all(20),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.red,
+                  ),
+                )
+              : Container(
+                  margin: EdgeInsets.all(20),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.green,
+                  ),
+                ),
         ],
       ),
     );
@@ -196,7 +226,7 @@ class UIServices {
     );
   }
 
-//!MAKE CUSTOM BOOK LIST VIEW(CAN SET WETHER TO SHOW FAVOURITES OR NO)
+//!GENERATE CUSTOM BOOK LIST VIEW(CAN SET WETHER TO SHOW FAVOURITES OR NO)
   static ListView bookListViewBuilder(
       AsyncSnapshot<QuerySnapshot<Object?>> snapshot,
       User loggedInUser,
@@ -287,6 +317,91 @@ class UIServices {
                     height: 10,
                   );
       },
+    );
+  }
+
+//! MAKE A CUSTOM TEXTFIELD INPUT
+  static Container makeCustomTextField(TextEditingController controllerName,
+      String labelText, bool isEnforceMaxLength, int txtMaxLength) {
+    return isEnforceMaxLength == false
+        ? Container(
+            margin: EdgeInsets.only(top: 5),
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: TextFormField(
+              controller: controllerName,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: labelText,
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              // onChanged: (value) {
+              //   titleController = value;
+              // },
+              // validator: (value) {
+              //   if (value == null || value.isEmpty) {
+              //     return 'Please enter some text';
+              //   }
+              //   return null;
+              // },
+            ),
+          )
+        : Container(
+            margin: EdgeInsets.only(top: 5),
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: TextFormField(
+              maxLength: txtMaxLength,
+              controller: controllerName,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                counterStyle: TextStyle(color: Colors.white),
+                labelText: labelText,
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              // onChanged: (value) {
+              //   titleController = value;
+              // },
+              // validator: (value) {
+              //   if (value == null || value.isEmpty) {
+              //     return 'Please enter some text';
+              //   }
+              //   return null;
+              // },
+            ),
+          );
+  }
+
+//! MAKE A CUSTOM SPACE BETWEEN
+  static SizedBox makeSpace(double value) {
+    return SizedBox(
+      height: value,
     );
   }
 }

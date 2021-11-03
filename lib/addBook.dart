@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
+import 'Services/UIServices.dart';
 
 // ignore: camel_case_types
 class addBookPage extends StatefulWidget {
@@ -123,42 +124,31 @@ class _addBookPageState extends State<addBookPage> {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.info,
+              Icons.favorite,
               color: Colors.white,
             ),
             onPressed: () {
-              showCupertinoDialog<void>(
-                context: context,
-                builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text('Mark As Favourite'),
-                  content:
-                      Text('Do you want to set this book as a favourite ?'),
-                  actions: <CupertinoDialogAction>[
-                    CupertinoDialogAction(
-                      child: const Text(
-                        'No',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    CupertinoDialogAction(
-                      child: const Text(
-                        'Yes',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      isDestructiveAction: true,
-                      onPressed: () {
-                        print(isFavourite);
-                        isFavourite = true;
-                        Navigator.pop(context);
-                        print(isFavourite);
-                      },
-                    )
-                  ],
-                ),
-              );
+              if (isFavourite == false) {
+                isFavourite = true;
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return UIServices.showPopup(
+                          "Book added to favourite successfully!",
+                          "assets/images/heart.png",
+                          false);
+                    });
+              } else {
+                isFavourite = false;
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return UIServices.showPopup(
+                          "Book removed from favourite successfully!",
+                          "assets/images/heart.png",
+                          false);
+                    });
+              }
             },
           ),
         ],
@@ -205,67 +195,11 @@ class _addBookPageState extends State<addBookPage> {
                     onPressed: () => pickImage(),
                     icon: Icon(Icons.add_a_photo),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: TextFormField(
-                      controller: titleController,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: "Enter Book title...",
-                        labelStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      // onChanged: (value) {
-                      //   titleController = value;
-                      // },
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'Please enter some text';
-                      //   }
-                      //   return null;
-                      // },
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: TextFormField(
-                      controller: authorController,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: "Enter the Author's name...",
-                        labelStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  UIServices.makeCustomTextField(
+                      titleController, 'Enter book title...', false, 0),
+                  UIServices.makeSpace(20),
+                  UIServices.makeCustomTextField(
+                      authorController, 'Enter author name...', false, 0),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Text(
@@ -423,88 +357,15 @@ class _addBookPageState extends State<addBookPage> {
                       },
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: TextFormField(
-                      maxLength: 5,
-                      controller: numberOfPageController,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        counterStyle: TextStyle(color: Colors.white),
-                        labelText: "Enter the number of pages...",
-                        labelStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: TextFormField(
-                      maxLength: 10,
-                      controller: publishedYearController,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        counterStyle: TextStyle(color: Colors.white),
-                        labelText: "Enter the year the book is published",
-                        labelStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: TextFormField(
-                      controller: languageController,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: "Enter the book language",
-                        labelStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  UIServices.makeSpace(20),
+                  UIServices.makeCustomTextField(numberOfPageController,
+                      'Enter number of page...', true, 5),
+                  UIServices.makeSpace(20),
+                  UIServices.makeCustomTextField(publishedYearController,
+                      'Enter year of publication...', true, 10),
+                  UIServices.makeSpace(20),
+                  UIServices.makeCustomTextField(
+                      languageController, 'Enter book language...', false, 0),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -577,59 +438,10 @@ class _addBookPageState extends State<addBookPage> {
                           await showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              'assets/images/success.png'),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        "ADDED",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.green),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: 20, right: 20, top: 20),
-                                      child: Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: 20, left: 20, right: 20),
-                                      child: Text(
-                                        'Your book has been added into our database successfully. You can delete it or edit it later!',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.all(20),
-                                      child: Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        color: Colors.green,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
+                              return UIServices.showPopup(
+                                  "Your book has been added successfully",
+                                  'assets/images/success.png',
+                                  false);
                             },
                           );
                           Navigator.pop(context);
@@ -637,59 +449,10 @@ class _addBookPageState extends State<addBookPage> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              'assets/images/error.png'),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        "ERROR",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: 20, right: 20, top: 20),
-                                      child: Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: 20, left: 20, right: 20),
-                                      child: Text(
-                                        'Please check your input data again!!!',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.all(20),
-                                      child: Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        color: Colors.red,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
+                              return UIServices.showPopup(
+                                  "There was an error adding in your inputted book data",
+                                  'assets/images/error.png',
+                                  true);
                             },
                           );
                         }

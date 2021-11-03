@@ -230,9 +230,10 @@ class _LoginPageState extends State<LoginPage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return UIServices.makeDialog(
+                                  return UIServices.showPopup(
                                       'Please enter in your email and password!',
-                                      'assets/images/error.png');
+                                      'assets/images/error.png',
+                                      true);
                                 },
                               );
                             } else if (emailController.text.contains('@') ==
@@ -240,9 +241,10 @@ class _LoginPageState extends State<LoginPage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return UIServices.makeDialog(
+                                  return UIServices.showPopup(
                                       'Please enter a proper email',
-                                      'assets/images/error.png');
+                                      'assets/images/error.png',
+                                      true);
                                 },
                               );
                             } else {
@@ -267,9 +269,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'This email does not exists!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                                 break;
@@ -278,9 +281,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'Incorrect password!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                                 break;
@@ -289,9 +293,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'User not found, please create one!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                                 break;
@@ -300,9 +305,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'This account has been disabled!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                                 break;
@@ -311,9 +317,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'There is too many request! Please slow down!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                                 break;
@@ -322,9 +329,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'This operation is not allowed at the current moment!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                                 break;
@@ -333,9 +341,10 @@ class _LoginPageState extends State<LoginPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return UIServices.makeDialog(
+                                    return UIServices.showPopup(
                                         'Something went wrong, please try again!',
-                                        'assets/images/error.png');
+                                        'assets/images/error.png',
+                                        true);
                                   },
                                 );
                             }
@@ -343,9 +352,10 @@ class _LoginPageState extends State<LoginPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return UIServices.makeDialog(
+                                return UIServices.showPopup(
                                     'Something went wrong, please try again!',
-                                    'assets/images/error.png');
+                                    'assets/images/error.png',
+                                    true);
                               },
                             );
                           }
@@ -433,27 +443,30 @@ class _LoginPageState extends State<LoginPage> {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return UIServices.makeDialog(
+                                          return UIServices.showPopup(
                                               'Create a password with more than 6 characters!',
-                                              'assets/images/error.png');
+                                              'assets/images/error.png',
+                                              true);
                                         });
                                     break;
                                   case 'missing-email':
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return UIServices.makeDialog(
+                                          return UIServices.showPopup(
                                               'Enter in your email to create!',
-                                              'assets/images/error.png');
+                                              'assets/images/error.png',
+                                              true);
                                         });
                                     break;
                                   case 'email-already-in-use':
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return UIServices.makeDialog(
+                                          return UIServices.showPopup(
                                               'This user already exists! Please make a unique one!',
-                                              'assets/images/error.png');
+                                              'assets/images/error.png',
+                                              true);
                                         });
                                     break;
                                   default:
@@ -461,9 +474,10 @@ class _LoginPageState extends State<LoginPage> {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return UIServices.makeDialog(
+                                        return UIServices.showPopup(
                                             'The provided credintial could not be created!',
-                                            'assets/images/error.png');
+                                            'assets/images/error.png',
+                                            true);
                                       },
                                     );
                                 }
