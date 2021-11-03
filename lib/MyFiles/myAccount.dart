@@ -227,19 +227,50 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     children: [
                       //! UPLOAD AND DISPLAY PFP
                       Container(
+                        height: 450,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                             colors: [
-                              Color(0xFFb621fe),
-                              Color(0xFF1fd1f9),
+                              Color(0xFFb58ecc),
+                              Color(0xFF320D6D),
+                              Color(0xFF044B7F),
+                              Color(0xFFb91372),
                             ],
+                          ),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
                           ),
                         ),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    "My Profile",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 20),
+                                  child: Icon(
+                                    Icons.settings,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                             GestureDetector(
                               onTap: () {
                                 pickAndUploadImage();
@@ -269,13 +300,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 );
                               },
                               child: Container(
-                                margin: EdgeInsets.only(top: 20),
+                                margin: EdgeInsets.only(top: 40),
                                 width: 200,
                                 height: 200,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border:
-                                      Border.all(width: 3, color: Colors.black),
+                                      Border.all(width: 3, color: Colors.white),
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: profileURL == ''
@@ -288,16 +319,23 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             ),
                             UIServices.makeSpace(20),
                             Text(
+                              userName!,
+                              style: TextStyle(
+                                fontSize: 23,
+                                color: Colors.white,
+                              ),
+                            ),
+                            UIServices.makeSpace(10),
+                            Text(
                               userEmail!,
                               style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontStyle: FontStyle.italic),
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      UIServices.customDivider(Colors.black),
                       //!PROFILE SECTION
                       UIServices.customAlignedText(
                           Alignment.centerLeft, "Profile"),
@@ -326,13 +364,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             Row(
                               children: [
                                 Icon(
-                                  Icons.person,
+                                  Icons.mail,
                                   color: Colors.purple,
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    'Username : $userName',
+                                    'Email : $userEmail',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
