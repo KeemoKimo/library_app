@@ -98,7 +98,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     super.initState();
     getCurrentUser().whenComplete(() {
       setState(() {
-        print(loggedInUser.email);
         build(context);
       });
     });
