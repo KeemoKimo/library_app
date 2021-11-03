@@ -182,15 +182,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: Text(
-          'MY ACCOUNT',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       body: Container(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -235,58 +226,76 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   return Column(
                     children: [
                       //! UPLOAD AND DISPLAY PFP
-                      GestureDetector(
-                        onTap: () {
-                          pickAndUploadImage();
-                        },
-                        onLongPress: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Dialog(
-                                elevation: 10,
-                                child: Container(
-                                  width: 400,
-                                  height: 400,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: profileURL == ''
-                                          ? NetworkImage(
-                                              'https://www.brother.ca/resources/images/no-product-image.png')
-                                          : NetworkImage(profileURL!),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 20),
-                          width: 200,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(width: 3, color: Colors.black),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: profileURL == ''
-                                  ? NetworkImage(
-                                      'https://www.brother.ca/resources/images/no-product-image.png')
-                                  : NetworkImage(profileURL!),
-                            ),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            colors: [
+                              Color(0xFFb621fe),
+                              Color(0xFF1fd1f9),
+                            ],
                           ),
                         ),
-                      ),
-                      UIServices.makeSpace(20),
-                      Text(
-                        userEmail!,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                pickAndUploadImage();
+                              },
+                              onLongPress: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      elevation: 10,
+                                      child: Container(
+                                        width: 400,
+                                        height: 400,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: profileURL == ''
+                                                ? NetworkImage(
+                                                    'https://www.brother.ca/resources/images/no-product-image.png')
+                                                : NetworkImage(profileURL!),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 20),
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border:
+                                      Border.all(width: 3, color: Colors.black),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: profileURL == ''
+                                        ? NetworkImage(
+                                            'https://www.brother.ca/resources/images/no-product-image.png')
+                                        : NetworkImage(profileURL!),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            UIServices.makeSpace(20),
+                            Text(
+                              userEmail!,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
                       ),
                       UIServices.customDivider(Colors.black),
                       //!PROFILE SECTION

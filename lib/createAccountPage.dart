@@ -16,7 +16,7 @@ class RegisterAccount extends StatefulWidget {
 class _RegisterAccountState extends State<RegisterAccount> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
-  String? totalBooks = '';
+  TextEditingController usernameController = new TextEditingController();
   bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -63,74 +63,19 @@ class _RegisterAccountState extends State<RegisterAccount> {
               key: _formKey,
               child: Column(
                 children: [
+                  //? USERNAME TEXT BOX
+                  makeTextField(340, "Create Username....", usernameController),
+                  UIServices.makeSpace(20),
                   //? EMAIL TEXT BOX
-                  Container(
-                    width: 340,
-                    height: 50,
-                    child: TextFormField(
-                      controller: emailController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: "Create Email....",
-                        hintStyle: TextStyle(color: Colors.white),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
+                  makeTextField(340, "Create Email....", emailController),
                   UIServices.makeSpace(20),
                   //? PASSWORD TEXT BOX / ICON
                   Row(
                     children: [
                       Container(
-                        width: 290,
-                        height: 50,
-                        margin: EdgeInsets.only(top: 20, left: 35),
-                        child: TextFormField(
-                          controller: passwordController,
-                          style: TextStyle(color: Colors.white),
-                          obscureText: isObscure,
-                          decoration: InputDecoration(
-                            hintText: "Create Password....",
-                            hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 2.0,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                        ),
+                        margin: EdgeInsets.only(left: 37),
+                        child: makeTextField(
+                            300, "Create Password....", passwordController),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -143,7 +88,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 20, left: 20),
+                          margin: EdgeInsets.only(top: 10, left: 10),
                           width: 30,
                           height: 30,
                           child: Image(
@@ -187,12 +132,13 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         }
                         try {
                           if (emailController.text == "" ||
-                              passwordController.text == "") {
+                              passwordController.text == "" ||
+                              usernameController.text == "") {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return UIServices.showPopup(
-                                    'Please enter in your email and password!',
+                                    'Please enter in all the fields!',
                                     'assets/images/error.png',
                                     true);
                               },
@@ -216,11 +162,11 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             await DatabaseServices(
                                     uid: userCredential.user!.uid)
                                 .updateUserData(
-                              'new_User',
+                              usernameController.text,
                               'age',
                               emailController.text,
                               'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-                              totalBooks!,
+                              '',
                               'location',
                               'about me',
                               '',
@@ -301,6 +247,41 @@ class _RegisterAccountState extends State<RegisterAccount> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Container makeTextField(double width, String hintText,
+      TextEditingController textEditingController) {
+    return Container(
+      width: width,
+      height: 50,
+      child: TextFormField(
+        controller: textEditingController,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
       ),
     );
   }
