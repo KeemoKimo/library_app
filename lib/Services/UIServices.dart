@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:library_app/HomeScreen.dart';
+import 'package:library_app/MyFiles/HomeScreen.dart';
 
 class UIServices {
   //!MAKE A DIVIDER
@@ -402,6 +402,22 @@ class UIServices {
   static SizedBox makeSpace(double value) {
     return SizedBox(
       height: value,
+    );
+  }
+
+//! CUSTOM TEXT WITH ALIGNMENT
+  static Align customAlignedText(Alignment alignment, String text) {
+    return Align(
+      alignment: alignment,
+      child: Container(
+        margin: EdgeInsets.only(left: 20),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

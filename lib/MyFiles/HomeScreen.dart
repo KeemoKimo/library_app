@@ -6,11 +6,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:library_app/Services/UIServices.dart';
-import 'package:library_app/addBook.dart';
+import 'package:library_app/MyFiles/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
-import 'package:library_app/myAccount.dart';
+import 'package:library_app/MyFiles/myAccount.dart';
 import 'package:page_transition/page_transition.dart';
-import 'main.dart';
+import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -345,11 +345,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             height: 400,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                begin: Alignment.centerRight,
-                                end: Alignment.centerLeft,
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
                                 colors: [
-                                  Color(0xFF614385),
-                                  Color(0xFF516395),
+                                  Color(0xFFfff200),
+                                  Color(0xFF003b64),
                                 ],
                               ),
                               borderRadius: BorderRadius.only(
@@ -405,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     width: double.infinity,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 20),
-                                    height: 80,
+                                    height: 60,
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         begin: Alignment.centerLeft,

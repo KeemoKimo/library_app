@@ -9,9 +9,9 @@ import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserFiles/otherUserInfo.dart';
 import 'package:page_transition/page_transition.dart';
-import 'MyFiles/HomeScreen.dart';
-import 'Services/DatabaseSerivces.dart';
-import 'Services/UIServices.dart';
+import 'package:library_app/MyFiles/HomeScreen.dart';
+import 'package:library_app/Services/DatabaseSerivces.dart';
+import 'package:library_app/Services/UIServices.dart';
 
 //todo RUN APP
 void main() async {

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/Services/UIServices.dart';
 
-import '../HomeScreen.dart';
+import '../MyFiles/HomeScreen.dart';
 
 class PhilosophyPage extends StatefulWidget {
   const PhilosophyPage({Key? key}) : super(key: key);

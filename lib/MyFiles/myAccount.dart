@@ -10,7 +10,7 @@ import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:country_picker/country_picker.dart';
 
-import 'Services/UIServices.dart';
+import '../Services/UIServices.dart';
 
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -235,6 +235,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
                   return Column(
                     children: [
+                      //! UPLOAD AND DISPLAY PFP
                       GestureDetector(
                         onTap: () {
                           pickAndUploadImage();
@@ -265,8 +266,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 150,
-                          height: 150,
+                          width: 200,
+                          height: 200,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(width: 3, color: Colors.black),
@@ -280,29 +281,18 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text(
-                          userEmail!,
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic),
-                        ),
+                      UIServices.makeSpace(20),
+                      Text(
+                        userEmail!,
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontStyle: FontStyle.italic),
                       ),
                       UIServices.customDivider(Colors.black),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Text(
-                            'Profile',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      //!PROFILE SECTION
+                      UIServices.customAlignedText(
+                          Alignment.centerLeft, "Profile"),
                       Container(
                         width: double.infinity,
                         height: 200,
@@ -589,18 +579,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ],
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Text(
-                            'Extra Information',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      //!EXTRA INFORMATION SECTION
+                      UIServices.customAlignedText(
+                          Alignment.centerLeft, "Extra Information"),
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
@@ -932,338 +913,35 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ],
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: Text(
-                            'Privacy Settings',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20),
-                        margin: EdgeInsets.only(
-                            left: 20, right: 20, bottom: 20, top: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 40),
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          'assets/images/location.png'),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 30),
-                                  child: Text(
-                                    'Show Location : ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Transform.scale(
-                                  scale: 0.8,
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: CupertinoSwitch(
-                                      value: _switchValueLocation,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _switchValueLocation = value;
-                                          print(_switchValueLocation);
-                                          DatabaseServices(
-                                                  uid: loggedInUser.uid)
-                                              .updateLocationPrivacyStatus(
-                                                  _switchValueLocation);
-                                        });
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar();
-                                        var snackBar = SnackBar(
-                                          content: _switchValueLocation == true
-                                              ? Text('Location switched on!')
-                                              : Text('Location switched off!'),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20),
-                        margin:
-                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 40),
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image:
-                                          AssetImage('assets/images/age.png'),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 30),
-                                  child: Text(
-                                    'Show Age : ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Transform.scale(
-                                  scale: 0.8,
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 40),
-                                    child: CupertinoSwitch(
-                                      value: _switchValueAge,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _switchValueAge = value;
-                                          print(_switchValueAge);
-                                          DatabaseServices(
-                                                  uid: loggedInUser.uid)
-                                              .updateAgePrivacyStatus(
-                                                  _switchValueAge);
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          var snackBar = SnackBar(
-                                            content: _switchValueAge == true
-                                                ? Text('Age is set to public!')
-                                                : Text(
-                                                    'Age is set to private!'),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20),
-                        margin:
-                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 40),
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          'assets/images/booksIcon.png'),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 25),
-                                  child: Text(
-                                    'Show your books : ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Transform.scale(
-                                  scale: 0.8,
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 0),
-                                    child: CupertinoSwitch(
-                                      value: _switchValueBooks,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _switchValueBooks = value;
-                                          print(_switchValueBooks);
-                                          DatabaseServices(
-                                                  uid: loggedInUser.uid)
-                                              .updateBooksPrivacyStatus(
-                                                  _switchValueBooks);
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          var snackBar = SnackBar(
-                                            content: _switchValueBooks == true
-                                                ? Text(
-                                                    'Books will be displayed!')
-                                                : Text('Books will be hidden!'),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20),
-                        margin:
-                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 40),
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image:
-                                          AssetImage('assets/images/heart.png'),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 30),
-                                  child: Text(
-                                    'Show Favourites : ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Transform.scale(
-                                  scale: 0.8,
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 0),
-                                    child: CupertinoSwitch(
-                                      value: _switchValueFavourite,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _switchValueFavourite = value;
-                                          DatabaseServices(
-                                                  uid: loggedInUser.uid)
-                                              .updateFavouritePrivacyStatus(
-                                                  _switchValueFavourite);
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          var snackBar = SnackBar(
-                                            content: _switchValueFavourite ==
-                                                    true
-                                                ? Text(
-                                                    'Favourites will be displayed!')
-                                                : Text(
-                                                    'Favourites will be kept a secret!'),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Text(
-                            'Content',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      //!PRIVACY SETTINS SECTION
+                      UIServices.customAlignedText(
+                          Alignment.centerLeft, "Privacy Settings"),
+                      makeToggleContainer(
+                          context,
+                          'assets/images/location.png',
+                          'Show Location:',
+                          'Location',
+                          20,
+                          _switchValueLocation),
+                      makeToggleContainer(context, 'assets/images/age.png',
+                          'Show age:', 'Age', 50, _switchValueAge),
+                      makeToggleContainer(
+                          context,
+                          'assets/images/booksIcon.png',
+                          'Show your books:',
+                          'Books',
+                          0,
+                          _switchValueBooks),
+                      makeToggleContainer(
+                          context,
+                          'assets/images/heart.png',
+                          'Show Favourites:',
+                          'Favourites',
+                          3,
+                          _switchValueFavourite),
+                      //!CONTENTS SECTION
+                      UIServices.customAlignedText(
+                          Alignment.centerLeft, "Contents"),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -1297,18 +975,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             Colors.red,
                             Colors.red),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: Text(
-                            'Statistic',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      UIServices.makeSpace(20),
+                      //!STATISTICS SECTION
+                      UIServices.customAlignedText(
+                          Alignment.centerLeft, "Your Statistics"),
                       Container(
                         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                         padding: EdgeInsets.all(20),
@@ -1384,6 +1054,95 @@ class _MyAccountPageState extends State<MyAccountPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container makeToggleContainer(
+      BuildContext context,
+      String imagePath,
+      String instructionText,
+      String details,
+      double marginValue,
+      bool switchValue) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3, // how much spread does this shadow goes
+            blurRadius: 4, // how blurry the shadow is
+            offset: Offset(0, 5), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 40),
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(imagePath),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 30),
+                child: Text(
+                  instructionText,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Transform.scale(
+                scale: 0.8,
+                child: Container(
+                  margin: EdgeInsets.only(left: marginValue),
+                  child: CupertinoSwitch(
+                    value: switchValue,
+                    onChanged: (value) {
+                      setState(
+                        () {
+                          switchValue = value;
+                          print(switchValue);
+                          if (details == "Location") {
+                            DatabaseServices(uid: loggedInUser.uid)
+                                .updateLocationPrivacyStatus(switchValue);
+                          } else if (details == "Age") {
+                            DatabaseServices(uid: loggedInUser.uid)
+                                .updateAgePrivacyStatus(switchValue);
+                          } else if (details == "Books") {
+                            DatabaseServices(uid: loggedInUser.uid)
+                                .updateBooksPrivacyStatus(switchValue);
+                          } else if (details == "Favourites") {
+                            DatabaseServices(uid: loggedInUser.uid)
+                                .updateFavouritePrivacyStatus(switchValue);
+                          }
+                        },
+                      );
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      var snackBar = SnackBar(
+                        content: switchValue == true
+                            ? Text('$details switched on!')
+                            : Text('$details switched off!'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
