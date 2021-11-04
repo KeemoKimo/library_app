@@ -19,50 +19,61 @@ class MyAccountPage extends StatefulWidget {
   _MyAccountPageState createState() => _MyAccountPageState();
   //! FUNCTION TO MAKE A CUSTOM CARD
   static Container customCard(
-      String displayText,
-      IconData firstIcon,
-      IconData secondIcon,
-      double marginTop,
-      Color mainIconColor,
-      Color secondIconColor) {
+    String displayText,
+    IconData firstIcon,
+    IconData secondIcon,
+    double marginTop,
+    Color mainIconColor,
+    Color secondIconColor,
+  ) {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFc31432),
+            Color(0xFF320D6D),
+            Color(0xFF044B7F),
+            Color(0xFF240b36),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: Column(
         children: [
           Container(
             margin: EdgeInsets.only(top: marginTop),
             height: 60,
-            child: Card(
-              shadowColor: Colors.black,
-              elevation: 5,
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: Icon(
-                      firstIcon,
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: Icon(
+                    firstIcon,
+                    color: mainIconColor,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    '$displayText',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       color: mainIconColor,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      '$displayText',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 190),
+                  child: Icon(
+                    secondIcon,
+                    size: 15,
+                    color: secondIconColor,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 190),
-                    child: Icon(
-                      secondIcon,
-                      size: 15,
-                      color: secondIconColor,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
         ],
@@ -260,57 +271,107 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(right: 20),
-                                  child: Icon(
-                                    Icons.settings,
-                                    color: Colors.white,
+                                  child: Hero(
+                                    tag: 'EditPage',
+                                    child: Material(
+                                      type: MaterialType.transparency,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            'editProfile',
+                                            arguments: UserArguments(
+                                              age!,
+                                              userEmail!,
+                                              profileURL!,
+                                              totalBooks!,
+                                              userName!,
+                                              about!,
+                                              totalFavourites!,
+                                              currentLocation!,
+                                              createdDateDate!,
+                                              createdDateMonth!,
+                                              createdDateYear!,
+                                              _switchValueLocation,
+                                              _switchValueAge,
+                                              _switchValueBooks,
+                                              _switchValueFavourite,
+                                            ),
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.settings,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                pickAndUploadImage();
-                              },
-                              onLongPress: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Dialog(
-                                      elevation: 10,
-                                      child: Container(
-                                        width: 400,
-                                        height: 400,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: profileURL == ''
-                                                ? NetworkImage(
-                                                    'https://www.brother.ca/resources/images/no-product-image.png')
-                                                : NetworkImage(profileURL!),
-                                          ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 200,
+                              child: Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      pickAndUploadImage();
+                                    },
+                                    onLongPress: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            elevation: 10,
+                                            child: Container(
+                                              width: 400,
+                                              height: 400,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: profileURL == ''
+                                                      ? NetworkImage(
+                                                          'https://www.brother.ca/resources/images/no-product-image.png')
+                                                      : NetworkImage(
+                                                          profileURL!),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 40),
+                                      width: 200,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            width: 3, color: Colors.white),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: profileURL == ''
+                                              ? NetworkImage(
+                                                  'https://www.brother.ca/resources/images/no-product-image.png')
+                                              : NetworkImage(profileURL!),
                                         ),
                                       ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(top: 40),
-                                width: 200,
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border:
-                                      Border.all(width: 3, color: Colors.white),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: profileURL == ''
-                                        ? NetworkImage(
-                                            'https://www.brother.ca/resources/images/no-product-image.png')
-                                        : NetworkImage(profileURL!),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(top: 200, right: 10),
+                                    alignment: Alignment.bottomRight,
+                                    child: Icon(
+                                      Icons.add_a_photo,
+                                      color: Colors.white,
+                                      size: 40,
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                             UIServices.makeSpace(20),
@@ -343,7 +404,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         ),
                         child: Column(
                           children: [
-                            //!PROFILE SECTION
+                            //!YOUR INFORMATION SECTION
                             space40,
                             UIServices.customAlignedText(
                                 Alignment.centerLeft, "Your Information"),
@@ -353,7 +414,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               margin: EdgeInsets.only(
                                   top: 20, left: 10, right: 10, bottom: 20),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                  colors: [
+                                    Color(0xFF7303c0),
+                                    Color(0xFF93291E),
+                                    Color(0xFF044B7F),
+                                    Color(0xFFb91372),
+                                  ],
+                                ),
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
@@ -368,78 +438,28 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               ),
                               child: Column(
                                 children: [
-                                  makeRowItem(
-                                      Icons.verified, "Age", age.toString()),
+                                  makeRowItem(Icons.verified, "Age",
+                                      age.toString(), Colors.white),
                                   space40,
                                   makeRowItem(
                                       Icons.calendar_today,
                                       "Created Date",
-                                      "$createdDateDate / $createdDateMonth / $createdDateYear"),
+                                      "$createdDateDate / $createdDateMonth / $createdDateYear",
+                                      Colors.white),
                                   space40,
                                   makeRowItem(Icons.location_city, "Location",
-                                      currentLocation.toString()),
+                                      currentLocation.toString(), Colors.white),
                                   space40,
-                                  makeRowItem(Icons.info, "About you", ""),
+                                  makeRowItem(Icons.info, "About you", "",
+                                      Colors.white),
                                   UIServices.makeSpace(20),
                                   Text(
                                     about!,
                                     style: TextStyle(
-                                        wordSpacing: 2,
-                                        letterSpacing: 1,
-                                        height: 1.5),
-                                  ),
-                                  //! Button for the editing page
-                                  Container(
-                                    child: Hero(
-                                      tag: 'EditPage',
-                                      child: Material(
-                                        type: MaterialType.transparency,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              'editProfile',
-                                              arguments: UserArguments(
-                                                age!,
-                                                userEmail!,
-                                                profileURL!,
-                                                totalBooks!,
-                                                userName!,
-                                                about!,
-                                                totalFavourites!,
-                                                currentLocation!,
-                                                createdDateDate!,
-                                                createdDateMonth!,
-                                                createdDateYear!,
-                                                _switchValueLocation,
-                                                _switchValueAge,
-                                                _switchValueBooks,
-                                                _switchValueFavourite,
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 20),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.settings,
-                                                  color: Colors.purple,
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    'Edit Profile',
-                                                    style: TextStyle(
-                                                        color: Colors.purple),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      wordSpacing: 2,
+                                      letterSpacing: 1,
+                                      height: 1.5,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ],
@@ -500,10 +520,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 Icons.menu_book_rounded,
                                 Icons.arrow_forward_ios_rounded,
                                 10,
-                                Color(0xFFB03A2E),
-                                Color(0xFFB03A2E),
+                                Colors.white,
+                                Colors.white,
                               ),
                             ),
+                            UIServices.makeSpace(20),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -518,8 +539,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   Icons.favorite,
                                   Icons.arrow_forward_ios_rounded,
                                   0,
-                                  Colors.red,
-                                  Colors.red),
+                                  Colors.white,
+                                  Colors.white),
                             ),
                             UIServices.makeSpace(20),
                             //!STATISTICS SECTION
@@ -534,7 +555,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               width: double.infinity,
                               height: 110,
                               decoration: BoxDecoration(
-                                color: Colors.purple,
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomRight,
+                                  end: Alignment.topLeft,
+                                  colors: [
+                                    Color(0xFFb58ecc),
+                                    Color(0xFF320D6D),
+                                    Color(0xFF044B7F),
+                                    Color(0xFF93291E),
+                                  ],
+                                ),
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
@@ -549,43 +579,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               ),
                               child: Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.library_books_rounded,
-                                        color: Colors.white,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Total Books : $totalBooks",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 20),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.favorite,
-                                          color: Colors.white,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            "Total Favorites : $totalFavourites",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  makeRowItem(Icons.book, "Total Books",
+                                      totalBooks!, Colors.white),
+                                  UIServices.makeSpace(20),
+                                  makeRowItem(
+                                      Icons.favorite,
+                                      "Total Favourites",
+                                      totalFavourites!,
+                                      Colors.white),
                                 ],
                               ),
                             ),
@@ -596,6 +597,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
+                            UIServices.makeSpace(20),
                           ],
                         ),
                       ),
@@ -611,12 +613,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
   }
 
   //!FUNCTION TO MAKE THE ROW WIDGET WITH ICON AND TEXT
-  Row makeRowItem(IconData icon, String leadingText, String trailingText) {
+  Row makeRowItem(
+      IconData icon, String leadingText, String trailingText, Color color) {
     return Row(
       children: [
         Icon(
           icon,
-          color: Colors.purple,
+          color: color,
           size: 25,
         ),
         Container(
@@ -626,6 +629,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 17,
+              color: color,
             ),
           ),
         ),

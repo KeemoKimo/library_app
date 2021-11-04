@@ -57,9 +57,9 @@ class _EditProfileState extends State<EditProfile> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFFb92b27),
+            Color(0xFFC33764),
             Color(0xFF6e45e1),
-            Color(0xFFfe5858),
+            Color(0xFF1D2671),
             Color(0xFFa71d31),
           ],
         ),
@@ -162,7 +162,7 @@ class _EditProfileState extends State<EditProfile> {
                                     '$pickedCountry',
                                     style: TextStyle(
                                       fontSize: 20,
-                                      color: Color(0xFFDB4048),
+                                      color: Color(0xFF2B276B),
                                     ),
                                   ),
                                 ),
@@ -170,7 +170,7 @@ class _EditProfileState extends State<EditProfile> {
                                   padding: EdgeInsets.only(right: 20),
                                   child: Icon(
                                     Icons.swap_horizontal_circle_sharp,
-                                    color: Color(0xFFDB4048),
+                                    color: Color(0xFF2B276B),
                                   ),
                                 ),
                               ],
@@ -231,7 +231,7 @@ class _EditProfileState extends State<EditProfile> {
               }
             },
             child: const Icon(Icons.edit),
-            backgroundColor: Color(0xFFA14CB0),
+            backgroundColor: Color(0xFF2B276B),
           ),
         ),
       ),
