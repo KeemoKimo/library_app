@@ -145,41 +145,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future pickAndUploadImage() async {
-      final ImagePicker _picker = ImagePicker();
-      try {
-        XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
-        print('Image Picking Process Starting');
-        await new Future.delayed(const Duration(seconds: 2));
-        if (image != null) {
-          userProfilePicture = File(image.path);
-          print(userProfilePicture);
-          print(File(image.path));
-          if (userProfilePicture.path != image.path) {
-            print('It didnt work sorry');
-            Navigator.pop(context);
-          } else {
-            print('Should be startting to put file in');
-            var snapshot = await storage
-                .ref()
-                .child('userProfiles/$userEmail profile')
-                .putFile(userProfilePicture);
-            print('file put in!');
-            profileURL = await snapshot.ref.getDownloadURL();
-          }
-        } else {
-          print("Please choose a picture");
-          return;
-        }
-        setState(() {
-          DatabaseServices(uid: loggedInUser.uid).updateUserPhoto(profileURL!);
-          print(profileURL);
-        });
-      } catch (e) {
-        print(e);
-      }
-    }
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -297,9 +262,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                pickAndUploadImage();
-                              },
-                              onLongPress: () {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
