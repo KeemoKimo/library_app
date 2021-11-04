@@ -58,8 +58,8 @@ class _EditProfileState extends State<EditProfile> {
           end: Alignment.bottomRight,
           colors: [
             Color(0xFFb92b27),
-            Color(0xFF6e45e1),
-            Color(0xFFfe5858),
+            Color(0xFFc31432),
+            Color(0xFF333399),
             Color(0xFFa71d31),
           ],
         ),
@@ -231,7 +231,7 @@ class _EditProfileState extends State<EditProfile> {
               }
             },
             child: const Icon(Icons.edit),
-            backgroundColor: Color(0xFFA14CB0),
+            backgroundColor: Color(0xFFc31432),
           ),
         ),
       ),

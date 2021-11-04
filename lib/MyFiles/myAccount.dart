@@ -260,9 +260,37 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(right: 20),
-                                  child: Icon(
-                                    Icons.settings,
-                                    color: Colors.white,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        'editProfile',
+                                        arguments: UserArguments(
+                                          age!,
+                                          userEmail!,
+                                          profileURL!,
+                                          totalBooks!,
+                                          userName!,
+                                          about!,
+                                          totalFavourites!,
+                                          currentLocation!,
+                                          createdDateDate!,
+                                          createdDateMonth!,
+                                          createdDateYear!,
+                                          _switchValueLocation,
+                                          _switchValueAge,
+                                          _switchValueBooks,
+                                          _switchValueFavourite,
+                                        ),
+                                      );
+                                    },
+                                    child: Hero(
+                                      tag: 'EditPage',
+                                      child: Icon(
+                                        Icons.settings,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -353,7 +381,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               margin: EdgeInsets.only(
                                   top: 20, left: 10, right: 10, bottom: 20),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomRight,
+                                  end: Alignment.topLeft,
+                                  colors: [
+                                    Color(0xFF5f2c82),
+                                    Color(0xFF833ab4),
+                                    Color(0xFFfd1d1d),
+                                    Color(0xFF03001e),
+                                  ],
+                                ),
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
@@ -368,78 +405,28 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               ),
                               child: Column(
                                 children: [
-                                  makeRowItem(
-                                      Icons.verified, "Age", age.toString()),
+                                  makeRowItem(Icons.verified, "Age",
+                                      age.toString(), Colors.white),
                                   space40,
                                   makeRowItem(
                                       Icons.calendar_today,
                                       "Created Date",
-                                      "$createdDateDate / $createdDateMonth / $createdDateYear"),
+                                      "$createdDateDate / $createdDateMonth / $createdDateYear",
+                                      Colors.white),
                                   space40,
                                   makeRowItem(Icons.location_city, "Location",
-                                      currentLocation.toString()),
+                                      currentLocation.toString(), Colors.white),
                                   space40,
-                                  makeRowItem(Icons.info, "About you", ""),
+                                  makeRowItem(
+                                      Icons.info, "About Me", "", Colors.white),
                                   UIServices.makeSpace(20),
                                   Text(
                                     about!,
                                     style: TextStyle(
-                                        wordSpacing: 2,
-                                        letterSpacing: 1,
-                                        height: 1.5),
-                                  ),
-                                  //! Button for the editing page
-                                  Container(
-                                    child: Hero(
-                                      tag: 'EditPage',
-                                      child: Material(
-                                        type: MaterialType.transparency,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              'editProfile',
-                                              arguments: UserArguments(
-                                                age!,
-                                                userEmail!,
-                                                profileURL!,
-                                                totalBooks!,
-                                                userName!,
-                                                about!,
-                                                totalFavourites!,
-                                                currentLocation!,
-                                                createdDateDate!,
-                                                createdDateMonth!,
-                                                createdDateYear!,
-                                                _switchValueLocation,
-                                                _switchValueAge,
-                                                _switchValueBooks,
-                                                _switchValueFavourite,
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 20),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.settings,
-                                                  color: Colors.purple,
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    'Edit Profile',
-                                                    style: TextStyle(
-                                                        color: Colors.purple),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      wordSpacing: 2,
+                                      letterSpacing: 1,
+                                      height: 1.5,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ],
@@ -611,12 +598,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
   }
 
   //!FUNCTION TO MAKE THE ROW WIDGET WITH ICON AND TEXT
-  Row makeRowItem(IconData icon, String leadingText, String trailingText) {
+  Row makeRowItem(
+      IconData icon, String leadingText, String trailingText, Color color) {
     return Row(
       children: [
         Icon(
           icon,
-          color: Colors.purple,
+          color: color,
           size: 25,
         ),
         Container(
@@ -626,6 +614,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 17,
+              color: color,
             ),
           ),
         ),
