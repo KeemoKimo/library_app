@@ -324,6 +324,7 @@ class _BookInfoState extends State<BookInfo> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: bookID.bookTitle,
         onPressed: () {
           Navigator.pushNamed(
             context,

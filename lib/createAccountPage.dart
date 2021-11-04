@@ -17,7 +17,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController usernameController = new TextEditingController();
-  bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
   var now = new DateTime.now();
@@ -70,41 +69,13 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   makeTextField(340, "Create Email....", emailController),
                   UIServices.makeSpace(20),
                   //? PASSWORD TEXT BOX / ICON
-                  Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 37),
-                        child: makeTextField(
-                            300, "Create Password....", passwordController),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (isObscure == true) {
-                              isObscure = false;
-                            } else {
-                              isObscure = true;
-                            }
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 10, left: 10),
-                          width: 30,
-                          height: 30,
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/eye.png'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  UIServices.makeSpace(100),
+                  makeTextField(340, "Create Password....", passwordController),
+                  UIServices.makeSpace(60),
                   //? REGISTER BUTTON
                   Container(
                     width: double.infinity,
                     height: 50,
-                    margin: EdgeInsets.only(left: 30, right: 30),
+                    margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -119,17 +90,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         ),
                       ),
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text(
-                                'Account Created!',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          );
-                        }
                         try {
                           if (emailController.text == "" ||
                               passwordController.text == "" ||

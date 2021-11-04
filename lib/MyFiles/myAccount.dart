@@ -553,7 +553,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   EdgeInsets.only(top: 20, left: 20, right: 20),
                               padding: EdgeInsets.all(20),
                               width: double.infinity,
-                              height: 110,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.bottomRight,
@@ -581,7 +580,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 children: [
                                   makeRowItem(Icons.book, "Total Books",
                                       totalBooks!, Colors.white),
-                                  UIServices.makeSpace(20),
+                                  UIServices.makeSpace(40),
                                   makeRowItem(
                                       Icons.favorite,
                                       "Total Favourites",
@@ -590,6 +589,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 ],
                               ),
                             ),
+                            //!ENDING
                             UIServices.customDivider(Colors.black),
                             Text(
                               '! No copyright !',
