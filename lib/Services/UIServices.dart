@@ -413,9 +413,7 @@ class UIServices {
         margin: EdgeInsets.only(left: 20),
         child: Text(
           text,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );

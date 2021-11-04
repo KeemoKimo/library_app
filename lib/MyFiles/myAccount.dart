@@ -9,8 +9,8 @@ import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:country_picker/country_picker.dart';
-
 import '../Services/UIServices.dart';
+import 'HomeScreen.dart';
 
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -94,6 +94,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   bool _switchValueAge = false;
   bool _switchValueBooks = false;
   bool _switchValueFavourite = false;
+  var space40 = UIServices.makeSpace(40);
   void initState() {
     super.initState();
     getCurrentUser().whenComplete(() {
@@ -125,7 +126,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     List<DocumentSnapshot> _myDocCount = _myDoc.docs;
     totalBooks = _myDocCount.length.toString();
     DatabaseServices(uid: loggedInUser.uid).updateTotalBooks(totalBooks!);
-    print(totalBooks);
   }
 
   countFavourites() async {
@@ -141,7 +141,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     totalFavourites = _myDocCount.length.toString();
     DatabaseServices(uid: loggedInUser.uid)
         .updateTotalFavourites(totalFavourites!);
-    print(totalFavourites);
   }
 
   @override
@@ -182,7 +181,20 @@ class _MyAccountPageState extends State<MyAccountPage> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [
+              Color(0xFFb58ecc),
+              Color(0xFF320D6D),
+              Color(0xFF044B7F),
+              Color(0xFFb91372),
+            ],
+          ),
+        ),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -203,7 +215,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   final users = snapshot.data!.docs;
                   for (var user in users) {
                     var email = (user.data() as Map)['email'];
-                    print('user email : $email');
                     countBooks();
                     countFavourites();
                     if (userEmail == email) {
@@ -229,22 +240,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       Container(
                         height: 450,
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color(0xFFb58ecc),
-                              Color(0xFF320D6D),
-                              Color(0xFF044B7F),
-                              Color(0xFFb91372),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
-                          ),
-                        ),
+                        color: Colors.transparent,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -336,761 +332,489 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           ],
                         ),
                       ),
-                      //!PROFILE SECTION
-                      UIServices.customAlignedText(
-                          Alignment.centerLeft, "Profile"),
+                      //! EVERYTHING BELOW USER PROFILE
                       Container(
-                        width: double.infinity,
-                        height: 200,
-                        padding: EdgeInsets.all(20),
-                        margin: EdgeInsets.only(
-                            left: 20, right: 20, bottom: 20, top: 20),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                          ),
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.mail,
-                                  color: Colors.purple,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    'Email : $userEmail',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            //!PROFILE SECTION
+                            space40,
+                            UIServices.customAlignedText(
+                                Alignment.centerLeft, "Your Information"),
                             Container(
-                              margin: EdgeInsets.only(top: 20),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.verified_user,
-                                    color: Colors.purple,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Age : $age',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                              width: double.infinity,
+                              padding: EdgeInsets.all(20),
+                              margin: EdgeInsets.only(
+                                  top: 20, left: 10, right: 10, bottom: 20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius:
+                                        3, // how much spread does this shadow goes
+                                    blurRadius: 4, // how blurry the shadow is
+                                    offset: Offset(
+                                        0, 5), // changes position of shadow
                                   ),
                                 ],
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 20),
-                              child: Row(
+                              child: Column(
                                 children: [
-                                  Icon(
-                                    Icons.calendar_today_rounded,
-                                    color: Colors.purple,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Date Created : $createdDateDate / $createdDateMonth / $createdDateYear',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        elevation: 5,
-                                        child: Container(
-                                          padding: EdgeInsets.all(20),
-                                          height: 270,
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                child: TextFormField(
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    labelText: "$userName",
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.black),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 2.0,
-                                                      ),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.blue,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onChanged: (value) {
-                                                    userName = value;
-                                                  },
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(top: 20),
-                                                child: TextFormField(
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    labelText: "$age",
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.black),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 2.0,
-                                                      ),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.blue,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onChanged: (value) {
-                                                    age = value;
-                                                  },
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(top: 20),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.purple,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                15))),
-                                                width: 300,
-                                                height: 50,
-                                                child: TextButton(
-                                                  onPressed: () async {
-                                                    showCupertinoDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          CupertinoAlertDialog(
-                                                        title: Text(
-                                                          "EDIT PROFILE",
-                                                        ),
-                                                        content: Text(
-                                                            "Are you sure you want to edit the content of $userEmail ?"),
-                                                        actions: [
-                                                          CupertinoButton(
-                                                              child: Text(
-                                                                  'Cancel'),
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              }),
-                                                          CupertinoButton(
-                                                              child: Text(
-                                                                'Edit',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              ),
-                                                              onPressed:
-                                                                  () async {
-                                                                try {
-                                                                  await DatabaseServices(
-                                                                          uid: loggedInUser
-                                                                              .uid)
-                                                                      .updateUserData(
-                                                                    userName!,
-                                                                    age!,
-                                                                    userEmail!,
-                                                                    profileURL!,
-                                                                    totalBooks!,
-                                                                    currentLocation!,
-                                                                    about!,
-                                                                    totalFavourites!,
-                                                                    createdDateDate!,
-                                                                    createdDateMonth!,
-                                                                    createdDateYear!,
-                                                                    _switchValueLocation,
-                                                                    _switchValueAge,
-                                                                    _switchValueBooks,
-                                                                    _switchValueFavourite,
-                                                                  );
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                } catch (e) {
-                                                                  print(e
-                                                                      .toString());
-                                                                }
-                                                              }),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    "CONFIRM CHANGE",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.settings,
-                                        color: Colors.purple,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          'Edit Profile',
-                                          style:
-                                              TextStyle(color: Colors.purple),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //!EXTRA INFORMATION SECTION
-                      UIServices.customAlignedText(
-                          Alignment.centerLeft, "Extra Information"),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20),
-                        margin: EdgeInsets.only(
-                            left: 20, right: 20, bottom: 20, top: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.pin_drop,
-                                  color: Colors.purple,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    'Your Location : $currentLocation',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 20, bottom: 20),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.info,
-                                    color: Colors.purple,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'About You : ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              about!,
-                              style: TextStyle(
-                                  wordSpacing: 2,
-                                  letterSpacing: 1,
-                                  height: 1.5),
-                            ),
-                            Container(
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        elevation: 5,
-                                        child: Container(
-                                          padding: EdgeInsets.all(20),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 20),
-                                                  child: Text(
-                                                    'Location :',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  showCountryPicker(
-                                                    context: context,
-                                                    onSelect:
-                                                        (Country country) {
-                                                      currentLocation =
-                                                          country.name;
-                                                      print(
-                                                          'location : $currentLocation');
-                                                    },
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color: Colors.black,
-                                                        width: 2),
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10),
-                                                        child: Text(
-                                                          '$currentLocation',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                right: 20),
-                                                        child: Icon(
-                                                          Icons
-                                                              .swap_horizontal_circle_sharp,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(top: 20),
-                                                child: TextFormField(
-                                                  maxLines: null,
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    labelText: "Edit About....",
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.black),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 2.0,
-                                                      ),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                      borderSide: BorderSide(
-                                                        color: Colors.blue,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onChanged: (value) {
-                                                    about = value;
-                                                  },
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(top: 20),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.purple,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                15))),
-                                                width: 300,
-                                                height: 50,
-                                                child: TextButton(
-                                                  onPressed: () async {
-                                                    showCupertinoDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          CupertinoAlertDialog(
-                                                        title: Text(
-                                                          "EDIT PROFILE",
-                                                        ),
-                                                        content: Text(
-                                                            "Are you sure you want to edit the content of $userEmail ?"),
-                                                        actions: [
-                                                          CupertinoButton(
-                                                              child: Text(
-                                                                  'Cancel'),
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              }),
-                                                          CupertinoButton(
-                                                              child: Text(
-                                                                'Edit',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              ),
-                                                              onPressed:
-                                                                  () async {
-                                                                try {
-                                                                  await DatabaseServices(
-                                                                          uid: loggedInUser
-                                                                              .uid)
-                                                                      .updateUserData(
-                                                                    userName!,
-                                                                    age!,
-                                                                    userEmail!,
-                                                                    profileURL!,
-                                                                    totalBooks!,
-                                                                    currentLocation!,
-                                                                    about!,
-                                                                    totalFavourites!,
-                                                                    createdDateDate!,
-                                                                    createdDateMonth!,
-                                                                    createdDateYear!,
-                                                                    _switchValueLocation,
-                                                                    _switchValueAge,
-                                                                    _switchValueBooks,
-                                                                    _switchValueFavourite,
-                                                                  );
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                } catch (e) {
-                                                                  print(e
-                                                                      .toString());
-                                                                }
-                                                              }),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            left: 70,
-                                                            right: 20),
-                                                        child: Text(
-                                                          "CHANGE",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 15),
-                                                        ),
-                                                      ),
-                                                      Image(
-                                                        image: AssetImage(
-                                                            'assets/images/confirm.png'),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              UIServices.customDivider(
-                                                  Colors.black),
-                                              Text(
-                                                'Location will be updated once this pop-up is refreshed!',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.settings,
-                                        color: Colors.purple,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          'Edit Information',
-                                          style:
-                                              TextStyle(color: Colors.purple),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //!PRIVACY SETTINS SECTION
-                      UIServices.customAlignedText(
-                          Alignment.centerLeft, "Privacy Settings"),
-                      makeToggleContainer(
-                          context,
-                          'assets/images/location.png',
-                          'Show Location:',
-                          'Location',
-                          20,
-                          _switchValueLocation),
-                      makeToggleContainer(context, 'assets/images/age.png',
-                          'Show age:', 'Age', 50, _switchValueAge),
-                      makeToggleContainer(
-                          context,
-                          'assets/images/booksIcon.png',
-                          'Show your books:',
-                          'Books',
-                          0,
-                          _switchValueBooks),
-                      makeToggleContainer(
-                          context,
-                          'assets/images/heart.png',
-                          'Show Favourites:',
-                          'Favourites',
-                          3,
-                          _switchValueFavourite),
-                      //!CONTENTS SECTION
-                      UIServices.customAlignedText(
-                          Alignment.centerLeft, "Contents"),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AllBooksPage()),
-                          );
-                        },
-                        child: MyAccountPage.customCard(
-                          'My Books',
-                          Icons.menu_book_rounded,
-                          Icons.arrow_forward_ios_rounded,
-                          10,
-                          Color(0xFFB03A2E),
-                          Color(0xFFB03A2E),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AllFavouritesPage()),
-                          );
-                        },
-                        child: MyAccountPage.customCard(
-                            'Favourites',
-                            Icons.favorite,
-                            Icons.arrow_forward_ios_rounded,
-                            0,
-                            Colors.red,
-                            Colors.red),
-                      ),
-                      UIServices.makeSpace(20),
-                      //!STATISTICS SECTION
-                      UIServices.customAlignedText(
-                          Alignment.centerLeft, "Your Statistics"),
-                      Container(
-                        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-                        padding: EdgeInsets.all(20),
-                        width: double.infinity,
-                        height: 110,
-                        decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius:
-                                  3, // how much spread does this shadow goes
-                              blurRadius: 4, // how blurry the shadow is
-                              offset:
-                                  Offset(0, 5), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.library_books_rounded,
-                                  color: Colors.white,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    "Total Books : $totalBooks",
+                                  makeRowItem(
+                                      Icons.verified, "Age", age.toString()),
+                                  space40,
+                                  makeRowItem(
+                                      Icons.calendar_today,
+                                      "Created Date",
+                                      "$createdDateDate / $createdDateMonth / $createdDateYear"),
+                                  space40,
+                                  makeRowItem(Icons.location_city, "Location",
+                                      currentLocation.toString()),
+                                  space40,
+                                  makeRowItem(Icons.info, "About you", ""),
+                                  UIServices.makeSpace(20),
+                                  Text(
+                                    about!,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 20),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
+                                        wordSpacing: 2,
+                                        letterSpacing: 1,
+                                        height: 1.5),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      "Total Favorites : $totalFavourites",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          'editProfile',
+                                          arguments: UserArguments(
+                                            age!,
+                                            userEmail!,
+                                            profileURL!,
+                                            totalBooks!,
+                                            userName!,
+                                            about!,
+                                            totalFavourites!,
+                                            currentLocation!,
+                                            createdDateDate!,
+                                            createdDateMonth!,
+                                            createdDateYear!,
+                                            _switchValueLocation,
+                                            _switchValueAge,
+                                            _switchValueBooks,
+                                            _switchValueFavourite,
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 20),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.settings,
+                                              color: Colors.purple,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Text(
+                                                'Edit Profile',
+                                                style: TextStyle(
+                                                    color: Colors.purple),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              elevation: 5,
+                                              child: Container(
+                                                padding: EdgeInsets.all(20),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            bottom: 20),
+                                                        child: Text(
+                                                          'Location :',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 20),
+                                                      child: TextFormField(
+                                                        maxLines: null,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText:
+                                                              "Edit About....",
+                                                          labelStyle: TextStyle(
+                                                              color:
+                                                                  Colors.black),
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color:
+                                                                  Colors.black,
+                                                              width: 2.0,
+                                                            ),
+                                                          ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20.0),
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color:
+                                                                  Colors.blue,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        onChanged: (value) {
+                                                          about = value;
+                                                        },
+                                                        validator: (value) {
+                                                          if (value == null ||
+                                                              value.isEmpty) {
+                                                            return 'Please enter some text';
+                                                          }
+                                                          return null;
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 20),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.purple,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          15))),
+                                                      width: 300,
+                                                      height: 50,
+                                                      child: TextButton(
+                                                        onPressed: () async {
+                                                          showCupertinoDialog(
+                                                            context: context,
+                                                            builder: (_) =>
+                                                                CupertinoAlertDialog(
+                                                              title: Text(
+                                                                "EDIT PROFILE",
+                                                              ),
+                                                              content: Text(
+                                                                  "Are you sure you want to edit the content of $userEmail ?"),
+                                                              actions: [
+                                                                CupertinoButton(
+                                                                    child: Text(
+                                                                        'Cancel'),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    }),
+                                                                CupertinoButton(
+                                                                    child: Text(
+                                                                      'Edit',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.red),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      try {
+                                                                        await DatabaseServices(uid: loggedInUser.uid)
+                                                                            .updateUserData(
+                                                                          userName!,
+                                                                          age!,
+                                                                          userEmail!,
+                                                                          profileURL!,
+                                                                          totalBooks!,
+                                                                          currentLocation!,
+                                                                          about!,
+                                                                          totalFavourites!,
+                                                                          createdDateDate!,
+                                                                          createdDateMonth!,
+                                                                          createdDateYear!,
+                                                                          _switchValueLocation,
+                                                                          _switchValueAge,
+                                                                          _switchValueBooks,
+                                                                          _switchValueFavourite,
+                                                                        );
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      } catch (e) {
+                                                                        print(e
+                                                                            .toString());
+                                                                      }
+                                                                    }),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 70,
+                                                                      right:
+                                                                          20),
+                                                              child: Text(
+                                                                "CHANGE",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        15),
+                                                              ),
+                                                            ),
+                                                            Image(
+                                                              image: AssetImage(
+                                                                  'assets/images/confirm.png'),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    UIServices.customDivider(
+                                                        Colors.black),
+                                                    Text(
+                                                      'Location will be updated once this pop-up is refreshed!',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 20),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.settings,
+                                              color: Colors.purple,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Text(
+                                                'Edit Information',
+                                                style: TextStyle(
+                                                    color: Colors.purple),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
+                            //!PRIVACY SETTINGS SECTION
+                            UIServices.makeSpace(20),
+                            UIServices.customAlignedText(
+                                Alignment.centerLeft, "Privacy Settings"),
+                            UIServices.makeSpace(20),
+                            Column(
+                              children: [
+                                makeToggleContainer(
+                                    context,
+                                    'assets/images/location.png',
+                                    'Show Location:',
+                                    'Location',
+                                    20,
+                                    _switchValueLocation),
+                                makeToggleContainer(
+                                    context,
+                                    'assets/images/age.png',
+                                    'Show age:',
+                                    'Age',
+                                    50,
+                                    _switchValueAge),
+                                makeToggleContainer(
+                                    context,
+                                    'assets/images/booksIcon.png',
+                                    'Show your books:',
+                                    'Books',
+                                    0,
+                                    _switchValueBooks),
+                                makeToggleContainer(
+                                    context,
+                                    'assets/images/heart.png',
+                                    'Show Favourites:',
+                                    'Favourites',
+                                    3,
+                                    _switchValueFavourite),
+                              ],
+                            ),
+                            //!CONTENTS SECTION
+                            UIServices.makeSpace(20),
+                            UIServices.customAlignedText(
+                                Alignment.centerLeft, "Contents"),
+                            UIServices.makeSpace(20),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllBooksPage()),
+                                );
+                              },
+                              child: MyAccountPage.customCard(
+                                'My Books',
+                                Icons.menu_book_rounded,
+                                Icons.arrow_forward_ios_rounded,
+                                10,
+                                Color(0xFFB03A2E),
+                                Color(0xFFB03A2E),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AllFavouritesPage()),
+                                );
+                              },
+                              child: MyAccountPage.customCard(
+                                  'Favourites',
+                                  Icons.favorite,
+                                  Icons.arrow_forward_ios_rounded,
+                                  0,
+                                  Colors.red,
+                                  Colors.red),
+                            ),
+                            UIServices.makeSpace(20),
+                            //!STATISTICS SECTION
+                            UIServices.makeSpace(20),
+                            UIServices.customAlignedText(
+                                Alignment.centerLeft, "Your Statistics"),
+                            UIServices.makeSpace(20),
+                            Container(
+                              margin:
+                                  EdgeInsets.only(top: 20, left: 20, right: 20),
+                              padding: EdgeInsets.all(20),
+                              width: double.infinity,
+                              height: 110,
+                              decoration: BoxDecoration(
+                                color: Colors.purple,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius:
+                                        3, // how much spread does this shadow goes
+                                    blurRadius: 4, // how blurry the shadow is
+                                    offset: Offset(
+                                        0, 5), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.library_books_rounded,
+                                        color: Colors.white,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Total Books : $totalBooks",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 20),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.favorite,
+                                          color: Colors.white,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            "Total Favorites : $totalFavourites",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            UIServices.customDivider(Colors.black),
+                            Text(
+                              '! No copyright !',
+                              style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
                           ],
-                        ),
-                      ),
-                      UIServices.customDivider(Colors.black),
-                      Text(
-                        '! No copyright !',
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ],
@@ -1104,6 +828,30 @@ class _MyAccountPageState extends State<MyAccountPage> {
     );
   }
 
+  //!FUNCTION TO MAKE THE ROW WIDGET WITH ICON AND TEXT
+  Row makeRowItem(IconData icon, String leadingText, String trailingText) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: Colors.purple,
+          size: 25,
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            '$leadingText : $trailingText',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  //!FUNCTION FOR MAKING THE CONTAINER TO TOGGLE PRIVACY SETTINGS
   Container makeToggleContainer(
       BuildContext context,
       String imagePath,
