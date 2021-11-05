@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Services/UIServices.dart';
@@ -34,9 +35,7 @@ class _addBookPageState extends State<addBookPage> {
   var publishedYearController = TextEditingController();
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
-  DateTime _nowDate = DateTime.now();
   String dropdownInitialValue = 'Fictional';
-  bool isFavourite = false;
   var categoryItems = [
     'Fictional',
     'Non - Fiction',
@@ -50,7 +49,6 @@ class _addBookPageState extends State<addBookPage> {
   final pickImagePageKey = GlobalKey();
   final basicInfoPageKey = GlobalKey();
   final lastPageKey = GlobalKey();
-  bool _isVisible = false;
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -84,7 +82,6 @@ class _addBookPageState extends State<addBookPage> {
             print('Image was null');
           } else {
             _image = File(image.path);
-            _isVisible = true;
           }
         });
       } catch (e) {
@@ -104,6 +101,46 @@ class _addBookPageState extends State<addBookPage> {
         });
       } catch (e) {
         print(e);
+      }
+    }
+
+    uploadToDatabase() async {
+      try {
+        await uploadImage(context);
+        print('Finished updating book data');
+        await DatabaseServices(uid: loggedInUser.uid).updateBooksData(
+          dropdownInitialValue,
+          titleController.text,
+          authorController.text,
+          numberOfPageController.text,
+          descriptionController.text,
+          owner!,
+          imageURL!,
+          languageController.text,
+          publishedYearController.text,
+          _startDate.toString(),
+          _endDate.toString(),
+          false,
+        );
+        print('Uploaded Image');
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return UIServices.showPopup("Your book has been added successfully",
+                'assets/images/success.png', false);
+          },
+        );
+        Navigator.pop(context);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return UIServices.showPopup(
+                "There was an error adding in your inputted book data",
+                'assets/images/error.png',
+                true);
+          },
+        );
       }
     }
 
@@ -136,37 +173,6 @@ class _addBookPageState extends State<addBookPage> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           elevation: 0,
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: Colors.red,
-              ),
-              onPressed: () {
-                if (isFavourite == false) {
-                  isFavourite = true;
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return UIServices.showPopup(
-                            "Book added to favourite successfully!",
-                            "assets/images/heart.png",
-                            false);
-                      });
-                } else {
-                  isFavourite = false;
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return UIServices.showPopup(
-                            "Book removed from favourite successfully!",
-                            "assets/images/heart.png",
-                            false);
-                      });
-                }
-              },
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
@@ -180,15 +186,15 @@ class _addBookPageState extends State<addBookPage> {
                   key: pickImagePageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Column(
+                  child: Stack(
                     children: [
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 5, color: Colors.black),
+                          border: Border.all(width: 5, color: Colors.white),
                         ),
-                        width: 400,
-                        height: 550,
+                        width: double.infinity,
+                        height: 600,
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: _image != null
                             ? Image.file(
@@ -200,324 +206,332 @@ class _addBookPageState extends State<addBookPage> {
                                 fit: BoxFit.cover,
                               ),
                       ),
-                      IconButton(
-                        color: Colors.white,
-                        onPressed: () => pickImage(),
-                        icon: Icon(Icons.add_a_photo),
+                      //! FLOATY BUTTON
+                      UIServices.makeSpeedDial(
+                        Color(0xFF3D1478),
+                        Icons.arrow_forward,
+                        Colors.green,
+                        Colors.white,
+                        "Next Page",
+                        () => (_image != null)
+                            ? UIServices.scrollToItem(basicInfoPageKey)
+                            : showDialog(
+                                context: context,
+                                builder: (BuildContext ctx) {
+                                  return UIServices.showPopup(
+                                      "Please select an image first!",
+                                      "assets/images/error.png",
+                                      true);
+                                },
+                              ),
+                        Icons.add_a_photo,
+                        Color(0xFF3D1478),
+                        Colors.white,
+                        "Choose a photo",
+                        () => pickImage(),
                       ),
                     ],
                   ),
                 ),
+                //! SECOND SCREEN - BASIC INFO
                 Container(
                   key: basicInfoPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: Column(
+                    child: Stack(
                       children: [
-                        //! BOOK TITLE
-                        UIServices.makeCustomTextField(
-                            titleController, 'Enter book title...', false, 0),
-                        UIServices.makeSpace(20),
-                        //! BOOK AUTHOR
-                        UIServices.makeCustomTextField(
-                            authorController, 'Enter author name...', false, 0),
-                        UIServices.makeSpace(20),
-                        //! NUMBER OF PAGE
-                        UIServices.makeCustomTextField(numberOfPageController,
-                            'Enter number of page...', true, 5),
-                        UIServices.makeSpace(20),
-                        //! YEAR OF PUBLICATION
-                        UIServices.makeCustomTextField(publishedYearController,
-                            'Enter year of publication...', true, 10),
-                        UIServices.makeSpace(20),
-                        //! LANGUAGE
-                        UIServices.makeCustomTextField(languageController,
-                            'Enter book language...', false, 0),
-                        //! DESCRIPTION
                         Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          width: double.infinity,
-                          child: TextFormField(
-                            maxLength: 1000,
-                            controller: descriptionController,
-                            maxLines: 10,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              counterStyle: TextStyle(color: Colors.white),
-                              labelText: "Write a brief description...",
-                              labelStyle: TextStyle(color: Colors.white),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
+                          child: Column(
+                            children: [
+                              //! BOOK TITLE
+                              UIServices.makeCustomTextField(titleController,
+                                  'Enter book title...', false, 0),
+                              UIServices.makeSpace(20),
+                              //! BOOK AUTHOR
+                              UIServices.makeCustomTextField(authorController,
+                                  'Enter author name...', false, 0),
+                              UIServices.makeSpace(20),
+                              //! NUMBER OF PAGE
+                              UIServices.makeCustomTextField(
+                                  numberOfPageController,
+                                  'Enter number of page...',
+                                  true,
+                                  5),
+                              UIServices.makeSpace(20),
+                              //! YEAR OF PUBLICATION
+                              UIServices.makeCustomTextField(
+                                  publishedYearController,
+                                  'Enter year of publication...',
+                                  true,
+                                  10),
+                              UIServices.makeSpace(20),
+                              //! LANGUAGE
+                              UIServices.makeCustomTextField(languageController,
+                                  'Enter book language...', false, 0),
+                              //! DESCRIPTION
+                              Container(
+                                margin: EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.only(left: 20, right: 20),
+                                width: double.infinity,
+                                child: TextFormField(
+                                  controller: descriptionController,
+                                  maxLines: 10,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    counterStyle:
+                                        TextStyle(color: Colors.white),
+                                    labelText: "Write a brief description...",
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  },
                                 ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                            ],
+                          ),
+                        ),
+                        //! FLOATY BUTTON basic info page
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height),
+                          child: UIServices.makeSpeedDial(
+                            Color(0xFF3D1478),
+                            Icons.arrow_forward,
+                            Colors.green,
+                            Colors.white,
+                            "Next page",
+                            () => _formKey.currentState!.validate()
+                                ? UIServices.scrollToItem(lastPageKey)
+                                : print("error"),
+                            Icons.arrow_back,
+                            Colors.red,
+                            Colors.white,
+                            "Previous Page",
+                            () => UIServices.scrollToItem(pickImagePageKey),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
+                //! THIRD SCREEN FINISHING
                 Container(
                   key: lastPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  color: Colors.green,
+                  child: Stack(
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Category',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(width: 1, color: Colors.black),
+                              ),
+                              width: double.infinity,
+                              margin:
+                                  EdgeInsets.only(left: 20, right: 20, top: 20),
+                              child: InputDecorator(
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  contentPadding:
+                                      EdgeInsets.only(left: 10, right: 10),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    isExpanded: true,
+                                    elevation: 10,
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.black,
+                                    ),
+                                    value: dropdownInitialValue,
+                                    items: categoryItems.map((String items) {
+                                      return DropdownMenuItem(
+                                        value: items,
+                                        child: Text(
+                                          items,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownInitialValue = newValue!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            //! CHOOSE START DATE
+                            UIServices.makeSpace(20),
+                            Text(
+                              'Start Date',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 20, right: 20, top: 20),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(width: 1, color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  _startDate.day.toString() +
+                                      " / " +
+                                      _startDate.month.toString() +
+                                      " / " +
+                                      _startDate.year.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: Colors.black,
+                                ),
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate:
+                                        DateTime(DateTime.now().year - 5),
+                                    lastDate: DateTime.now(),
+                                  );
+
+                                  if (pickedDate != null &&
+                                      pickedDate != DateTime.now()) {
+                                    setState(() {
+                                      _startDate = DateTime(pickedDate.year,
+                                          pickedDate.month, pickedDate.day);
+                                    });
+                                  } else {
+                                    _startDate = DateTime.now();
+                                  }
+                                },
+                              ),
+                            ),
+                            //! CHOOSE END DATE
+                            UIServices.makeSpace(20),
+                            Text(
+                              'End Date',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              margin:
+                                  EdgeInsets.only(left: 20, right: 20, top: 20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(width: 1, color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  _endDate.day.toString() +
+                                      " / " +
+                                      _endDate.month.toString() +
+                                      " / " +
+                                      _endDate.year.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: Colors.black,
+                                ),
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate:
+                                        DateTime(DateTime.now().year - 5),
+                                    lastDate: DateTime.now(),
+                                  );
+                                  if (pickedDate != null &&
+                                      pickedDate != DateTime.now()) {
+                                    setState(() {
+                                      _endDate = DateTime(pickedDate.year,
+                                          pickedDate.month, pickedDate.day);
+                                    });
+                                  } else {
+                                    _endDate = DateTime.now();
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      UIServices.makeSpeedDial(
+                        Colors.green,
+                        Icons.arrow_back,
+                        Colors.red,
+                        Colors.white,
+                        "Previous Page",
+                        () => UIServices.scrollToItem(basicInfoPageKey),
+                        Icons.check,
+                        Colors.green,
+                        Colors.white,
+                        "Confirm Add",
+                        () => uploadToDatabase(),
+                      ),
+                    ],
+                  ),
                 ),
-
-                // //! EXTRA INFO 1
-
-                // Visibility(
-                //   child: Column(
-                //     //! CHOOSE CATEGORY
-                //     children: [
-                //       Text(
-                //         'Category',
-                //         style: TextStyle(
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //           color: Colors.white,
-                //         ),
-                //       ),
-                //       Container(
-                //         decoration: BoxDecoration(
-                //           color: Colors.white,
-                //           border: Border.all(width: 1, color: Colors.black),
-                //         ),
-                //         width: double.infinity,
-                //         margin:
-                //             EdgeInsets.only(left: 20, right: 20, top: 20),
-                //         child: InputDecorator(
-                //           decoration: InputDecoration(
-                //             fillColor: Colors.white,
-                //             contentPadding:
-                //                 EdgeInsets.only(left: 10, right: 10),
-                //           ),
-                //           child: DropdownButtonHideUnderline(
-                //             child: DropdownButton(
-                //               isExpanded: true,
-                //               elevation: 10,
-                //               icon: Icon(
-                //                 Icons.arrow_drop_down,
-                //                 color: Colors.black,
-                //               ),
-                //               value: dropdownInitialValue,
-                //               items: categoryItems.map((String items) {
-                //                 return DropdownMenuItem(
-                //                   value: items,
-                //                   child: Text(
-                //                     items,
-                //                     style: TextStyle(
-                //                       color: Colors.black,
-                //                       fontWeight: FontWeight.bold,
-                //                     ),
-                //                   ),
-                //                 );
-                //               }).toList(),
-                //               onChanged: (String? newValue) {
-                //                 setState(() {
-                //                   dropdownInitialValue = newValue!;
-                //                 });
-                //               },
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-
-                //       //! CHOOSE START DATE
-                //       Text(
-                //         'Start Date',
-                //         style: TextStyle(
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //           color: Colors.white,
-                //         ),
-                //       ),
-                //       Container(
-                //         margin:
-                //             EdgeInsets.only(left: 20, right: 20, top: 20),
-                //         width: double.infinity,
-                //         decoration: BoxDecoration(
-                //           color: Colors.white,
-                //           border: Border.all(width: 1, color: Colors.black),
-                //           borderRadius: BorderRadius.circular(10),
-                //         ),
-                //         child: ListTile(
-                //           title: Text(
-                //             _startDate.day.toString() +
-                //                 " / " +
-                //                 _startDate.month.toString() +
-                //                 " / " +
-                //                 _startDate.year.toString(),
-                //             style: TextStyle(
-                //               color: Colors.black,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //           trailing: Icon(
-                //             Icons.keyboard_arrow_down_rounded,
-                //             color: Colors.black,
-                //           ),
-                //           onTap: () async {
-                //             DateTime? pickedDate = await showDatePicker(
-                //               context: context,
-                //               initialDate: _nowDate,
-                //               firstDate: DateTime(DateTime.now().year - 5),
-                //               lastDate: DateTime.now(),
-                //             );
-
-                //             if (pickedDate != null &&
-                //                 pickedDate != DateTime.now()) {
-                //               setState(() {
-                //                 _startDate = pickedDate;
-                //               });
-                //             } else {
-                //               _startDate = DateTime.now();
-                //             }
-                //           },
-                //         ),
-                //       ),
-
-                //       //! CHOOSE END DATE
-                //       Text(
-                //         'End Date',
-                //         style: TextStyle(
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //           color: Colors.white,
-                //         ),
-                //       ),
-                //       Container(
-                //         width: double.infinity,
-                //         margin:
-                //             EdgeInsets.only(left: 20, right: 20, top: 20),
-                //         decoration: BoxDecoration(
-                //           color: Colors.white,
-                //           border: Border.all(width: 1, color: Colors.black),
-                //           borderRadius: BorderRadius.circular(10),
-                //         ),
-                //         child: ListTile(
-                //           title: Text(
-                //             _endDate.day.toString() +
-                //                 " / " +
-                //                 _endDate.month.toString() +
-                //                 " / " +
-                //                 _endDate.year.toString(),
-                //             style: TextStyle(
-                //               color: Colors.black,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //           trailing: Icon(
-                //             Icons.keyboard_arrow_down_rounded,
-                //             color: Colors.black,
-                //           ),
-                //           onTap: () async {
-                //             DateTime? pickedDate = await showDatePicker(
-                //               context: context,
-                //               initialDate: _nowDate,
-                //               firstDate: DateTime(DateTime.now().year - 5),
-                //               lastDate: DateTime.now(),
-                //             );
-                //             if (pickedDate != null &&
-                //                 pickedDate != DateTime.now()) {
-                //               setState(() {
-                //                 _endDate = pickedDate;
-                //               });
-                //             } else {
-                //               _endDate = DateTime.now();
-                //             }
-                //           },
-                //         ),
-                //       ),
-
-                //       //! ADD BOOK BTN
-                //       Container(
-                //         margin: EdgeInsets.only(top: 20),
-                //         width: 300,
-                //         decoration: BoxDecoration(
-                //           color: Colors.white,
-                //           border: Border.all(
-                //             width: 1,
-                //             color: Colors.black,
-                //           ),
-                //           borderRadius: BorderRadius.circular(10),
-                //         ),
-                //         child: TextButton(
-                //           child: Text(
-                //             'Add Book !',
-                //             style: TextStyle(
-                //               color: Colors.black,
-                //               fontWeight: FontWeight.bold,
-                //               fontSize: 17,
-                //             ),
-                //           ),
-                //           onPressed: () async {
-                //             try {
-                //               await uploadImage(context);
-                //               print('Finished updating book data');
-                //               await DatabaseServices(uid: loggedInUser.uid)
-                //                   .updateBooksData(
-                //                 dropdownInitialValue,
-                //                 titleController.text,
-                //                 authorController.text,
-                //                 numberOfPageController.text,
-                //                 descriptionController.text,
-                //                 owner!,
-                //                 imageURL!,
-                //                 languageController.text,
-                //                 publishedYearController.text,
-                //                 _startDate.toString(),
-                //                 _endDate.toString(),
-                //                 isFavourite,
-                //               );
-                //               print('Uploaded Image');
-                //               await showDialog(
-                //                 context: context,
-                //                 builder: (BuildContext context) {
-                //                   return UIServices.showPopup(
-                //                       "Your book has been added successfully",
-                //                       'assets/images/success.png',
-                //                       false);
-                //                 },
-                //               );
-                //               Navigator.pop(context);
-                //             } catch (e) {
-                //               showDialog(
-                //                 context: context,
-                //                 builder: (BuildContext context) {
-                //                   return UIServices.showPopup(
-                //                       "There was an error adding in your inputted book data",
-                //                       'assets/images/error.png',
-                //                       true);
-                //                 },
-                //               );
-                //             }
-                //           },
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
-        ),
-        floatingActionButton: new Visibility(
-          visible: _isVisible,
-          child: SpeedDial(),
         ),
       ),
     );

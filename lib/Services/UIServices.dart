@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
 
 class UIServices {
@@ -348,15 +349,12 @@ class UIServices {
                   ),
                 ),
               ),
-              // onChanged: (value) {
-              //   titleController = value;
-              // },
-              // validator: (value) {
-              //   if (value == null || value.isEmpty) {
-              //     return 'Please enter some text';
-              //   }
-              //   return null;
-              // },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
             ),
           )
         : Container(
@@ -385,15 +383,12 @@ class UIServices {
                   ),
                 ),
               ),
-              // onChanged: (value) {
-              //   titleController = value;
-              // },
-              // validator: (value) {
-              //   if (value == null || value.isEmpty) {
-              //     return 'Please enter some text';
-              //   }
-              //   return null;
-              // },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
             ),
           );
   }
@@ -423,5 +418,48 @@ class UIServices {
   static Future scrollToItem(GlobalKey keyName) async {
     final context = keyName.currentContext!;
     await Scrollable.ensureVisible(context, duration: Duration(seconds: 1));
+  }
+
+//! MAKE SPEEDIAL
+  static Align makeSpeedDial(
+    Color mainColor,
+    IconData firstIcons,
+    Color firstBackColor,
+    Color firstForeColor,
+    String firstLabel,
+    Function()? firstFunction,
+    IconData secondIcons,
+    Color secondBackColor,
+    Color secondForeColor,
+    String secondLabel,
+    Function()? secondFunction,
+  ) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: SpeedDial(
+        icon: Icons.settings,
+        animatedIcon: AnimatedIcons.menu_close,
+        spaceBetweenChildren: 10,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.7,
+        backgroundColor: mainColor,
+        children: [
+          SpeedDialChild(
+            backgroundColor: firstBackColor,
+            foregroundColor: firstForeColor,
+            child: Icon(firstIcons),
+            label: firstLabel,
+            onTap: firstFunction,
+          ),
+          SpeedDialChild(
+            backgroundColor: secondBackColor,
+            foregroundColor: secondForeColor,
+            child: Icon(secondIcons),
+            label: secondLabel,
+            onTap: secondFunction,
+          ),
+        ],
+      ),
+    );
   }
 }

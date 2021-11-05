@@ -7,7 +7,6 @@ import 'package:library_app/InfoPages/BookInfo.dart';
 import 'package:library_app/MyFiles/EditBook.dart';
 import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/MyFiles/EditProfile.dart';
-import 'package:library_app/MyFiles/main.dart';
 import 'package:library_app/createAccountPage.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
