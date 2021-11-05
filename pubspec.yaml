@@ -19,6 +19,7 @@ dependencies:
   firebase_storage: ^10.0.1
   flutter:
     sdk: flutter
+  flutter_speed_dial: ^4.6.6
   http: ^0.13.3
   image_picker: ^0.8.3+3
   page_transition: ^2.0.4

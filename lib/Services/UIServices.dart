@@ -418,4 +418,10 @@ class UIServices {
       ),
     );
   }
+
+//! SCROLL TO ITEM
+  static Future scrollToItem(GlobalKey keyName) async {
+    final context = keyName.currentContext!;
+    await Scrollable.ensureVisible(context, duration: Duration(seconds: 1));
+  }
 }
