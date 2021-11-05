@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -49,6 +50,40 @@ class _BookInfoState extends State<BookInfo> {
   Widget build(BuildContext context) {
     final bookID =
         ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    late Widget cancelBtn = TextButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      child: Text(
+        "Cancel",
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      ),
+    );
+    late Widget deleteBtn = TextButton(
+      onPressed: () async {
+        await bookCollection.doc(bookID.bookTitle + loggedInUser.uid).delete();
+        Navigator.pop(context);
+        Navigator.pop(context);
+        final snackBar = SnackBar(
+          content: Text(
+            'Your book has been deleted successfully!',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.red,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      child: Text(
+        "Delete",
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -64,43 +99,6 @@ class _BookInfoState extends State<BookInfo> {
           icon: Icon(Icons.arrow_back, color: Color(0xFFB03A2E)),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.delete,
-              color: Color(0xFFB03A2E),
-            ),
-            onPressed: () {
-              showCupertinoDialog<void>(
-                context: context,
-                builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text('Delete Book'),
-                  content: Text(
-                      'Are you sure you want to delete ${bookID.bookTitle} ?'),
-                  actions: <CupertinoDialogAction>[
-                    CupertinoDialogAction(
-                      child: const Text('No'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    CupertinoDialogAction(
-                      child: const Text('Yes'),
-                      isDestructiveAction: true,
-                      onPressed: () {
-                        bookCollection
-                            .doc(bookID.bookTitle + loggedInUser.uid)
-                            .delete();
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: Container(
         color: Colors.white,
@@ -346,8 +344,65 @@ class _BookInfoState extends State<BookInfo> {
             ),
           );
         },
-        child: const Icon(Icons.edit),
-        backgroundColor: Colors.green,
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_arrow,
+            spaceBetweenChildren: 10,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.7,
+            backgroundColor: Colors.green,
+            children: [
+              SpeedDialChild(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                child: Icon(Icons.photo),
+                label: "Edit Cover",
+                onTap: () {
+                  print("fasf");
+                },
+              ),
+              SpeedDialChild(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                child: Icon(Icons.settings),
+                label: "Edit Information",
+                onTap: () {
+                  print("Edit Info");
+                },
+              ),
+              SpeedDialChild(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                child: Icon(Icons.delete),
+                label: "Delete Book",
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          "Do you want to delete this book?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                        content: Text(
+                            "Books deleted cannot be recovered. Please think wisely."),
+                        actions: [
+                          cancelBtn,
+                          deleteBtn,
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Colors.red,
       ),
     );
   }
