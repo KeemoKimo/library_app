@@ -84,6 +84,28 @@ class _BookInfoState extends State<BookInfo> {
         ),
       ),
     );
+    goToEditBook() async {
+      await Navigator.pushNamed(
+        context,
+        'editBook',
+        arguments: ScreenArguments(
+          bookID.bookTitle,
+          bookID.bookAuthor,
+          bookID.bookCover,
+          bookID.bookCategory,
+          bookID.bookDescription,
+          bookID.bookOwner,
+          bookID.bookLanguage,
+          bookID.bookPublishedYear,
+          bookID.bookPages,
+          bookID.bookStartDate,
+          bookID.bookEndDate,
+          bookID.isFavourite,
+          bookID.bookId,
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -321,88 +343,61 @@ class _BookInfoState extends State<BookInfo> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: bookID.bookTitle,
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            'editBook',
-            arguments: ScreenArguments(
-              bookID.bookTitle,
-              bookID.bookAuthor,
-              bookID.bookCover,
-              bookID.bookCategory,
-              bookID.bookDescription,
-              bookID.bookOwner,
-              bookID.bookLanguage,
-              bookID.bookPublishedYear,
-              bookID.bookPages,
-              bookID.bookStartDate,
-              bookID.bookEndDate,
-              bookID.isFavourite,
-              bookID.bookId,
-            ),
-          );
-        },
-        child: Align(
-          alignment: Alignment.bottomRight,
-          child: SpeedDial(
-            animatedIcon: AnimatedIcons.menu_arrow,
-            spaceBetweenChildren: 10,
-            overlayColor: Colors.black,
-            overlayOpacity: 0.7,
+      floatingActionButton: SpeedDial(
+        icon: Icons.settings,
+        animatedIcon: AnimatedIcons.menu_close,
+        spaceBetweenChildren: 10,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.7,
+        backgroundColor: Colors.green,
+        children: [
+          SpeedDialChild(
             backgroundColor: Colors.green,
-            children: [
-              SpeedDialChild(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                child: Icon(Icons.photo),
-                label: "Edit Cover",
-                onTap: () {
-                  print("fasf");
-                },
-              ),
-              SpeedDialChild(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                child: Icon(Icons.settings),
-                label: "Edit Information",
-                onTap: () {
-                  print("Edit Info");
-                },
-              ),
-              SpeedDialChild(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                child: Icon(Icons.delete),
-                label: "Delete Book",
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          "Do you want to delete this book?",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                          ),
-                        ),
-                        content: Text(
-                            "Books deleted cannot be recovered. Please think wisely."),
-                        actions: [
-                          cancelBtn,
-                          deleteBtn,
-                        ],
-                      );
-                    },
+            foregroundColor: Colors.white,
+            child: Icon(Icons.photo),
+            label: "Edit Cover",
+            onTap: () {
+              goToEditBook();
+            },
+          ),
+          SpeedDialChild(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            child: Icon(Icons.settings),
+            label: "Edit Information",
+            onTap: () {
+              print("Edit Info");
+            },
+          ),
+          SpeedDialChild(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            child: Icon(Icons.delete),
+            label: "Delete Book",
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(
+                      "Do you want to delete this book?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                    content: Text(
+                        "Books deleted cannot be recovered. Please think wisely."),
+                    actions: [
+                      cancelBtn,
+                      deleteBtn,
+                    ],
                   );
                 },
-              ),
-            ],
+              );
+            },
           ),
-        ),
-        backgroundColor: Colors.red,
+        ],
       ),
     );
   }

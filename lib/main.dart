@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/InfoPages/BookInfo.dart';
-import 'package:library_app/MyFiles/EditBook.dart';
+import 'package:library_app/MyFiles/EditBook/EditBookCover.dart';
 import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/MyFiles/EditProfile.dart';
 import 'package:library_app/createAccountPage.dart';
