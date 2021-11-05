@@ -27,14 +27,13 @@ class _addBookPageState extends State<addBookPage> {
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
-  var titleController = TextEditingController();
-  var authorController = TextEditingController();
-  var numberOfPageController = TextEditingController();
-  var descriptionController = TextEditingController();
-  var languageController = TextEditingController();
-  var publishedYearController = TextEditingController();
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now();
+  var titleController = TextEditingController(),
+      authorController = TextEditingController(),
+      numberOfPageController = TextEditingController(),
+      descriptionController = TextEditingController(),
+      languageController = TextEditingController(),
+      publishedYearController = TextEditingController();
+  DateTime _startDate = DateTime.now(), _endDate = DateTime.now();
   String dropdownInitialValue = 'Fictional';
   var categoryItems = [
     'Fictional',
@@ -46,9 +45,9 @@ class _addBookPageState extends State<addBookPage> {
     'Biography',
     'Design'
   ];
-  final pickImagePageKey = GlobalKey();
-  final basicInfoPageKey = GlobalKey();
-  final lastPageKey = GlobalKey();
+  var pickImagePageKey = GlobalKey(),
+      basicInfoPageKey = GlobalKey(),
+      lastPageKey = GlobalKey();
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -148,12 +147,14 @@ class _addBookPageState extends State<addBookPage> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
           colors: [
+            Color(0xFF333399),
             Color(0xFF1d1160),
+            Color(0xFFfcb045),
             Color(0xFF720e9e),
-            Color(0xFFe6e6fa),
+            Color(0xFFfd1d1d),
           ],
         ),
       ),
@@ -208,7 +209,7 @@ class _addBookPageState extends State<addBookPage> {
                       ),
                       //! FLOATY BUTTON
                       UIServices.makeSpeedDial(
-                        Color(0xFF3D1478),
+                        Color(0xFF333399),
                         Icons.arrow_forward,
                         Colors.green,
                         Colors.white,
@@ -225,7 +226,7 @@ class _addBookPageState extends State<addBookPage> {
                                 },
                               ),
                         Icons.add_a_photo,
-                        Color(0xFF3D1478),
+                        Color(0xFF333399),
                         Colors.white,
                         "Choose a photo",
                         () => pickImage(),
@@ -235,6 +236,18 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! SECOND SCREEN - BASIC INFO
                 Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFF333399),
+                        Color(0xFF1d1160),
+                        Color(0xFFb21f1f),
+                        Color(0xFFf83600),
+                      ],
+                    ),
+                  ),
                   key: basicInfoPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -315,7 +328,7 @@ class _addBookPageState extends State<addBookPage> {
                           margin: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height),
                           child: UIServices.makeSpeedDial(
-                            Color(0xFF3D1478),
+                            Color(0xFFf83600),
                             Icons.arrow_forward,
                             Colors.green,
                             Colors.white,
@@ -336,12 +349,26 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! THIRD SCREEN FINISHING
                 Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color(0xFF3c1053),
+                        Color(0xFF1d1160),
+                        Color(0xFFE94057),
+                        Color(0xFFF27121),
+                        Color(0xFF4568DC),
+                      ],
+                    ),
+                  ),
                   key: lastPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: Stack(
                     children: [
                       Container(
+                        margin: EdgeInsets.only(top: 100),
                         child: Column(
                           children: [
                             Text(
