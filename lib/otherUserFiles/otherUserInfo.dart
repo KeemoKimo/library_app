@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:library_app/MyFiles/HomeScreen.dart';
+import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class OtherUserInfo extends StatefulWidget {

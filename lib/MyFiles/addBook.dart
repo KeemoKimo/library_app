@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Services/UIServices.dart';
