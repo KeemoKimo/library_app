@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/Services/Arguments.dart';
+import 'package:library_app/Services/BookService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class AllBooksPage extends StatefulWidget {
@@ -116,44 +117,22 @@ class _AllBooksPageState extends State<AllBooksPage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        appBar: UIServices.makeTransparentAppBar(
+            _searchController, "Search all your books..."),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              UIServices.makeSpace(50),
-              Text(
-                "All your books",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                ),
-              ),
-              UIServices.customDivider(Colors.white),
-              UIServices.makeCustomTextField(
-                  _searchController, "Search books...", false, 0),
+              UIServices.makeSpace(20),
               ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: searchedResultList.length,
                 itemBuilder: (context, index) {
-                  String bookTitle = searchedResultList[index]['title'];
-                  String bookOwner = searchedResultList[index]['owner'];
-                  String bookCover = searchedResultList[index]['imageURL'];
-                  String bookCategory = searchedResultList[index]['category'];
-                  String bookAuthor = searchedResultList[index]['author'];
-                  String bookDescription =
-                      searchedResultList[index]['description'];
-                  String bookLanguage = searchedResultList[index]['language'];
-                  String bookPublished =
-                      searchedResultList[index]['publishedYear'];
-                  String bookPages = searchedResultList[index]['numberOfPages'];
-                  String bookStartDate = searchedResultList[index]['startDate'];
-                  String bookEndDate = searchedResultList[index]['endDate'];
-                  bool bookIsFavourite =
-                      searchedResultList[index]['isFavourite'];
-                  String bookId = searchedResultList[index]['bookId'];
-                  return (bookOwner == loggedInUser.email)
+                  var data =
+                      BookService.fromSnapshot(searchedResultList, index);
+                  return (data.bookOwner == loggedInUser.email)
                       ? GestureDetector(
                           key: ValueKey(loggedInUser.email),
                           onTap: () {
@@ -161,24 +140,27 @@ class _AllBooksPageState extends State<AllBooksPage> {
                               context,
                               'bookInfo',
                               arguments: ScreenArguments(
-                                bookTitle,
-                                bookAuthor,
-                                bookCover,
-                                bookCategory,
-                                bookDescription,
-                                bookOwner,
-                                bookLanguage,
-                                bookPublished,
-                                bookPages,
-                                bookStartDate,
-                                bookEndDate,
-                                bookIsFavourite,
-                                bookId,
+                                data.bookTitle,
+                                data.bookAuthor,
+                                data.bookCover,
+                                data.bookCategory,
+                                data.bookDescription,
+                                data.bookOwner,
+                                data.bookLanguage,
+                                data.bookPublished,
+                                data.bookPages,
+                                data.bookStartDate,
+                                data.bookEndDate,
+                                data.bookIsFavourite,
+                                data.bookId,
                               ),
                             );
                           },
                           child: UIServices.buildCardTile(
-                              bookCover, bookCategory, bookTitle, bookAuthor),
+                              data.bookCover,
+                              data.bookCategory,
+                              data.bookTitle,
+                              data.bookAuthor),
                         )
                       : SizedBox(
                           height: 0,
@@ -188,27 +170,12 @@ class _AllBooksPageState extends State<AllBooksPage> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF464290),
-          child: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              content: Text(
-                'You have a total of $totalBooks books!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              backgroundColor: Color(0xFF2B55AC),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
+        floatingActionButton: UIServices.makeFABInfoBooks(
+            Color(0xFF464290),
+            Color(0xFF464290),
+            Colors.white,
+            context,
+            "You have a total of $totalBooks books!"),
       ),
     );
   }

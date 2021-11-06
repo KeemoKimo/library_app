@@ -494,4 +494,65 @@ class UIServices {
       ),
     );
   }
+
+//! TRANSPARENT APP BAR TEXTFIELD
+  static AppBar makeTransparentAppBar(
+      TextEditingController controller, String hintText) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      automaticallyImplyLeading: false,
+      title: Container(
+        height: 50,
+        child: TextField(
+          style: TextStyle(color: Colors.white),
+          controller: controller,
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            fillColor: Colors.transparent,
+            filled: true,
+            contentPadding: EdgeInsets.zero,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide.none,
+            ),
+            hintStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.white,
+            ),
+            hintText: hintText,
+          ),
+        ),
+      ),
+    );
+  }
+
+//! FAB INFO BOOKS
+  static FloatingActionButton makeFABInfoBooks(Color fabBgColor,
+      snackBarBgColor, snackBarFgColor, BuildContext context, String content) {
+    return FloatingActionButton(
+      backgroundColor: fabBgColor,
+      child: Icon(
+        Icons.info,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          content: Text(
+            content,
+            style: TextStyle(
+              color: snackBarFgColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: snackBarBgColor,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+    );
+  }
 }
