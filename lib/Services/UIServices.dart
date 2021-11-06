@@ -5,6 +5,19 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/Arguments.dart';
 
 class UIServices {
+  late String title;
+  late String owner;
+  late String bookCover;
+  late String bookCategory;
+  late String bookAuthor;
+  late String bookDescription;
+  late String bookLanguage;
+  late String bookPublished;
+  late String bookPages;
+  late String bookStartDate;
+  late String bookEndDate;
+  late bool bookIsFavourite;
+  late String bookId;
   //!MAKE A DIVIDER
   static Container customDivider(Color color) {
     return Container(
@@ -319,6 +332,23 @@ class UIServices {
                   );
       },
     );
+  }
+
+//! GET SNAPSHOTS
+  UIServices.fromSnapshot(DocumentSnapshot snapshot) {
+    title = snapshot['title'];
+    owner = snapshot['owner'];
+    bookCover = snapshot['imageURL'];
+    bookCategory = snapshot['category'];
+    bookAuthor = snapshot['author'];
+    bookDescription = snapshot['description'];
+    bookLanguage = snapshot['language'];
+    bookPublished = snapshot['publishedYear'];
+    bookPages = snapshot['numberOfPages'];
+    bookStartDate = snapshot['startDate'];
+    bookEndDate = snapshot['endDate'];
+    bookIsFavourite = snapshot['isFavourite'];
+    bookId = snapshot['bookId'];
   }
 
 //! MAKE A CUSTOM TEXTFIELD INPUT

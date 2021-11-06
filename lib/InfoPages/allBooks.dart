@@ -17,13 +17,16 @@ class _AllBooksPageState extends State<AllBooksPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-      firestore.collection('books').snapshots();
+  late var bookSnapshot = firestore.collection('books').get();
   late String? totalBooks = '';
+  TextEditingController _searchController = TextEditingController();
+  List allResult = [], searchedResultList = [];
+  late Future resultsLoaded;
 
   @override
   void initState() {
     super.initState();
+    _searchController.addListener(_onSearchchanged);
     getCurrentUser().whenComplete(() {
       setState(() {
         build(context);
@@ -44,6 +47,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
     }
   }
 
+//! COUNT ALL USER BOOKS WHEN PAGE IS LOADED
   countBooks() async {
     QuerySnapshot _myDoc = await firestore
         .collection('books')
@@ -55,144 +59,153 @@ class _AllBooksPageState extends State<AllBooksPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    resultsLoaded = getAllBooks();
+  }
+
+  _onSearchchanged() {
+    searchResultList();
+  }
+
+//! SHOW ALL THE LIST OF BOOKS WHEN THE VALUE IS CHANGED IN TEXTFIELD
+  searchResultList() {
+    var showResult = [];
+    if (_searchController.text != "") {
+      //have search parameter
+      for (var bookSnapshots in allResult) {
+        var title = UIServices.fromSnapshot(bookSnapshots).title.toLowerCase();
+        if (title.contains(_searchController.text.toLowerCase())) {
+          showResult.add(bookSnapshots);
+        }
+      }
+    } else {
+      showResult = List.from(allResult);
+    }
+    setState(() {
+      searchedResultList = showResult;
+    });
+  }
+
+//! GET ALL THE BOOKS FROM FIREBASE AND STORE IT IN A LIST
+  getAllBooks() async {
+    var data = await bookSnapshot;
+    setState(() {
+      allResult = data.docs;
+    });
+    searchResultList();
+    return "Get all books completed!";
+  }
+
+  @override
   Widget build(BuildContext context) {
     countBooks();
-    return Scaffold(
-      backgroundColor: Color(0xFFB03A2E),
-      appBar: AppBar(
-        backgroundColor: Color(0xFFB03A2E),
-        title: Text(
-          'All Your Books',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0xFF333399),
+            Color(0xFFb92b27),
+            Color(0xFF1565C0),
+          ],
         ),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.info,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showCupertinoDialog<void>(
-                context: context,
-                builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text('All Books'),
-                  content: Text(
-                      '${loggedInUser.email} have a total of $totalBooks books!'),
-                  actions: <CupertinoDialogAction>[
-                    CupertinoDialogAction(
-                      child: const Text('Understanable'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
       ),
-      body: Container(
-        color: Color(0xFFB03A2E),
-        child: SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: bookSnapshot,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.black,
-                      ),
-                    );
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            String bookTitle =
-                                snapshot.data!.docs[index]['title'];
-                            String bookOwner =
-                                snapshot.data!.docs[index]['owner'];
-                            String bookCover =
-                                snapshot.data!.docs[index]['imageURL'];
-                            String bookCategory =
-                                snapshot.data!.docs[index]['category'];
-                            String bookAuthor =
-                                snapshot.data!.docs[index]['author'];
-                            String bookDescription =
-                                snapshot.data!.docs[index]['description'];
-                            String bookLanguage =
-                                snapshot.data!.docs[index]['language'];
-                            String bookPublished =
-                                snapshot.data!.docs[index]['publishedYear'];
-                            String bookPages =
-                                snapshot.data!.docs[index]['numberOfPages'];
-                            String bookStartDate =
-                                snapshot.data!.docs[index]['startDate'];
-                            String bookEndDate =
-                                snapshot.data!.docs[index]['endDate'];
-                            bool bookIsFavourite =
-                                snapshot.data!.docs[index]['isFavourite'];
-                            String bookId =
-                                snapshot.data!.docs[index]['bookId'];
-                            return (bookOwner == loggedInUser.email)
-                                ? GestureDetector(
-                                    key: ValueKey(loggedInUser.email),
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        'bookInfo',
-                                        arguments: ScreenArguments(
-                                          bookTitle,
-                                          bookAuthor,
-                                          bookCover,
-                                          bookCategory,
-                                          bookDescription,
-                                          bookOwner,
-                                          bookLanguage,
-                                          bookPublished,
-                                          bookPages,
-                                          bookStartDate,
-                                          bookEndDate,
-                                          bookIsFavourite,
-                                          bookId,
-                                        ),
-                                      );
-                                    },
-                                    child: UIServices.buildCardTile(bookCover,
-                                        bookCategory, bookTitle, bookAuthor),
-                                  )
-                                : SizedBox(
-                                    height: 0,
-                                  );
+              UIServices.makeSpace(50),
+              Text(
+                "All your books",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                ),
+              ),
+              UIServices.customDivider(Colors.white),
+              UIServices.makeCustomTextField(
+                  _searchController, "Search books...", false, 0),
+              ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: searchedResultList.length,
+                itemBuilder: (context, index) {
+                  String bookTitle = searchedResultList[index]['title'];
+                  String bookOwner = searchedResultList[index]['owner'];
+                  String bookCover = searchedResultList[index]['imageURL'];
+                  String bookCategory = searchedResultList[index]['category'];
+                  String bookAuthor = searchedResultList[index]['author'];
+                  String bookDescription =
+                      searchedResultList[index]['description'];
+                  String bookLanguage = searchedResultList[index]['language'];
+                  String bookPublished =
+                      searchedResultList[index]['publishedYear'];
+                  String bookPages = searchedResultList[index]['numberOfPages'];
+                  String bookStartDate = searchedResultList[index]['startDate'];
+                  String bookEndDate = searchedResultList[index]['endDate'];
+                  bool bookIsFavourite =
+                      searchedResultList[index]['isFavourite'];
+                  String bookId = searchedResultList[index]['bookId'];
+                  return (bookOwner == loggedInUser.email)
+                      ? GestureDetector(
+                          key: ValueKey(loggedInUser.email),
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              'bookInfo',
+                              arguments: ScreenArguments(
+                                bookTitle,
+                                bookAuthor,
+                                bookCover,
+                                bookCategory,
+                                bookDescription,
+                                bookOwner,
+                                bookLanguage,
+                                bookPublished,
+                                bookPages,
+                                bookStartDate,
+                                bookEndDate,
+                                bookIsFavourite,
+                                bookId,
+                              ),
+                            );
                           },
-                        ),
-                      ],
-                    ),
-                  );
+                          child: UIServices.buildCardTile(
+                              bookCover, bookCategory, bookTitle, bookAuthor),
+                        )
+                      : SizedBox(
+                          height: 0,
+                        );
                 },
               ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green,
+          child: Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            final snackBar = SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text(
+                'You have a total of $totalBooks books!',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.green,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
         ),
       ),
     );
