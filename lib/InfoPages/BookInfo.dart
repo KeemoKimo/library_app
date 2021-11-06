@@ -106,6 +106,33 @@ class _BookInfoState extends State<BookInfo> {
       );
     }
 
+    makeColumnDetails(var getValue, String underText) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            getValue,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          UIServices.makeSpace(10),
+          Text(
+            underText,
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      );
+    }
+
+    makeColumnDetailsSplitter() {
+      return Container(
+        width: 2,
+        color: Colors.white,
+        height: 30,
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -242,64 +269,11 @@ class _BookInfoState extends State<BookInfo> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        bookID.bookPages,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      UIServices.makeSpace(10),
-                      Text(
-                        'pages',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 2,
-                    color: Colors.white,
-                    height: 30,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        bookID.bookLanguage,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      UIServices.makeSpace(10),
-                      Text(
-                        'language',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 2,
-                    color: Colors.white,
-                    height: 30,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        bookID.bookPublishedYear,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      UIServices.makeSpace(10),
-                      Text(
-                        'published',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
+                  makeColumnDetails(bookID.bookPages, "pages"),
+                  makeColumnDetailsSplitter(),
+                  makeColumnDetails(bookID.bookLanguage, "language"),
+                  makeColumnDetailsSplitter(),
+                  makeColumnDetails(bookID.bookPublishedYear, "published"),
                 ],
               ),
               UIServices.customDivider(Colors.white),
@@ -325,7 +299,6 @@ class _BookInfoState extends State<BookInfo> {
         ),
       ),
       floatingActionButton: SpeedDial(
-        icon: Icons.settings,
         animatedIcon: AnimatedIcons.menu_close,
         spaceBetweenChildren: 10,
         overlayColor: Colors.black,

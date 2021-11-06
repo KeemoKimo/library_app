@@ -285,7 +285,7 @@ class UIServices {
                         bookCover, bookCategory, bookTitle, bookAuthor),
                   )
                 : SizedBox(
-                    height: 10,
+                    height: 0,
                   )
             : (bookOwner == loggedInUser.email && bookIsFavourite == true)
                 ? GestureDetector(
@@ -315,7 +315,7 @@ class UIServices {
                         bookCover, bookCategory, bookTitle, bookAuthor),
                   )
                 : SizedBox(
-                    height: 10,
+                    height: 0,
                   );
       },
     );
@@ -393,7 +393,7 @@ class UIServices {
           );
   }
 
-//! MAKE A CUSTOM SPACE BETWEEN
+//! MAKE A CUSTOM SPACE BETWEEN WIDGETS
   static SizedBox makeSpace(double value) {
     return SizedBox(
       height: value,
