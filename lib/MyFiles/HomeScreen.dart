@@ -261,41 +261,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   }
 
-                  // final books = snapshot.data!.docs;
-                  // List<Widget> bookWidgets = [];
-                  // for (var book in books) {
-                  //   title = (book.data() as Map)['title'];
-                  //   var author = (book.data() as Map)['author'];
-                  //   owner = (book.data() as Map)['owner'];
-                  //   var bookCoverURL = (book.data() as Map)['imageURL'];
-                  //   var category = (book.data() as Map)['category'];
-                  //   if (owner == userEmail) {
-                  //     print(owner! + ' IS THE OWNER!');
-                  //     final bookWidget = Books(
-                  //       bookCoverURL: bookCoverURL,
-                  //       category: category,
-                  //       title: title as String,
-                  //       author: author,
-                  //     );
-                  //     bookWidgets.add(bookWidget);
-                  //   }
-                  // }
-                  // final books = snapshot.data!.docs;
-                  // for (var book in books) {
-                  //   var title = (book.data() as Map)['title'];
-                  //   var author = (book.data() as Map)['author'];
-                  //   var owner = (book.data() as Map)['owner'];
-                  //   var bookCover = (book.data() as Map)['imageURL'];
-                  //   if (owner == loggedInUser.email) {
-                  //     Text titleText = Text(title);
-                  //     bookTitles.add(titleText);
-                  //     Text authorText = Text(author);
-                  //     bookAuthors.add(authorText);
-                  //     Text coverText = Text(bookCover);
-                  //     bookCovers.add(coverText);
-                  //   }
-                  // }
-
                   return SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     physics: ScrollPhysics(),
@@ -306,12 +271,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           width: double.infinity,
                           height: 400,
                           decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/books.jpg'),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Colors.grey, BlendMode.darken),
+                            ),
                             gradient: LinearGradient(
                               begin: Alignment.bottomLeft,
                               end: Alignment.topRight,
                               colors: [
-                                Color(0xFFfff200),
-                                Color(0xFF003b64),
+                                Color(0xFFc94b4b),
+                                Color(0xFF8A2387),
+                                Color(0xFFF27121),
+                                Color(0xFF4b134f),
                               ],
                             ),
                             borderRadius: BorderRadius.only(
@@ -365,14 +338,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [
-                                        Color(0xFFFFE347),
-                                        Color(0xFF6457A6),
-                                      ],
-                                    ),
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(15),
                                       bottomRight: Radius.circular(15),

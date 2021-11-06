@@ -72,6 +72,7 @@ flutter:
     - assets/images/wingedHussars.jpg
     - assets/images/comics.jpg
     - assets/images/sittingBull.jpg
+    - assets/images/books.jpg
   fonts:
     - family: Lato
       fonts:

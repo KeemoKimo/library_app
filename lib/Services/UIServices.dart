@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/Arguments.dart';
 
+import 'BookService.dart';
+
 class UIServices {
   //!VAR FOR BOOKS
   late String title;
@@ -553,6 +555,95 @@ class UIServices {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
+    );
+  }
+
+//! CATEGORY PAGE SERVICE
+  static Column makeCategoryPage(
+      String categoryName, imagePath, var allResult, loggedInUser) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            ),
+            image: DecorationImage(
+              image: AssetImage(imagePath),
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+            ),
+          ),
+          child: Center(
+            child: Stack(
+              children: [
+                Text(
+                  categoryName,
+                  style: TextStyle(
+                    fontSize: 30,
+                    foreground: Paint()
+                      ..style = PaintingStyle.stroke
+                      ..strokeWidth = 10
+                      ..color = Colors.black,
+                  ),
+                ),
+                Text(
+                  categoryName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        UIServices.customDivider(Colors.black),
+        ListView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: allResult.length,
+          itemBuilder: (context, index) {
+            var data = BookService.fromSnapshot(allResult, index);
+            return (data.bookOwner == loggedInUser.email &&
+                    data.bookCategory == categoryName)
+                ? GestureDetector(
+                    key: ValueKey(loggedInUser.email),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        'bookInfo',
+                        arguments: ScreenArguments(
+                          data.bookTitle,
+                          data.bookAuthor,
+                          data.bookCover,
+                          data.bookCategory,
+                          data.bookDescription,
+                          data.bookOwner,
+                          data.bookLanguage,
+                          data.bookPublished,
+                          data.bookPages,
+                          data.bookStartDate,
+                          data.bookEndDate,
+                          data.bookIsFavourite,
+                          data.bookId,
+                        ),
+                      );
+                    },
+                    child: UIServices.buildCardTile(data.bookCover,
+                        data.bookCategory, data.bookTitle, data.bookAuthor),
+                  )
+                : SizedBox(
+                    height: 0,
+                  );
+          },
+        ),
+      ],
     );
   }
 }
