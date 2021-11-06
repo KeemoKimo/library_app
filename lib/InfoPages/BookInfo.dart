@@ -107,239 +107,220 @@ class _BookInfoState extends State<BookInfo> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'BOOK DETAILS',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFFB03A2E),
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF5614B0),
+              Color(0xFFec2F4B),
+              Color(0xFF7303c0),
+              Color(0xFF1565C0),
+            ],
           ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFFB03A2E)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: Container(
-        color: Colors.white,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 20, bottom: 20),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.black),
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.6),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: Offset(0, 2), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  width: 300,
-                  height: 450,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Image.network(
-                      bookID.bookCover,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: Text(
-                        bookID.bookTitle,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    StreamBuilder(
-                      stream: bookSnapshot,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.black,
-                            ),
-                          );
-                        }
-                        return (bookID.isFavourite == false)
-                            ? GestureDetector(
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      isFavouriteState = true;
-                                      DatabaseServices(uid: loggedInUser.uid)
-                                          .updateFavouriteStatus(
-                                              isFavouriteState,
-                                              bookID.bookTitle,
-                                              loggedInUser.uid);
-                                      var snackBar = SnackBar(
-                                        content: Text('Added to favourites'),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                      Navigator.pop(context);
-                                    },
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.favorite_border_outlined,
-                                ),
-                              )
-                            : GestureDetector(
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      isFavouriteState = false;
-                                      DatabaseServices(uid: loggedInUser.uid)
-                                          .updateFavouriteStatus(
-                                              isFavouriteState,
-                                              bookID.bookTitle,
-                                              loggedInUser.uid);
-                                      var snackBar = SnackBar(
-                                        content:
-                                            Text('Removed from favourites'),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                      Navigator.pop(context);
-                                    },
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                ),
-                              );
-                      },
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 50, bottom: 20),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 3, color: Colors.black),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.6),
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      offset: Offset(0, 2), // changes position of shadow
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Text(
-                    bookID.bookCategory,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFB03A2E),
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
+                width: 350,
+                height: 550,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Image.network(
+                    bookID.bookCover,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: Text(
+                      bookID.bookTitle,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
                   ),
-                ),
-                Text(
-                  bookID.bookAuthor,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
+                  StreamBuilder(
+                    stream: bookSnapshot,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.black,
+                          ),
+                        );
+                      }
+                      return (bookID.isFavourite == false)
+                          ? GestureDetector(
+                              onTap: () {
+                                setState(
+                                  () {
+                                    isFavouriteState = true;
+                                    DatabaseServices(uid: loggedInUser.uid)
+                                        .updateFavouriteStatus(isFavouriteState,
+                                            bookID.bookTitle, loggedInUser.uid);
+                                    var snackBar = SnackBar(
+                                      content: Text('Added to favourites'),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                Icons.favorite_border_outlined,
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                setState(
+                                  () {
+                                    isFavouriteState = false;
+                                    DatabaseServices(uid: loggedInUser.uid)
+                                        .updateFavouriteStatus(isFavouriteState,
+                                            bookID.bookTitle, loggedInUser.uid);
+                                    var snackBar = SnackBar(
+                                      content: Text('Removed from favourites'),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              ),
+                            );
+                    },
                   ),
+                ],
+              ),
+              UIServices.makeSpace(10),
+              Text(
+                bookID.bookCategory,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              ),
+              UIServices.makeSpace(10),
+              Text(
+                bookID.bookAuthor,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
+              UIServices.makeSpace(30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            bookID.bookPages,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'pages',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        bookID.bookPages,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Container(
-                        width: 2,
-                        color: Color(0xFFB03A2E),
-                        height: 30,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            bookID.bookLanguage,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'language',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 2,
-                        color: Color(0xFFB03A2E),
-                        height: 30,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            bookID.bookPublishedYear,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'published',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ],
+                      UIServices.makeSpace(10),
+                      Text(
+                        'pages',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
-                ),
-                UIServices.customDivider(Colors.black),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFB03A2E),
-                    borderRadius: BorderRadius.circular(15),
+                  Container(
+                    width: 2,
+                    color: Colors.white,
+                    height: 30,
                   ),
-                  child: Text(
-                    bookID.bookDescription,
-                    style: TextStyle(
-                        wordSpacing: 2,
-                        letterSpacing: 1,
-                        color: Colors.white,
-                        height: 1.5),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        bookID.bookLanguage,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      UIServices.makeSpace(10),
+                      Text(
+                        'language',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
+                  Container(
+                    width: 2,
+                    color: Colors.white,
+                    height: 30,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        bookID.bookPublishedYear,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      UIServices.makeSpace(10),
+                      Text(
+                        'published',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              UIServices.customDivider(Colors.white),
+              Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                UIServices.customDivider(Colors.black),
-              ],
-            ),
+                child: Text(
+                  bookID.bookDescription,
+                  style: TextStyle(
+                      wordSpacing: 2,
+                      letterSpacing: 1,
+                      color: Colors.white,
+                      height: 1.5),
+                ),
+              ),
+              UIServices.customDivider(Colors.white),
+            ],
           ),
         ),
       ),
@@ -349,7 +330,7 @@ class _BookInfoState extends State<BookInfo> {
         spaceBetweenChildren: 10,
         overlayColor: Colors.black,
         overlayOpacity: 0.7,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF3246C0),
         children: [
           SpeedDialChild(
             backgroundColor: Colors.green,
@@ -361,7 +342,7 @@ class _BookInfoState extends State<BookInfo> {
             },
           ),
           SpeedDialChild(
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFFC9226D),
             foregroundColor: Colors.white,
             child: Icon(Icons.settings),
             label: "Edit Information",
