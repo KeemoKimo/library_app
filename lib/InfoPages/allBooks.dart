@@ -106,9 +106,11 @@ class _AllBooksPageState extends State<AllBooksPage> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            Color(0xFF333399),
-            Color(0xFFb92b27),
             Color(0xFF1565C0),
+            Color(0xFF642B73),
+            Color(0xFFf12711),
+            Color(0xFFf5af19),
+            Color(0xFF1D2671),
           ],
         ),
       ),
@@ -187,7 +189,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
+          backgroundColor: Color(0xFF464290),
           child: Icon(
             Icons.info,
             color: Colors.white,
@@ -198,11 +200,11 @@ class _AllBooksPageState extends State<AllBooksPage> {
               content: Text(
                 'You have a total of $totalBooks books!',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              backgroundColor: Colors.green,
+              backgroundColor: Color(0xFF2B55AC),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },

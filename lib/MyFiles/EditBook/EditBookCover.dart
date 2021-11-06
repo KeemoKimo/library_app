@@ -9,6 +9,8 @@ import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/Services/UIServices.dart';
 
+import '../HomeScreen.dart';
+
 class EditBook extends StatefulWidget {
   const EditBook({Key? key}) : super(key: key);
 
@@ -173,8 +175,12 @@ class _EditBookState extends State<EditBook> {
                 bookID.bookLanguage,
                 bookID.bookPublishedYear,
                 bookID.bookTitle);
-            Navigator.pop(context);
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
           },
         ),
       ),

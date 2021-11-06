@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -179,8 +180,12 @@ class _EditBookInfoState extends State<EditBookInfo> {
         "Confirm Changes",
         () {
           uploadToFirestore();
-          Navigator.pop(context);
-          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+          );
           final snackBar = SnackBar(
             content: Text(
               'Your book has been editted successfully!',

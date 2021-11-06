@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -64,8 +65,12 @@ class _BookInfoState extends State<BookInfo> {
     late Widget deleteBtn = TextButton(
       onPressed: () async {
         await bookCollection.doc(bookID.bookTitle + loggedInUser.uid).delete();
-        Navigator.pop(context);
-        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
         final snackBar = SnackBar(
           content: Text(
             'Your book has been deleted successfully!',
@@ -208,12 +213,25 @@ class _BookInfoState extends State<BookInfo> {
                                     DatabaseServices(uid: loggedInUser.uid)
                                         .updateFavouriteStatus(isFavouriteState,
                                             bookID.bookTitle, loggedInUser.uid);
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
+
                                     var snackBar = SnackBar(
-                                      content: Text('Added to favourites'),
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                        'Added to favourites',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                     );
+
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomeScreen(),
+                                      ),
+                                    );
                                   },
                                 );
                               },
@@ -230,11 +248,25 @@ class _BookInfoState extends State<BookInfo> {
                                         .updateFavouriteStatus(isFavouriteState,
                                             bookID.bookTitle, loggedInUser.uid);
                                     var snackBar = SnackBar(
-                                      content: Text('Removed from favourites'),
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        'Removed from favourites',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     );
                                     ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
+
+                                    ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomeScreen(),
+                                      ),
+                                    );
                                   },
                                 );
                               },
