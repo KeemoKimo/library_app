@@ -52,11 +52,8 @@ class DatabaseServices {
       String publishedYear,
       String oldTitle) async {
     var oldBookData = await booksCollection.doc(oldTitle + uid).get();
-    print('Got the data from $oldTitle $uid!');
     await booksCollection.doc(oldTitle + uid).delete();
-    print('Deleted a document name : $oldTitle $uid!');
     await booksCollection.doc(title + uid).set(oldBookData.data());
-    print('Made a new document name : $title $uid!');
 
     return await booksCollection.doc(title + uid).update(
       {

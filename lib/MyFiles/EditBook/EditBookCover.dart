@@ -20,25 +20,12 @@ class EditBook extends StatefulWidget {
 
 class _EditBookState extends State<EditBook> {
   File? _image;
-
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
-  bool isFavourite = false;
-
-  var categoryItems = [
-    'Fictional',
-    'Non - Fiction',
-    'Historical',
-    'Philosophy',
-    'Sci-Fi',
-    'Comic',
-    'Biography',
-    'Design'
-  ];
 
   getCurrentUser() async {
     try {
@@ -178,7 +165,7 @@ class _EditBookState extends State<EditBook> {
           "Confirm Change",
           () async {
             await uploadImage(context);
-            await await DatabaseServices(uid: loggedInUser.uid).editBooksData(
+            await DatabaseServices(uid: loggedInUser.uid).editBooksData(
                 currentSelectedValue,
                 bookID.bookTitle,
                 bookID.bookAuthor,

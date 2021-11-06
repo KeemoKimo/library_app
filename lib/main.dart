@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/InfoPages/BookInfo.dart';
 import 'package:library_app/MyFiles/EditBook/EditBookCover.dart';
 import 'package:library_app/InfoPages/aboutUs.dart';
+import 'package:library_app/MyFiles/EditBook/EditBookInfo.dart';
 import 'package:library_app/MyFiles/EditProfile.dart';
 import 'package:library_app/createAccountPage.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
@@ -34,7 +35,8 @@ void main() async {
         'otherUserInfo': (context) => const OtherUserInfo(),
         'otherUserBooks': (context) => const OtherUserBooks(),
         'otherUserFavourites': (context) => const OtherUsersFavourites(),
-        'editBook': (context) => const EditBook(),
+        'editBookCover': (context) => const EditBook(),
+        'editBookInfo': (context) => const EditBookInfo(),
         'aboutUs': (context) => const AboutUs(),
         'editProfile': (context) => const EditProfile(),
       },

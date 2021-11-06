@@ -84,10 +84,10 @@ class _BookInfoState extends State<BookInfo> {
         ),
       ),
     );
-    goToEditBook() async {
+    goToEditBookPage(String routeName) async {
       await Navigator.pushNamed(
         context,
-        'editBook',
+        routeName,
         arguments: ScreenArguments(
           bookID.bookTitle,
           bookID.bookAuthor,
@@ -357,7 +357,7 @@ class _BookInfoState extends State<BookInfo> {
             child: Icon(Icons.photo),
             label: "Edit Cover",
             onTap: () {
-              goToEditBook();
+              goToEditBookPage('editBookCover');
             },
           ),
           SpeedDialChild(
@@ -366,7 +366,7 @@ class _BookInfoState extends State<BookInfo> {
             child: Icon(Icons.settings),
             label: "Edit Information",
             onTap: () {
-              print("Edit Info");
+              goToEditBookPage('editBookInfo');
             },
           ),
           SpeedDialChild(
