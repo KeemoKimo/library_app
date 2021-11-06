@@ -11,6 +11,8 @@ import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/MyFiles/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
 import 'package:library_app/MyFiles/myAccount.dart';
+import 'package:library_app/otherUserFiles/otherUserList.dart';
+import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:page_transition/page_transition.dart';
 import '../main.dart';
 
@@ -138,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             buildListTile(
               CupertinoIcons.person_fill,
               Colors.green[800],
-              "MyAccount",
+              "My Account",
               MyAccountPage(),
             ),
             buildListTile(
@@ -163,6 +165,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               Colors.red,
               'My Favourites',
               AllFavouritesPage(),
+            ),
+            buildListTile(
+              CupertinoIcons.group_solid,
+              Colors.purple,
+              'Find People',
+              OtherUserList(),
             ),
             Divider(
               height: 1,
@@ -427,8 +435,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: Color(0xFFB03A2E),
                           ),
                         ),
+                        UIServices.makeSpace(20),
                         UIServices.bookListViewBuilder(
                             snapshot, loggedInUser, 5, 2, false),
+                        UIServices.makeSpace(20),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -480,180 +490,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        //! LIST FOR ALL USERS (SOME)
-                        UIServices.customDivider(Colors.black),
-                        Text(
-                          'Discover People 😎',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Color(0xFF331832),
-                          ),
-                        ),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: userSnapshot,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.black,
-                                ),
-                              );
-                            }
-                            return Container(
-                              padding: EdgeInsets.all(20),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF331832),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius:
-                                          3, // how much spread does this shadow goes
-                                      blurRadius: 4, // how blurry the shadow is
-                                      offset: Offset(
-                                          0, 5), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.only(bottom: 20, right: 20),
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: snapshot.data!.docs.length <= 4
-                                      ? snapshot.data!.docs.length
-                                      : snapshot.data!.docs.length - 1,
-                                  itemBuilder: (context, index) {
-                                    String userUserName =
-                                        snapshot.data!.docs[index]['userName'];
-                                    String userPfp = snapshot.data!.docs[index]
-                                        ['profileURL'];
-                                    String userEmail =
-                                        snapshot.data!.docs[index]['email'];
-                                    String userTotalBooks = snapshot
-                                        .data!.docs[index]['totalBooks'];
-                                    String userTotalFavourites = snapshot
-                                        .data!.docs[index]['totalFavourites'];
-                                    String userAge =
-                                        snapshot.data!.docs[index]['age'];
-                                    String userAbout =
-                                        snapshot.data!.docs[index]['about'];
-                                    String userLocation =
-                                        snapshot.data!.docs[index]['location'];
-                                    int userCreatedDate = snapshot
-                                        .data!.docs[index]['createdDate'];
-                                    int userCreatedMonth = snapshot
-                                        .data!.docs[index]['createdMonth'];
-                                    int userCreatedYear = snapshot
-                                        .data!.docs[index]['createdYear'];
-                                    bool isShowLocation = snapshot
-                                        .data!.docs[index]['showLocation'];
-                                    bool isShowAge =
-                                        snapshot.data!.docs[index]['showAge'];
-                                    bool isShowBook =
-                                        snapshot.data!.docs[index]['showBook'];
-                                    bool isShowFavourite = snapshot
-                                        .data!.docs[index]['showFavourite'];
-                                    return Column(
-                                      children: [
-                                        SizedBox(height: 30),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 20, right: 20),
-                                                  child: Text(
-                                                    userUserName,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 17,
-                                                        color: Colors.white,
-                                                        fontStyle:
-                                                            FontStyle.italic),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
-                                                  child: Text(
-                                                    userEmail,
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            GestureDetector(
-                                              key: ValueKey(loggedInUser.email),
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                  context,
-                                                  'otherUserInfo',
-                                                  arguments: UserArguments(
-                                                    userAge,
-                                                    userEmail,
-                                                    userPfp,
-                                                    userTotalBooks,
-                                                    userUserName,
-                                                    userAbout,
-                                                    userTotalFavourites,
-                                                    userLocation,
-                                                    userCreatedDate,
-                                                    userCreatedMonth,
-                                                    userCreatedYear,
-                                                    isShowLocation,
-                                                    isShowAge,
-                                                    isShowBook,
-                                                    isShowFavourite,
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                width: 90.0,
-                                                height: 90.0,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.deepOrange,
-                                                  image: DecorationImage(
-                                                    image: userPfp == ''
-                                                        ? NetworkImage(
-                                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
-                                                        : NetworkImage(
-                                                            '$userPfp'),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(50.0),
-                                                  ),
-                                                  border: Border.all(
-                                                    color: Colors.white,
-                                                    width: 2.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                         UIServices.customDivider(Colors.black),
                         //! LIST FOR ALL FAVOURITES
                         Text(
@@ -664,8 +500,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: Colors.red,
                           ),
                         ),
+                        UIServices.makeSpace(20),
                         UIServices.bookListViewBuilder(
                             snapshot, loggedInUser, 6, 3, true),
+                        UIServices.makeSpace(20),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -721,6 +559,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ),
                         UIServices.customDivider(Colors.black),
+                        Text("Copyright"),
+                        UIServices.makeSpace(20),
                       ],
                     ),
                   );

@@ -1,4 +1,7 @@
 //! THE CLASS TO PASS ALL OF THE BOOKS (CLICKED) INFO TO ANOTHER SCREEN
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
 class ScreenArguments {
   late final String bookTitle;
   late final String bookAuthor;
@@ -48,6 +51,7 @@ class UserArguments {
   late final bool isShowAge;
   late final bool isShowBook;
   late final bool isShowFavourite;
+  late final userEmail;
 
   UserArguments(
     this.age,
@@ -66,4 +70,50 @@ class UserArguments {
     this.isShowBook,
     this.isShowFavourite,
   );
+
+  UserArguments.fromSnapshot(DocumentSnapshot snapshot) {
+    userUserName = snapshot['userName'];
+    userPFP = snapshot['profileURL'];
+    userEmail = snapshot['email'];
+    totalBooks = snapshot['totalBooks'];
+    userTotalFavourites = snapshot['totalFavourites'];
+    age = snapshot['age'];
+    userAbout = snapshot['about'];
+    userLocation = snapshot['location'];
+    userCreatedDate = snapshot['createdDate'];
+    userCreatedMonth = snapshot['createdMonth'];
+    userCreatedYear = snapshot['createdYear'];
+    isShowLocation = snapshot['showLocation'];
+    isShowAge = snapshot['showAge'];
+    isShowBook = snapshot['showBook'];
+    isShowFavourite = snapshot['showFavourite'];
+  }
+
+  //!MAKE A USER CARD
+  static makeUserListTiles(
+    String userPfp,
+    userUserName,
+  ) {
+    return ListTile(
+      contentPadding: EdgeInsets.all(20),
+      leading: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(50),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(userPfp),
+          ),
+        ),
+      ),
+      title: Text(
+        userUserName.toString(),
+        style: TextStyle(
+          fontSize: 17,
+        ),
+      ),
+    );
+  }
 }

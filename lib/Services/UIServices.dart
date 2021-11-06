@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/Arguments.dart';
 
 class UIServices {
+  //!VAR FOR BOOKS
   late String title;
   late String owner;
   late String bookCover;
@@ -18,6 +19,7 @@ class UIServices {
   late String bookEndDate;
   late bool bookIsFavourite;
   late String bookId;
+
   //!MAKE A DIVIDER
   static Container customDivider(Color color) {
     return Container(
@@ -334,7 +336,7 @@ class UIServices {
     );
   }
 
-//! GET SNAPSHOTS
+//! GET SNAPSHOTS (BOOKS)
   UIServices.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot['title'];
     owner = snapshot['owner'];
