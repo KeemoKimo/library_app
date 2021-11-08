@@ -202,6 +202,7 @@ class UIServices {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             margin: EdgeInsets.only(top: marginTop),
@@ -227,13 +228,10 @@ class UIServices {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 190),
-                    child: Icon(
-                      secondIcon,
-                      size: 15,
-                      color: secondIconColor,
-                    ),
+                  Icon(
+                    secondIcon,
+                    size: 15,
+                    color: secondIconColor,
                   ),
                 ],
               ),
@@ -435,14 +433,16 @@ class UIServices {
   }
 
 //! CUSTOM TEXT WITH ALIGNMENT
-  static Align customAlignedText(Alignment alignment, String text) {
+  static Align customAlignedText(
+      Alignment alignment, String text, Color color) {
     return Align(
       alignment: alignment,
       child: Container(
         margin: EdgeInsets.only(left: 20),
         child: Text(
           text,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: color),
         ),
       ),
     );
@@ -642,6 +642,31 @@ class UIServices {
                     height: 0,
                   );
           },
+        ),
+      ],
+    );
+  }
+
+  //!FUNCTION TO MAKE THE ROW WIDGET WITH ICON AND TEXT
+  static Row makeRowItem(
+      IconData icon, String leadingText, String trailingText, Color color) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: color,
+          size: 25,
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            '$leadingText : $trailingText',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              color: color,
+            ),
+          ),
         ),
       ],
     );

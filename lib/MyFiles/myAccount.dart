@@ -405,8 +405,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             //!YOUR INFORMATION SECTION
                             space40,
-                            UIServices.customAlignedText(
-                                Alignment.centerLeft, "Your Information"),
+                            UIServices.customAlignedText(Alignment.centerLeft,
+                                "Your Information", Colors.black),
                             Container(
                               width: double.infinity,
                               padding: EdgeInsets.all(20),
@@ -437,20 +437,23 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               ),
                               child: Column(
                                 children: [
-                                  makeRowItem(Icons.verified, "Age",
+                                  UIServices.makeRowItem(Icons.verified, "Age",
                                       age.toString(), Colors.white),
                                   space40,
-                                  makeRowItem(
+                                  UIServices.makeRowItem(
                                       Icons.calendar_today,
                                       "Created Date",
                                       "$createdDateDate / $createdDateMonth / $createdDateYear",
                                       Colors.white),
                                   space40,
-                                  makeRowItem(Icons.location_city, "Location",
-                                      currentLocation.toString(), Colors.white),
-                                  space40,
-                                  makeRowItem(Icons.info, "About you", "",
+                                  UIServices.makeRowItem(
+                                      Icons.location_city,
+                                      "Location",
+                                      currentLocation.toString(),
                                       Colors.white),
+                                  space40,
+                                  UIServices.makeRowItem(Icons.info,
+                                      "About you", "", Colors.white),
                                   UIServices.makeSpace(20),
                                   Text(
                                     about!,
@@ -466,8 +469,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             ),
                             //!PRIVACY SETTINGS SECTION
                             UIServices.makeSpace(20),
-                            UIServices.customAlignedText(
-                                Alignment.centerLeft, "Privacy Settings"),
+                            UIServices.customAlignedText(Alignment.centerLeft,
+                                "Privacy Settings", Colors.black),
                             UIServices.makeSpace(20),
                             Column(
                               children: [
@@ -504,7 +507,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             //!CONTENTS SECTION
                             UIServices.makeSpace(20),
                             UIServices.customAlignedText(
-                                Alignment.centerLeft, "Contents"),
+                                Alignment.centerLeft, "Contents", Colors.black),
                             UIServices.makeSpace(20),
                             GestureDetector(
                               onTap: () {
@@ -544,8 +547,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             UIServices.makeSpace(20),
                             //!STATISTICS SECTION
                             UIServices.makeSpace(20),
-                            UIServices.customAlignedText(
-                                Alignment.centerLeft, "Your Statistics"),
+                            UIServices.customAlignedText(Alignment.centerLeft,
+                                "Your Statistics", Colors.black),
                             UIServices.makeSpace(20),
                             Container(
                               margin:
@@ -577,10 +580,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               ),
                               child: Column(
                                 children: [
-                                  makeRowItem(Icons.book, "Total Books",
-                                      totalBooks!, Colors.white),
+                                  UIServices.makeRowItem(Icons.book,
+                                      "Total Books", totalBooks!, Colors.white),
                                   UIServices.makeSpace(40),
-                                  makeRowItem(
+                                  UIServices.makeRowItem(
                                       Icons.favorite,
                                       "Total Favourites",
                                       totalFavourites!,
@@ -608,31 +611,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
           ),
         ),
       ),
-    );
-  }
-
-  //!FUNCTION TO MAKE THE ROW WIDGET WITH ICON AND TEXT
-  Row makeRowItem(
-      IconData icon, String leadingText, String trailingText, Color color) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 25,
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 10),
-          child: Text(
-            '$leadingText : $trailingText',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
-              color: color,
-            ),
-          ),
-        ),
-      ],
     );
   }
 

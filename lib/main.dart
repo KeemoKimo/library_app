@@ -55,11 +55,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
-  String? totalBooks = '';
   bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
-  final screens = [LoginPage(), RegisterAccount()];
   int selectedIndex = 0;
 
 //! MAIN BUILD METHOD
@@ -355,7 +353,8 @@ class _LoginPageState extends State<LoginPage> {
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           colors: [
-            Color(0xFFb621fe),
+            Color(0xFFE94057),
+            Color(0xFF3c1053),
             Color(0xFF1fd1f9),
           ],
         ),
