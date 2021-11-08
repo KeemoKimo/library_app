@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/Arguments.dart';
-import 'package:library_app/Services/UIServices.dart';
 
 class OtherUserList extends StatefulWidget {
   const OtherUserList({Key? key}) : super(key: key);
@@ -12,11 +10,8 @@ class OtherUserList extends StatefulWidget {
 }
 
 class _OtherUserListState extends State<OtherUserList> {
-  FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late User loggedInUser;
   late var userSnapshot = firestore.collection('users').get();
-  late String? totalBooks = '';
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
   late Future resultsLoaded;
@@ -24,24 +19,7 @@ class _OtherUserListState extends State<OtherUserList> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchchanged);
-    getCurrentUser().whenComplete(() {
-      setState(() {
-        build(context);
-      });
-    });
-  }
-
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
+    build(context);
   }
 
   @override

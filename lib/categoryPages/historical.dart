@@ -1,57 +1,34 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class HistoricalPage extends StatefulWidget {
-  const HistoricalPage({Key? key}) : super(key: key);
+  final User loggedInUser;
+  const HistoricalPage({Key? key, required this.loggedInUser})
+      : super(key: key);
 
   @override
-  _HistoricalPageState createState() => _HistoricalPageState();
+  _HistoricalPageState createState() =>
+      _HistoricalPageState(loggedInUser: loggedInUser);
 }
 
 class _HistoricalPageState extends State<HistoricalPage> {
+  late User loggedInUser;
+  _HistoricalPageState({required this.loggedInUser});
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late User loggedInUser;
+
   late var bookSnapshot = firestore.collection('books').get();
-  late String? username = '';
-  late String? userUID = loggedInUser.uid;
-  late String age = '';
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-  File? file;
-  late String imageUrl = '';
   List allResult = [];
   @override
   void initState() {
     super.initState();
     getAllBooks();
-    getCurrentUser().whenComplete(
-      () {
-        setState(() {
-          print(loggedInUser.email);
-          build(context);
-        });
-      },
-    );
-  }
 
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
+    print(loggedInUser.email);
+    build(context);
   }
 
   //! GET ALL THE BOOKS FROM FIREBASE AND STORE IT IN A LIST

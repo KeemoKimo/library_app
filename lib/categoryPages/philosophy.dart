@@ -8,50 +8,28 @@ import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class PhilosophyPage extends StatefulWidget {
-  const PhilosophyPage({Key? key}) : super(key: key);
+  final User loggedInUser;
+  const PhilosophyPage({Key? key, required this.loggedInUser})
+      : super(key: key);
 
   @override
-  _PhilosophyPageState createState() => _PhilosophyPageState();
+  _PhilosophyPageState createState() =>
+      _PhilosophyPageState(loggedInUser: loggedInUser);
 }
 
 class _PhilosophyPageState extends State<PhilosophyPage> {
+  late User loggedInUser;
+  _PhilosophyPageState({required this.loggedInUser});
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late User loggedInUser;
   late var bookSnapshot = firestore.collection('books').get();
-  late String? username = '';
-  late String? userUID = loggedInUser.uid;
-  late String age = '';
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-  File? file;
-  late String imageUrl = '';
   List allResult = [];
   @override
   void initState() {
     super.initState();
     getAllBooks();
-    getCurrentUser().whenComplete(
-      () {
-        setState(() {
-          print(loggedInUser.email);
-          build(context);
-        });
-      },
-    );
-  }
-
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
+    print(loggedInUser.email);
+    build(context);
   }
 
   getAllBooks() async {

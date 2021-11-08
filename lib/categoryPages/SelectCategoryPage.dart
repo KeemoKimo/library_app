@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/categoryPages/biography.dart';
 import 'package:library_app/categoryPages/comic.dart';
@@ -10,10 +11,13 @@ import 'package:library_app/categoryPages/sci_fi.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SelectCategoryPage extends StatefulWidget {
-  const SelectCategoryPage({Key? key}) : super(key: key);
+  final User loggedInUser;
+  const SelectCategoryPage({Key? key, required this.loggedInUser})
+      : super(key: key);
 
   @override
-  _SelectCategoryPageState createState() => _SelectCategoryPageState();
+  _SelectCategoryPageState createState() =>
+      _SelectCategoryPageState(loggedInUser: loggedInUser);
 }
 
 Container makeCategoryContainer(
@@ -56,6 +60,8 @@ Container makeCategoryContainer(
 }
 
 class _SelectCategoryPageState extends State<SelectCategoryPage> {
+  late User loggedInUser;
+  _SelectCategoryPageState({required this.loggedInUser});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +77,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: fictionPage(),
+                        child: fictionPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.leftToRightWithFade,
                       ),
                     );
@@ -84,7 +92,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: Non_Fiction_Page(),
+                        child: Non_Fiction_Page(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -97,7 +107,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: HistoricalPage(),
+                        child: HistoricalPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -112,7 +124,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: PhilosophyPage(),
+                        child: PhilosophyPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -127,7 +141,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: SciFiPage(),
+                        child: SciFiPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -140,7 +156,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: ComicPage(),
+                        child: ComicPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -153,7 +171,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: BiographyPage(),
+                        child: BiographyPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -166,7 +186,9 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: DesignPage(),
+                        child: DesignPage(
+                          loggedInUser: loggedInUser,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );

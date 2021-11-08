@@ -8,18 +8,21 @@ import 'package:library_app/Services/BookService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class AllBooksPage extends StatefulWidget {
-  const AllBooksPage({Key? key}) : super(key: key);
+  final User loggedInUser;
+  const AllBooksPage({Key? key, required this.loggedInUser}) : super(key: key);
 
   @override
-  _AllBooksPageState createState() => _AllBooksPageState();
+  _AllBooksPageState createState() =>
+      _AllBooksPageState(loggedInUser: loggedInUser);
 }
 
 class _AllBooksPageState extends State<AllBooksPage> {
+  late User loggedInUser;
+  _AllBooksPageState({required this.loggedInUser});
+
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late User loggedInUser;
   late var bookSnapshot = firestore.collection('books').get();
-  late String? totalBooks = '';
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
   late Future resultsLoaded;
@@ -28,35 +31,8 @@ class _AllBooksPageState extends State<AllBooksPage> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchchanged);
-    getCurrentUser().whenComplete(() {
-      setState(() {
-        build(context);
-      });
-    });
-  }
 
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
-  }
-
-//! COUNT ALL USER BOOKS WHEN PAGE IS LOADED
-  countBooks() async {
-    QuerySnapshot _myDoc = await firestore
-        .collection('books')
-        .where('owner',
-            isEqualTo: loggedInUser.email.toString()) //cannot use ==
-        .get();
-    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
-    totalBooks = _myDocCount.length.toString();
+    build(context);
   }
 
   @override
@@ -100,7 +76,6 @@ class _AllBooksPageState extends State<AllBooksPage> {
 
   @override
   Widget build(BuildContext context) {
-    countBooks();
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -170,12 +145,6 @@ class _AllBooksPageState extends State<AllBooksPage> {
             ],
           ),
         ),
-        floatingActionButton: UIServices.makeFABInfoBooks(
-            Color(0xFF464290),
-            Color(0xFF464290),
-            Colors.white,
-            context,
-            "You have a total of $totalBooks books!"),
       ),
     );
   }

@@ -8,17 +8,20 @@ import 'package:library_app/Services/BookService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class AllFavouritesPage extends StatefulWidget {
-  const AllFavouritesPage({Key? key}) : super(key: key);
+  final User loggedInUser;
+  const AllFavouritesPage({Key? key, required this.loggedInUser})
+      : super(key: key);
 
   @override
-  _AllFavouritesPageState createState() => _AllFavouritesPageState();
+  _AllFavouritesPageState createState() =>
+      _AllFavouritesPageState(loggedInUser: loggedInUser);
 }
 
 class _AllFavouritesPageState extends State<AllFavouritesPage> {
+  late User loggedInUser;
+  _AllFavouritesPageState({required this.loggedInUser});
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late User loggedInUser;
-  late String? totalFavourites = '';
   late var bookSnapshot = firestore.collection('books').get();
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
@@ -28,37 +31,9 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchchanged);
-    getCurrentUser().whenComplete(() {
-      setState(() {
-        build(context);
-      });
+    setState(() {
+      build(context);
     });
-  }
-
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
-  }
-
-  countFavourites() async {
-    QuerySnapshot _myDoc = await firestore
-        .collection('books')
-        .where('owner', isEqualTo: loggedInUser.email.toString())
-        .where(
-          'isFavourite',
-          isEqualTo: true,
-        ) //cannot use ==
-        .get();
-    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
-    totalFavourites = _myDocCount.length.toString();
   }
 
   @override
@@ -101,7 +76,6 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
 
   @override
   Widget build(BuildContext context) {
-    countFavourites();
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -172,12 +146,6 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
             ],
           ),
         ),
-        floatingActionButton: UIServices.makeFABInfoBooks(
-            Color(0xFFDF271C),
-            Color(0xFFDF271C),
-            Colors.white,
-            context,
-            "You have a total of $totalFavourites favourites !"),
       ),
     );
   }

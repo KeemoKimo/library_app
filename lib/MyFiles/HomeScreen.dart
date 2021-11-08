@@ -178,7 +178,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               Icons.list,
               Colors.green[800],
               'Browse Categories',
-              SelectCategoryPage(),
+              SelectCategoryPage(
+                loggedInUser: loggedInUser,
+              ),
             ),
             Divider(
               height: 1,
@@ -189,13 +191,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               CupertinoIcons.book_fill,
               Colors.red,
               'All My Books',
-              AllBooksPage(),
+              AllBooksPage(
+                loggedInUser: loggedInUser,
+              ),
             ),
             buildListTile(
               CupertinoIcons.heart_fill,
               Colors.red,
               'My Favourites',
-              AllFavouritesPage(),
+              AllFavouritesPage(
+                loggedInUser: loggedInUser,
+              ),
             ),
             buildListTile(
               CupertinoIcons.add_circled_solid,
@@ -368,7 +374,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AllBooksPage()),
+                        MaterialPageRoute(
+                            builder: (context) => AllBooksPage(
+                                  loggedInUser: loggedInUser,
+                                )),
                       );
                     },
                     child: Container(
@@ -432,7 +441,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AllFavouritesPage()),
+                            builder: (context) => AllFavouritesPage(
+                                  loggedInUser: loggedInUser,
+                                )),
                       );
                     },
                     child: Container(

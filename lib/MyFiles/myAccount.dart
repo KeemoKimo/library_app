@@ -499,7 +499,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AllBooksPage()),
+                                      builder: (context) => AllBooksPage(
+                                            loggedInUser: loggedInUser,
+                                          )),
                                 );
                               },
                               child: MyAccountPage.customCard(
@@ -517,8 +519,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AllFavouritesPage()),
+                                      builder: (context) => AllFavouritesPage(
+                                            loggedInUser: loggedInUser,
+                                          )),
                                 );
                               },
                               child: MyAccountPage.customCard(
