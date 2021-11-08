@@ -6,13 +6,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
-import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/MyFiles/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
 import 'package:library_app/MyFiles/myAccount.dart';
 import 'package:library_app/otherUserFiles/otherUserList.dart';
-import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:page_transition/page_transition.dart';
 import '../main.dart';
 
@@ -144,10 +142,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               MyAccountPage(),
             ),
             buildListTile(
-              CupertinoIcons.add_circled_solid,
-              Color(0xFF0CCE6B),
-              'Add Books',
-              addBookPage(),
+              CupertinoIcons.group_solid,
+              Colors.green[800],
+              'Find People',
+              OtherUserList(),
+            ),
+            buildListTile(
+              Icons.list,
+              Colors.green[800],
+              'Browse Categories',
+              SelectCategoryPage(),
             ),
             Divider(
               height: 1,
@@ -156,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             buildListTile(
               CupertinoIcons.book_fill,
-              Colors.deepOrange,
+              Colors.red,
               'All My Books',
               AllBooksPage(),
             ),
@@ -167,10 +171,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               AllFavouritesPage(),
             ),
             buildListTile(
-              CupertinoIcons.group_solid,
-              Colors.purple,
-              'Find People',
-              OtherUserList(),
+              CupertinoIcons.add_circled_solid,
+              Colors.red,
+              'Add Books',
+              addBookPage(),
             ),
             Divider(
               height: 1,
@@ -302,89 +306,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ],
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "WELCOME !!",
-                                style: TextStyle(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              UIServices.customDivider(Colors.black),
-                              Text(
-                                "We're glad to see you!",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      child: SelectCategoryPage(),
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(seconds: 1),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 50),
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(15),
-                                      bottomRight: Radius.circular(15),
-                                    ),
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Colors.black,
+                              Container(
+                                margin: EdgeInsets.only(left: 30),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Choose what",
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 34,
-                                        height: 34,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            alignment:
-                                                FractionalOffset.topCenter,
-                                            image: AssetImage(
-                                                "assets/images/categories.png"),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 240,
-                                        child: Center(
-                                          child: Text(
-                                            "BROWSE CATEGORIES",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 51,
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 30),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "to do today?",
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
