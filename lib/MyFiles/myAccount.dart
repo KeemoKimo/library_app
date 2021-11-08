@@ -12,10 +12,12 @@ import 'package:library_app/InfoPages/all_favourites.dart';
 import '../Services/UIServices.dart';
 
 class MyAccountPage extends StatefulWidget {
-  const MyAccountPage({Key? key}) : super(key: key);
+  final User loggedInUser;
+  const MyAccountPage({Key? key, required this.loggedInUser}) : super(key: key);
 
   @override
-  _MyAccountPageState createState() => _MyAccountPageState();
+  _MyAccountPageState createState() =>
+      _MyAccountPageState(loggedInUser: loggedInUser);
   //! FUNCTION TO MAKE A CUSTOM CARD
   static Container customCard(
     String displayText,
@@ -82,49 +84,31 @@ class MyAccountPage extends StatefulWidget {
 }
 
 class _MyAccountPageState extends State<MyAccountPage> {
+  late User loggedInUser;
+  _MyAccountPageState({required this.loggedInUser});
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late DatabaseServices dbService;
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
-  late String? userEmail = loggedInUser.email;
-  late String? userUID = loggedInUser.uid;
-  late User loggedInUser;
-  late String? profileURL = '';
   late File userProfilePicture;
-  late String? userName = '';
-  late String? age = '';
-  late String? totalBooks = '';
-  late String? totalFavourites = '';
-  late String? currentLocation = '';
-  late String? about = '';
-  late int? createdDateYear = loggedInUser.metadata.creationTime!.year;
-  late int? createdDateMonth = loggedInUser.metadata.creationTime!.month;
-  late int? createdDateDate = loggedInUser.metadata.creationTime!.day;
-  bool _switchValueLocation = false;
-  bool _switchValueAge = false;
-  bool _switchValueBooks = false;
-  bool _switchValueFavourite = false;
+  late String? userEmail = loggedInUser.email, userUID = loggedInUser.uid;
+  late String? profileURL = '',
+      userName = '',
+      age = '',
+      totalBooks = '',
+      totalFavourites = '',
+      currentLocation = '',
+      about = '';
+  late int? createdDateYear = loggedInUser.metadata.creationTime!.year,
+      createdDateMonth = loggedInUser.metadata.creationTime!.month,
+      createdDateDate = loggedInUser.metadata.creationTime!.day;
+  bool _switchValueLocation = false,
+      _switchValueAge = false,
+      _switchValueBooks = false,
+      _switchValueFavourite = false;
   var space40 = UIServices.makeSpace(40);
   void initState() {
     super.initState();
-    getCurrentUser().whenComplete(() {
-      setState(() {
-        build(context);
-      });
-    });
-  }
-
-  getCurrentUser() async {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(
-        e.toString(),
-      );
-    }
+    build(context);
   }
 
   countBooks() async {
@@ -190,6 +174,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
       }
     }
 
+    print(loggedInUser.email);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(

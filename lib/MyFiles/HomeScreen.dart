@@ -11,7 +11,6 @@ import 'package:library_app/MyFiles/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
 import 'package:library_app/MyFiles/myAccount.dart';
 import 'package:library_app/otherUserFiles/otherUserList.dart';
-import 'package:page_transition/page_transition.dart';
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,6 +48,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
     );
   }
+
+  late Widget cancelBtn = TextButton(
+    onPressed: () {
+      Navigator.pop(context);
+    },
+    child: Text(
+      "Cancel",
+    ),
+  );
+  late Widget signOutBtn = TextButton(
+    onPressed: () async {
+      await auth.signOut();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    },
+    child: Text(
+      "Sign Out",
+      style: TextStyle(
+        color: Colors.red,
+      ),
+    ),
+  );
 
 //! FUNCTION WHEN THE SCREEN IS FIRED
   @override
@@ -139,7 +164,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               CupertinoIcons.person_fill,
               Colors.green[800],
               "My Account",
-              MyAccountPage(),
+              MyAccountPage(
+                loggedInUser: loggedInUser,
+              ),
             ),
             buildListTile(
               CupertinoIcons.group_solid,
@@ -201,34 +228,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               onTap: () async {
-                showCupertinoDialog(
+                showDialog(
                   context: context,
-                  builder: (_) => CupertinoAlertDialog(
-                    title: Text("LOG OUT"),
-                    content: Text(
-                        "Are you sure you want to log out of ${loggedInUser.email} ?"),
-                    actions: [
-                      CupertinoButton(
-                          child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          }),
-                      CupertinoButton(
-                          child: Text(
-                            'Log Out',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () async {
-                            await auth.signOut();
-                            print('Sign out succesful');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
-                          }),
-                    ],
-                  ),
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        "Do you want to sign out?",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                      content:
+                          Text("You are about to sign out of this account."),
+                      actions: [
+                        cancelBtn,
+                        signOutBtn,
+                      ],
+                    );
+                  },
                 );
                 // await auth.signOut();
                 // print("Signed Out successful");
@@ -248,239 +266,228 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       onWillPop: () async => false,
       child: Scaffold(
         drawer: drawer2,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: bookSnapshot,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                          margin: EdgeInsets.only(top: 500),
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.blue,
-                          )),
-                    );
-                  }
-
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: ScrollPhysics(),
-                    child: Column(
-                      children: <Widget>[
-                        //! CONTAINER FOR CATEGORIES
-                        Container(
-                          width: double.infinity,
-                          height: 400,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/books.jpg'),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  Colors.grey, BlendMode.darken),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomLeft,
-                              end: Alignment.topRight,
-                              colors: [
-                                Color(0xFFc94b4b),
-                                Color(0xFF8A2387),
-                                Color(0xFFF27121),
-                                Color(0xFF4b134f),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.4),
-                                spreadRadius: 8,
-                                blurRadius: 8,
-                                offset:
-                                    Offset(0, 7), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 30),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Choose what",
-                                    style: TextStyle(
-                                      fontSize: 40,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 30),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "to do today?",
-                                    style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: bookSnapshot,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: Container(
+                    margin: EdgeInsets.only(top: 500),
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.blue,
+                    )),
+              );
+            }
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: ScrollPhysics(),
+              child: Column(
+                children: <Widget>[
+                  //! CONTAINER FOR CATEGORIES
+                  Container(
+                    width: double.infinity,
+                    height: 400,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/books.jpg'),
+                        fit: BoxFit.cover,
+                        colorFilter:
+                            ColorFilter.mode(Colors.grey, BlendMode.darken),
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Color(0xFFc94b4b),
+                          Color(0xFF8A2387),
+                          Color(0xFFF27121),
+                          Color(0xFF4b134f),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          spreadRadius: 8,
+                          blurRadius: 8,
+                          offset: Offset(0, 7), // changes position of shadow
                         ),
-                        UIServices.customDivider(Colors.black),
-                        //! LIST FOR ALL BOOKS
-                        Text(
-                          'Your Collection 📚',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Color(0xFFB03A2E),
-                          ),
-                        ),
-                        UIServices.makeSpace(20),
-                        UIServices.bookListViewBuilder(
-                            snapshot, loggedInUser, 5, 2, false),
-                        UIServices.makeSpace(20),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AllBooksPage()),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(left: 20),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFB03A2E),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                bottomLeft: Radius.circular(15),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: Image(
-                                    image: AssetImage(
-                                        'assets/images/allBooks.png'),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Text(
-                                    'View all your books!',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        UIServices.customDivider(Colors.black),
-                        //! LIST FOR ALL FAVOURITES
-                        Text(
-                          'Favourites ❤️',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.red,
-                          ),
-                        ),
-                        UIServices.makeSpace(20),
-                        UIServices.bookListViewBuilder(
-                            snapshot, loggedInUser, 6, 3, true),
-                        UIServices.makeSpace(20),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AllFavouritesPage()),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(
-                              right: 20,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(15),
-                                bottomRight: Radius.circular(15),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20, right: 20),
-                                  child: Text(
-                                    'See all your favourites!',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: Icon(
-                                    Icons.favorite,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        UIServices.customDivider(Colors.black),
-                        Text("Copyright"),
-                        UIServices.makeSpace(20),
                       ],
                     ),
-                  );
-                },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 30),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Choose what",
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 30),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "to do today?",
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  UIServices.customDivider(Colors.black),
+                  //! LIST FOR ALL BOOKS
+                  Text(
+                    'Your Collection 📚',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Color(0xFFB03A2E),
+                    ),
+                  ),
+                  UIServices.makeSpace(20),
+                  UIServices.bookListViewBuilder(
+                      snapshot, loggedInUser, 5, 2, false),
+                  UIServices.makeSpace(20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AllBooksPage()),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(left: 20),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFB03A2E),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: Image(
+                              image: AssetImage('assets/images/allBooks.png'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Text(
+                              'View all your books!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  UIServices.customDivider(Colors.black),
+                  //! LIST FOR ALL FAVOURITES
+                  Text(
+                    'Favourites ❤️',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.red,
+                    ),
+                  ),
+                  UIServices.makeSpace(20),
+                  UIServices.bookListViewBuilder(
+                      snapshot, loggedInUser, 6, 3, true),
+                  UIServices.makeSpace(20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllFavouritesPage()),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(
+                        right: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20, right: 20),
+                            child: Text(
+                              'See all your favourites!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: Icon(
+                              Icons.favorite,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  UIServices.customDivider(Colors.black),
+                  Text("Copyright"),
+                  UIServices.makeSpace(20),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
