@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/variables.dart';
 
 class OtherUsersFavourites extends StatefulWidget {
   const OtherUsersFavourites({Key? key}) : super(key: key);
@@ -14,10 +15,9 @@ class OtherUsersFavourites extends StatefulWidget {
 }
 
 class _OtherUsersFavouritesState extends State<OtherUsersFavourites> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-      firestore.collection('books').snapshots();
+      Variables.firestore.collection('books').snapshots();
 
   @override
   Widget build(BuildContext context) {

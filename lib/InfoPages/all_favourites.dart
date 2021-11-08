@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/BookService.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/variables.dart';
 
 class AllFavouritesPage extends StatefulWidget {
   final User loggedInUser;
@@ -20,9 +21,7 @@ class AllFavouritesPage extends StatefulWidget {
 class _AllFavouritesPageState extends State<AllFavouritesPage> {
   late User loggedInUser;
   _AllFavouritesPageState({required this.loggedInUser});
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late var bookSnapshot = firestore.collection('books').get();
+  late var bookSnapshot = Variables.firestore.collection('books').get();
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
   late Future resultsLoaded;

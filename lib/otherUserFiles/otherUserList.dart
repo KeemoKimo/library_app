@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/Arguments.dart';
+import 'package:library_app/variables.dart';
 
 class OtherUserList extends StatefulWidget {
   const OtherUserList({Key? key}) : super(key: key);
@@ -10,8 +10,7 @@ class OtherUserList extends StatefulWidget {
 }
 
 class _OtherUserListState extends State<OtherUserList> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late var userSnapshot = firestore.collection('users').get();
+  late var userSnapshot = Variables.firestore.collection('users').get();
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
   late Future resultsLoaded;

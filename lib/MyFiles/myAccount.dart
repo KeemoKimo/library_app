@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +8,8 @@ import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
+import 'package:library_app/Services/DecorationService.dart';
+import 'package:library_app/variables.dart';
 import '../Services/UIServices.dart';
 
 class MyAccountPage extends StatefulWidget {
@@ -86,9 +87,6 @@ class MyAccountPage extends StatefulWidget {
 class _MyAccountPageState extends State<MyAccountPage> {
   late User loggedInUser;
   _MyAccountPageState({required this.loggedInUser});
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseStorage storage = FirebaseStorage.instance;
   late File userProfilePicture;
   late String? userEmail = loggedInUser.email, userUID = loggedInUser.uid;
   late String? profileURL = '',
@@ -112,7 +110,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   }
 
   countBooks() async {
-    QuerySnapshot _myDoc = await firestore
+    QuerySnapshot _myDoc = await Variables.firestore
         .collection('books')
         .where('owner',
             isEqualTo: loggedInUser.email.toString()) //cannot use ==
@@ -123,7 +121,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   }
 
   countFavourites() async {
-    QuerySnapshot _myDoc = await firestore
+    QuerySnapshot _myDoc = await Variables.firestore
         .collection('books')
         .where('owner', isEqualTo: loggedInUser.email.toString())
         .where(
@@ -154,7 +152,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             Navigator.pop(context);
           } else {
             print('Should be startting to put file in');
-            var snapshot = await storage
+            var snapshot = await Variables.storage
                 .ref()
                 .child('userProfiles/$userEmail profile')
                 .putFile(userProfilePicture);
@@ -174,20 +172,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
       }
     }
 
-    print(loggedInUser.email);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [
-              Color(0xFFb58ecc),
-              Color(0xFF320D6D),
-              Color(0xFF044B7F),
-              Color(0xFFb91372),
-            ],
+          gradient: DecorationService.gradientColor(
+            Alignment.bottomLeft,
+            Alignment.topRight,
+            Color(0xFFb58ecc),
+            Color(0xFF320D6D),
+            Color(0xFF044B7F),
+            Color(0xFFb91372),
           ),
         ),
         child: SingleChildScrollView(
@@ -195,7 +190,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
-                stream: firestore.collection('users').snapshots(),
+                stream: Variables.firestore.collection('users').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -398,15 +393,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               margin: EdgeInsets.only(
                                   top: 20, left: 10, right: 10, bottom: 20),
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomLeft,
-                                  end: Alignment.topRight,
-                                  colors: [
-                                    Color(0xFF7303c0),
-                                    Color(0xFF93291E),
-                                    Color(0xFF044B7F),
-                                    Color(0xFFb91372),
-                                  ],
+                                gradient: DecorationService.gradientColor(
+                                  Alignment.bottomLeft,
+                                  Alignment.topRight,
+                                  Color(0xFF7303c0),
+                                  Color(0xFF93291E),
+                                  Color(0xFF044B7F),
+                                  Color(0xFFb91372),
                                 ),
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
@@ -544,15 +537,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                               padding: EdgeInsets.all(20),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomRight,
-                                  end: Alignment.topLeft,
-                                  colors: [
-                                    Color(0xFFb58ecc),
-                                    Color(0xFF320D6D),
-                                    Color(0xFF044B7F),
-                                    Color(0xFF93291E),
-                                  ],
+                                gradient: DecorationService.gradientColor(
+                                  Alignment.bottomRight,
+                                  Alignment.topLeft,
+                                  Color(0xFFb58ecc),
+                                  Color(0xFF320D6D),
+                                  Color(0xFF044B7F),
+                                  Color(0xFF93291E),
                                 ),
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [

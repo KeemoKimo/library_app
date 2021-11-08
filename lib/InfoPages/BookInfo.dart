@@ -6,7 +6,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
+import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/variables.dart';
 
 class BookInfo extends StatefulWidget {
   const BookInfo({Key? key}) : super(key: key);
@@ -17,10 +19,9 @@ class BookInfo extends StatefulWidget {
 
 class _BookInfoState extends State<BookInfo> {
   late User loggedInUser;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var auth = Variables.auth;
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-      firestore.collection('books').snapshots();
+      Variables.firestore.collection('books').snapshots();
   late bool isFavouriteState;
   CollectionReference bookCollection =
       FirebaseFirestore.instance.collection('books');
@@ -51,44 +52,29 @@ class _BookInfoState extends State<BookInfo> {
   Widget build(BuildContext context) {
     final bookID =
         ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    late Widget cancelBtn = TextButton(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Text(
-        "Cancel",
-        style: TextStyle(
-          color: Colors.red,
+    late var cancelBtn = UIServices.makePopUpButton(() {
+      Navigator.pop(context);
+    }, "Cancel", Colors.blue);
+    late var deleteBtn = UIServices.makePopUpButton(() async {
+      await bookCollection.doc(bookID.bookTitle + loggedInUser.uid).delete();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
         ),
-      ),
-    );
-    late Widget deleteBtn = TextButton(
-      onPressed: () async {
-        await bookCollection.doc(bookID.bookTitle + loggedInUser.uid).delete();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+      );
+      final snackBar = SnackBar(
+        content: Text(
+          'Your book has been deleted successfully!',
+          style: TextStyle(
+            color: Colors.white,
           ),
-        );
-        final snackBar = SnackBar(
-          content: Text(
-            'Your book has been deleted successfully!',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.red,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-      child: Text(
-        "Delete",
-        style: TextStyle(
-          color: Colors.red,
         ),
-      ),
-    );
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }, "Delete", Colors.red);
+
     goToEditBookPage(String routeName) async {
       await Navigator.pushNamed(
         context,
@@ -142,15 +128,13 @@ class _BookInfoState extends State<BookInfo> {
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF5614B0),
-              Color(0xFFec2F4B),
-              Color(0xFF7303c0),
-              Color(0xFF1565C0),
-            ],
+          gradient: DecorationService.gradientColor(
+            Alignment.bottomLeft,
+            Alignment.topRight,
+            Color(0xFF5614B0),
+            Color(0xFFec2F4B),
+            Color(0xFF7303c0),
+            Color(0xFF1565C0),
           ),
         ),
         child: SingleChildScrollView(

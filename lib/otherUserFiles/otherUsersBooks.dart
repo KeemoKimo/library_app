@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/variables.dart';
 
 class OtherUserBooks extends StatefulWidget {
   const OtherUserBooks({Key? key}) : super(key: key);
@@ -14,10 +15,9 @@ class OtherUserBooks extends StatefulWidget {
 }
 
 class _OtherUserBooksState extends State<OtherUserBooks> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
   late User loggedInUser;
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookSnapshot =
-      firestore.collection('books').snapshots();
+      Variables.firestore.collection('books').snapshots();
 
   @override
   Widget build(BuildContext context) {

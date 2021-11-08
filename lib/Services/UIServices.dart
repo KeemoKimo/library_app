@@ -671,4 +671,18 @@ class UIServices {
       ],
     );
   }
+
+//! CREATE POP UP TEXT BUTTON
+  static TextButton makePopUpButton(
+      Function()? func, String labelText, Color textColor) {
+    return TextButton(
+      onPressed: func,
+      child: Text(
+        labelText,
+        style: TextStyle(
+          color: textColor,
+        ),
+      ),
+    );
+  }
 }
