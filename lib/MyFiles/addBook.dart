@@ -159,21 +159,6 @@ class _addBookPageState extends State<addBookPage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Text(
-            'Add a new Book',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          elevation: 0,
-        ),
         body: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
@@ -181,8 +166,9 @@ class _addBookPageState extends State<addBookPage> {
             key: _formKey,
             child: Row(
               children: <Widget>[
-                //! USER PICK IMAGE
+                //! FIRST SCREEN - USER PICK IMAGE
                 Container(
+                  padding: EdgeInsets.only(top: 50),
                   key: pickImagePageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -235,6 +221,7 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! SECOND SCREEN - BASIC INFO
                 Container(
+                  padding: EdgeInsets.only(top: 50),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,

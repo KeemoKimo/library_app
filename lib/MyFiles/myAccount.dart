@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
@@ -19,69 +20,6 @@ class MyAccountPage extends StatefulWidget {
   @override
   _MyAccountPageState createState() =>
       _MyAccountPageState(loggedInUser: loggedInUser);
-  //! FUNCTION TO MAKE A CUSTOM CARD
-  static Container customCard(
-    String displayText,
-    IconData firstIcon,
-    IconData secondIcon,
-    double marginTop,
-    Color mainIconColor,
-    Color secondIconColor,
-  ) {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFc31432),
-            Color(0xFF320D6D),
-            Color(0xFF044B7F),
-            Color(0xFF240b36),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: marginTop),
-            height: 60,
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Icon(
-                    firstIcon,
-                    color: mainIconColor,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    '$displayText',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: mainIconColor,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 190),
-                  child: Icon(
-                    secondIcon,
-                    size: 15,
-                    color: secondIconColor,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }
 
 class _MyAccountPageState extends State<MyAccountPage> {
@@ -107,32 +45,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
   void initState() {
     super.initState();
     build(context);
-  }
-
-  countBooks() async {
-    QuerySnapshot _myDoc = await Variables.firestore
-        .collection('books')
-        .where('owner',
-            isEqualTo: loggedInUser.email.toString()) //cannot use ==
-        .get();
-    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
-    totalBooks = _myDocCount.length.toString();
-    DatabaseServices(uid: loggedInUser.uid).updateTotalBooks(totalBooks!);
-  }
-
-  countFavourites() async {
-    QuerySnapshot _myDoc = await Variables.firestore
-        .collection('books')
-        .where('owner', isEqualTo: loggedInUser.email.toString())
-        .where(
-          'isFavourite',
-          isEqualTo: true,
-        ) //cannot use ==
-        .get();
-    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
-    totalFavourites = _myDocCount.length.toString();
-    DatabaseServices(uid: loggedInUser.uid)
-        .updateTotalFavourites(totalFavourites!);
   }
 
   @override
@@ -175,418 +87,289 @@ class _MyAccountPageState extends State<MyAccountPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: DecorationService.gradientColor(
-            Alignment.bottomLeft,
-            Alignment.topRight,
-            Color(0xFFb58ecc),
-            Color(0xFF320D6D),
-            Color(0xFF044B7F),
-            Color(0xFFb91372),
-          ),
-        ),
+        decoration: MyAccountService.bgGradient,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: Variables.firestore.collection('users').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                        color: Colors.red,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
-                    );
-                  }
-                  final users = snapshot.data!.docs;
-                  for (var user in users) {
-                    var email = (user.data() as Map)['email'];
-                    countBooks();
-                    countFavourites();
-                    if (userEmail == email) {
-                      profileURL = (user.data() as Map)['profileURL'];
-                      userName = (user.data() as Map)['userName'];
-                      age = (user.data() as Map)['age'];
-                      totalBooks = (user.data() as Map)['totalBooks'];
-                      totalFavourites = (user.data() as Map)['totalFavourites'];
-                      currentLocation = (user.data() as Map)['location'];
-                      about = (user.data() as Map)['about'];
-                      _switchValueLocation =
-                          (user.data() as Map)['showLocation'];
-                      _switchValueAge = (user.data() as Map)['showAge'];
-                      _switchValueBooks = (user.data() as Map)['showBook'];
-                      _switchValueFavourite =
-                          (user.data() as Map)['showFavourite'];
-                    }
-                  }
+          child: StreamBuilder<QuerySnapshot>(
+            stream: Variables.firestore.collection('users').snapshots(),
+            builder: (context, snapshot) {
+              //!CHECK IF HAVE DATA OR NOT
+              if (!snapshot.hasData) {
+                return Center(
+                  child: Container(
+                    color: Colors.red,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                );
+              }
+              //! LOOP TO GET ALL USER DATA
+              final users = snapshot.data!.docs;
+              for (var user in users) {
+                var email = (user.data() as Map)['email'];
+                MyAccountService.countBooks(loggedInUser, totalBooks);
+                MyAccountService.countFavourites(loggedInUser, totalFavourites);
+                //! CHECK IF LOGGED IN USER EMAIL IS EQUAL TO EMAIL FROM DATABASE
+                if (userEmail == email) {
+                  profileURL = (user.data() as Map)['profileURL'];
+                  userName = (user.data() as Map)['userName'];
+                  age = (user.data() as Map)['age'];
+                  totalBooks = (user.data() as Map)['totalBooks'];
+                  totalFavourites = (user.data() as Map)['totalFavourites'];
+                  currentLocation = (user.data() as Map)['location'];
+                  about = (user.data() as Map)['about'];
+                  _switchValueLocation = (user.data() as Map)['showLocation'];
+                  _switchValueAge = (user.data() as Map)['showAge'];
+                  _switchValueBooks = (user.data() as Map)['showBook'];
+                  _switchValueFavourite = (user.data() as Map)['showFavourite'];
+                }
+              }
 
-                  return Column(
-                    children: [
-                      //! UPLOAD AND DISPLAY PFP
-                      Container(
-                        height: 450,
-                        width: double.infinity,
-                        color: Colors.transparent,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+              return Column(
+                children: [
+                  //! UPLOAD AND DISPLAY PFP
+                  Container(
+                    height: 450,
+                    width: double.infinity,
+                    color: Colors.transparent,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //! TOP ROW
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Text(
-                                    "My Profile",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: Text(
+                                "My Profile",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 20),
-                                  child: Hero(
-                                    tag: 'EditPage',
-                                    child: Material(
-                                      type: MaterialType.transparency,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            'editProfile',
-                                            arguments: UserArguments(
-                                              age!,
-                                              userEmail!,
-                                              profileURL!,
-                                              totalBooks!,
-                                              userName!,
-                                              about!,
-                                              totalFavourites!,
-                                              currentLocation!,
-                                              createdDateDate!,
-                                              createdDateMonth!,
-                                              createdDateYear!,
-                                              _switchValueLocation,
-                                              _switchValueAge,
-                                              _switchValueBooks,
-                                              _switchValueFavourite,
-                                            ),
-                                          );
-                                        },
-                                        child: Icon(
-                                          Icons.settings,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                             Container(
-                              alignment: Alignment.center,
-                              width: 200,
-                              child: Stack(
-                                children: [
-                                  GestureDetector(
+                              margin: EdgeInsets.only(right: 20),
+                              child: Hero(
+                                tag: 'EditPage',
+                                child: Material(
+                                  type: MaterialType.transparency,
+                                  child: GestureDetector(
                                     onTap: () {
-                                      pickAndUploadImage();
-                                    },
-                                    onLongPress: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            elevation: 10,
-                                            child: Container(
-                                              width: 400,
-                                              height: 400,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: profileURL == ''
-                                                      ? NetworkImage(
-                                                          'https://www.brother.ca/resources/images/no-product-image.png')
-                                                      : NetworkImage(
-                                                          profileURL!),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
+                                      Navigator.pushNamed(
+                                        context,
+                                        'editProfile',
+                                        arguments: UserArguments(
+                                          age!,
+                                          userEmail!,
+                                          profileURL!,
+                                          totalBooks!,
+                                          userName!,
+                                          about!,
+                                          totalFavourites!,
+                                          currentLocation!,
+                                          createdDateDate!,
+                                          createdDateMonth!,
+                                          createdDateYear!,
+                                          _switchValueLocation,
+                                          _switchValueAge,
+                                          _switchValueBooks,
+                                          _switchValueFavourite,
+                                        ),
                                       );
                                     },
-                                    child: Container(
-                                      margin: EdgeInsets.only(top: 40),
-                                      width: 200,
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 3, color: Colors.white),
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: profileURL == ''
-                                              ? NetworkImage(
-                                                  'https://www.brother.ca/resources/images/no-product-image.png')
-                                              : NetworkImage(profileURL!),
-                                        ),
-                                      ),
+                                    child: Icon(
+                                      Icons.settings,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.only(top: 200, right: 10),
-                                    alignment: Alignment.bottomRight,
-                                    child: Icon(
-                                      Icons.add_a_photo,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            UIServices.makeSpace(20),
-                            Text(
-                              userName!,
-                              style: TextStyle(
-                                fontSize: 23,
-                                color: Colors.white,
-                              ),
-                            ),
-                            UIServices.makeSpace(10),
-                            Text(
-                              userEmail!,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      //! EVERYTHING BELOW USER PROFILE
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            topLeft: Radius.circular(20),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 200,
+                          child: Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  pickAndUploadImage();
+                                },
+                                onLongPress: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        elevation: 10,
+                                        child: Container(
+                                          width: 400,
+                                          height: 400,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: profileURL == ''
+                                                  ? NetworkImage(
+                                                      'https://www.brother.ca/resources/images/no-product-image.png')
+                                                  : NetworkImage(profileURL!),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 40),
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        width: 3, color: Colors.white),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: profileURL == ''
+                                          ? NetworkImage(
+                                              'https://www.brother.ca/resources/images/no-product-image.png')
+                                          : NetworkImage(profileURL!),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 200, right: 10),
+                                alignment: Alignment.bottomRight,
+                                child: Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        child: Column(
-                          children: [
-                            //!YOUR INFORMATION SECTION
+                        UIServices.makeSpace(20),
+                        Text(
+                          userName!,
+                          style: TextStyle(
+                            fontSize: 23,
+                            color: Colors.white,
+                          ),
+                        ),
+                        UIServices.makeSpace(10),
+                        Text(
+                          userEmail!,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //! EVERYTHING BELOW USER PROFILE
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        //!YOUR INFORMATION SECTION
+                        space40,
+                        UIServices.customAlignedText(Alignment.centerLeft,
+                            "Your Information", Colors.black),
+                        MyAccountService.makeYourInfo(
                             space40,
-                            UIServices.customAlignedText(Alignment.centerLeft,
-                                "Your Information", Colors.black),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(20),
-                              margin: EdgeInsets.only(
-                                  top: 20, left: 10, right: 10, bottom: 20),
-                              decoration: BoxDecoration(
-                                gradient: DecorationService.gradientColor(
-                                  Alignment.bottomLeft,
-                                  Alignment.topRight,
-                                  Color(0xFF7303c0),
-                                  Color(0xFF93291E),
-                                  Color(0xFF044B7F),
-                                  Color(0xFFb91372),
-                                ),
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius:
-                                        3, // how much spread does this shadow goes
-                                    blurRadius: 4, // how blurry the shadow is
-                                    offset: Offset(
-                                        0, 5), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  UIServices.makeRowItem(Icons.verified, "Age",
-                                      age.toString(), Colors.white),
-                                  space40,
-                                  UIServices.makeRowItem(
-                                      Icons.calendar_today,
-                                      "Created Date",
-                                      "$createdDateDate / $createdDateMonth / $createdDateYear",
-                                      Colors.white),
-                                  space40,
-                                  UIServices.makeRowItem(
-                                      Icons.location_city,
-                                      "Location",
-                                      currentLocation.toString(),
-                                      Colors.white),
-                                  space40,
-                                  UIServices.makeRowItem(Icons.info,
-                                      "About you", "", Colors.white),
-                                  UIServices.makeSpace(20),
-                                  Text(
-                                    about!,
-                                    style: TextStyle(
-                                      wordSpacing: 2,
-                                      letterSpacing: 1,
-                                      height: 1.5,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //!PRIVACY SETTINGS SECTION
-                            UIServices.makeSpace(20),
-                            UIServices.customAlignedText(Alignment.centerLeft,
-                                "Privacy Settings", Colors.black),
-                            UIServices.makeSpace(20),
-                            Column(
-                              children: [
-                                makeToggleContainer(
-                                    context,
-                                    'assets/images/location.png',
-                                    'Show Location:',
-                                    'Location',
-                                    20,
-                                    _switchValueLocation),
-                                makeToggleContainer(
-                                    context,
-                                    'assets/images/age.png',
-                                    'Show age:',
-                                    'Age',
-                                    50,
-                                    _switchValueAge),
-                                makeToggleContainer(
-                                    context,
-                                    'assets/images/booksIcon.png',
-                                    'Show your books:',
-                                    'Books',
-                                    0,
-                                    _switchValueBooks),
-                                makeToggleContainer(
-                                    context,
-                                    'assets/images/heart.png',
-                                    'Show Favourites:',
-                                    'Favourites',
-                                    3,
-                                    _switchValueFavourite),
-                              ],
-                            ),
-                            //!CONTENTS SECTION
-                            UIServices.makeSpace(20),
-                            UIServices.customAlignedText(
-                                Alignment.centerLeft, "Contents", Colors.black),
-                            UIServices.makeSpace(20),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AllBooksPage(
-                                            loggedInUser: loggedInUser,
-                                          )),
-                                );
-                              },
-                              child: MyAccountPage.customCard(
-                                'My Books',
-                                Icons.menu_book_rounded,
-                                Icons.arrow_forward_ios_rounded,
+                            age,
+                            createdDateDate,
+                            createdDateMonth,
+                            createdDateYear,
+                            about,
+                            currentLocation),
+                        //!PRIVACY SETTINGS SECTION
+                        UIServices.makeSpace(20),
+                        UIServices.customAlignedText(Alignment.centerLeft,
+                            "Privacy Settings", Colors.black),
+                        UIServices.makeSpace(20),
+                        Column(
+                          children: [
+                            makeToggleContainer(
+                                context,
+                                'assets/images/location.png',
+                                'Show Location:',
+                                'Location',
+                                20,
+                                _switchValueLocation),
+                            makeToggleContainer(
+                                context,
+                                'assets/images/age.png',
+                                'Show age:',
+                                'Age',
+                                50,
+                                _switchValueAge),
+                            makeToggleContainer(
+                                context,
+                                'assets/images/booksIcon.png',
+                                'Show your books:',
+                                'Books',
                                 0,
-                                Colors.white,
-                                Colors.white,
-                              ),
-                            ),
-                            UIServices.makeSpace(20),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AllFavouritesPage(
-                                            loggedInUser: loggedInUser,
-                                          )),
-                                );
-                              },
-                              child: MyAccountPage.customCard(
-                                  'Favourites',
-                                  Icons.favorite,
-                                  Icons.arrow_forward_ios_rounded,
-                                  0,
-                                  Colors.white,
-                                  Colors.white),
-                            ),
-                            UIServices.makeSpace(20),
-                            //!STATISTICS SECTION
-                            UIServices.makeSpace(20),
-                            UIServices.customAlignedText(Alignment.centerLeft,
-                                "Your Statistics", Colors.black),
-                            UIServices.makeSpace(20),
-                            Container(
-                              margin:
-                                  EdgeInsets.only(top: 20, left: 20, right: 20),
-                              padding: EdgeInsets.all(20),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                gradient: DecorationService.gradientColor(
-                                  Alignment.bottomRight,
-                                  Alignment.topLeft,
-                                  Color(0xFFb58ecc),
-                                  Color(0xFF320D6D),
-                                  Color(0xFF044B7F),
-                                  Color(0xFF93291E),
-                                ),
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius:
-                                        3, // how much spread does this shadow goes
-                                    blurRadius: 4, // how blurry the shadow is
-                                    offset: Offset(
-                                        0, 5), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  UIServices.makeRowItem(Icons.book,
-                                      "Total Books", totalBooks!, Colors.white),
-                                  UIServices.makeSpace(40),
-                                  UIServices.makeRowItem(
-                                      Icons.favorite,
-                                      "Total Favourites",
-                                      totalFavourites!,
-                                      Colors.white),
-                                ],
-                              ),
-                            ),
-                            //!ENDING
-                            UIServices.customDivider(Colors.black),
-                            Text(
-                              '! No copyright !',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                            UIServices.makeSpace(20),
+                                _switchValueBooks),
+                            makeToggleContainer(
+                                context,
+                                'assets/images/heart.png',
+                                'Show Favourites:',
+                                'Favourites',
+                                3,
+                                _switchValueFavourite),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                        //!CONTENTS SECTION
+                        UIServices.makeSpace(20),
+                        UIServices.customAlignedText(
+                            Alignment.centerLeft, "Contents", Colors.black),
+                        UIServices.makeSpace(20),
+                        MyAccountService.makeMyBooksContents(
+                          context,
+                          AllBooksPage(loggedInUser: loggedInUser),
+                        ),
+                        UIServices.makeSpace(20),
+                        MyAccountService.makeMyFavouritesContent(
+                          context,
+                          AllFavouritesPage(loggedInUser: loggedInUser),
+                        ),
+                        UIServices.makeSpace(20),
+                        //!STATISTICS SECTION
+                        UIServices.makeSpace(20),
+                        UIServices.customAlignedText(Alignment.centerLeft,
+                            "Your Statistics", Colors.black),
+                        UIServices.makeSpace(20),
+                        MyAccountService.makeYourStatistic(
+                            totalBooks, totalFavourites),
+                        //!ENDING
+                        UIServices.customDivider(Colors.black),
+                        Text(
+                          '! No copyright !',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        UIServices.makeSpace(20),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
