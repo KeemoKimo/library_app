@@ -209,7 +209,7 @@ class _AboutUsState extends State<AboutUs> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 30),
                     ),
                   ),
                   Container(
@@ -254,7 +254,7 @@ class _AboutUsState extends State<AboutUs> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 30),
                     ),
                   ),
                   Container(
@@ -302,7 +302,7 @@ class _AboutUsState extends State<AboutUs> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 30),
                     ),
                   ),
                   Container(

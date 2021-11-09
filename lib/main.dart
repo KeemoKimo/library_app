@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/InfoPages/BookInfo.dart';
+import 'package:library_app/InfoPages/HotBookInfo.dart';
 import 'package:library_app/MyFiles/EditBook/EditBookCover.dart';
 import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/MyFiles/EditBook/EditBookInfo.dart';
@@ -38,6 +39,7 @@ void main() async {
         'editBookInfo': (context) => const EditBookInfo(),
         'aboutUs': (context) => const AboutUs(),
         'editProfile': (context) => const EditProfile(),
+        'HotBookInfo': (context) => const HotBooksInfo(),
       },
       theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Lato'),
     ),
@@ -71,13 +73,21 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           //!Authentication label
           Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              ),
+            ),
+            padding: EdgeInsets.all(15),
             margin: EdgeInsets.only(left: 50, top: 100),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Let's sign you in !",
+                "Let's Sign you in!",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF783867),
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
                 ),
@@ -195,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'LOGIN',
                         style: TextStyle(
-                          color: Colors.purple,
+                          color: Color(0xFF9E2B55),
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
@@ -353,9 +363,10 @@ class _LoginPageState extends State<LoginPage> {
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           colors: [
-            Color(0xFFE94057),
             Color(0xFF3c1053),
-            Color(0xFF1fd1f9),
+            Color(0xFFF00000),
+            Color(0xFF2657eb),
+            Color(0xFF1565C0),
           ],
         ),
       ),
@@ -365,7 +376,7 @@ class _LoginPageState extends State<LoginPage> {
         bottomNavigationBar: CurvedNavigationBar(
           buttonBackgroundColor: Colors.transparent,
           backgroundColor:
-              (selectedIndex == 0) ? Colors.transparent : Color(0xFFFC9940),
+              (selectedIndex == 0) ? Colors.transparent : Color(0xFFAF0022),
           height: 50,
           items: <Widget>[
             Icon(
@@ -374,7 +385,7 @@ class _LoginPageState extends State<LoginPage> {
               size: 20,
             ),
             Icon(
-              Icons.add,
+              Icons.person_add,
               color: Colors.black,
               size: 20,
             ),
@@ -382,9 +393,11 @@ class _LoginPageState extends State<LoginPage> {
           animationDuration: Duration(milliseconds: 400),
           animationCurve: Curves.easeInOut,
           onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
+            setState(
+              () {
+                selectedIndex = index;
+              },
+            );
           },
         ),
       ),

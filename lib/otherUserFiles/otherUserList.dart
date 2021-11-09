@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/Arguments.dart';
+import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/variables.dart';
 
 class OtherUserList extends StatefulWidget {
@@ -101,65 +102,84 @@ class _OtherUserListState extends State<OtherUserList> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: searchedResultList.length,
-                itemBuilder: (context, index) {
-                  String userUserName = searchedResultList[index]['userName'];
-                  String userPfp = searchedResultList[index]['profileURL'];
-                  String userEmail = searchedResultList[index]['email'];
-                  String userTotalBooks =
-                      searchedResultList[index]['totalBooks'];
-                  String userTotalFavourites =
-                      searchedResultList[index]['totalFavourites'];
-                  String userAge = searchedResultList[index]['age'];
-                  String userAbout = searchedResultList[index]['about'];
-                  String userLocation = searchedResultList[index]['location'];
-                  int userCreatedDate =
-                      searchedResultList[index]['createdDate'];
-                  int userCreatedMonth =
-                      searchedResultList[index]['createdMonth'];
-                  int userCreatedYear =
-                      searchedResultList[index]['createdYear'];
-                  bool isShowLocation =
-                      searchedResultList[index]['showLocation'];
-                  bool isShowAge = searchedResultList[index]['showAge'];
-                  bool isShowBook = searchedResultList[index]['showBook'];
-                  bool isShowFavourite =
-                      searchedResultList[index]['showFavourite'];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        'otherUserInfo',
-                        arguments: UserArguments(
-                          userAge,
-                          userEmail,
-                          userPfp,
-                          userTotalBooks,
-                          userUserName,
-                          userAbout,
-                          userTotalFavourites,
-                          userLocation,
-                          userCreatedDate,
-                          userCreatedMonth,
-                          userCreatedYear,
-                          isShowLocation,
-                          isShowAge,
-                          isShowBook,
-                          isShowFavourite,
-                        ),
-                      );
-                    },
-                    child: UserArguments.makeUserListTiles(
-                      userPfp,
-                      userUserName,
+              searchedResultList.length > 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: searchedResultList.length,
+                      itemBuilder: (context, index) {
+                        String userUserName =
+                            searchedResultList[index]['userName'];
+                        String userPfp =
+                            searchedResultList[index]['profileURL'];
+                        String userEmail = searchedResultList[index]['email'];
+                        String userTotalBooks =
+                            searchedResultList[index]['totalBooks'];
+                        String userTotalFavourites =
+                            searchedResultList[index]['totalFavourites'];
+                        String userAge = searchedResultList[index]['age'];
+                        String userAbout = searchedResultList[index]['about'];
+                        String userLocation =
+                            searchedResultList[index]['location'];
+                        int userCreatedDate =
+                            searchedResultList[index]['createdDate'];
+                        int userCreatedMonth =
+                            searchedResultList[index]['createdMonth'];
+                        int userCreatedYear =
+                            searchedResultList[index]['createdYear'];
+                        bool isShowLocation =
+                            searchedResultList[index]['showLocation'];
+                        bool isShowAge = searchedResultList[index]['showAge'];
+                        bool isShowBook = searchedResultList[index]['showBook'];
+                        bool isShowFavourite =
+                            searchedResultList[index]['showFavourite'];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              'otherUserInfo',
+                              arguments: UserArguments(
+                                userAge,
+                                userEmail,
+                                userPfp,
+                                userTotalBooks,
+                                userUserName,
+                                userAbout,
+                                userTotalFavourites,
+                                userLocation,
+                                userCreatedDate,
+                                userCreatedMonth,
+                                userCreatedYear,
+                                isShowLocation,
+                                isShowAge,
+                                isShowBook,
+                                isShowFavourite,
+                              ),
+                            );
+                          },
+                          child: UserArguments.makeUserListTiles(
+                            userPfp,
+                            userUserName,
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Column(
+                        children: [
+                          UIServices.makeSpace(20),
+                          Text(
+                            "No user found :(",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  );
-                },
-              ),
             ],
           ),
         ),

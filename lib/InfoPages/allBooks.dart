@@ -96,49 +96,59 @@ class _AllBooksPageState extends State<AllBooksPage> {
           child: Column(
             children: [
               UIServices.makeSpace(20),
-              ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: searchedResultList.length,
-                itemBuilder: (context, index) {
-                  var data =
-                      BookService.fromSnapshot(searchedResultList, index);
-                  return (data.bookOwner == loggedInUser.email)
-                      ? GestureDetector(
-                          key: ValueKey(loggedInUser.email),
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              'bookInfo',
-                              arguments: ScreenArguments(
-                                data.bookTitle,
-                                data.bookAuthor,
-                                data.bookCover,
-                                data.bookCategory,
-                                data.bookDescription,
-                                data.bookOwner,
-                                data.bookLanguage,
-                                data.bookPublished,
-                                data.bookPages,
-                                data.bookStartDate,
-                                data.bookEndDate,
-                                data.bookIsFavourite,
-                                data.bookId,
-                              ),
-                            );
-                          },
-                          child: UIServices.buildCardTile(
-                              data.bookCover,
-                              data.bookCategory,
-                              data.bookTitle,
-                              data.bookAuthor),
-                        )
-                      : SizedBox(
-                          height: 0,
-                        );
-                },
-              ),
+              searchedResultList.length > 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: searchedResultList.length,
+                      itemBuilder: (context, index) {
+                        var data =
+                            BookService.fromSnapshot(searchedResultList, index);
+                        return (data.bookOwner == loggedInUser.email)
+                            ? GestureDetector(
+                                key: ValueKey(loggedInUser.email),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    'bookInfo',
+                                    arguments: ScreenArguments(
+                                      data.bookTitle,
+                                      data.bookAuthor,
+                                      data.bookCover,
+                                      data.bookCategory,
+                                      data.bookDescription,
+                                      data.bookOwner,
+                                      data.bookLanguage,
+                                      data.bookPublished,
+                                      data.bookPages,
+                                      data.bookStartDate,
+                                      data.bookEndDate,
+                                      data.bookIsFavourite,
+                                      data.bookId,
+                                    ),
+                                  );
+                                },
+                                child: UIServices.buildCardTile(
+                                    data.bookCover,
+                                    data.bookCategory,
+                                    data.bookTitle,
+                                    data.bookAuthor),
+                              )
+                            : SizedBox(
+                                height: 0,
+                              );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        "No books found :(",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    ),
             ],
           ),
         ),

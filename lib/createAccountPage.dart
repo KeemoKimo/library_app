@@ -32,8 +32,9 @@ class _RegisterAccountState extends State<RegisterAccount> {
             end: Alignment.bottomRight,
             colors: [
               Color(0xFF833ab4),
-              Color(0xFFfd1d1d),
-              Color(0xFFfcb045),
+              Color(0xFF4568DC),
+              Color(0xFF41295a),
+              Color(0xFFF00000),
             ],
           ),
         ),
@@ -84,7 +85,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                       child: Text(
                         'REGISTER !',
                         style: TextStyle(
-                          color: Color(0xFFE02242),
+                          color: Color(0xFF55224F),
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),

@@ -501,7 +501,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 'My Books',
                                 Icons.menu_book_rounded,
                                 Icons.arrow_forward_ios_rounded,
-                                10,
+                                0,
                                 Colors.white,
                                 Colors.white,
                               ),
