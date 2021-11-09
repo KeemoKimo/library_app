@@ -231,11 +231,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: Container(
-                    margin: EdgeInsets.only(top: 500),
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.blue,
-                    )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ),
+                    Text("Loading data..."),
+                  ],
+                ),
               );
             }
             return SingleChildScrollView(

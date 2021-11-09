@@ -97,6 +97,7 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
           child: Column(
             children: [
               UIServices.makeSpace(20),
+              //! CHECK IF BOOK MATCHES THE RESULT
               searchedResultList.length > 0
                   ? ListView.builder(
                       shrinkWrap: true,

@@ -9,6 +9,7 @@ import 'package:library_app/MyFiles/EditBook/EditBookCover.dart';
 import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/MyFiles/EditBook/EditBookInfo.dart';
 import 'package:library_app/MyFiles/EditProfile.dart';
+import 'package:library_app/ScreenService/AuthenticationService.dart';
 import 'package:library_app/createAccountPage.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
@@ -95,82 +96,24 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 //? EMAIL TEXT BOX
-                Container(
-                  width: 340,
-                  height: 50,
-                  child: TextFormField(
-                    controller: emailController,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: "Enter Email...",
-                      hintStyle: TextStyle(color: Colors.white),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+                UIServices.makeCustomTextField(
+                    emailController, "Enter Email...", false, 0),
                 //? PASSWORD TEXT BOX / ICON
                 Row(
                   children: [
-                    Container(
-                      width: 290,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 20, left: 35),
-                      child: TextFormField(
-                        controller: passwordController,
-                        style: TextStyle(color: Colors.white),
-                        obscureText: isObscure,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          hintStyle: TextStyle(color: Colors.white),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2.0,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
+                    LoginPageService.makePasswordTextField(
+                        passwordController, isObscure),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          if (isObscure == true) {
-                            isObscure = false;
-                          } else {
-                            isObscure = true;
-                          }
-                        });
+                        setState(
+                          () {
+                            if (isObscure == true) {
+                              isObscure = false;
+                            } else {
+                              isObscure = true;
+                            }
+                          },
+                        );
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 20, left: 20),
@@ -244,91 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         }
                       } on FirebaseAuthException catch (e) {
-                        switch (e.code) {
-                          case "invalid-email":
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'This email does not exists!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                            break;
-                          case "wrong-password":
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'Incorrect password!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                            break;
-                          case "user-not-found":
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'User not found, please create one!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                            break;
-                          case "user-disabled":
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'This account has been disabled!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                            break;
-                          case "too-many-requests":
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'There is too many request! Please slow down!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                            break;
-                          case "operation-not-allowed":
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'This operation is not allowed at the current moment!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                            break;
-                          default:
-                            print(e.code);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'Something went wrong, please try again!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                        }
+                        LoginPageService.catchExceptions(e, context);
                       } catch (e) {
                         showDialog(
                           context: context,
@@ -373,18 +232,7 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor:
               (selectedIndex == 0) ? Colors.transparent : Color(0xFFAF0022),
           height: 50,
-          items: <Widget>[
-            Icon(
-              Icons.login,
-              color: Colors.black,
-              size: 20,
-            ),
-            Icon(
-              Icons.person_add,
-              color: Colors.black,
-              size: 20,
-            ),
-          ],
+          items: LoginPageService.bottomNavBarProperties,
           animationDuration: Duration(milliseconds: 400),
           animationCurve: Curves.easeInOut,
           onTap: (index) {

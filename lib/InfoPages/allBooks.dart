@@ -96,6 +96,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
           child: Column(
             children: [
               UIServices.makeSpace(20),
+              //! CHECK TO SEE IF BOOK MATCHES THE SEARCH
               searchedResultList.length > 0
                   ? ListView.builder(
                       shrinkWrap: true,

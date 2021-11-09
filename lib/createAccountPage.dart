@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
+import 'package:library_app/ScreenService/AuthenticationService.dart';
 import 'Services/DatabaseSerivces.dart';
 import 'Services/UIServices.dart';
 
@@ -23,54 +24,33 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var mainBody = Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF833ab4),
-              Color(0xFF4568DC),
-              Color(0xFF41295a),
-              Color(0xFFF00000),
-            ],
-          ),
-        ),
+        decoration: RegisterPageService.bgGradient,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //!Registration label
-            Container(
-              margin: EdgeInsets.only(left: 50, top: 100),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Create an Account!",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+            RegisterPageService.registerLabel,
             //! Main Registration Form
-            UIServices.makeSpace(130),
+            UIServices.makeSpace(100),
             Form(
               key: _formKey,
               child: Column(
                 children: [
                   //? USERNAME TEXT BOX
-                  makeTextField(340, "Create Username....", usernameController),
+                  RegisterPageService.makeTextField(
+                      340, "Create Username....", usernameController),
                   UIServices.makeSpace(20),
                   //? EMAIL TEXT BOX
-                  makeTextField(340, "Create Email....", emailController),
+                  RegisterPageService.makeTextField(
+                      340, "Create Email....", emailController),
                   UIServices.makeSpace(20),
                   //? PASSWORD TEXT BOX / ICON
-                  makeTextField(340, "Create Password....", passwordController),
+                  RegisterPageService.makeTextField(
+                      340, "Create Password....", passwordController),
                   UIServices.makeSpace(60),
                   //? REGISTER BUTTON
                   Container(
@@ -92,6 +72,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                       ),
                       onPressed: () async {
                         try {
+                          //! CHECK IF USER FILL IN FORM
                           if (emailController.text == "" ||
                               passwordController.text == "" ||
                               usernameController.text == "") {
@@ -104,6 +85,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                     true);
                               },
                             );
+                            //! CHECK IF EMAIL IS VALID
                           } else if (emailController.text.contains('@') ==
                               false) {
                             showDialog(
@@ -146,49 +128,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             );
                           }
                         } on FirebaseAuthException catch (e) {
-                          switch (e.code) {
-                            case 'weak-password':
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return UIServices.showPopup(
-                                        'Create a password with more than 6 characters!',
-                                        'assets/images/error.png',
-                                        true);
-                                  });
-                              break;
-                            case 'missing-email':
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return UIServices.showPopup(
-                                        'Enter in your email to create!',
-                                        'assets/images/error.png',
-                                        true);
-                                  });
-                              break;
-                            case 'email-already-in-use':
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return UIServices.showPopup(
-                                        'This user already exists! Please make a unique one!',
-                                        'assets/images/error.png',
-                                        true);
-                                  });
-                              break;
-                            default:
-                              print(e.code);
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return UIServices.showPopup(
-                                      'The provided credintial could not be created!',
-                                      'assets/images/error.png',
-                                      true);
-                                },
-                              );
-                          }
+                          RegisterPageService.catchExceptions(e, context);
                         } catch (e) {
                           showDialog(
                             context: context,
@@ -210,40 +150,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
         ),
       ),
     );
-  }
-
-  Container makeTextField(double width, String hintText,
-      TextEditingController textEditingController) {
-    return Container(
-      width: width,
-      height: 50,
-      child: TextFormField(
-        controller: textEditingController,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.white),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: BorderSide(
-              color: Colors.white,
-            ),
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-      ),
-    );
+    return mainBody;
   }
 }

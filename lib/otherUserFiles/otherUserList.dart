@@ -102,7 +102,9 @@ class _OtherUserListState extends State<OtherUserList> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
+              //! CHECK IF INPUT TEXT USER EXIST
               searchedResultList.length > 0
+                  //! IF EXIST = SHOW THE LIST OF ALL USER FOUND
                   ? ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -165,6 +167,7 @@ class _OtherUserListState extends State<OtherUserList> {
                         );
                       },
                     )
+                  //! NOT EXIST = SHOW A TEXT
                   : Center(
                       child: Column(
                         children: [

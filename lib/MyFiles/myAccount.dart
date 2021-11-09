@@ -9,7 +9,6 @@ import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
-import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/variables.dart';
 import '../Services/UIServices.dart';
 
@@ -42,6 +41,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
       _switchValueBooks = false,
       _switchValueFavourite = false;
   var space40 = UIServices.makeSpace(40);
+
   void initState() {
     super.initState();
     build(context);
@@ -49,42 +49,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future pickAndUploadImage() async {
-      final ImagePicker _picker = ImagePicker();
-      try {
-        XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
-        print('Image Picking Process Starting');
-        await new Future.delayed(const Duration(seconds: 2));
-        if (image != null) {
-          userProfilePicture = File(image.path);
-          print(userProfilePicture);
-          print(File(image.path));
-          if (userProfilePicture.path != image.path) {
-            print('It didnt work sorry');
-            Navigator.pop(context);
-          } else {
-            print('Should be startting to put file in');
-            var snapshot = await Variables.storage
-                .ref()
-                .child('userProfiles/$userEmail profile')
-                .putFile(userProfilePicture);
-            print('file put in!');
-            profileURL = await snapshot.ref.getDownloadURL();
-          }
-        } else {
-          print("Please choose a picture");
-          return;
-        }
-        setState(() {
-          DatabaseServices(uid: loggedInUser.uid).updateUserPhoto(profileURL!);
-          print(profileURL);
-        });
-      } catch (e) {
-        print(e);
-      }
-    }
-
-    return Scaffold(
+    var mainBody = Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: MyAccountService.bgGradient,
@@ -374,6 +339,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
         ),
       ),
     );
+    return mainBody;
   }
 
   //!FUNCTION FOR MAKING THE CONTAINER TO TOGGLE PRIVACY SETTINGS
@@ -464,5 +430,41 @@ class _MyAccountPageState extends State<MyAccountPage> {
         ],
       ),
     );
+  }
+
+  //! FUNCTION FOR SELECTING AND UPLOADING IMAGE
+  Future pickAndUploadImage() async {
+    final ImagePicker _picker = ImagePicker();
+    try {
+      XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
+      print('Image Picking Process Starting');
+      await new Future.delayed(const Duration(seconds: 2));
+      if (image != null) {
+        userProfilePicture = File(image.path);
+        print(userProfilePicture);
+        print(File(image.path));
+        if (userProfilePicture.path != image.path) {
+          print('It didnt work sorry');
+          Navigator.pop(context);
+        } else {
+          print('Should be startting to put file in');
+          var snapshot = await Variables.storage
+              .ref()
+              .child('userProfiles/$userEmail profile')
+              .putFile(userProfilePicture);
+          print('file put in!');
+          profileURL = await snapshot.ref.getDownloadURL();
+        }
+      } else {
+        print("Please choose a picture");
+        return;
+      }
+      setState(() {
+        DatabaseServices(uid: loggedInUser.uid).updateUserPhoto(profileURL!);
+        print(profileURL);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
