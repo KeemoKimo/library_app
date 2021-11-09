@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 //! MAIN BUILD METHOD
   @override
   Widget build(BuildContext context) {
+    //! LOGIN SCREEN
     var loginScreen = Material(
       type: MaterialType.transparency,
       child: Column(
@@ -73,13 +74,6 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           //!Authentication label
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                topLeft: Radius.circular(20),
-              ),
-            ),
             padding: EdgeInsets.all(15),
             margin: EdgeInsets.only(left: 50, top: 100),
             child: Align(
@@ -87,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Let's Sign you in!",
                 style: TextStyle(
-                  color: Color(0xFF783867),
+                  color: Colors.white,
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
                 ),
@@ -355,6 +349,7 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+    //! REGISTER SCREEN INSTANCE
     var registerScreen = RegisterAccount();
     var screens = [loginScreen, registerScreen];
     return Container(

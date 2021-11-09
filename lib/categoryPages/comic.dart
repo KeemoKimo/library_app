@@ -25,7 +25,6 @@ class _ComicPageState extends State<ComicPage> {
   void initState() {
     super.initState();
     getAllBooks();
-    print(loggedInUser.email);
     build(context);
   }
 

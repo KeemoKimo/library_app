@@ -26,8 +26,6 @@ class _fictionPageState extends State<fictionPage> {
   void initState() {
     super.initState();
     getAllBooks();
-
-    print(loggedInUser.email);
     build(context);
   }
 

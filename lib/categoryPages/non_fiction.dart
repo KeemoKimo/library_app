@@ -27,8 +27,6 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
   void initState() {
     super.initState();
     getAllBooks();
-
-    print(loggedInUser.email);
     build(context);
   }
 

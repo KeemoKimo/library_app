@@ -23,7 +23,6 @@ class _SciFiPageState extends State<SciFiPage> {
   void initState() {
     super.initState();
     getAllBooks();
-    print(loggedInUser.email);
     build(context);
   }
 

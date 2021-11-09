@@ -26,8 +26,6 @@ class _HistoricalPageState extends State<HistoricalPage> {
   void initState() {
     super.initState();
     getAllBooks();
-
-    print(loggedInUser.email);
     build(context);
   }
 

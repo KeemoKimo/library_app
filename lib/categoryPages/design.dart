@@ -24,7 +24,6 @@ class _DesignPageState extends State<DesignPage> {
   void initState() {
     super.initState();
     getAllBooks();
-    print(loggedInUser.email);
     build(context);
   }
 

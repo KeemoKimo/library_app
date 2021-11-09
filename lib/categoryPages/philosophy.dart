@@ -25,7 +25,6 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
   void initState() {
     super.initState();
     getAllBooks();
-    print(loggedInUser.email);
     build(context);
   }
 

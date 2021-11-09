@@ -30,8 +30,6 @@ class _BiographyPageState extends State<BiographyPage> {
   void initState() {
     super.initState();
     getAllBooks();
-
-    print(loggedInUser.email);
     build(context);
   }
 
