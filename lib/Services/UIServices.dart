@@ -3,11 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/Arguments.dart';
-
 import 'BookService.dart';
 
 class UIServices {
-  //!VAR FOR BOOKS
+  //!VARIABLES FOR GETTING BOOK INFORMATION
   late String title;
   late String owner;
   late String bookCover;

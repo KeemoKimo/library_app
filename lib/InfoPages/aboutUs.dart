@@ -12,10 +12,10 @@ class AboutUs extends StatefulWidget {
   _AboutUsState createState() => _AboutUsState();
 }
 
-var nameController = TextEditingController();
-var emailController = TextEditingController();
-var subjectController = TextEditingController();
-var messageController = TextEditingController();
+var nameController = TextEditingController(),
+    emailController = TextEditingController(),
+    subjectController = TextEditingController(),
+    messageController = TextEditingController();
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 Future sendEmail({
@@ -174,7 +174,7 @@ Container meetTheTeamContainer(String imagePath, String personName,
 class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -222,25 +222,25 @@ class _AboutUsState extends State<AboutUs> {
                       child: Row(
                         children: [
                           rowItem('assets/images/dev.png', 'Development',
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'),
+                              'This whole app took about 3 full month to complete and is developed by 1 guy. The development process is a gruelling experience, but the end result of this app is worth the price.'),
                           Container(
                             margin: EdgeInsets.only(left: 50),
                             child: rowItem('assets/images/team.png', 'Our Team',
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'),
+                                'There is no team to talk of here, because this app is only made by 1 guy. I designed, code, and do all the neccessary research to get this app to a working state.'),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 50),
                             child: rowItem(
                                 'assets/images/vision.png',
                                 'Our Vision',
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'),
+                                'The goal of this app is to ensure that user will never forget a book that they have read in the past, becuase for a reader, that experience is an unpleasant one.'),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 50),
                             child: rowItem(
                                 'assets/images/service.png',
                                 'Service',
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'),
+                                'I will be handling all of the user service, or any concern that they may have. User can just send me an email, and I will respond to them to ensure a good user experience and the continual growth of this app.'),
                           ),
                         ],
                       ),
@@ -526,6 +526,7 @@ class _AboutUsState extends State<AboutUs> {
                           fontSize: 20),
                     ),
                   ),
+                  UIServices.makeSpace(20),
                 ],
               ),
             ),
@@ -533,5 +534,6 @@ class _AboutUsState extends State<AboutUs> {
         ),
       ),
     );
+    return materialApp;
   }
 }

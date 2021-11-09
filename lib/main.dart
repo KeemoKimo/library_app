@@ -235,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                             PageTransition(
                               child: HomeScreen(),
                               type: PageTransitionType.rightToLeftWithFade,
-                              duration: Duration(seconds: 3),
+                              duration: Duration(seconds: 1),
                             ),
                           );
                         }
