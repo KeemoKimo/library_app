@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
+import 'package:library_app/ScreenService/BookInfoService.dart';
+import 'package:library_app/ScreenService/HomeScreenService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
-import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/variables.dart';
 
@@ -52,95 +53,16 @@ class _BookInfoState extends State<BookInfo> {
   Widget build(BuildContext context) {
     final bookID =
         ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    late var cancelBtn = UIServices.makePopUpButton(() {
-      Navigator.pop(context);
-    }, "Cancel", Colors.blue);
-    late var deleteBtn = UIServices.makePopUpButton(() async {
-      await bookCollection.doc(bookID.bookTitle + loggedInUser.uid).delete();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
-      final snackBar = SnackBar(
-        content: Text(
-          'Your book has been deleted successfully!',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.red,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }, "Delete", Colors.red);
-
-    goToEditBookPage(String routeName) async {
-      await Navigator.pushNamed(
-        context,
-        routeName,
-        arguments: ScreenArguments(
-          bookID.bookTitle,
-          bookID.bookAuthor,
-          bookID.bookCover,
-          bookID.bookCategory,
-          bookID.bookDescription,
-          bookID.bookOwner,
-          bookID.bookLanguage,
-          bookID.bookPublishedYear,
-          bookID.bookPages,
-          bookID.bookStartDate,
-          bookID.bookEndDate,
-          bookID.isFavourite,
-          bookID.bookId,
-        ),
-      );
-    }
-
-    makeColumnDetails(var getValue, String underText) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            getValue,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          UIServices.makeSpace(10),
-          Text(
-            underText,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
-      );
-    }
-
-    makeColumnDetailsSplitter() {
-      return Container(
-        width: 2,
-        color: Colors.white,
-        height: 30,
-      );
-    }
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: DecorationService.gradientColor(
-            Alignment.bottomLeft,
-            Alignment.topRight,
-            Color(0xFF5614B0),
-            Color(0xFFec2F4B),
-            Color(0xFF7303c0),
-            Color(0xFF1565C0),
-          ),
-        ),
+        decoration: BookInfoService.bgGradient,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
+              //! BOOK COVER
               Container(
                 margin: EdgeInsets.only(top: 50, bottom: 20),
                 decoration: BoxDecoration(
@@ -165,6 +87,7 @@ class _BookInfoState extends State<BookInfo> {
                   ),
                 ),
               ),
+              //! TITLE & TOGGLE FAVOURITE
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -264,6 +187,7 @@ class _BookInfoState extends State<BookInfo> {
                 ],
               ),
               UIServices.makeSpace(10),
+              //! CATEGORY AND AUTHOR
               Text(
                 bookID.bookCategory,
                 style: TextStyle(
@@ -282,33 +206,11 @@ class _BookInfoState extends State<BookInfo> {
                 ),
               ),
               UIServices.makeSpace(30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  makeColumnDetails(bookID.bookPages, "pages"),
-                  makeColumnDetailsSplitter(),
-                  makeColumnDetails(bookID.bookLanguage, "language"),
-                  makeColumnDetailsSplitter(),
-                  makeColumnDetails(bookID.bookPublishedYear, "published"),
-                ],
-              ),
+              //! LANGUAGE , PAGES , YEAR
+              BookInfoService.makeDetailRow(bookID),
               UIServices.customDivider(Colors.white),
-              Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.only(bottom: 20),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  bookID.bookDescription,
-                  style: TextStyle(
-                      wordSpacing: 2,
-                      letterSpacing: 1,
-                      color: Colors.white,
-                      height: 1.5),
-                ),
-              ),
+              //! BOOK DESCRIPTION
+              BookInfoService.showDescription(bookID),
               UIServices.customDivider(Colors.white),
             ],
           ),
@@ -327,7 +229,8 @@ class _BookInfoState extends State<BookInfo> {
             child: Icon(Icons.photo),
             label: "Edit Cover",
             onTap: () {
-              goToEditBookPage('editBookCover');
+              BookInfoService.goToEditBookPage(
+                  'editBookCover', context, bookID);
             },
           ),
           SpeedDialChild(
@@ -336,7 +239,7 @@ class _BookInfoState extends State<BookInfo> {
             child: Icon(Icons.settings),
             label: "Edit Information",
             onTap: () {
-              goToEditBookPage('editBookInfo');
+              BookInfoService.goToEditBookPage('editBookInfo', context, bookID);
             },
           ),
           SpeedDialChild(
@@ -359,8 +262,9 @@ class _BookInfoState extends State<BookInfo> {
                     content: Text(
                         "Books deleted cannot be recovered. Please think wisely."),
                     actions: [
-                      cancelBtn,
-                      deleteBtn,
+                      HomeScreenService.makeCancelButton(context),
+                      BookInfoService.makeDeleteButton(bookCollection, bookID,
+                          loggedInUser, HomeScreen(), context),
                     ],
                   );
                 },

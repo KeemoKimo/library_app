@@ -7,7 +7,6 @@ import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:library_app/ScreenService/HomeScreenService.dart';
-import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/MyFiles/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
@@ -207,7 +206,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       actions: [
                         HomeScreenService.makeCancelButton(context),
                         HomeScreenService.makeSignOutButton(
-                            context, auth, LoginPage()),
+                          context,
+                          auth,
+                          LoginPage(),
+                        ),
                       ],
                     );
                   },
@@ -247,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   //! LIST FOR HOT BOOKS
                   HomeScreenService.makeTitle('Hot Books ️‍🔥'),
                   UIServices.makeSpace(20),
-                  UIServices.verticalBookList(snapshot),
+                  HomeScreenService.verticalBookList(snapshot),
                   UIServices.customDivider(Colors.white),
                   //! LIST FOR ALL BOOKS
                   HomeScreenService.makeTitle('Your Collection 📚'),

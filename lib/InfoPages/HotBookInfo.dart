@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:library_app/ScreenService/BookInfoService.dart';
 import 'package:library_app/Services/Arguments.dart';
-import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class HotBooksInfo extends StatefulWidget {
@@ -15,50 +15,15 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
   Widget build(BuildContext context) {
     final bookID =
         ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    makeColumnDetails(var getValue, String underText) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            getValue,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          UIServices.makeSpace(10),
-          Text(
-            underText,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
-      );
-    }
-
-    makeColumnDetailsSplitter() {
-      return Container(
-        width: 2,
-        color: Colors.white,
-        height: 30,
-      );
-    }
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: DecorationService.gradientColor(
-            Alignment.bottomLeft,
-            Alignment.topRight,
-            Color(0xFF5614B0),
-            Color(0xFFec2F4B),
-            Color(0xFF7303c0),
-            Color(0xFF1565C0),
-          ),
-        ),
+        decoration: BookInfoService.bgGradient,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
+              //! BOOK COVER
               Container(
                 margin: EdgeInsets.only(top: 50),
                 decoration: BoxDecoration(
@@ -84,6 +49,7 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
                 ),
               ),
               UIServices.makeSpace(10),
+              //! TITLE , CATEGORY , AUTHOR
               Text(
                 bookID.bookTitle,
                 style: TextStyle(
@@ -110,33 +76,11 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
                 ),
               ),
               UIServices.makeSpace(30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  makeColumnDetails(bookID.bookPages, "pages"),
-                  makeColumnDetailsSplitter(),
-                  makeColumnDetails(bookID.bookLanguage, "language"),
-                  makeColumnDetailsSplitter(),
-                  makeColumnDetails(bookID.bookPublishedYear, "published"),
-                ],
-              ),
+              //! LANGUAGE , PAGES , YEAR
+              BookInfoService.makeDetailRow(bookID),
               UIServices.customDivider(Colors.white),
-              Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.only(bottom: 20),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  bookID.bookDescription,
-                  style: TextStyle(
-                      wordSpacing: 2,
-                      letterSpacing: 1,
-                      color: Colors.white,
-                      height: 1.5),
-                ),
-              ),
+              //! BOOK DESCRIPTION
+              BookInfoService.showDescription(bookID),
               UIServices.customDivider(Colors.white),
             ],
           ),
@@ -147,10 +91,13 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return UIServices.showPopup(
-                  "This book belongs to ${bookID.bookOwner}",
-                  "assets/images/booksIcon.png",
-                  false);
+              return AlertDialog(
+                title: Text(
+                  "Book Ownership",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: Text("This book belongs to : ${bookID.bookOwner}"),
+              );
             },
           );
         },
