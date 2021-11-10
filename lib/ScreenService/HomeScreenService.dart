@@ -5,45 +5,6 @@ import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class HomeScreenService {
-//! BUILD EACH TILE FOR THE APP DRAWER
-  static buildListTile(IconData icon, Color? iconColor, String titleText,
-      var goToPage, BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: iconColor),
-      title: Text(
-        titleText,
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      ),
-      onTap: () async {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => goToPage,
-          ),
-        );
-      },
-    );
-  }
-
-//! POPUP BUTTON FOR SIGN OUT
-  static makeCancelButton(BuildContext context) {
-    return UIServices.makePopUpButton(() {
-      Navigator.pop(context);
-    }, "Cancel", Colors.blue);
-  }
-
-  static makeSignOutButton(BuildContext context, var auth, destinationPage) {
-    return UIServices.makePopUpButton(() async {
-      await auth.signOut();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => destinationPage,
-        ),
-      );
-    }, "Sign Out", Colors.red);
-  }
-
 //! MAIN SCREEN GRADIENT
   static var bgGradient = BoxDecoration(
     gradient: DecorationService.gradientColor(
@@ -113,7 +74,59 @@ class HomeScreenService {
     ),
   );
 
-//! MAKE TITE
+//! CIRCLE LOADING INDICATOR
+  static var loadingIndicator = Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ),
+        Text("Loading data..."),
+      ],
+    ),
+  );
+
+//! BUILD EACH TILE FOR THE APP DRAWER
+  static buildListTile(IconData icon, Color? iconColor, String titleText,
+      var goToPage, BuildContext context) {
+    return ListTile(
+      leading: Icon(icon, color: iconColor),
+      title: Text(
+        titleText,
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+      onTap: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => goToPage,
+          ),
+        );
+      },
+    );
+  }
+
+//! POPUP BUTTON FOR SIGN OUT / CANCEL
+  static makeCancelButton(BuildContext context) {
+    return UIServices.makePopUpButton(() {
+      Navigator.pop(context);
+    }, "Cancel", Colors.blue);
+  }
+
+  static makeSignOutButton(BuildContext context, var auth, destinationPage) {
+    return UIServices.makePopUpButton(() async {
+      await auth.signOut();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => destinationPage,
+        ),
+      );
+    }, "Sign Out", Colors.red);
+  }
+
+//! MAKE TITLE
   static makeTitle(String label) {
     return Text(
       label,
@@ -212,4 +225,67 @@ class HomeScreenService {
       ),
     );
   }
+
+//! MAKE DRAWER HEADER
+  static makeDrawerHeader(var loggedInUser) {
+    return DrawerHeader(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        image: DecorationImage(
+          image: AssetImage('assets/images/bookBack.jpg'),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            spreadRadius: 3, // how much spread does this shadow goes
+            blurRadius: 3, // how blurry the shadow is
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Stack(
+                children: [
+                  Text(
+                    '${loggedInUser.email}',
+                    style: TextStyle(
+                      fontSize: 23,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 6
+                        ..color = Colors.black,
+                    ),
+                  ),
+                  Text(
+                    '${loggedInUser.email}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+//! MAKE DRAWER DIVIDER
+  static var makeDivider = Divider(
+    height: 1,
+    thickness: 1,
+    color: Colors.black,
+  );
 }

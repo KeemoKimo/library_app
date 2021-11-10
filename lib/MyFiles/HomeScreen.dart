@@ -56,131 +56,48 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    //! DRAWER (THE THING THAT SLIDES FROM THE LEFT SIDE)
+    //! DRAWER (THE MENUS THAT SLIDES FROM THE LEFT SIDE)
     var drawer2 = Drawer(
       child: MediaQuery.removePadding(
         removeTop: true,
         context: context,
         child: ListView(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/bookBack.jpg'),
-                  fit: BoxFit.cover,
+            HomeScreenService.makeDrawerHeader(loggedInUser),
+            HomeScreenService.buildListTile(
+                CupertinoIcons.person_fill,
+                Colors.green[800],
+                "My Account",
+                MyAccountPage(
+                  loggedInUser: loggedInUser,
                 ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 3, // how much spread does this shadow goes
-                    blurRadius: 3, // how blurry the shadow is
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Stack(
-                      children: [
-                        Text(
-                          '${loggedInUser.email}',
-                          style: TextStyle(
-                            fontSize: 23,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 6
-                              ..color = Colors.black,
-                          ),
-                        ),
-                        Text(
-                          '${loggedInUser.email}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 23,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-            ),
+                context),
+            HomeScreenService.buildListTile(CupertinoIcons.group_solid,
+                Colors.green[800], 'Find People', OtherUserList(), context),
             HomeScreenService.buildListTile(
-              CupertinoIcons.person_fill,
-              Colors.green[800],
-              "My Account",
-              MyAccountPage(
-                loggedInUser: loggedInUser,
-              ),
-              context,
-            ),
+                Icons.list,
+                Colors.green[800],
+                'Browse Categories',
+                SelectCategoryPage(loggedInUser: loggedInUser),
+                context),
+            HomeScreenService.makeDivider,
             HomeScreenService.buildListTile(
-              CupertinoIcons.group_solid,
-              Colors.green[800],
-              'Find People',
-              OtherUserList(),
-              context,
-            ),
+                CupertinoIcons.book_fill,
+                Colors.red,
+                'All My Books',
+                AllBooksPage(loggedInUser: loggedInUser),
+                context),
             HomeScreenService.buildListTile(
-              Icons.list,
-              Colors.green[800],
-              'Browse Categories',
-              SelectCategoryPage(
-                loggedInUser: loggedInUser,
-              ),
-              context,
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.black,
-            ),
+                CupertinoIcons.heart_fill,
+                Colors.red,
+                'My Favourites',
+                AllFavouritesPage(loggedInUser: loggedInUser),
+                context),
+            HomeScreenService.buildListTile(CupertinoIcons.add_circled_solid,
+                Colors.red, 'Add Books', addBookPage(), context),
+            HomeScreenService.makeDivider,
             HomeScreenService.buildListTile(
-              CupertinoIcons.book_fill,
-              Colors.red,
-              'All My Books',
-              AllBooksPage(
-                loggedInUser: loggedInUser,
-              ),
-              context,
-            ),
-            HomeScreenService.buildListTile(
-              CupertinoIcons.heart_fill,
-              Colors.red,
-              'My Favourites',
-              AllFavouritesPage(
-                loggedInUser: loggedInUser,
-              ),
-              context,
-            ),
-            HomeScreenService.buildListTile(
-              CupertinoIcons.add_circled_solid,
-              Colors.red,
-              'Add Books',
-              addBookPage(),
-              context,
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.black,
-            ),
-            HomeScreenService.buildListTile(
-              Icons.info,
-              Colors.black,
-              'About Us',
-              AboutUs(),
-              context,
-            ),
+                Icons.info, Colors.black, 'About Us', AboutUs(), context),
             ListTile(
               tileColor: Colors.red,
               leading: Icon(Icons.login_outlined, color: Colors.white),
@@ -229,18 +146,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: StreamBuilder<QuerySnapshot>(
           stream: bookSnapshot,
           builder: (context, snapshot) {
+            //! CHECK IF THE USER RECIEVE DATA OR NOT
             if (!snapshot.hasData) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      backgroundColor: Colors.white,
-                    ),
-                    Text("Loading data..."),
-                  ],
-                ),
-              );
+              return HomeScreenService.loadingIndicator;
             }
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,

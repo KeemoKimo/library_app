@@ -3,20 +3,6 @@ import 'package:library_app/Services/UIServices.dart';
 
 //! MANAGES THE FUNCTIONS / UI FOR LOGIN
 class LoginPageService {
-  static var routes = {
-    'home': (context) => const LoginPage(),
-    'main': (context) => const HomeScreen(),
-    'bookInfo': (context) => const BookInfo(),
-    'otherUserInfo': (context) => const OtherUserInfo(),
-    'otherUserBooks': (context) => const OtherUserBooks(),
-    'otherUserFavourites': (context) => const OtherUsersFavourites(),
-    'editBookCover': (context) => const EditBook(),
-    'editBookInfo': (context) => const EditBookInfo(),
-    'aboutUs': (context) => const AboutUs(),
-    'editProfile': (context) => const EditProfile(),
-    'HotBookInfo': (context) => const HotBooksInfo(),
-  };
-
   //! FUNCITON TO MAKE THE PASSWORD TEXTBOX
   static makePasswordTextField(var controller, isObscure) {
     return Container(
