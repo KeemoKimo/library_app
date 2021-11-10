@@ -86,6 +86,9 @@ flutter:
     - assets/images/bookBackgroundRegister.jpg
     - assets/images/booksDrawerCover.jpg
     - assets/images/noBookCover.png
+    - assets/images/loginVector.png
+    - assets/images/registerVector.png
+
   fonts:
     - family: Lato
       fonts:

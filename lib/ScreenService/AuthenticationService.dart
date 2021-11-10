@@ -4,31 +4,30 @@ import 'package:library_app/Services/UIServices.dart';
 //! MANAGES THE FUNCTIONS / UI FOR LOGIN
 class LoginPageService {
   //! FUNCITON TO MAKE THE PASSWORD TEXTBOX
-  static makePasswordTextField(var controller, isObscure) {
+  static makePasswordTextField(var controller, isObscure, hintText,
+      double width, double mrgLeft, double mrgRight) {
     return Container(
-      width: 310,
+      width: width,
       height: 60,
-      margin: EdgeInsets.only(top: 20, left: 20),
+      margin: EdgeInsets.only(top: 20, left: mrgLeft, right: mrgRight),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color(0xFF4D028A),
+      ),
       child: TextFormField(
         controller: controller,
         style: TextStyle(color: Colors.white),
         obscureText: isObscure,
         decoration: InputDecoration(
-          hintText: "Enter Password...",
+          hintText: hintText,
           hintStyle: TextStyle(color: Colors.white),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 2.0,
-            ),
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: BorderSide(
-              color: Colors.blue,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none),
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -57,13 +56,13 @@ class LoginPageService {
   //! LOGIN LABEL
   static var signInLabel = Container(
     padding: EdgeInsets.all(15),
-    margin: EdgeInsets.only(left: 50, top: 100),
+    margin: EdgeInsets.only(left: 50, top: 50),
     child: Align(
       alignment: Alignment.centerLeft,
       child: Text(
         "Let's Sign you in!",
         style: TextStyle(
-          color: Colors.white,
+          color: Color(0xFF4D028A),
           fontSize: 35,
           fontWeight: FontWeight.bold,
         ),
@@ -73,12 +72,12 @@ class LoginPageService {
 
   //! REVEAL PASSWORD IMAGE
   static var revealPassword = Container(
-    margin: EdgeInsets.only(top: 20, left: 20),
+    margin: EdgeInsets.only(top: 20, left: 10),
     width: 30,
     height: 30,
-    child: Image(
-      fit: BoxFit.cover,
-      image: AssetImage('assets/images/eye.png'),
+    child: Icon(
+      Icons.remove_red_eye,
+      color: Color(0xFF4D028A),
     ),
   );
 
@@ -87,21 +86,25 @@ class LoginPageService {
     child: Text(
       'LOGIN',
       style: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 20,
       ),
     ),
   );
 
-  //! MAIN BACKGROUND IMAGE
-  static var bgImg = BoxDecoration(
-    image: DecorationImage(
-      colorFilter: new ColorFilter.mode(
-          Colors.black.withOpacity(0.4), BlendMode.dstATop),
-      image: AssetImage('assets/images/wallpaperLogin.png'),
-      fit: BoxFit.cover,
-    ),
+//! BTN LOGIN PROPERTIES
+  static var btnLoginProperties = BoxDecoration(
+    color: Color(0xFF4D028A),
+    borderRadius: BorderRadius.circular(15),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(1),
+        spreadRadius: 3,
+        blurRadius: 3,
+        offset: Offset(0, 5), // changes position of shadow
+      ),
+    ],
   );
 
   //! CATCH EXCEPTIONS FROM LOGIN
@@ -200,13 +203,14 @@ class LoginPageService {
 class RegisterPageService {
   //! REGISTRATION LABEL
   static var registerLabel = Container(
-    margin: EdgeInsets.only(left: 50, top: 100),
+    padding: EdgeInsets.all(15),
+    margin: EdgeInsets.only(left: 130),
     child: Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        "Create an Account!",
+        "Sign Up",
         style: TextStyle(
-          color: Colors.white,
+          color: Color(0xFF4D028A),
           fontSize: 35,
           fontWeight: FontWeight.bold,
         ),
@@ -218,7 +222,7 @@ class RegisterPageService {
   static var btnRegister = Text(
     'REGISTER !',
     style: TextStyle(
-      color: Color(0xFF55224F),
+      color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 20,
     ),

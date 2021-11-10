@@ -73,20 +73,31 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           //!Authentication label
           LoginPageService.signInLabel,
-          UIServices.makeSpace(130),
+          Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/loginVector.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
           //!The rest of the login form
           Form(
             key: _formKey,
             child: Column(
               children: [
                 //? EMAIL TEXT BOX
-                UIServices.makeCustomTextField(
-                    emailController, "Enter Email...", false, 0),
+                LoginPageService.makePasswordTextField(
+                    emailController, false, "Enter email...", 350, 0, 20),
+
                 //? PASSWORD TEXT BOX / ICON
                 Row(
                   children: [
-                    LoginPageService.makePasswordTextField(
-                        passwordController, isObscure),
+                    LoginPageService.makePasswordTextField(passwordController,
+                        isObscure, "Enter Password...", 310, 20, 0),
                     GestureDetector(
                       onTap: () {
                         setState(
@@ -103,16 +114,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                UIServices.makeSpace(90),
+                UIServices.makeSpace(50),
                 //? LOG IN BUTTON
                 Container(
                   width: double.infinity,
                   height: 50,
                   margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+                  decoration: LoginPageService.btnLoginProperties,
                   child: TextButton(
                     child: LoginPageService.btnLogin,
                     onPressed: () async {
@@ -179,11 +187,12 @@ class _LoginPageState extends State<LoginPage> {
     var registerScreen = RegisterAccount();
     var screens = [loginScreen, registerScreen];
     return Container(
-      decoration: LoginPageService.bgImg,
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: screens[selectedIndex],
         bottomNavigationBar: CurvedNavigationBar(
+          color: Color(0xFF4D028A),
           buttonBackgroundColor: Colors.transparent,
           backgroundColor:
               (selectedIndex == 0) ? Colors.transparent : Colors.transparent,

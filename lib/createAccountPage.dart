@@ -33,33 +33,37 @@ class _RegisterAccountState extends State<RegisterAccount> {
           children: [
             //!Registration label
             RegisterPageService.registerLabel,
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/registerVector.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             //! Main Registration Form
-            UIServices.makeSpace(100),
             Form(
               key: _formKey,
               child: Column(
                 children: [
                   //? USERNAME TEXT BOX
-                  RegisterPageService.makeTextField(
-                      340, "Create Username....", usernameController),
-                  UIServices.makeSpace(20),
+                  LoginPageService.makePasswordTextField(usernameController,
+                      false, "Enter Username...", 350, 0, 20),
                   //? EMAIL TEXT BOX
-                  RegisterPageService.makeTextField(
-                      340, "Create Email....", emailController),
+                  LoginPageService.makePasswordTextField(
+                      emailController, false, "Enter email...", 350, 0, 20),
+                  //? PASSWORD TEXT BOX
+                  LoginPageService.makePasswordTextField(passwordController,
+                      false, "Enter Password...", 350, 0, 20),
                   UIServices.makeSpace(20),
-                  //? PASSWORD TEXT BOX / ICON
-                  RegisterPageService.makeTextField(
-                      340, "Create Password....", passwordController),
-                  UIServices.makeSpace(60),
                   //? REGISTER BUTTON
                   Container(
                     width: double.infinity,
                     height: 50,
                     margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
+                    decoration: LoginPageService.btnLoginProperties,
                     child: TextButton(
                       child: RegisterPageService.btnRegister,
                       onPressed: () async {
