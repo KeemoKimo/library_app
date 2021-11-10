@@ -220,12 +220,12 @@ class HomeScreenService {
                     width: 230,
                     height: 310,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(bookCover),
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(bookCover),
+                        ),
+                        boxShadow: [UIServices.mainBoxShadow]),
                   ),
                   UIServices.makeSpace(20),
                   Text(

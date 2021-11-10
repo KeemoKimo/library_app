@@ -41,7 +41,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
       _switchValueAge = false,
       _switchValueBooks = false,
       _switchValueFavourite = false;
-  var space40 = UIServices.makeSpace(40);
 
   void initState() {
     super.initState();
@@ -53,7 +52,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     var mainBody = Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: MyAccountService.bgGradient,
+        color: Color(0xFF4D028A),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: StreamBuilder<QuerySnapshot>(
@@ -219,6 +218,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           style: TextStyle(
                             fontSize: 23,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         UIServices.makeSpace(10),
@@ -235,20 +235,21 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   //! EVERYTHING BELOW USER PROFILE
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                      ),
-                    ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                        ),
+                        boxShadow: [UIServices.mainBoxShadow]),
                     child: Column(
                       children: [
                         //!YOUR INFORMATION SECTION
-                        space40,
+                        UIServices.makeSpace(40),
                         UIServices.customAlignedText(Alignment.centerLeft,
                             "Your Information", Colors.black),
+                        UIServices.makeSpace(20),
                         MyAccountService.makeYourInfo(
-                            space40,
+                            UIServices.makeSpace(40),
                             age,
                             createdDateDate,
                             createdDateMonth,
@@ -259,52 +260,74 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         UIServices.makeSpace(20),
                         UIServices.customAlignedText(Alignment.centerLeft,
                             "Privacy Settings", Colors.black),
-                        UIServices.makeSpace(20),
-                        Column(
-                          children: [
-                            makeToggleContainer(
-                                context,
-                                'assets/images/location.png',
-                                'Show Location:',
-                                'Location',
-                                20,
-                                _switchValueLocation),
-                            makeToggleContainer(
-                                context,
-                                'assets/images/age.png',
-                                'Show age:',
-                                'Age',
-                                50,
-                                _switchValueAge),
-                            makeToggleContainer(
-                                context,
-                                'assets/images/booksIcon.png',
-                                'Show your books:',
-                                'Books',
-                                0,
-                                _switchValueBooks),
-                            makeToggleContainer(
-                                context,
-                                'assets/images/heart.png',
-                                'Show Favourites:',
-                                'Favourites',
-                                3,
-                                _switchValueFavourite),
-                          ],
+                        UIServices.makeSpace(40),
+                        Container(
+                          margin: EdgeInsets.only(left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF4D028A),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius:
+                                    3, // how much spread does this shadow goes
+                                blurRadius: 4, // how blurry the shadow is
+                                offset:
+                                    Offset(0, 5), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              makeToggleContainer(
+                                  context,
+                                  'assets/images/location.png',
+                                  'Show Location:',
+                                  'Location',
+                                  20,
+                                  _switchValueLocation),
+                              makeToggleContainer(
+                                  context,
+                                  'assets/images/age.png',
+                                  'Show age:',
+                                  'Age',
+                                  50,
+                                  _switchValueAge),
+                              makeToggleContainer(
+                                  context,
+                                  'assets/images/booksIcon.png',
+                                  'Show your books:',
+                                  'Books',
+                                  0,
+                                  _switchValueBooks),
+                              makeToggleContainer(
+                                  context,
+                                  'assets/images/heart.png',
+                                  'Show Favourites:',
+                                  'Favourites',
+                                  3,
+                                  _switchValueFavourite),
+                            ],
+                          ),
                         ),
                         //!CONTENTS SECTION
-                        UIServices.makeSpace(20),
+                        UIServices.makeSpace(40),
                         UIServices.customAlignedText(
                             Alignment.centerLeft, "Contents", Colors.black),
+                        UIServices.makeSpace(40),
+                        MyAccountService.makeBooksContents(
+                            context,
+                            AllBooksPage(loggedInUser: loggedInUser),
+                            Icons.book,
+                            CupertinoIcons.forward,
+                            "My Books"),
                         UIServices.makeSpace(20),
-                        MyAccountService.makeMyBooksContents(
-                          context,
-                          AllBooksPage(loggedInUser: loggedInUser),
-                        ),
-                        UIServices.makeSpace(20),
-                        MyAccountService.makeMyFavouritesContent(
+                        MyAccountService.makeBooksContents(
                           context,
                           AllFavouritesPage(loggedInUser: loggedInUser),
+                          Icons.favorite,
+                          CupertinoIcons.forward,
+                          "Favourites",
                         ),
                         UIServices.makeSpace(20),
                         //!STATISTICS SECTION
@@ -347,19 +370,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 3, // how much spread does this shadow goes
-            blurRadius: 4, // how blurry the shadow is
-            offset: Offset(0, 5), // changes position of shadow
-          ),
-        ],
-      ),
+      margin: EdgeInsets.only(right: 20, bottom: 20, top: 20),
       child: Column(
         children: [
           Row(
@@ -379,7 +390,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 margin: EdgeInsets.only(left: 30),
                 child: Text(
                   instructionText,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
               Transform.scale(
@@ -387,6 +398,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 child: Container(
                   margin: EdgeInsets.only(left: marginValue),
                   child: CupertinoSwitch(
+                    activeColor: Colors.lightGreen,
+                    trackColor: Colors.red,
+                    thumbColor: Colors.white,
                     value: switchValue,
                     onChanged: (value) {
                       setState(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/Services/DecorationService.dart';
@@ -34,28 +35,6 @@ class MyAccountService {
         .updateTotalFavourites(totalFavourites!);
   }
 
-//! MAIN BACKGROUND
-  static var bgGradient = BoxDecoration(
-    gradient: DecorationService.gradientColor(
-      Alignment.bottomLeft,
-      Alignment.topRight,
-      Color(0xFFb58ecc),
-      Color(0xFF320D6D),
-      Color(0xFF044B7F),
-      Color(0xFFb91372),
-    ),
-  );
-
-//! YOUR INFORMATION BACKGROUND
-  static var yourInformationBg = DecorationService.gradientColor(
-    Alignment.bottomLeft,
-    Alignment.topRight,
-    Color(0xFF7303c0),
-    Color(0xFF93291E),
-    Color(0xFF044B7F),
-    Color(0xFFb91372),
-  );
-
 //! YOUR INFORMATION SECTION
   static makeYourInfo(var space, age, createdDateDate, createdDateMonth,
       createdDateYear, about, currentLocation) {
@@ -64,31 +43,27 @@ class MyAccountService {
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 20),
       decoration: BoxDecoration(
-        gradient: MyAccountService.yourInformationBg,
+        color: Color(0xFF4D028A),
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 3, // how much spread does this shadow goes
-            blurRadius: 4, // how blurry the shadow is
-            offset: Offset(0, 5), // changes position of shadow
-          ),
-        ],
+        boxShadow: [UIServices.mainBoxShadow],
       ),
       child: Column(
         children: [
+          UIServices.makeSpace(20),
           UIServices.makeRowItem(
-              Icons.verified, "Age", age.toString(), Colors.white),
+              CupertinoIcons.person_fill, "Age", age.toString(), Colors.white),
           space,
           UIServices.makeRowItem(
-              Icons.calendar_today,
+              CupertinoIcons.calendar,
               "Created Date",
               "$createdDateDate / $createdDateMonth / $createdDateYear",
               Colors.white),
           space,
-          UIServices.makeRowItem(Icons.location_city, "Location",
+          UIServices.makeRowItem(Icons.pin_drop, "Location",
               currentLocation.toString(), Colors.white),
-          space,
+          UIServices.makeSpace(10),
+          UIServices.customDivider(Colors.white),
+          UIServices.makeSpace(10),
           UIServices.makeRowItem(Icons.info, "About you", "", Colors.white),
           UIServices.makeSpace(20),
           Text(
@@ -100,6 +75,7 @@ class MyAccountService {
               color: Colors.white,
             ),
           ),
+          UIServices.makeSpace(20),
         ],
       ),
     );
@@ -117,60 +93,48 @@ class MyAccountService {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFc31432),
-            Color(0xFF320D6D),
-            Color(0xFF044B7F),
-            Color(0xFF240b36),
+        color: Color(0xFF4D028A),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [UIServices.mainBoxShadow],
+      ),
+      child: Container(
+        margin: EdgeInsets.only(top: marginTop),
+        height: 60,
+        child: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              child: Icon(
+                firstIcon,
+                color: mainIconColor,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                '$displayText',
+                style: TextStyle(
+                  color: mainIconColor,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 190),
+              child: Icon(
+                secondIcon,
+                size: 15,
+                color: secondIconColor,
+              ),
+            ),
           ],
         ),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: marginTop),
-            height: 60,
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Icon(
-                    firstIcon,
-                    color: mainIconColor,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    '$displayText',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: mainIconColor,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 190),
-                  child: Icon(
-                    secondIcon,
-                    size: 15,
-                    color: secondIconColor,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
       ),
     );
   }
 
 //! CONTENTS SECTION
-  static makeMyBooksContents(BuildContext context, var desitnationPage) {
+  static makeBooksContents(
+      BuildContext context, var desitnationPage, firstIcon, secondIcon, text) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -179,26 +143,13 @@ class MyAccountService {
         );
       },
       child: customCard(
-        'My Books',
-        Icons.menu_book_rounded,
-        Icons.arrow_forward_ios_rounded,
+        text,
+        firstIcon,
+        secondIcon,
         0,
         Colors.white,
         Colors.white,
       ),
-    );
-  }
-
-  static makeMyFavouritesContent(BuildContext context, var desitnationPage) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => desitnationPage),
-        );
-      },
-      child: customCard('Favourites', Icons.favorite,
-          Icons.arrow_forward_ios_rounded, 0, Colors.white, Colors.white),
     );
   }
 
@@ -209,23 +160,9 @@ class MyAccountService {
       padding: EdgeInsets.all(20),
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: DecorationService.gradientColor(
-          Alignment.bottomRight,
-          Alignment.topLeft,
-          Color(0xFFb58ecc),
-          Color(0xFF320D6D),
-          Color(0xFF044B7F),
-          Color(0xFF93291E),
-        ),
+        color: Color(0xFF4D028A),
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 3, // how much spread does this shadow goes
-            blurRadius: 4, // how blurry the shadow is
-            offset: Offset(0, 5), // changes position of shadow
-          ),
-        ],
+        boxShadow: [UIServices.mainBoxShadow],
       ),
       child: Column(
         children: [
@@ -235,6 +172,51 @@ class MyAccountService {
           UIServices.makeRowItem(Icons.favorite, "Total Favourites",
               totalFavourites!, Colors.white),
         ],
+      ),
+    );
+  }
+
+//! ABOUT ME TEXTBOX (EDIT PROFILE)
+  static makeAboutMeTextbox(TextEditingController controller) {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color(0xFF4D028A),
+      ),
+      child: TextFormField(
+        controller: controller,
+        maxLines: 15,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          counterStyle: TextStyle(color: Colors.white),
+          labelText: "About me",
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          labelStyle: TextStyle(color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none),
+        ),
+      ),
+    );
+  }
+
+//! CUSTOM ALIGN TEXT (EDIT PROFILE)
+  static makeCustomAlignedText(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF4D028A),
+        ),
       ),
     );
   }

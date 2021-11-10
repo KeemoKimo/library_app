@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -51,137 +52,78 @@ class _EditProfileState extends State<EditProfile> {
     aboutController.text = userSettings.userAbout;
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFC33764),
-            Color(0xFF6e45e1),
-            Color(0xFF1D2671),
-            Color(0xFFa71d31),
-          ],
-        ),
-      ),
+      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    UIServices.makeSpace(20),
-                    //! Username text field
-                    UIServices.makeCustomTextField(
-                        usernameController, "Username", false, 0),
-                    UIServices.makeSpace(20),
-                    //! Age text field
-                    UIServices.makeCustomTextField(
-                        ageController, "Your age", true, 3),
-                    UIServices.makeSpace(20),
-                    //! About me text field
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      child: TextFormField(
-                        maxLength: 1000,
-                        controller: aboutController,
-                        maxLines: 10,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        decoration: InputDecoration(
-                          counterStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          labelText: "About me",
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2.0,
+              UIServices.makeSpace(40),
+              MyAccountService.makeCustomAlignedText("👨 Your Information :"),
+              UIServices.makeSpace(40),
+              //! Username text field
+              UIServices.makeCustomTextField(
+                  usernameController, "Username", false, 0),
+              UIServices.makeSpace(20),
+              //! Age text field
+              UIServices.makeCustomTextField(
+                  ageController, "Your age", true, 3),
+              UIServices.makeSpace(20),
+              //! About me text field
+              MyAccountService.makeAboutMeTextbox(aboutController),
+              UIServices.customDivider(Color(0xFF4D028A)),
+              //! Country picker container
+              UIServices.makeSpace(20),
+              MyAccountService.makeCustomAlignedText("📍 Location :"),
+              UIServices.makeSpace(40),
+              StatefulBuilder(
+                builder: (context, setState) {
+                  return GestureDetector(
+                    onTap: () {
+                      showCountryPicker(
+                        context: context,
+                        onSelect: (Country country) {
+                          setState(() => pickedCountry = country.name);
+                          print(pickedCountry);
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF4D028A),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              '$pickedCountry',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
+                          Container(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Icon(
+                              Icons.swap_horizontal_circle_sharp,
                               color: Colors.white,
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                    UIServices.makeSpace(20),
-                    //! Country picker container
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "My Location :",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    UIServices.makeSpace(20),
-                    StatefulBuilder(
-                      builder: (context, setState) {
-                        return GestureDetector(
-                          onTap: () {
-                            showCountryPicker(
-                              context: context,
-                              onSelect: (Country country) {
-                                setState(() => pickedCountry = country.name);
-                                print(pickedCountry);
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Colors.black, width: 1),
-                              color: Colors.white,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(left: 20),
-                                  child: Text(
-                                    '$pickedCountry',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFF2B276B),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Icon(
-                                    Icons.swap_horizontal_circle_sharp,
-                                    color: Color(0xFF2B276B),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    UIServices.makeSpace(30),
-                  ],
-                ),
+                  );
+                },
               ),
+              UIServices.makeSpace(40),
             ],
           ),
         ),
@@ -230,7 +172,7 @@ class _EditProfileState extends State<EditProfile> {
               }
             },
             child: const Icon(Icons.edit),
-            backgroundColor: Color(0xFF2B276B),
+            backgroundColor: Colors.green,
           ),
         ),
       ),

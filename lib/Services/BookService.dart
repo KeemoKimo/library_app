@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class BookService {
   late String bookTitle,
       bookOwner,
@@ -10,7 +12,8 @@ class BookService {
       bookPages,
       bookId;
   late bool bookIsFavourite;
-  late DateTime bookStartDate, bookEndDate;
+  late Timestamp bookStartDate, bookEndDate;
+  late DateTime realBookStartDate, realBookEndDate;
 
   BookService.fromSnapshot(var snapshot, index) {
     bookTitle = snapshot[index]['title'];
@@ -24,6 +27,8 @@ class BookService {
     bookPages = snapshot[index]['numberOfPages'];
     bookStartDate = snapshot[index]['startDate'];
     bookEndDate = snapshot[index]['endDate'];
+    realBookStartDate = bookStartDate.toDate();
+    realBookEndDate = bookEndDate.toDate();
     bookIsFavourite = snapshot[index]['isFavourite'];
     bookId = snapshot[index]['bookId'];
   }

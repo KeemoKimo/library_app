@@ -16,8 +16,6 @@ class UIServices {
   late String bookLanguage;
   late String bookPublished;
   late String bookPages;
-  late String bookStartDate;
-  late String bookEndDate;
   late bool bookIsFavourite;
   late String bookId;
 
@@ -348,8 +346,6 @@ class UIServices {
     bookLanguage = snapshot['language'];
     bookPublished = snapshot['publishedYear'];
     bookPages = snapshot['numberOfPages'];
-    bookStartDate = snapshot['startDate'];
-    bookEndDate = snapshot['endDate'];
     bookIsFavourite = snapshot['isFavourite'];
     bookId = snapshot['bookId'];
   }
@@ -360,27 +356,24 @@ class UIServices {
     return isEnforceMaxLength == false
         ? Container(
             margin: EdgeInsets.only(top: 5),
-            padding: EdgeInsets.only(left: 20, right: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xFF4D028A),
+            ),
             child: TextFormField(
               controller: controllerName,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: labelText,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 labelStyle: TextStyle(color: Colors.white),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                    width: 2.0,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -392,9 +385,11 @@ class UIServices {
           )
         : Container(
             margin: EdgeInsets.only(top: 5),
-            padding: EdgeInsets.only(left: 20, right: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xFF4D028A),
+            ),
             child: TextFormField(
-              maxLength: txtMaxLength,
               controller: controllerName,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),
@@ -402,19 +397,13 @@ class UIServices {
                 counterStyle: TextStyle(color: Colors.white),
                 labelText: labelText,
                 labelStyle: TextStyle(color: Colors.white),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                    width: 2.0,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide.none),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -629,8 +618,8 @@ class UIServices {
                           data.bookLanguage,
                           data.bookPublished,
                           data.bookPages,
-                          data.bookStartDate,
-                          data.bookEndDate,
+                          data.bookStartDate.toDate(),
+                          data.bookEndDate.toDate(),
                           data.bookIsFavourite,
                           data.bookId,
                         ),
@@ -656,15 +645,14 @@ class UIServices {
         Icon(
           icon,
           color: color,
-          size: 25,
+          size: 20,
         ),
         Container(
           margin: EdgeInsets.only(left: 10),
           child: Text(
             '$leadingText : $trailingText',
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
+              fontSize: 16,
               color: color,
             ),
           ),
@@ -686,4 +674,12 @@ class UIServices {
       ),
     );
   }
+
+  //! MAIN BOX SHADOW THEME
+  static var mainBoxShadow = BoxShadow(
+    color: Colors.black.withOpacity(0.7),
+    spreadRadius: 2, // how much spread does this shadow goes
+    blurRadius: 3, // how blurry the shadow is
+    offset: Offset(0, 5), // changes position of shadow
+  );
 }
