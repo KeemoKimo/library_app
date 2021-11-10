@@ -5,18 +5,6 @@ import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class HomeScreenService {
-//! MAIN SCREEN GRADIENT
-  static var bgGradient = BoxDecoration(
-    gradient: DecorationService.gradientColor(
-      Alignment.bottomLeft,
-      Alignment.topRight,
-      Color(0xFF1a2a6c),
-      Color(0xFF6f0000),
-      Color(0xFF512DA8),
-      Color(0xFF23074d),
-    ),
-  );
-
 //! MAIN PICTURE FOR HOMESCREEN
   static var mainPicture = Container(
     width: double.infinity,
@@ -130,14 +118,44 @@ class HomeScreenService {
     }, "Sign Out", Colors.red);
   }
 
-//! MAKE TITLE
-  static makeTitle(String label) {
-    return Text(
-      label,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 30,
-        color: Colors.white,
+//! MAKE CUSTOM TITLE
+  static customTitle(
+    String firstText,
+    secondText,
+    var alignment,
+    boldLeft,
+    boldRight,
+    setColor,
+    double marginAmount,
+    bool isLeft,
+    isRight,
+  ) {
+    return Container(
+      margin: EdgeInsets.only(
+          left: (isLeft == true) ? 20 : 0, right: (isRight == true) ? 30 : 0),
+      alignment: alignment,
+      child: Text.rich(
+        TextSpan(
+          style: TextStyle(fontSize: 30),
+          children: [
+            TextSpan(
+              text: firstText,
+              style: TextStyle(
+                fontWeight:
+                    (boldLeft == true) ? FontWeight.bold : FontWeight.normal,
+                color: (boldLeft == true) ? Color(setColor) : Colors.black,
+              ),
+            ),
+            TextSpan(
+              text: secondText,
+              style: TextStyle(
+                fontWeight:
+                    (boldRight == true) ? FontWeight.bold : FontWeight.normal,
+                color: (boldRight == true) ? Color(setColor) : Colors.black,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -203,25 +221,19 @@ class HomeScreenService {
                     height: 310,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3,
-                      ),
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(bookCover),
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      bookTitle,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  UIServices.makeSpace(20),
+                  Text(
+                    bookTitle,
+                    style: TextStyle(
+                        color: Color(0xFFFF7400),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

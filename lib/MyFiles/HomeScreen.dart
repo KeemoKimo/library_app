@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     var mainBody = Scaffold(
       drawer: drawer2,
       body: Container(
-        decoration: HomeScreenService.bgGradient,
+        color: Colors.white,
         child: StreamBuilder<QuerySnapshot>(
           stream: bookSnapshot,
           builder: (context, snapshot) {
@@ -157,28 +157,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 children: <Widget>[
                   //! CONTAINER FOR MAIN PICTURE
                   HomeScreenService.mainPicture,
-                  UIServices.customDivider(Colors.white),
+                  UIServices.customDivider(Color(0xFF4D028A)),
                   //! LIST FOR HOT BOOKS
-                  HomeScreenService.makeTitle('Hot Books ️‍🔥'),
+                  HomeScreenService.customTitle(
+                      'GREAT ',
+                      "PICKS 🔥🔥",
+                      Alignment.centerLeft,
+                      true,
+                      false,
+                      0xFFFF7400,
+                      20,
+                      true,
+                      false),
                   UIServices.makeSpace(20),
                   HomeScreenService.verticalBookList(snapshot),
-                  UIServices.customDivider(Colors.white),
+                  UIServices.customDivider(Color(0xFF4D028A)),
                   //! LIST FOR ALL BOOKS
-                  HomeScreenService.makeTitle('Your Collection 📚'),
+                  HomeScreenService.customTitle(
+                      'YOUR ',
+                      "BOOKS 📚",
+                      Alignment.centerRight,
+                      false,
+                      true,
+                      0xFF4177E2,
+                      20,
+                      false,
+                      true),
                   UIServices.makeSpace(20),
                   UIServices.bookListViewBuilder(
                       snapshot, loggedInUser, 7, 2, false),
                   UIServices.makeSpace(20),
-                  UIServices.customDivider(Colors.white),
+                  UIServices.customDivider(Color(0xFF4D028A)),
                   //! LIST FOR ALL FAVOURITES
-                  HomeScreenService.makeTitle('Favourites ❤️'),
+                  HomeScreenService.customTitle(
+                      'YOUR ',
+                      "FAVOURITES ❤️",
+                      Alignment.centerLeft,
+                      true,
+                      false,
+                      0xFFF44235,
+                      20,
+                      true,
+                      false),
                   UIServices.makeSpace(20),
                   UIServices.bookListViewBuilder(
                       snapshot, loggedInUser, 7, 2, true),
                   UIServices.makeSpace(20),
-                  UIServices.customDivider(Colors.white),
+                  UIServices.customDivider(Color(0xFF4D028A)),
                   UIServices.makeSpace(10),
-                  HomeScreenService.makeTitle('Copyright ©'),
+                  Text("Copyright ©"),
                   UIServices.makeSpace(30),
                 ],
               ),
