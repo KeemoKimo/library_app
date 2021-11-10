@@ -19,8 +19,8 @@ class DatabaseServices {
       String imageURL,
       String language,
       String publishedYear,
-      String startDate,
-      String endDate,
+      DateTime startDate,
+      DateTime endDate,
       bool isFavourite) async {
     return await booksCollection.doc(title + uid).set(
       {

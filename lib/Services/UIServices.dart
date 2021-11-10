@@ -266,8 +266,10 @@ class UIServices {
         String bookLanguage = snapshot.data!.docs[index]['language'];
         String bookPublished = snapshot.data!.docs[index]['publishedYear'];
         String bookPages = snapshot.data!.docs[index]['numberOfPages'];
-        String bookStartDate = snapshot.data!.docs[index]['startDate'];
-        String bookEndDate = snapshot.data!.docs[index]['endDate'];
+        Timestamp bookStartDate = snapshot.data!.docs[index]['startDate'];
+        DateTime startDate = bookStartDate.toDate();
+        Timestamp bookEndDate = snapshot.data!.docs[index]['endDate'];
+        DateTime endDate = bookEndDate.toDate();
         bool bookIsFavourite = snapshot.data!.docs[index]['isFavourite'];
         String bookId = snapshot.data!.docs[index]['bookId'];
         return isShowFavourite == false
@@ -288,8 +290,8 @@ class UIServices {
                           bookLanguage,
                           bookPublished,
                           bookPages,
-                          bookStartDate,
-                          bookEndDate,
+                          startDate,
+                          endDate,
                           bookIsFavourite,
                           bookId,
                         ),
@@ -318,8 +320,8 @@ class UIServices {
                           bookLanguage,
                           bookPublished,
                           bookPages,
-                          bookStartDate,
-                          bookEndDate,
+                          startDate,
+                          endDate,
                           bookIsFavourite,
                           bookId,
                         ),

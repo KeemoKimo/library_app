@@ -12,8 +12,8 @@ class ScreenArguments {
   late final String bookLanguage;
   late final String bookPublishedYear;
   late final String bookPages;
-  late final String bookStartDate;
-  late final String bookEndDate;
+  late final DateTime bookStartDate;
+  late final DateTime bookEndDate;
   late final bool isFavourite;
   late final String bookId;
 

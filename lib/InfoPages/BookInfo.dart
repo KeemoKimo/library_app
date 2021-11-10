@@ -213,6 +213,22 @@ class _BookInfoState extends State<BookInfo> {
               //! BOOK DESCRIPTION
               BookInfoService.showDescription(bookID),
               UIServices.customDivider(Colors.white),
+              Text(
+                "Start Date : ${bookID.bookStartDate.day} / ${bookID.bookStartDate.month} / ${bookID.bookStartDate.year}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              UIServices.makeSpace(20),
+              Text(
+                "End Date : ${bookID.bookEndDate.day} / ${bookID.bookEndDate.month} / ${bookID.bookEndDate.year}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              UIServices.makeSpace(20),
             ],
           ),
         ),

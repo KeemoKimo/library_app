@@ -8,10 +8,9 @@ class BookService {
       bookLanguage,
       bookPublished,
       bookPages,
-      bookStartDate,
-      bookEndDate,
       bookId;
   late bool bookIsFavourite;
+  late DateTime bookStartDate, bookEndDate;
 
   BookService.fromSnapshot(var snapshot, index) {
     bookTitle = snapshot[index]['title'];

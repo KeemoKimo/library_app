@@ -116,8 +116,8 @@ class _addBookPageState extends State<addBookPage> {
           imageURL!,
           languageController.text,
           publishedYearController.text,
-          _startDate.toString(),
-          _endDate.toString(),
+          _startDate,
+          _endDate,
           false,
         );
         print('Uploaded Image');
