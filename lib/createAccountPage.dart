@@ -27,7 +27,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
     var mainBody = Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: RegisterPageService.bgGradient,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

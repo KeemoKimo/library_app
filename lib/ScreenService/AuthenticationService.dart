@@ -87,24 +87,20 @@ class LoginPageService {
     child: Text(
       'LOGIN',
       style: TextStyle(
-        color: Color(0xFF9E2B55),
+        color: Colors.black,
         fontWeight: FontWeight.bold,
         fontSize: 20,
       ),
     ),
   );
 
-  //! MAIN BACKGROUND GRADIENT
-  static var bgGradient = BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.bottomLeft,
-      end: Alignment.topRight,
-      colors: [
-        Color(0xFF3c1053),
-        Color(0xFFF00000),
-        Color(0xFF2657eb),
-        Color(0xFF834d9b),
-      ],
+  //! MAIN BACKGROUND IMAGE
+  static var bgImg = BoxDecoration(
+    image: DecorationImage(
+      colorFilter: new ColorFilter.mode(
+          Colors.black.withOpacity(0.4), BlendMode.dstATop),
+      image: AssetImage('assets/images/wallpaperLogin.png'),
+      fit: BoxFit.cover,
     ),
   );
 
@@ -202,20 +198,6 @@ class LoginPageService {
 
 //! MANAGES THE FUNCTIONS / UI FOR REGISTER
 class RegisterPageService {
-  //! MAIN BACKGROUND COLOR GRADIENT
-  static var bgGradient = BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Color(0xFF833ab4),
-        Color(0xFF3F5EFB),
-        Color(0xFF41295a),
-        Color(0xFFF00000),
-      ],
-    ),
-  );
-
   //! REGISTRATION LABEL
   static var registerLabel = Container(
     margin: EdgeInsets.only(left: 50, top: 100),

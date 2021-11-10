@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:intl/intl.dart';
 
 class BookInfoService {
   //! DETAILS FOR LANGUAGE, PAGE, YEAR OF THE BOOK
@@ -78,9 +79,9 @@ class BookInfoService {
       Alignment.bottomLeft,
       Alignment.topRight,
       Color(0xFF5614B0),
-      Color(0xFFec2F4B),
+      Color(0xFFb21f1f),
       Color(0xFF7303c0),
-      Color(0xFF1565C0),
+      Color(0xFF1a2a6c),
     ),
   );
 
@@ -123,5 +124,14 @@ class BookInfoService {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }, "Delete", Colors.red);
+  }
+
+//! TRIM DATE TIME
+  static String convertDateTimeDisplay(String date) {
+    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormater = DateFormat('dd-MM-yyyy');
+    final DateTime displayDate = displayFormater.parse(date);
+    final String formatted = serverFormater.format(displayDate);
+    return formatted;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:library_app/ScreenService/HomeScreenService.dart';
 import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
@@ -60,14 +61,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             builder: (context, snapshot) {
               //!CHECK IF HAVE DATA OR NOT
               if (!snapshot.hasData) {
-                return Center(
-                  child: Container(
-                    color: Colors.red,
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.white,
-                    ),
-                  ),
-                );
+                return HomeScreenService.loadingIndicator;
               }
               //! LOOP TO GET ALL USER DATA
               final users = snapshot.data!.docs;

@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
     var registerScreen = RegisterAccount();
     var screens = [loginScreen, registerScreen];
     return Container(
-      decoration: LoginPageService.bgGradient,
+      decoration: LoginPageService.bgImg,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: screens[selectedIndex],

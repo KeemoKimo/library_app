@@ -23,6 +23,7 @@ dependencies:
   flutter_speed_dial: ^4.6.6
   http: ^0.13.3
   image_picker: ^0.8.3+3
+  intl: ^0.17.0
   page_transition: ^2.0.4
   permission_handler: ^8.1.4+2
 
@@ -48,7 +49,7 @@ flutter:
     - assets/images/partnership.png
     - assets/images/leaderShip.png
     - assets/images/team.png
-    - assets/images/vision.png
+    - assets/images/vision.pnsg
     - assets/images/service.png
     - assets/images/CEO.png
     - assets/images/Co-Founder.png
@@ -81,6 +82,10 @@ flutter:
     - assets/images/comics.jpg
     - assets/images/sittingBull.jpg
     - assets/images/books.jpg
+    - assets/images/wallpaperLogin.png
+    - assets/images/bookBackgroundRegister.jpg
+    - assets/images/booksDrawerCover.jpg
+    - assets/images/noBookCover.png
   fonts:
     - family: Lato
       fonts:

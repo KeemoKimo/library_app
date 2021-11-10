@@ -175,23 +175,22 @@ class _addBookPageState extends State<addBookPage> {
                   child: Stack(
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 5, color: Colors.white),
-                        ),
-                        width: double.infinity,
-                        height: 600,
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: _image != null
-                            ? Image.file(
-                                _image!,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.network(
-                                'https://www.brother.ca/resources/images/no-product-image.png',
-                                fit: BoxFit.cover,
-                              ),
-                      ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(width: 5, color: Colors.white),
+                          ),
+                          width: double.infinity,
+                          height: 600,
+                          margin: EdgeInsets.only(left: 20, right: 20),
+                          child: _image != null
+                              ? Image.file(
+                                  _image!,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/noBookCover.png',
+                                  fit: BoxFit.cover,
+                                )),
                       //! FLOATY BUTTON
                       UIServices.makeSpeedDial(
                         Color(0xFF333399),
