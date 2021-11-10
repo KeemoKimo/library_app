@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/UIServices.dart';
 
+//! MANAGES THE FUNCTIONS / UI FOR LOGIN
 class LoginPageService {
+  static var routes = {
+    'home': (context) => const LoginPage(),
+    'main': (context) => const HomeScreen(),
+    'bookInfo': (context) => const BookInfo(),
+    'otherUserInfo': (context) => const OtherUserInfo(),
+    'otherUserBooks': (context) => const OtherUserBooks(),
+    'otherUserFavourites': (context) => const OtherUsersFavourites(),
+    'editBookCover': (context) => const EditBook(),
+    'editBookInfo': (context) => const EditBookInfo(),
+    'aboutUs': (context) => const AboutUs(),
+    'editProfile': (context) => const EditProfile(),
+    'HotBookInfo': (context) => const HotBooksInfo(),
+  };
+
   //! FUNCITON TO MAKE THE PASSWORD TEXTBOX
   static makePasswordTextField(var controller, isObscure) {
     return Container(
@@ -52,6 +67,60 @@ class LoginPageService {
       size: 20,
     ),
   ];
+
+  //! LOGIN LABEL
+  static var signInLabel = Container(
+    padding: EdgeInsets.all(15),
+    margin: EdgeInsets.only(left: 50, top: 100),
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        "Let's Sign you in!",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 35,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
+
+  //! REVEAL PASSWORD IMAGE
+  static var revealPassword = Container(
+    margin: EdgeInsets.only(top: 20, left: 20),
+    width: 30,
+    height: 30,
+    child: Image(
+      fit: BoxFit.cover,
+      image: AssetImage('assets/images/eye.png'),
+    ),
+  );
+
+  //! TEXT BUTTON LOGIN
+  static var btnLogin = Container(
+    child: Text(
+      'LOGIN',
+      style: TextStyle(
+        color: Color(0xFF9E2B55),
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    ),
+  );
+
+  //! MAIN BACKGROUND GRADIENT
+  static var bgGradient = BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: [
+        Color(0xFF3c1053),
+        Color(0xFFF00000),
+        Color(0xFF2657eb),
+        Color(0xFF834d9b),
+      ],
+    ),
+  );
 
   //! CATCH EXCEPTIONS FROM LOGIN
   static catchExceptions(var e, context) {
@@ -145,6 +214,7 @@ class LoginPageService {
   }
 }
 
+//! MANAGES THE FUNCTIONS / UI FOR REGISTER
 class RegisterPageService {
   //! MAIN BACKGROUND COLOR GRADIENT
   static var bgGradient = BoxDecoration(
@@ -153,7 +223,7 @@ class RegisterPageService {
       end: Alignment.bottomRight,
       colors: [
         Color(0xFF833ab4),
-        Color(0xFF4568DC),
+        Color(0xFF3F5EFB),
         Color(0xFF41295a),
         Color(0xFFF00000),
       ],
@@ -173,6 +243,16 @@ class RegisterPageService {
           fontWeight: FontWeight.bold,
         ),
       ),
+    ),
+  );
+
+  //! REGISTER BUTTON
+  static var btnRegister = Text(
+    'REGISTER !',
+    style: TextStyle(
+      color: Color(0xFF55224F),
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
     ),
   );
 

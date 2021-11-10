@@ -18,7 +18,6 @@ import 'package:page_transition/page_transition.dart';
 import 'MyFiles/HomeScreen.dart';
 import 'Services/UIServices.dart';
 
-//todo RUN APP
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -54,10 +53,9 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-//todo MAIN DESIGN CLASS
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController(),
+      passwordController = new TextEditingController();
   bool isObscure = true;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -74,21 +72,7 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //!Authentication label
-          Container(
-            padding: EdgeInsets.all(15),
-            margin: EdgeInsets.only(left: 50, top: 100),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Let's Sign you in!",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          LoginPageService.signInLabel,
           UIServices.makeSpace(130),
           //!The rest of the login form
           Form(
@@ -115,15 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         );
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 20, left: 20),
-                        width: 30,
-                        height: 30,
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/eye.png'),
-                        ),
-                      ),
+                      child: LoginPageService.revealPassword,
                     ),
                   ],
                 ),
@@ -138,16 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: TextButton(
-                    child: Container(
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(
-                          color: Color(0xFF9E2B55),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
+                    child: LoginPageService.btnLogin,
                     onPressed: () async {
                       try {
                         if (emailController.text == "" ||
@@ -212,29 +179,18 @@ class _LoginPageState extends State<LoginPage> {
     var registerScreen = RegisterAccount();
     var screens = [loginScreen, registerScreen];
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          colors: [
-            Color(0xFF3c1053),
-            Color(0xFFF00000),
-            Color(0xFF2657eb),
-            Color(0xFF1565C0),
-          ],
-        ),
-      ),
+      decoration: LoginPageService.bgGradient,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: screens[selectedIndex],
         bottomNavigationBar: CurvedNavigationBar(
           buttonBackgroundColor: Colors.transparent,
           backgroundColor:
-              (selectedIndex == 0) ? Colors.transparent : Color(0xFFAF0022),
+              (selectedIndex == 0) ? Colors.transparent : Colors.transparent,
           height: 50,
           items: LoginPageService.bottomNavBarProperties,
-          animationDuration: Duration(milliseconds: 400),
-          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 500),
+          animationCurve: Curves.easeInOutCubic,
           onTap: (index) {
             setState(
               () {

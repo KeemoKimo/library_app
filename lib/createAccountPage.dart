@@ -15,9 +15,9 @@ class RegisterAccount extends StatefulWidget {
 }
 
 class _RegisterAccountState extends State<RegisterAccount> {
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController usernameController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController(),
+      passwordController = new TextEditingController(),
+      usernameController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
   var now = new DateTime.now();
@@ -62,14 +62,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: TextButton(
-                      child: Text(
-                        'REGISTER !',
-                        style: TextStyle(
-                          color: Color(0xFF55224F),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
+                      child: RegisterPageService.btnRegister,
                       onPressed: () async {
                         try {
                           //! CHECK IF USER FILL IN FORM
@@ -102,6 +95,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                 await auth.createUserWithEmailAndPassword(
                                     email: emailController.text,
                                     password: passwordController.text);
+                            //! SEND USER DATA INTO DATABASE
                             await DatabaseServices(
                                     uid: userCredential.user!.uid)
                                 .updateUserData(
@@ -124,7 +118,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
+                                builder: (context) => HomeScreen(),
+                              ),
                             );
                           }
                         } on FirebaseAuthException catch (e) {
