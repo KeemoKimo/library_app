@@ -16,9 +16,11 @@ import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserFiles/otherUserInfo.dart';
 import 'package:library_app/splashscreen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'MyFiles/HomeScreen.dart';
 import 'Services/UIServices.dart';
+import 'ScreenService/AuthenticationService.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,21 +78,15 @@ class _LoginPageState extends State<LoginPage> {
         physics: ClampingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //!Authentication label
+            UIServices.makeSpace(50),
             LoginPageService.signInLabel,
             Container(
               width: 200,
               height: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/loginVector.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              child: Lottie.asset("assets/Animations/loginAnimation.json"),
             ),
-
             //!The rest of the login form
             Form(
               key: _formKey,
@@ -99,7 +95,6 @@ class _LoginPageState extends State<LoginPage> {
                   //? EMAIL TEXT BOX
                   LoginPageService.makePasswordTextField(
                       emailController, false, "Enter email...", 350, 0, 20),
-
                   //? PASSWORD TEXT BOX / ICON
                   Row(
                     children: [

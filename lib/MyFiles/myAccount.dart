@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/ScreenService/HomeScreenService.dart';
 import 'package:library_app/ScreenService/Loading.dart';
+import 'package:library_app/ScreenService/LoadingScreens/changingPic.dart';
 import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
@@ -361,7 +362,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
         ),
       ),
     );
-    return loading == true ? Loading() : mainBody;
+    return loading == true ? SwitchingPhotoLoading() : mainBody;
   }
 
   //!FUNCTION FOR MAKING THE CONTAINER TO TOGGLE PRIVACY SETTINGS

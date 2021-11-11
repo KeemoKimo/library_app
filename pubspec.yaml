@@ -91,6 +91,11 @@ flutter:
     - assets/images/loginVector.png
     - assets/images/registerVector.png
     - assets/bookSplashScreen.json
+    - assets/Animations/loginAnimation.json
+    - assets/Animations/registerAnimation.json
+    - assets/Animations/sendEmail.json
+    - assets/Animations/changingPhoto.json
+    - assets/Animations/creatingUser.json
 
   fonts:
     - family: Lato

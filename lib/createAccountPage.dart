@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/ScreenService/AuthenticationService.dart';
 import 'package:library_app/ScreenService/Loading.dart';
+import 'package:library_app/ScreenService/LoadingScreens/creatingUser.dart';
+import 'package:lottie/lottie.dart';
 import 'Services/DatabaseSerivces.dart';
 import 'Services/UIServices.dart';
 
@@ -27,7 +29,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   @override
   Widget build(BuildContext context) {
     return loading == true
-        ? Loading()
+        ? CreatingUser()
         : Scaffold(
             backgroundColor: Colors.transparent,
             body: Container(
@@ -38,16 +40,14 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     //!Registration label
+                    UIServices.makeSpace(30),
                     RegisterPageService.registerLabel,
                     Container(
                       width: 200,
                       height: 200,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/registerVector.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      padding: EdgeInsets.zero,
+                      child: Lottie.asset(
+                          "assets/Animations/registerAnimation.json"),
                     ),
                     //! Main Registration Form
                     Form(

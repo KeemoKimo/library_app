@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_app/ScreenService/Loading.dart';
+import 'package:library_app/ScreenService/LoadingScreens/sendemail.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class AboutUs extends StatefulWidget {
@@ -177,6 +178,8 @@ class _AboutUsState extends State<AboutUs> {
       }
     }
 
+    final _formKey = GlobalKey<FormState>();
+
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -312,171 +315,210 @@ class _AboutUsState extends State<AboutUs> {
                     margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.all(20),
                     width: double.infinity,
-                    height: 630,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.white,
                     ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: TextFormField(
-                            controller: nameController,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Enter your name...",
-                              labelStyle: TextStyle(color: Colors.black),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 2.0,
-                                ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            child: TextFormField(
+                              controller: nameController,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: TextFormField(
-                            controller: emailController,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Enter your email...",
-                              labelStyle: TextStyle(color: Colors.black),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 2.0,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: TextFormField(
-                            controller: subjectController,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Enter the subject...",
-                              labelStyle: TextStyle(color: Colors.black),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 2.0,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: TextFormField(
-                            maxLength: 1000,
-                            controller: messageController,
-                            maxLines: 10,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
-                              counterStyle: TextStyle(color: Colors.black),
-                              labelText: "Write your message...",
-                              labelStyle: TextStyle(color: Colors.black),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 2.0,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          width: 200,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Color(0xFF222f3e),
-                          ),
-                          child: TextButton(
-                            onPressed: () async {
-                              setState(() => loading = true);
-                              await sendEmail(
-                                name: nameController.text,
-                                email: emailController.text,
-                                subject: subjectController.text,
-                                message: messageController.text,
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 60, right: 10),
-                                  child: Text(
-                                    "Send!",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              decoration: InputDecoration(
+                                labelText: "Enter your name...",
+                                labelStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 2.0,
                                   ),
                                 ),
-                                Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          'assets/images/sending.png'),
-                                    ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
                                   ),
                                 ),
-                              ],
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Enter in the field!!";
+                                }
+                                return null;
+                              },
                             ),
                           ),
-                        )
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            child: TextFormField(
+                              controller: emailController,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Enter your email...",
+                                labelStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Enter in the field!!";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            child: TextFormField(
+                              controller: subjectController,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Enter the subject...",
+                                labelStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Enter in the field!!";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            child: TextFormField(
+                              maxLength: 1000,
+                              controller: messageController,
+                              maxLines: 10,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                counterStyle: TextStyle(color: Colors.black),
+                                labelText: "Write your message...",
+                                labelStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Enter in the field!!";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            width: 200,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color(0xFF222f3e),
+                            ),
+                            child: TextButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate() == true) {
+                                  setState(() => loading = true);
+                                  await sendEmail(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    subject: subjectController.text,
+                                    message: messageController.text,
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return UIServices.showPopup(
+                                          "Please enter the fields!!!",
+                                          "assets/images/error.png",
+                                          true);
+                                    },
+                                  );
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(left: 60, right: 10),
+                                    child: Text(
+                                      "Send!",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            'assets/images/sending.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   UIServices.customDivider(Colors.white),
@@ -498,6 +540,6 @@ class _AboutUsState extends State<AboutUs> {
         ),
       ),
     );
-    return loading == true ? Loading() : materialApp;
+    return loading == true ? SendEmailLoading() : materialApp;
   }
 }

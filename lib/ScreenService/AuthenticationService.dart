@@ -56,11 +56,9 @@ class LoginPageService {
   //! LOGIN LABEL
   static var signInLabel = Container(
     padding: EdgeInsets.all(15),
-    margin: EdgeInsets.only(left: 50, top: 50),
-    child: Align(
-      alignment: Alignment.centerLeft,
+    child: Center(
       child: Text(
-        "Let's Sign you in!",
+        "Sign In!",
         style: TextStyle(
           color: Color(0xFF4D028A),
           fontSize: 35,
