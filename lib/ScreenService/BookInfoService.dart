@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/Arguments.dart';
-import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:intl/intl.dart';
 
 class BookInfoService {
   //! DETAILS FOR LANGUAGE, PAGE, YEAR OF THE BOOK
-  static makeColumnDetails(var getValue, String underText) {
+  static makeColumnDetails(var getValue, String underText, Color color) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Text(
           getValue,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(),
         ),
         UIServices.makeSpace(10),
         Text(
           underText,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
   }
 
   //! SEPERATE THE DETAILS
-  static makeColumnDetailsSplitter() {
+  static makeColumnDetailsSplitter(Color color) {
     return Container(
       width: 2,
-      color: Colors.white,
-      height: 30,
+      color: color,
+      height: 40,
     );
   }
 
@@ -59,45 +59,39 @@ class BookInfoService {
   }
 
   //!FUNCTION TO MAKE THE ROW THAT CONTAIN LANGUAGE, PAGE, YEAR
-  static makeDetailRow(var argument) {
+  static makeDetailRow(var argument, bool isGreatPick) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        BookInfoService.makeColumnDetails(argument.bookPages, "pages"),
-        BookInfoService.makeColumnDetailsSplitter(),
-        BookInfoService.makeColumnDetails(argument.bookLanguage, "language"),
-        BookInfoService.makeColumnDetailsSplitter(),
+        BookInfoService.makeColumnDetails(argument.bookPages, "pages",
+            isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399)),
+        BookInfoService.makeColumnDetailsSplitter(
+            isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399)),
+        BookInfoService.makeColumnDetails(argument.bookLanguage, "language",
+            isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399)),
+        BookInfoService.makeColumnDetailsSplitter(
+            isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399)),
         BookInfoService.makeColumnDetails(
-            argument.bookPublishedYear, "published"),
+            argument.bookPublishedYear,
+            "published",
+            isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399)),
       ],
     );
   }
 
-  //! BACKGROUND GRADIENT
-  static var bgGradient = BoxDecoration(
-    gradient: DecorationService.gradientColor(
-      Alignment.bottomLeft,
-      Alignment.topRight,
-      Color(0xFF5614B0),
-      Color(0xFFb21f1f),
-      Color(0xFF7303c0),
-      Color(0xFF1a2a6c),
-    ),
-  );
-
 //! WRITE BOOK DESCRIPTION
-  static showDescription(var argument) {
+  static showDescription(var argument, bool isGreatPick) {
     return Container(
       padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
       decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(15),
-      ),
+          color: isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [UIServices.mainBoxShadow]),
       child: Text(
         argument.bookDescription,
         style: TextStyle(
-            wordSpacing: 2, letterSpacing: 1, color: Colors.white, height: 1.5),
+            wordSpacing: 2, letterSpacing: 1, color: Colors.white, height: 1.8),
       ),
     );
   }

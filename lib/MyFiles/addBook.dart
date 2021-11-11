@@ -200,7 +200,7 @@ class _addBookPageState extends State<addBookPage> {
                         Icons.add_a_photo,
                         Color(0xFF333399),
                         Colors.white,
-                        "Choose a photo",
+                        "Choose a cover",
                         () => pickImage(),
                       ),
                     ],

@@ -84,18 +84,8 @@ class _EditBookInfoState extends State<EditBookInfo> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [
-              Color(0xFF1d1160),
-              Color(0xFF333399),
-              Color(0xFFb92b27),
-              Color(0xFF4e54c8),
-            ],
-          ),
-        ),
+        padding: EdgeInsets.all(20),
+        color: Colors.white,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Form(
@@ -110,7 +100,8 @@ class _EditBookInfoState extends State<EditBookInfo> {
                 space20,
                 UIServices.makeCustomTextField(
                     authorController, 'Author : ${bookID.bookAuthor}', context),
-                //! BOOK PAGES                space20,
+                //! BOOK PAGES
+                space20,
                 UIServices.makeCustomTextField(numberOfPageController,
                     'Pages : ${bookID.bookPages}', context),
                 //! BOOK PUBLISHED YEAR
@@ -125,35 +116,37 @@ class _EditBookInfoState extends State<EditBookInfo> {
                 space20,
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  width: double.infinity,
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF4D028A),
+                  ),
                   child: TextFormField(
+                    textAlign: TextAlign.center,
                     controller: descriptionController,
                     maxLines: 10,
-                    textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
-                    maxLength: 1000,
                     decoration: InputDecoration(
                       counterStyle: TextStyle(color: Colors.white),
-                      labelText: "Book Description : ${bookID.bookDescription}",
+                      labelText: "Description : ${bookID.bookDescription}",
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
+                      errorBorder: InputBorder.none,
+                      focusedErrorBorder: InputBorder.none,
+                      errorStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        height: 0.1,
                       ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return "Enter in the field!!";
                       }
                       return null;
                     },
@@ -165,7 +158,7 @@ class _EditBookInfoState extends State<EditBookInfo> {
         ),
       ),
       floatingActionButton: UIServices.makeSpeedDial(
-        Color(0xFF2B2784),
+        Colors.green,
         Icons.restore,
         Colors.red,
         Colors.white,

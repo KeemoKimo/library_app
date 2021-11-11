@@ -58,7 +58,7 @@ class _BookInfoState extends State<BookInfo> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BookInfoService.bgGradient,
+        color: Colors.white,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -67,16 +67,8 @@ class _BookInfoState extends State<BookInfo> {
               Container(
                 margin: EdgeInsets.only(top: 50, bottom: 20),
                 decoration: BoxDecoration(
-                  border: Border.all(width: 3, color: Colors.black),
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.6),
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      offset: Offset(0, 2), // changes position of shadow
-                    ),
-                  ],
+                  boxShadow: [UIServices.mainBoxShadow],
                 ),
                 width: 350,
                 height: 550,
@@ -88,6 +80,7 @@ class _BookInfoState extends State<BookInfo> {
                   ),
                 ),
               ),
+
               //! TITLE & TOGGLE FAVOURITE
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -97,9 +90,10 @@ class _BookInfoState extends State<BookInfo> {
                     child: Text(
                       bookID.bookTitle,
                       style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF333399),
+                      ),
                     ),
                   ),
                   StreamBuilder(
@@ -193,7 +187,7 @@ class _BookInfoState extends State<BookInfo> {
                 bookID.bookCategory,
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
                 ),
@@ -203,32 +197,64 @@ class _BookInfoState extends State<BookInfo> {
                 bookID.bookAuthor,
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
               UIServices.makeSpace(30),
               //! LANGUAGE , PAGES , YEAR
-              BookInfoService.makeDetailRow(bookID),
-              UIServices.customDivider(Colors.white),
+              BookInfoService.makeDetailRow(bookID, false),
+              UIServices.customDivider(Color(0xFF333399)),
+              Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(CupertinoIcons.time_solid, color: Color(0xFF333399)),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Start: ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF333399),
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                " ${bookID.bookStartDate.day} / ${bookID.bookStartDate.month} / ${bookID.bookStartDate.year}",
+                          ),
+                        ],
+                      ),
+                    ),
+                    BookInfoService.makeColumnDetailsSplitter(
+                        Color(0xFF333399)),
+                    Icon(CupertinoIcons.hourglass_bottomhalf_fill,
+                        color: Color(0xFF333399)),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Finish: ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF333399),
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                " ${bookID.bookEndDate.day} / ${bookID.bookEndDate.month} / ${bookID.bookEndDate.year}",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              UIServices.customDivider(Color(0xFF333399)),
               //! BOOK DESCRIPTION
-              BookInfoService.showDescription(bookID),
-              UIServices.customDivider(Colors.white),
-              Text(
-                "Start Date : ${bookID.bookStartDate.day} / ${bookID.bookStartDate.month} / ${bookID.bookStartDate.year}",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-              UIServices.makeSpace(20),
-              Text(
-                "End Date : ${bookID.bookEndDate.day} / ${bookID.bookEndDate.month} / ${bookID.bookEndDate.year}",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-              UIServices.makeSpace(20),
+              BookInfoService.showDescription(bookID, false),
+              UIServices.customDivider(Color(0xFF333399)),
             ],
           ),
         ),
@@ -238,7 +264,7 @@ class _BookInfoState extends State<BookInfo> {
         spaceBetweenChildren: 10,
         overlayColor: Colors.black,
         overlayOpacity: 0.7,
-        backgroundColor: Color(0xFF3246C0),
+        backgroundColor: Color(0xFF333399),
         children: [
           SpeedDialChild(
             backgroundColor: Colors.green,
@@ -251,7 +277,7 @@ class _BookInfoState extends State<BookInfo> {
             },
           ),
           SpeedDialChild(
-            backgroundColor: Color(0xFFC9226D),
+            backgroundColor: Color(0xFF333399),
             foregroundColor: Colors.white,
             child: Icon(Icons.settings),
             label: "Edit Information",

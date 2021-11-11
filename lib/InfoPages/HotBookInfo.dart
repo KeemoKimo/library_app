@@ -18,7 +18,7 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BookInfoService.bgGradient,
+        color: Colors.white,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -27,16 +27,8 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
               Container(
                 margin: EdgeInsets.only(top: 50),
                 decoration: BoxDecoration(
-                  border: Border.all(width: 3, color: Colors.black),
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.6),
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      offset: Offset(0, 2), // changes position of shadow
-                    ),
-                  ],
+                  boxShadow: [UIServices.mainBoxShadow],
                 ),
                 width: 350,
                 height: 550,
@@ -48,40 +40,34 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
                   ),
                 ),
               ),
-              UIServices.makeSpace(10),
+              UIServices.makeSpace(20),
               //! TITLE , CATEGORY , AUTHOR
               Text(
-                bookID.bookTitle,
+                "🔥 ${bookID.bookTitle} 🔥",
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: Color(0xFFFD4700)),
               ),
               UIServices.makeSpace(10),
-              Text(
-                bookID.bookCategory,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(bookID.bookCategory,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold)),
               UIServices.makeSpace(10),
               Text(
                 bookID.bookAuthor,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
+                style: TextStyle(fontSize: 15, color: Colors.black),
               ),
               UIServices.makeSpace(30),
               //! LANGUAGE , PAGES , YEAR
-              BookInfoService.makeDetailRow(bookID),
-              UIServices.customDivider(Colors.white),
+              BookInfoService.makeDetailRow(bookID, true),
+              UIServices.customDivider(Color(0xFFFD4700)),
               //! BOOK DESCRIPTION
-              BookInfoService.showDescription(bookID),
-              UIServices.customDivider(Colors.white),
+              BookInfoService.showDescription(bookID, true),
+              UIServices.customDivider(Color(0xFFFD4700)),
             ],
           ),
         ),
@@ -93,15 +79,16 @@ class _HotBooksInfoState extends State<HotBooksInfo> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text(
-                  "Book Ownership",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "🔥 Book Ownership",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Color(0xFFFD4700)),
                 ),
-                content: Text("This book belongs to : ${bookID.bookOwner}"),
+                content: Text(bookID.bookOwner),
               );
             },
           );
         },
-        backgroundColor: Color(0xFF5D14C0),
+        backgroundColor: Color(0xFFFD4700),
         child: Icon(
           Icons.info,
         ),

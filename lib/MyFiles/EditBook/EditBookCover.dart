@@ -98,19 +98,7 @@ class _EditBookState extends State<EditBook> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomRight,
-            end: Alignment.topLeft,
-            colors: [
-              Color(0xFF333399),
-              Color(0xFF1d1160),
-              Color(0xFFfcb045),
-              Color(0xFF720e9e),
-              Color(0xFFfd1d1d),
-            ],
-          ),
-        ),
+        color: Colors.white,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -123,29 +111,30 @@ class _EditBookState extends State<EditBook> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Color(0xFF333399),
                 ),
               ),
             ),
             Container(
+              margin: EdgeInsets.only(top: 20, bottom: 20),
               decoration: BoxDecoration(
-                border: Border.all(
-                  width: 3,
-                  color: Colors.white,
-                ),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [UIServices.mainBoxShadow],
               ),
               width: 380,
               height: 570,
-              margin: EdgeInsets.only(top: 20),
-              child: _image != null
-                  ? Image.file(
-                      _image!,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(
-                      bookID.bookCover,
-                      fit: BoxFit.cover,
-                    ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: _image != null
+                    ? Image.file(
+                        _image!,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        bookID.bookCover,
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ),
           ],
         ),
@@ -153,7 +142,7 @@ class _EditBookState extends State<EditBook> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: UIServices.makeSpeedDial(
-          Color(0xFF2E2B89),
+          Color(0xFF333399),
           Icons.change_circle,
           Colors.deepOrange,
           Colors.white,

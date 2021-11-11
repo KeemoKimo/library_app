@@ -43,58 +43,61 @@ class UIServices {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 120,
-                height: 160,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      fit: BoxFit.cover, image: NetworkImage(bookCoverURL)),
+          Container(
+            color: Colors.grey[200],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 120,
+                  height: 160,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        fit: BoxFit.cover, image: NetworkImage(bookCoverURL)),
+                  ),
                 ),
-              ),
-              Container(
-                width: 230,
-                //color: Colors.red,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      category.toString(),
-                      style: TextStyle(
-                        color: Color(0xFFB03A2E),
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        title.toString(),
+                Container(
+                  width: 230,
+                  //color: Colors.red,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        category.toString(),
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
+                          color: Color(0xFFB03A2E),
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        (author),
-                        style: TextStyle(color: Colors.grey),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          title.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          (author),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.black,
-                size: 15,
-              )
-            ],
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.black,
+                  size: 15,
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -102,7 +105,8 @@ class UIServices {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      elevation: 15,
+      elevation: 12,
+      shadowColor: Colors.black,
       margin: EdgeInsets.all(10),
     );
   }
