@@ -23,18 +23,7 @@ class _OtherUserBooksState extends State<OtherUserBooks> {
   Widget build(BuildContext context) {
     final userID = ModalRoute.of(context)!.settings.arguments as UserArguments;
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
-          colors: [
-            Color(0xFF7b4397),
-            Color(0xFFfe8c00),
-            Color(0xFFdc2430),
-            Color(0xFF061161),
-          ],
-        ),
-      ),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: StreamBuilder<QuerySnapshot>(

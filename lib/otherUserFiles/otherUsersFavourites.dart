@@ -23,18 +23,7 @@ class _OtherUsersFavouritesState extends State<OtherUsersFavourites> {
   Widget build(BuildContext context) {
     final userID = ModalRoute.of(context)!.settings.arguments as UserArguments;
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFc31432),
-            Color(0xFFfe8c00),
-            Color(0xFFf12711),
-            Color(0xFF061161),
-          ],
-        ),
-      ),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: StreamBuilder<QuerySnapshot>(

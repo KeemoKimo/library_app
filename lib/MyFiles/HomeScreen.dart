@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 children: <Widget>[
                   //! CONTAINER FOR MAIN PICTURE
                   HomeScreenService.mainPicture,
-                  UIServices.customDivider(Color(0xFF4D028A)),
+                  UIServices.customDivider(Colors.black),
                   //! LIST FOR HOT BOOKS
                   HomeScreenService.customTitle(
                       'GREAT ',
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       false),
                   UIServices.makeSpace(20),
                   HomeScreenService.verticalBookList(snapshot),
-                  UIServices.customDivider(Color(0xFF4D028A)),
+                  UIServices.customDivider(Color(0xFFFC5F12)),
                   //! LIST FOR ALL BOOKS
                   HomeScreenService.customTitle(
                       'YOUR ',
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   UIServices.bookListViewBuilder(
                       snapshot, loggedInUser, 7, 2, false),
                   UIServices.makeSpace(20),
-                  UIServices.customDivider(Color(0xFF4D028A)),
+                  UIServices.customDivider(Color(0xFF333399)),
                   //! LIST FOR ALL FAVOURITES
                   HomeScreenService.customTitle(
                       'YOUR ',
@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   UIServices.bookListViewBuilder(
                       snapshot, loggedInUser, 7, 2, true),
                   UIServices.makeSpace(20),
-                  UIServices.customDivider(Color(0xFF4D028A)),
+                  UIServices.customDivider(Colors.red),
                   UIServices.makeSpace(10),
                   Text("Copyright ©"),
                   UIServices.makeSpace(30),
