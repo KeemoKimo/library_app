@@ -164,8 +164,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   UIServices.customDivider(Colors.black),
                   //! LIST FOR HOT BOOKS
                   HomeScreenService.customTitle(
-                      'GREAT ',
-                      "PICKS 🔥🔥",
+                      'EXCITING ',
+                      "BOOKS 🔥🔥",
                       Alignment.centerLeft,
                       true,
                       false,

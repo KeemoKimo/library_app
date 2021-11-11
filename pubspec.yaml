@@ -27,6 +27,7 @@ dependencies:
   page_transition: ^2.0.4
   permission_handler: ^8.1.4+2
   flutter_spinkit: ^5.1.0
+  lottie: ^1.2.1
 
 flutter_icons:
   ios: true
@@ -89,6 +90,7 @@ flutter:
     - assets/images/noBookCover.png
     - assets/images/loginVector.png
     - assets/images/registerVector.png
+    - assets/bookSplashScreen.json
 
   fonts:
     - family: Lato
