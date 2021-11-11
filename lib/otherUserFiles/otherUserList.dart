@@ -70,7 +70,7 @@ class _OtherUserListState extends State<OtherUserList> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Color(0xFF4D028A),
           automaticallyImplyLeading: false,
           title: Container(
             height: 50,

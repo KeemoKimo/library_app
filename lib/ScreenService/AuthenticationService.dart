@@ -3,7 +3,7 @@ import 'package:library_app/Services/UIServices.dart';
 
 //! MANAGES THE FUNCTIONS / UI FOR LOGIN
 class LoginPageService {
-  //! FUNCITON TO MAKE THE PASSWORD TEXTBOX
+  //! FUNCITON TO MAKE THE TEXTBOX
   static makePasswordTextField(var controller, isObscure, hintText,
       double width, double mrgLeft, double mrgRight) {
     return Container(
@@ -97,14 +97,7 @@ class LoginPageService {
   static var btnLoginProperties = BoxDecoration(
     color: Color(0xFF4D028A),
     borderRadius: BorderRadius.circular(15),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(1),
-        spreadRadius: 3,
-        blurRadius: 3,
-        offset: Offset(0, 5), // changes position of shadow
-      ),
-    ],
+    boxShadow: [UIServices.mainBoxShadow],
   );
 
   //! CATCH EXCEPTIONS FROM LOGIN

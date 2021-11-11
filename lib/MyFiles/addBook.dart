@@ -144,19 +144,7 @@ class _addBookPageState extends State<addBookPage> {
 
     final _formKey = GlobalKey<FormState>();
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
-          colors: [
-            Color(0xFF333399),
-            Color(0xFF1d1160),
-            Color(0xFFfcb045),
-            Color(0xFF720e9e),
-            Color(0xFFfd1d1d),
-          ],
-        ),
-      ),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -177,7 +165,7 @@ class _addBookPageState extends State<addBookPage> {
                       Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 5, color: Colors.white),
+                            border: Border.all(width: 5, color: Colors.black),
                           ),
                           width: double.infinity,
                           height: 600,
@@ -193,7 +181,7 @@ class _addBookPageState extends State<addBookPage> {
                                 )),
                       //! FLOATY BUTTON
                       UIServices.makeSpeedDial(
-                        Color(0xFF333399),
+                        Color(0xFF4D028A),
                         Icons.arrow_forward,
                         Colors.green,
                         Colors.white,
@@ -220,19 +208,8 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! SECOND SCREEN - BASIC INFO
                 Container(
-                  padding: EdgeInsets.only(top: 50),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFF333399),
-                        Color(0xFF1d1160),
-                        Color(0xFFb21f1f),
-                        Color(0xFFf83600),
-                      ],
-                    ),
-                  ),
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  color: Colors.white,
                   key: basicInfoPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -245,61 +222,63 @@ class _addBookPageState extends State<addBookPage> {
                             children: [
                               //! BOOK TITLE
                               UIServices.makeCustomTextField(titleController,
-                                  'Enter book title...', false, 0),
+                                  'Enter book title...', context),
                               UIServices.makeSpace(20),
                               //! BOOK AUTHOR
                               UIServices.makeCustomTextField(authorController,
-                                  'Enter author name...', false, 0),
+                                  'Enter author name...', context),
                               UIServices.makeSpace(20),
                               //! NUMBER OF PAGE
                               UIServices.makeCustomTextField(
                                   numberOfPageController,
                                   'Enter number of page...',
-                                  true,
-                                  5),
+                                  context),
                               UIServices.makeSpace(20),
                               //! YEAR OF PUBLICATION
                               UIServices.makeCustomTextField(
                                   publishedYearController,
                                   'Enter year of publication...',
-                                  true,
-                                  10),
+                                  context),
                               UIServices.makeSpace(20),
                               //! LANGUAGE
                               UIServices.makeCustomTextField(languageController,
-                                  'Enter book language...', false, 0),
+                                  'Enter book language...', context),
                               //! DESCRIPTION
                               Container(
                                 margin: EdgeInsets.only(top: 20),
-                                padding: EdgeInsets.only(left: 20, right: 20),
-                                width: double.infinity,
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(0xFF4D028A),
+                                ),
                                 child: TextFormField(
+                                  textAlign: TextAlign.center,
                                   controller: descriptionController,
                                   maxLines: 10,
-                                  textAlign: TextAlign.center,
                                   style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
                                     counterStyle:
                                         TextStyle(color: Colors.white),
                                     labelText: "Write a brief description...",
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
                                     labelStyle: TextStyle(color: Colors.white),
                                     enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                        width: 2.0,
-                                      ),
-                                    ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none),
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none),
+                                    errorBorder: InputBorder.none,
+                                    focusedErrorBorder: InputBorder.none,
+                                    errorStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      height: 0.1,
                                     ),
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return "Enter in the field!!";
                                     }
                                     return null;
                                   },
@@ -334,22 +313,11 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! THIRD SCREEN FINISHING
                 Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        Color(0xFF3c1053),
-                        Color(0xFF1d1160),
-                        Color(0xFFE94057),
-                        Color(0xFFF27121),
-                        Color(0xFF4568DC),
-                      ],
-                    ),
-                  ),
+                  color: Colors.white,
                   key: lastPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
+                  padding: EdgeInsets.all(10),
                   child: Stack(
                     children: [
                       Container(
@@ -361,62 +329,66 @@ class _addBookPageState extends State<addBookPage> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Color(0xFF4D028A),
                               ),
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(width: 1, color: Colors.black),
+                                color: Color(0xFF4D028A),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               width: double.infinity,
                               margin:
                                   EdgeInsets.only(left: 20, right: 20, top: 20),
                               child: InputDecorator(
                                 decoration: InputDecoration(
-                                  fillColor: Colors.white,
+                                  border: InputBorder.none,
+                                  fillColor: Color(0xFF4D028A),
                                   contentPadding:
                                       EdgeInsets.only(left: 10, right: 10),
                                 ),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                    isExpanded: true,
-                                    elevation: 10,
-                                    icon: Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Colors.black,
-                                    ),
-                                    value: dropdownInitialValue,
-                                    items: categoryItems.map((String items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text(
-                                          items,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    canvasColor: Color(0xFF4D028A),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                      isExpanded: true,
+                                      elevation: 10,
+                                      icon: Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.white,
+                                      ),
+                                      value: dropdownInitialValue,
+                                      items: categoryItems.map((String items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(
+                                            items,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        dropdownInitialValue = newValue!;
-                                      });
-                                    },
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownInitialValue = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             //! CHOOSE START DATE
-                            UIServices.makeSpace(20),
+                            UIServices.makeSpace(50),
                             Text(
                               'Start Date',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Color(0xFF4D028A),
                               ),
                             ),
                             Container(
@@ -424,9 +396,7 @@ class _addBookPageState extends State<addBookPage> {
                                   EdgeInsets.only(left: 20, right: 20, top: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(width: 1, color: Colors.black),
+                                color: Color(0xFF4D028A),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ListTile(
@@ -437,13 +407,13 @@ class _addBookPageState extends State<addBookPage> {
                                       " / " +
                                       _startDate.year.toString(),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 trailing: Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
@@ -467,13 +437,13 @@ class _addBookPageState extends State<addBookPage> {
                               ),
                             ),
                             //! CHOOSE END DATE
-                            UIServices.makeSpace(20),
+                            UIServices.makeSpace(50),
                             Text(
                               'End Date',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Color(0xFF4D028A),
                               ),
                             ),
                             Container(
@@ -481,9 +451,7 @@ class _addBookPageState extends State<addBookPage> {
                               margin:
                                   EdgeInsets.only(left: 20, right: 20, top: 20),
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(width: 1, color: Colors.black),
+                                color: Color(0xFF4D028A),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ListTile(
@@ -494,13 +462,13 @@ class _addBookPageState extends State<addBookPage> {
                                       " / " +
                                       _endDate.year.toString(),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 trailing: Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(

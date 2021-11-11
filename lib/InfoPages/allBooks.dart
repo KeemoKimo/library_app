@@ -74,23 +74,11 @@ class _AllBooksPageState extends State<AllBooksPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Color(0xFF1565C0),
-            Color(0xFF642B73),
-            Color(0xFFf12711),
-            Color(0xFFf5af19),
-            Color(0xFF1D2671),
-          ],
-        ),
-      ),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: UIServices.makeTransparentAppBar(
-            _searchController, "Search all your books..."),
+        appBar: UIServices.makeAppBarTextfield(
+            _searchController, "Search all your books...", Color(0xFF4D028A)),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(

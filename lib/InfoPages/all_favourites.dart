@@ -75,23 +75,11 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
-          colors: [
-            Color(0xFF1565C0),
-            Color(0xFF642B73),
-            Color(0xFFf12711),
-            Color(0xFF780206),
-            Color(0xFF1D2671),
-          ],
-        ),
-      ),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: UIServices.makeTransparentAppBar(
-            _searchController, "Search all your favourites..."),
+        appBar: UIServices.makeAppBarTextfield(
+            _searchController, "Search all your favourites...", Colors.red),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
