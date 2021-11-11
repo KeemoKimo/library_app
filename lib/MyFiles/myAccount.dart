@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/ScreenService/HomeScreenService.dart';
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
@@ -41,6 +42,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
       _switchValueAge = false,
       _switchValueBooks = false,
       _switchValueFavourite = false;
+  bool loading = false;
 
   void initState() {
     super.initState();
@@ -169,6 +171,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                           height: 400,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.rectangle,
+                                            boxShadow: [
+                                              UIServices.mainBoxShadow
+                                            ],
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: profileURL == ''
@@ -356,7 +361,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
         ),
       ),
     );
-    return mainBody;
+    return loading == true ? Loading() : mainBody;
   }
 
   //!FUNCTION FOR MAKING THE CONTAINER TO TOGGLE PRIVACY SETTINGS
@@ -446,6 +451,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     try {
       XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
       print('Image Picking Process Starting');
+      setState(() => loading = true);
       await new Future.delayed(const Duration(seconds: 2));
       if (image != null) {
         userProfilePicture = File(image.path);
@@ -453,6 +459,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
         print(File(image.path));
         if (userProfilePicture.path != image.path) {
           print('It didnt work sorry');
+          setState(() => loading = false);
           Navigator.pop(context);
         } else {
           print('Should be startting to put file in');
@@ -465,13 +472,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
         }
       } else {
         print("Please choose a picture");
+        setState(() => loading = false);
         return;
       }
       setState(() {
         DatabaseServices(uid: loggedInUser.uid).updateUserPhoto(profileURL!);
         print(profileURL);
+        loading = false;
       });
     } catch (e) {
+      setState(() => loading = false);
       print(e);
     }
   }

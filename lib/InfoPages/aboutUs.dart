@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class AboutUs extends StatefulWidget {
@@ -17,47 +18,7 @@ var nameController = TextEditingController(),
     subjectController = TextEditingController(),
     messageController = TextEditingController();
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-Future sendEmail({
-  required String name,
-  required String email,
-  required String subject,
-  required String message,
-}) async {
-  final serviceId = 'service_c5gaghb';
-  final templateId = 'template_gwixyuv';
-  final userId = 'user_K1O3yuCrqJUEDru3j777v';
-  final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-  try {
-    await http.post(
-      url,
-      headers: {
-        'origin': 'http://localhost',
-        'Content-Type': 'application/json',
-      },
-      body: json.encode(
-        {
-          'service_id': serviceId,
-          'template_id': templateId,
-          'user_id': userId,
-          'template_params': {
-            'name_sender': name,
-            'email_sender': email,
-            'user_subject': subject,
-            'message': message,
-          },
-        },
-      ),
-    );
-    print('Email sent');
-    nameController.text = '';
-    emailController.text = '';
-    subjectController.text = '';
-    messageController.text = '';
-  } catch (e) {
-    print(e);
-  }
-}
+bool loading = false;
 
 Container rowItem(String imagePath, String firstLineText, String description) {
   return Container(
@@ -174,6 +135,48 @@ Container meetTheTeamContainer(String imagePath, String personName,
 class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
+    Future sendEmail({
+      required String name,
+      required String email,
+      required String subject,
+      required String message,
+    }) async {
+      final serviceId = 'service_c5gaghb';
+      final templateId = 'template_gwixyuv';
+      final userId = 'user_K1O3yuCrqJUEDru3j777v';
+      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+      try {
+        await http.post(
+          url,
+          headers: {
+            'origin': 'http://localhost',
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(
+            {
+              'service_id': serviceId,
+              'template_id': templateId,
+              'user_id': userId,
+              'template_params': {
+                'name_sender': name,
+                'email_sender': email,
+                'user_subject': subject,
+                'message': message,
+              },
+            },
+          ),
+        );
+        setState(() => loading = false);
+        print('Email sent');
+        nameController.text = '';
+        emailController.text = '';
+        subjectController.text = '';
+        messageController.text = '';
+      } catch (e) {
+        print(e);
+      }
+    }
+
     var materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -407,7 +410,6 @@ class _AboutUsState extends State<AboutUs> {
                             maxLength: 1000,
                             controller: messageController,
                             maxLines: 10,
-                            textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               counterStyle: TextStyle(color: Colors.black),
@@ -438,52 +440,14 @@ class _AboutUsState extends State<AboutUs> {
                             color: Color(0xFF222f3e),
                           ),
                           child: TextButton(
-                            onPressed: () {
-                              sendEmail(
+                            onPressed: () async {
+                              setState(() => loading = true);
+                              await sendEmail(
                                 name: nameController.text,
                                 email: emailController.text,
                                 subject: subjectController.text,
                                 message: messageController.text,
                               );
-                              //print('start');
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    backgroundColor: Color(0xFF222f3e),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "Email is sent!",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text(
-                                          "We will reply to you soon!",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Image(
-                                          image: AssetImage(
-                                              'assets/images/wink.png'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                              //print('stop');
                             },
                             child: Row(
                               children: [
@@ -534,6 +498,6 @@ class _AboutUsState extends State<AboutUs> {
         ),
       ),
     );
-    return materialApp;
+    return loading == true ? Loading() : materialApp;
   }
 }

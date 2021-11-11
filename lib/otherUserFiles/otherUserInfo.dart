@@ -64,8 +64,7 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
                               height: 400,
                               decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
-                                border:
-                                    Border.all(color: Colors.white, width: 5),
+                                boxShadow: [UIServices.mainBoxShadow],
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: userID.userPFP == ''

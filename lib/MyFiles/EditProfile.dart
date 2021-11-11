@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
@@ -16,6 +17,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   FirebaseAuth auth = FirebaseAuth.instance;
   late User loggedInUser;
+  bool loading = false;
 
   void initState() {
     super.initState();
@@ -51,7 +53,7 @@ class _EditProfileState extends State<EditProfile> {
     ageController.text = userSettings.age;
     aboutController.text = userSettings.userAbout;
 
-    return Container(
+    var mainBody = Container(
       padding: EdgeInsets.only(top: 20, left: 20, right: 20),
       color: Colors.white,
       child: Scaffold(
@@ -134,6 +136,7 @@ class _EditProfileState extends State<EditProfile> {
             heroTag: 'EditPage',
             onPressed: () async {
               try {
+                setState(() => loading = true);
                 await DatabaseServices(uid: loggedInUser.uid).updateUserData(
                   usernameController.text,
                   ageController.text,
@@ -162,6 +165,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 );
               } catch (e) {
+                setState(() => loading = false);
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -177,5 +181,7 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+
+    return loading == true ? Loading() : mainBody;
   }
 }

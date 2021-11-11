@@ -10,6 +10,7 @@ import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/MyFiles/EditBook/EditBookInfo.dart';
 import 'package:library_app/MyFiles/EditProfile.dart';
 import 'package:library_app/ScreenService/AuthenticationService.dart';
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/createAccountPage.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
@@ -60,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
   int selectedIndex = 0;
+  bool loading = false;
 
 //! MAIN BUILD METHOD
   @override
@@ -148,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           );
                         } else {
+                          setState(() => loading = true);
                           await auth.signInWithEmailAndPassword(
                               email: emailController.text,
                               password: passwordController.text);
@@ -162,6 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         }
                       } on FirebaseAuthException catch (e) {
+                        setState(() => loading = false);
                         LoginPageService.catchExceptions(e, context);
                       } catch (e) {
                         showDialog(
@@ -186,29 +190,32 @@ class _LoginPageState extends State<LoginPage> {
     //! REGISTER SCREEN INSTANCE
     var registerScreen = RegisterAccount();
     var screens = [loginScreen, registerScreen];
-    return Container(
-      color: Colors.white,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: screens[selectedIndex],
-        bottomNavigationBar: CurvedNavigationBar(
-          color: Color(0xFF4D028A),
-          buttonBackgroundColor: Colors.transparent,
-          backgroundColor:
-              (selectedIndex == 0) ? Colors.transparent : Colors.transparent,
-          height: 50,
-          items: LoginPageService.bottomNavBarProperties,
-          animationDuration: Duration(milliseconds: 500),
-          animationCurve: Curves.easeInOutCubic,
-          onTap: (index) {
-            setState(
-              () {
-                selectedIndex = index;
-              },
-            );
-          },
-        ),
-      ),
-    );
+    return loading == true
+        ? Loading()
+        : Container(
+            color: Colors.white,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: screens[selectedIndex],
+              bottomNavigationBar: CurvedNavigationBar(
+                color: Color(0xFF4D028A),
+                buttonBackgroundColor: Colors.transparent,
+                backgroundColor: (selectedIndex == 0)
+                    ? Colors.transparent
+                    : Colors.transparent,
+                height: 50,
+                items: LoginPageService.bottomNavBarProperties,
+                animationDuration: Duration(milliseconds: 500),
+                animationCurve: Curves.easeInOutCubic,
+                onTap: (index) {
+                  setState(
+                    () {
+                      selectedIndex = index;
+                    },
+                  );
+                },
+              ),
+            ),
+          );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,6 +27,7 @@ class _EditBookState extends State<EditBook> {
   late User loggedInUser;
   late String? userEmail = loggedInUser.email;
   late String? owner = userEmail;
+  bool loading = false;
 
   getCurrentUser() async {
     try {
@@ -95,7 +97,7 @@ class _EditBookState extends State<EditBook> {
       }
     }
 
-    return Scaffold(
+    var mainBody = Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
         color: Colors.white,
@@ -122,7 +124,7 @@ class _EditBookState extends State<EditBook> {
                 boxShadow: [UIServices.mainBoxShadow],
               ),
               width: 380,
-              height: 570,
+              height: 550,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: _image != null
@@ -139,40 +141,47 @@ class _EditBookState extends State<EditBook> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: UIServices.makeSpeedDial(
-          Color(0xFF333399),
-          Icons.change_circle,
-          Colors.deepOrange,
-          Colors.white,
-          "Change Image",
-          () => pickImage(),
-          Icons.check,
-          Colors.green,
-          Colors.white,
-          "Confirm Change",
-          () async {
-            await uploadImage(context);
-            await DatabaseServices(uid: loggedInUser.uid).editBooksData(
-                currentSelectedValue,
-                bookID.bookTitle,
-                bookID.bookAuthor,
-                bookID.bookPages,
-                bookID.bookDescription,
-                imageURL.toString(),
-                bookID.bookLanguage,
-                bookID.bookPublishedYear,
-                bookID.bookTitle);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomeScreen(),
-              ),
-            );
-          },
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 30),
+            child: FloatingActionButton(
+              heroTag: 'swapImage',
+              backgroundColor: Color(0xFF333399),
+              onPressed: pickImage,
+              child: Icon(CupertinoIcons.arrow_swap),
+            ),
+          ),
+          Container(
+            child: FloatingActionButton(
+              backgroundColor: Colors.green,
+              onPressed: () async {
+                setState(() => loading = true);
+                await uploadImage(context);
+                await DatabaseServices(uid: loggedInUser.uid).editBooksData(
+                    currentSelectedValue,
+                    bookID.bookTitle,
+                    bookID.bookAuthor,
+                    bookID.bookPages,
+                    bookID.bookDescription,
+                    imageURL.toString(),
+                    bookID.bookLanguage,
+                    bookID.bookPublishedYear,
+                    bookID.bookTitle);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                );
+              },
+              child: Icon(Icons.check),
+            ),
+          )
+        ],
       ),
     );
+    return loading == true ? Loading() : mainBody;
   }
 }

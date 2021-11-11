@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -157,38 +158,46 @@ class _EditBookInfoState extends State<EditBookInfo> {
           ),
         ),
       ),
-      floatingActionButton: UIServices.makeSpeedDial(
-        Colors.green,
-        Icons.restore,
-        Colors.red,
-        Colors.white,
-        "Reset",
-        () {
-          setState(() {});
-        },
-        Icons.check,
-        Colors.green,
-        Colors.white,
-        "Confirm Changes",
-        () {
-          uploadToFirestore();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 30),
+            child: FloatingActionButton(
+              backgroundColor: Colors.red,
+              onPressed: () {
+                setState(() {});
+              },
+              child: Icon(Icons.restore),
             ),
-          );
-          final snackBar = SnackBar(
-            content: Text(
-              'Your book has been editted successfully!',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+          ),
+          Container(
+            child: FloatingActionButton(
+              backgroundColor: Colors.green,
+              onPressed: () async {
+                Loading();
+                uploadToFirestore();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                );
+                final snackBar = SnackBar(
+                  content: Text(
+                    'Your book has been editted successfully!',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  backgroundColor: Colors.green,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              child: Icon(Icons.check),
             ),
-            backgroundColor: Colors.green,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
+          )
+        ],
       ),
     );
   }

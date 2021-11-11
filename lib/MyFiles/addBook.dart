@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Services/UIServices.dart';
@@ -47,6 +48,7 @@ class _addBookPageState extends State<addBookPage> {
   var pickImagePageKey = GlobalKey(),
       basicInfoPageKey = GlobalKey(),
       lastPageKey = GlobalKey();
+  bool loading = false;
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -143,7 +145,9 @@ class _addBookPageState extends State<addBookPage> {
     }
 
     final _formKey = GlobalKey<FormState>();
-    return Container(
+
+    //! ALL SCREENS
+    var mainBody = Container(
       color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -318,7 +322,8 @@ class _addBookPageState extends State<addBookPage> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   padding: EdgeInsets.all(10),
-                  child: Stack(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         margin: EdgeInsets.only(top: 100),
@@ -493,18 +498,30 @@ class _addBookPageState extends State<addBookPage> {
                           ],
                         ),
                       ),
-                      UIServices.makeSpeedDial(
-                        Colors.green,
-                        Icons.arrow_back,
-                        Colors.red,
-                        Colors.white,
-                        "Previous Page",
-                        () => UIServices.scrollToItem(basicInfoPageKey),
-                        Icons.check,
-                        Colors.green,
-                        Colors.white,
-                        "Confirm Add",
-                        () => uploadToDatabase(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: FloatingActionButton(
+                              backgroundColor: Colors.red,
+                              onPressed: () =>
+                                  UIServices.scrollToItem(basicInfoPageKey),
+                              child: Icon(Icons.arrow_back),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20),
+                            child: FloatingActionButton(
+                              backgroundColor: Colors.green,
+                              onPressed: () async {
+                                setState(() => loading = true);
+                                await uploadToDatabase();
+                              },
+                              child: Icon(Icons.check),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -515,5 +532,7 @@ class _addBookPageState extends State<addBookPage> {
         ),
       ),
     );
+
+    return loading == true ? Loading() : mainBody;
   }
 }
