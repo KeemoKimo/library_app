@@ -356,46 +356,88 @@ class UIServices {
 
 //! MAKE A CUSTOM TEXTFIELD INPUT
   static Container makeCustomTextField(TextEditingController controllerName,
-      String labelText, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color(0xFF4D028A),
-      ),
-      child: TextFormField(
-        controller: controllerName,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          isDense: false,
-          contentPadding:
-              EdgeInsets.only(left: 11, right: 3, top: 5, bottom: 14),
-          labelText: labelText,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          labelStyle: TextStyle(color: Colors.white),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide.none),
-          errorStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            height: 0.1,
-          ),
-          errorBorder: InputBorder.none,
-          focusedErrorBorder: InputBorder.none,
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Enter in the field!!";
-          }
-          return null;
-        },
-      ),
-    );
+      String labelText, BuildContext context, bool isMaxLength, int maxAmount) {
+    return isMaxLength == true
+        ? Container(
+            margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xFF4D028A),
+            ),
+            child: TextFormField(
+              controller: controllerName,
+              textAlign: TextAlign.center,
+              maxLength: maxAmount,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                counterStyle: TextStyle(color: Colors.white),
+                isDense: false,
+                contentPadding:
+                    EdgeInsets.only(left: 11, right: 3, top: 5, bottom: 14),
+                labelText: labelText,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
+                errorStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  height: 0.1,
+                ),
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Enter in the field!!";
+                }
+                return null;
+              },
+            ),
+          )
+        : Container(
+            margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xFF4D028A),
+            ),
+            child: TextFormField(
+              controller: controllerName,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                isDense: false,
+                contentPadding:
+                    EdgeInsets.only(left: 11, right: 3, top: 5, bottom: 14),
+                labelText: labelText,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none),
+                errorStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  height: 0.1,
+                ),
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Enter in the field!!";
+                }
+                return null;
+              },
+            ),
+          );
   }
 
 //! MAKE A CUSTOM SPACE BETWEEN WIDGETS

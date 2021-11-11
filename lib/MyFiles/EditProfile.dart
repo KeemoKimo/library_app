@@ -67,11 +67,11 @@ class _EditProfileState extends State<EditProfile> {
               UIServices.makeSpace(40),
               //! Username text field
               UIServices.makeCustomTextField(
-                  usernameController, "Username", context),
+                  usernameController, "Username", context, false, 1),
               UIServices.makeSpace(20),
               //! Age text field
               UIServices.makeCustomTextField(
-                  ageController, "Your age", context),
+                  ageController, "Your age", context, false, 2),
               UIServices.makeSpace(20),
               //! About me text field
               MyAccountService.makeAboutMeTextbox(aboutController),

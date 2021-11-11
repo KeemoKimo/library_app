@@ -7,6 +7,7 @@ import 'package:library_app/InfoPages/aboutUs.dart';
 import 'package:library_app/InfoPages/allBooks.dart';
 import 'package:library_app/InfoPages/all_favourites.dart';
 import 'package:library_app/ScreenService/HomeScreenService.dart';
+import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/MyFiles/addBook.dart';
 import 'package:library_app/categoryPages/SelectCategoryPage.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       Variables.firestore.collection('books').snapshots();
   late Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshot =
       Variables.firestore.collection('users').snapshots();
+  String totalBooks = '', totalFavourites = '';
 
 //! FUNCTION WHEN THE SCREEN IS FIRED
   @override
@@ -150,6 +152,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             if (!snapshot.hasData) {
               return HomeScreenService.loadingIndicator;
             }
+            MyAccountService.countBooks(loggedInUser, totalBooks);
+            MyAccountService.countFavourites(loggedInUser, totalFavourites);
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               physics: ScrollPhysics(),

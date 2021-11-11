@@ -14,7 +14,7 @@ class Loading extends StatelessWidget {
             child: SpinKitFoldingCube(
               color: Colors.white,
               duration: Duration(milliseconds: 1000),
-              size: 20.0,
+              size: 50.0,
             ),
           ),
           UIServices.makeSpace(50),
@@ -24,7 +24,7 @@ class Loading extends StatelessWidget {
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 20,
                   decoration: TextDecoration.none),
             ),
           )

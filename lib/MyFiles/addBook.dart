@@ -226,27 +226,31 @@ class _addBookPageState extends State<addBookPage> {
                             children: [
                               //! BOOK TITLE
                               UIServices.makeCustomTextField(titleController,
-                                  'Enter book title...', context),
+                                  'Enter book title...', context, true, 40),
                               UIServices.makeSpace(20),
                               //! BOOK AUTHOR
                               UIServices.makeCustomTextField(authorController,
-                                  'Enter author name...', context),
+                                  'Enter author name...', context, true, 40),
                               UIServices.makeSpace(20),
                               //! NUMBER OF PAGE
                               UIServices.makeCustomTextField(
                                   numberOfPageController,
                                   'Enter number of page...',
-                                  context),
+                                  context,
+                                  true,
+                                  5),
                               UIServices.makeSpace(20),
                               //! YEAR OF PUBLICATION
                               UIServices.makeCustomTextField(
                                   publishedYearController,
                                   'Enter year of publication...',
-                                  context),
+                                  context,
+                                  true,
+                                  7),
                               UIServices.makeSpace(20),
                               //! LANGUAGE
                               UIServices.makeCustomTextField(languageController,
-                                  'Enter book language...', context),
+                                  'Enter book language...', context, true, 10),
                               //! DESCRIPTION
                               Container(
                                 margin: EdgeInsets.only(top: 20),

@@ -95,24 +95,28 @@ class _EditBookInfoState extends State<EditBookInfo> {
               children: [
                 //! BOOK TITLE
                 UIServices.makeSpace(40),
-                UIServices.makeCustomTextField(
-                    titleController, 'Title : ${bookID.bookTitle}', context),
+                UIServices.makeCustomTextField(titleController,
+                    'Title : ${bookID.bookTitle}', context, true, 40),
                 //! BOOK AUTHOR
                 space20,
-                UIServices.makeCustomTextField(
-                    authorController, 'Author : ${bookID.bookAuthor}', context),
+                UIServices.makeCustomTextField(authorController,
+                    'Author : ${bookID.bookAuthor}', context, true, 40),
                 //! BOOK PAGES
                 space20,
                 UIServices.makeCustomTextField(numberOfPageController,
-                    'Pages : ${bookID.bookPages}', context),
+                    'Pages : ${bookID.bookPages}', context, true, 5),
                 //! BOOK PUBLISHED YEAR
                 space20,
-                UIServices.makeCustomTextField(publishedYearController,
-                    'Published : ${bookID.bookPublishedYear}', context),
+                UIServices.makeCustomTextField(
+                    publishedYearController,
+                    'Published : ${bookID.bookPublishedYear}',
+                    context,
+                    true,
+                    7),
                 //! BOOK LANGUAGE
                 space20,
                 UIServices.makeCustomTextField(languageController,
-                    'Language : ${bookID.bookLanguage}', context),
+                    'Language : ${bookID.bookLanguage}', context, true, 10),
                 //! BOOK DESCRIPTION
                 space20,
                 Container(
