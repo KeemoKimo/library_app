@@ -74,7 +74,12 @@ class _AllBooksPageState extends State<AllBooksPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/ScreenBG/allBooksBackground.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: UIServices.makeAppBarTextfield(
@@ -133,7 +138,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
                       child: Text(
                         "No books found :(",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
                       ),

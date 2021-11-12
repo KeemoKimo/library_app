@@ -55,7 +55,12 @@ class _EditProfileState extends State<EditProfile> {
 
     var mainBody = Container(
       padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-      color: Colors.white,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/ScreenBG/editProfileBackground.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(

@@ -232,7 +232,7 @@ class _AboutUsState extends State<AboutUs> {
                           Container(
                             margin: EdgeInsets.only(left: 50),
                             child: rowItem('assets/images/team.png', 'Our Team',
-                                'There is no team to talk of here, because this app is only made by 1 guy. I designed, code, and do all the neccessary research to get this app to a working state.'),
+                                'We have a list of made up team member, although this app is only made by 1 guy. I designed, code, and do all the neccessary research to get this app to a working state.'),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 50),

@@ -83,7 +83,7 @@ class BookInfoService {
   static showDescription(var argument, bool isGreatPick) {
     return Container(
       padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+      margin: EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
           color: isGreatPick == true ? Color(0xFFFD4700) : Color(0xFF333399),
           borderRadius: BorderRadius.circular(15),

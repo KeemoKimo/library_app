@@ -167,13 +167,15 @@ class _addBookPageState extends State<addBookPage> {
                   child: Stack(
                     children: [
                       Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 5, color: Colors.black),
-                          ),
-                          width: double.infinity,
-                          height: 600,
-                          margin: EdgeInsets.only(left: 20, right: 20),
+                        width: double.infinity,
+                        height: 600,
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [UIServices.mainBoxShadow],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
                           child: _image != null
                               ? Image.file(
                                   _image!,
@@ -182,7 +184,9 @@ class _addBookPageState extends State<addBookPage> {
                               : Image.asset(
                                   'assets/images/noBookCover.png',
                                   fit: BoxFit.cover,
-                                )),
+                                ),
+                        ),
+                      ),
                       //! FLOATY BUTTON
                       UIServices.makeSpeedDial(
                         Color(0xFF4D028A),
@@ -213,7 +217,12 @@ class _addBookPageState extends State<addBookPage> {
                 //! SECOND SCREEN - BASIC INFO
                 Container(
                   padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/ScreenBG/2ndScreenAddBook.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   key: basicInfoPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -321,213 +330,224 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! THIRD SCREEN FINISHING
                 Container(
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image:
+                          AssetImage("assets/ScreenBG/3rdScreenAddBooks.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   key: lastPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 100),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Category',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF4D028A),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFF4D028A),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              width: double.infinity,
-                              margin:
-                                  EdgeInsets.only(left: 20, right: 20, top: 20),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: Color(0xFF4D028A),
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, right: 10),
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 100),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Category',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4D028A),
                                 ),
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    canvasColor: Color(0xFF4D028A),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF4D028A),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 20),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xFF4D028A),
+                                    contentPadding:
+                                        EdgeInsets.only(left: 10, right: 10),
                                   ),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      isExpanded: true,
-                                      elevation: 10,
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.white,
-                                      ),
-                                      value: dropdownInitialValue,
-                                      items: categoryItems.map((String items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(
-                                            items,
-                                            style: TextStyle(
-                                              color: Colors.white,
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                      canvasColor: Color(0xFF4D028A),
+                                    ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton(
+                                        isExpanded: true,
+                                        elevation: 10,
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.white,
+                                        ),
+                                        value: dropdownInitialValue,
+                                        items:
+                                            categoryItems.map((String items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(
+                                              items,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          dropdownInitialValue = newValue!;
-                                        });
-                                      },
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            dropdownInitialValue = newValue!;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            //! CHOOSE START DATE
-                            UIServices.makeSpace(50),
-                            Text(
-                              'Start Date',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF4D028A),
+                              //! CHOOSE START DATE
+                              UIServices.makeSpace(50),
+                              Text(
+                                'Start Date',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4D028A),
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, right: 20, top: 20),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF4D028A),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  _startDate.day.toString() +
-                                      " / " +
-                                      _startDate.month.toString() +
-                                      " / " +
-                                      _startDate.year.toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 20),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF4D028A),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    _startDate.day.toString() +
+                                        " / " +
+                                        _startDate.month.toString() +
+                                        " / " +
+                                        _startDate.year.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                trailing: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: Colors.white,
-                                ),
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate:
-                                        DateTime(DateTime.now().year - 5),
-                                    lastDate: DateTime.now(),
-                                  );
+                                  trailing: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate:
+                                          DateTime(DateTime.now().year - 5),
+                                      lastDate: DateTime.now(),
+                                    );
 
-                                  if (pickedDate != null &&
-                                      pickedDate != DateTime.now()) {
-                                    setState(() {
-                                      _startDate = DateTime(pickedDate.year,
-                                          pickedDate.month, pickedDate.day);
-                                    });
-                                  } else {
-                                    _startDate = DateTime.now();
-                                  }
-                                },
+                                    if (pickedDate != null &&
+                                        pickedDate != DateTime.now()) {
+                                      setState(() {
+                                        _startDate = DateTime(pickedDate.year,
+                                            pickedDate.month, pickedDate.day);
+                                      });
+                                    } else {
+                                      _startDate = DateTime.now();
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
-                            //! CHOOSE END DATE
-                            UIServices.makeSpace(50),
-                            Text(
-                              'End Date',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF4D028A),
+                              //! CHOOSE END DATE
+                              UIServices.makeSpace(50),
+                              Text(
+                                'End Date',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4D028A),
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 20),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF4D028A),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    _endDate.day.toString() +
+                                        " / " +
+                                        _endDate.month.toString() +
+                                        " / " +
+                                        _endDate.year.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate:
+                                          DateTime(DateTime.now().year - 5),
+                                      lastDate: DateTime.now(),
+                                    );
+                                    if (pickedDate != null &&
+                                        pickedDate != DateTime.now()) {
+                                      setState(() {
+                                        _endDate = DateTime(pickedDate.year,
+                                            pickedDate.month, pickedDate.day);
+                                      });
+                                    } else {
+                                      _endDate = DateTime.now();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        UIServices.makeSpace(100),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: FloatingActionButton(
+                                backgroundColor: Colors.red,
+                                onPressed: () =>
+                                    UIServices.scrollToItem(basicInfoPageKey),
+                                child: Icon(Icons.arrow_back),
                               ),
                             ),
                             Container(
-                              width: double.infinity,
-                              margin:
-                                  EdgeInsets.only(left: 20, right: 20, top: 20),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF4D028A),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  _endDate.day.toString() +
-                                      " / " +
-                                      _endDate.month.toString() +
-                                      " / " +
-                                      _endDate.year.toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                trailing: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: Colors.white,
-                                ),
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate:
-                                        DateTime(DateTime.now().year - 5),
-                                    lastDate: DateTime.now(),
-                                  );
-                                  if (pickedDate != null &&
-                                      pickedDate != DateTime.now()) {
-                                    setState(() {
-                                      _endDate = DateTime(pickedDate.year,
-                                          pickedDate.month, pickedDate.day);
-                                    });
-                                  } else {
-                                    _endDate = DateTime.now();
-                                  }
+                              margin: EdgeInsets.only(right: 20),
+                              child: FloatingActionButton(
+                                backgroundColor: Colors.green,
+                                onPressed: () async {
+                                  setState(() => loading = true);
+                                  await uploadToDatabase();
                                 },
+                                child: Icon(Icons.check),
                               ),
-                            ),
+                            )
                           ],
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 20),
-                            child: FloatingActionButton(
-                              backgroundColor: Colors.red,
-                              onPressed: () =>
-                                  UIServices.scrollToItem(basicInfoPageKey),
-                              child: Icon(Icons.arrow_back),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(right: 20),
-                            child: FloatingActionButton(
-                              backgroundColor: Colors.green,
-                              onPressed: () async {
-                                setState(() => loading = true);
-                                await uploadToDatabase();
-                              },
-                              child: Icon(Icons.check),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],

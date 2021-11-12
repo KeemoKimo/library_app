@@ -86,7 +86,12 @@ class _EditBookInfoState extends State<EditBookInfo> {
       backgroundColor: Colors.transparent,
       body: Container(
         padding: EdgeInsets.all(20),
-        color: Colors.white,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/ScreenBG/EditBookInfoBG.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Form(

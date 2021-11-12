@@ -74,117 +74,122 @@ class _LoginPageState extends State<LoginPage> {
 
     var loginScreen = Material(
       type: MaterialType.transparency,
-      child: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //!Authentication label
-            UIServices.makeSpace(50),
-            LoginPageService.signInLabel,
-            Container(
-              width: 200,
-              height: 200,
-              child: Lottie.asset("assets/Animations/loginAnimation.json"),
-            ),
-            //!The rest of the login form
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  //? EMAIL TEXT BOX
-                  LoginPageService.makePasswordTextField(
-                      emailController, false, "Enter email...", 350, 0, 20),
-                  //? PASSWORD TEXT BOX / ICON
-                  Row(
-                    children: [
-                      LoginPageService.makePasswordTextField(passwordController,
-                          isObscure, "Enter Password...", 310, 20, 0),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              if (isObscure == true) {
-                                isObscure = false;
-                              } else {
-                                isObscure = true;
-                              }
-                            },
-                          );
-                        },
-                        child: LoginPageService.revealPassword,
-                      ),
-                    ],
-                  ),
-                  UIServices.makeSpace(50),
-                  //? LOG IN BUTTON
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                    decoration: LoginPageService.btnLoginProperties,
-                    child: TextButton(
-                      child: LoginPageService.btnLogin,
-                      onPressed: () async {
-                        try {
-                          if (emailController.text == "" ||
-                              passwordController.text == "") {
+      child: Center(
+        child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //!IMAGE FOR LOGIN
+              Container(
+                width: 200,
+                height: 200,
+                child: Lottie.asset("assets/Animations/loginAnimation.json"),
+              ),
+              //!The rest of the login form
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    //? EMAIL TEXT BOX
+                    LoginPageService.makePasswordTextField(
+                        emailController, false, "Enter email...", 350, 0, 20),
+                    //? PASSWORD TEXT BOX / ICON
+                    Row(
+                      children: [
+                        LoginPageService.makePasswordTextField(
+                            passwordController,
+                            isObscure,
+                            "Enter Password...",
+                            310,
+                            20,
+                            0),
+                        GestureDetector(
+                          onTap: () {
+                            setState(
+                              () {
+                                if (isObscure == true) {
+                                  isObscure = false;
+                                } else {
+                                  isObscure = true;
+                                }
+                              },
+                            );
+                          },
+                          child: LoginPageService.revealPassword,
+                        ),
+                      ],
+                    ),
+                    UIServices.makeSpace(50),
+                    //? LOG IN BUTTON
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                      decoration: LoginPageService.btnLoginProperties,
+                      child: TextButton(
+                        child: LoginPageService.btnLogin,
+                        onPressed: () async {
+                          try {
+                            if (emailController.text == "" ||
+                                passwordController.text == "") {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return UIServices.showPopup(
+                                      'Please enter in your email and password!',
+                                      'assets/images/error.png',
+                                      true);
+                                },
+                              );
+                            } else if (emailController.text.contains('@') ==
+                                false) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return UIServices.showPopup(
+                                      'Please enter a proper email',
+                                      'assets/images/error.png',
+                                      true);
+                                },
+                              );
+                            } else {
+                              setState(() => loading = true);
+                              await auth.signInWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                              //this line is to make user go second screen
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: HomeScreen(),
+                                  type: PageTransitionType.rightToLeftWithFade,
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            }
+                          } on FirebaseAuthException catch (e) {
+                            setState(() => loading = false);
+                            LoginPageService.catchExceptions(e, context);
+                          } catch (e) {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return UIServices.showPopup(
-                                    'Please enter in your email and password!',
+                                    'Something went wrong, please try again!',
                                     'assets/images/error.png',
                                     true);
                               },
-                            );
-                          } else if (emailController.text.contains('@') ==
-                              false) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'Please enter a proper email',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
-                          } else {
-                            setState(() => loading = true);
-                            await auth.signInWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text);
-                            //this line is to make user go second screen
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                child: HomeScreen(),
-                                type: PageTransitionType.rightToLeftWithFade,
-                                duration: Duration(seconds: 1),
-                              ),
                             );
                           }
-                        } on FirebaseAuthException catch (e) {
-                          setState(() => loading = false);
-                          LoginPageService.catchExceptions(e, context);
-                        } catch (e) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return UIServices.showPopup(
-                                  'Something went wrong, please try again!',
-                                  'assets/images/error.png',
-                                  true);
-                            },
-                          );
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

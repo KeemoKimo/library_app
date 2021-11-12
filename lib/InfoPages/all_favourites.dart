@@ -75,7 +75,12 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/ScreenBG/favBooksBackground.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: UIServices.makeAppBarTextfield(
@@ -131,14 +136,19 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
                               );
                       },
                     )
-                  : Center(
-                      child: Text(
-                        "No books found :(",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
+                  : Column(
+                      children: [
+                        UIServices.makeSpace(50),
+                        Center(
+                          child: Text(
+                            "No books found :(",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ),
+                      ],
                     ),
             ],
           ),
