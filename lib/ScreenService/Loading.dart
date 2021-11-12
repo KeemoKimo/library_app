@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/variables.dart';
 
 class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFF4D028A),
+      color: Variables.themePurple,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

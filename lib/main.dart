@@ -15,7 +15,9 @@ import 'package:library_app/createAccountPage.dart';
 import 'package:library_app/otherUserFiles/otherUsersBooks.dart';
 import 'package:library_app/otherUserFiles/otherUsersFavourites.dart';
 import 'package:library_app/otherUserFiles/otherUserInfo.dart';
+import 'package:library_app/resetpasswordscreen.dart';
 import 'package:library_app/splashscreen.dart';
+import 'package:library_app/variables.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'MyFiles/HomeScreen.dart';
@@ -78,26 +80,21 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           physics: ClampingScrollPhysics(),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //!IMAGE FOR LOGIN
-              Container(
-                width: 200,
-                height: 200,
-                child: Lottie.asset("assets/Animations/loginAnimation.json"),
-              ),
+              LoginPageService.loginScreenAnimation,
               //!The rest of the login form
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     //? EMAIL TEXT BOX
-                    LoginPageService.makePasswordTextField(
+                    LoginPageService.makeAuthenticationTextField(
                         emailController, false, "Enter email...", 350, 0, 20),
                     //? PASSWORD TEXT BOX / ICON
                     Row(
                       children: [
-                        LoginPageService.makePasswordTextField(
+                        LoginPageService.makeAuthenticationTextField(
                             passwordController,
                             isObscure,
                             "Enter Password...",
@@ -133,61 +130,42 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             if (emailController.text == "" ||
                                 passwordController.text == "") {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return UIServices.showPopup(
-                                      'Please enter in your email and password!',
-                                      'assets/images/error.png',
-                                      true);
-                                },
-                              );
+                              LoginPageService.showEmptyTextBoxPopup(context);
                             } else if (emailController.text.contains('@') ==
                                 false) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return UIServices.showPopup(
-                                      'Please enter a proper email',
-                                      'assets/images/error.png',
-                                      true);
-                                },
-                              );
+                              LoginPageService.showProperEmailPopup(context);
                             } else {
                               setState(() => loading = true);
                               await auth.signInWithEmailAndPassword(
                                   email: emailController.text,
                                   password: passwordController.text);
-                              //this line is to make user go second screen
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  child: HomeScreen(),
-                                  type: PageTransitionType.rightToLeftWithFade,
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
+                              LoginPageService.goHomeScreen(context);
                             }
                           } on FirebaseAuthException catch (e) {
                             setState(() => loading = false);
                             LoginPageService.catchExceptions(e, context);
                           } catch (e) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UIServices.showPopup(
-                                    'Something went wrong, please try again!',
-                                    'assets/images/error.png',
-                                    true);
-                              },
-                            );
+                            LoginPageService.showDefaultErrorPopup(context);
                           }
                         },
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
+              //! FORGOT PASSWORD
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResetScreen()),
+                  );
+                },
+                child: Text(
+                  "Forgot Password ?",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
         ),
@@ -198,29 +176,26 @@ class _LoginPageState extends State<LoginPage> {
     var screens = [loginScreen, registerScreen];
     return loading == true
         ? Loading()
-        : Container(
-            color: Colors.white,
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: screens[selectedIndex],
-              bottomNavigationBar: CurvedNavigationBar(
-                color: Color(0xFF4D028A),
-                buttonBackgroundColor: Colors.transparent,
-                backgroundColor: (selectedIndex == 0)
-                    ? Colors.transparent
-                    : Colors.transparent,
-                height: 50,
-                items: LoginPageService.bottomNavBarProperties,
-                animationDuration: Duration(milliseconds: 500),
-                animationCurve: Curves.easeInOutCubic,
-                onTap: (index) {
-                  setState(
-                    () {
-                      selectedIndex = index;
-                    },
-                  );
-                },
-              ),
+        : Scaffold(
+            backgroundColor: Colors.white,
+            body: screens[selectedIndex],
+            bottomNavigationBar: CurvedNavigationBar(
+              color: Variables.themePurple,
+              buttonBackgroundColor: Colors.transparent,
+              backgroundColor: (selectedIndex == 0)
+                  ? Colors.transparent
+                  : Colors.transparent,
+              height: 50,
+              items: LoginPageService.bottomNavBarProperties,
+              animationDuration: Duration(milliseconds: 700),
+              animationCurve: Curves.easeInOutCubic,
+              onTap: (index) {
+                setState(
+                  () {
+                    selectedIndex = index;
+                  },
+                );
+              },
             ),
           );
   }

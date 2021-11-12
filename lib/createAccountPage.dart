@@ -4,6 +4,7 @@ import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/ScreenService/AuthenticationService.dart';
 import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/ScreenService/LoadingScreens/creatingUser.dart';
+import 'package:library_app/verifyaccountpage.dart';
 import 'package:lottie/lottie.dart';
 import 'Services/DatabaseSerivces.dart';
 import 'Services/UIServices.dart';
@@ -55,7 +56,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         child: Column(
                           children: [
                             //? EMAIL TEXT BOX
-                            LoginPageService.makePasswordTextField(
+                            LoginPageService.makeAuthenticationTextField(
                                 emailController,
                                 false,
                                 "Create Email...",
@@ -63,16 +64,15 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                 0,
                                 20),
                             //? USERNAME TEXT BOX
-                            LoginPageService.makePasswordTextField(
+                            LoginPageService.makeAuthenticationTextField(
                                 usernameController,
                                 false,
                                 "Create Username...",
                                 350,
                                 0,
                                 20),
-
                             //? PASSWORD TEXT BOX
-                            LoginPageService.makePasswordTextField(
+                            LoginPageService.makeAuthenticationTextField(
                                 passwordController,
                                 false,
                                 "Create Password...",
@@ -95,28 +95,14 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                     if (emailController.text == "" ||
                                         passwordController.text == "" ||
                                         usernameController.text == "") {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return UIServices.showPopup(
-                                              'Please enter in all the fields!',
-                                              'assets/images/error.png',
-                                              true);
-                                        },
-                                      );
+                                      LoginPageService.showEmptyTextBoxPopup(
+                                          context);
                                       //! CHECK IF EMAIL IS VALID
                                     } else if (emailController.text
                                             .contains('@') ==
                                         false) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return UIServices.showPopup(
-                                              'Please enter a proper email',
-                                              'assets/images/error.png',
-                                              true);
-                                        },
-                                      );
+                                      LoginPageService.showProperEmailPopup(
+                                          context);
                                     } else {
                                       setState(() => loading = true);
                                       UserCredential userCredential = await auth
@@ -128,43 +114,39 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                       await DatabaseServices(
                                               uid: userCredential.user!.uid)
                                           .updateUserData(
-                                        usernameController.text,
-                                        'Not yet set',
-                                        emailController.text,
-                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-                                        '',
-                                        'Not yet set',
-                                        'about me',
-                                        '',
-                                        now.day,
-                                        now.month,
-                                        now.year,
-                                        false,
-                                        false,
-                                        false,
-                                        false,
-                                      );
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HomeScreen(),
-                                        ),
-                                      );
+                                            usernameController.text,
+                                            'Not yet set',
+                                            emailController.text,
+                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+                                            '',
+                                            'Not yet set',
+                                            'about me',
+                                            '',
+                                            now.day,
+                                            now.month,
+                                            now.year,
+                                            false,
+                                            false,
+                                            false,
+                                            false,
+                                          )
+                                          .then((_) => {
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VerifyEmail(),
+                                                  ),
+                                                ),
+                                              });
                                     }
                                   } on FirebaseAuthException catch (e) {
                                     setState(() => loading = false);
                                     RegisterPageService.catchExceptions(
                                         e, context);
                                   } catch (e) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return UIServices.showPopup(
-                                            'Something went wrong, please try again!',
-                                            'assets/images/error.png',
-                                            true);
-                                      },
-                                    );
+                                    LoginPageService.showDefaultErrorPopup(
+                                        context);
                                   }
                                 },
                               ),

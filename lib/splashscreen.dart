@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:lottie/lottie.dart';
@@ -13,10 +12,6 @@ class MainSplashScreen extends StatefulWidget {
 }
 
 class _MainSplashScreenState extends State<MainSplashScreen> {
-  void iniState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     Timer(
