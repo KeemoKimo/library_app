@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/ScreenService/HomeScreenService.dart';
-import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/ScreenService/LoadingScreens/changingPic.dart';
 import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
@@ -55,7 +54,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     var mainBody = Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        color: Color(0xFF4D028A),
+        color: Variables.themePurple,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: StreamBuilder<QuerySnapshot>(
@@ -103,14 +102,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             Container(
                               margin: EdgeInsets.only(left: 20),
-                              child: Text(
-                                "My Profile",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              child: MyAccountService.myProfileLabel,
                             ),
                             Container(
                               margin: EdgeInsets.only(right: 20),
@@ -158,95 +150,28 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           child: Stack(
                             children: [
                               GestureDetector(
-                                onTap: () {
-                                  pickAndUploadImage();
-                                },
-                                onLongPress: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        elevation: 10,
-                                        child: Container(
-                                          width: 400,
-                                          height: 400,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            boxShadow: [
-                                              UIServices.mainBoxShadow
-                                            ],
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: profileURL == ''
-                                                  ? NetworkImage(
-                                                      'https://www.brother.ca/resources/images/no-product-image.png')
-                                                  : NetworkImage(profileURL!),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 40),
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        width: 3, color: Colors.white),
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: profileURL == ''
-                                          ? NetworkImage(
-                                              'https://www.brother.ca/resources/images/no-product-image.png')
-                                          : NetworkImage(profileURL!),
-                                    ),
-                                  ),
-                                ),
+                                onTap: () => pickAndUploadImage(),
+                                onLongPress: () =>
+                                    MyAccountService.showProfilePicturePopup(
+                                        context, profileURL!),
+                                child: MyAccountService
+                                    .showMyProfilePicRoundedContainer(
+                                        profileURL!),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(top: 200, right: 10),
-                                alignment: Alignment.bottomRight,
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                              )
+                              MyAccountService.add_a_photo_icon,
                             ],
                           ),
                         ),
                         UIServices.makeSpace(20),
-                        Text(
-                          userName!,
-                          style: TextStyle(
-                            fontSize: 23,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        MyAccountService.showUsernameText(userName!),
                         UIServices.makeSpace(10),
-                        Text(
-                          userEmail!,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
+                        MyAccountService.showEmailText(userEmail!),
                       ],
                     ),
                   ),
                   //! EVERYTHING BELOW USER PROFILE
                   Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                        ),
-                        boxShadow: [UIServices.mainBoxShadow]),
+                    decoration: MyAccountService.infoContainerDecoration,
                     child: Column(
                       children: [
                         //!YOUR INFORMATION SECTION
@@ -272,16 +197,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           decoration: BoxDecoration(
                             color: Color(0xFF4D028A),
                             borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius:
-                                    3, // how much spread does this shadow goes
-                                blurRadius: 4, // how blurry the shadow is
-                                offset:
-                                    Offset(0, 5), // changes position of shadow
-                              ),
-                            ],
+                            boxShadow: [UIServices.mainBoxShadow],
                           ),
                           child: Column(
                             children: [
@@ -345,13 +261,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             totalBooks, totalFavourites),
                         //!ENDING
                         UIServices.customDivider(Colors.black),
-                        Text(
-                          '! No copyright !',
-                          style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                        UIServices.makeSpace(20),
                       ],
                     ),
                   ),
@@ -377,69 +286,65 @@ class _MyAccountPageState extends State<MyAccountPage> {
       width: double.infinity,
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.only(right: 20, bottom: 20, top: 20),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 40),
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(imagePath),
-                  ),
-                ),
+          Container(
+            margin: EdgeInsets.only(left: 40),
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(imagePath),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 30),
-                child: Text(
-                  instructionText,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              Transform.scale(
-                scale: 0.8,
-                child: Container(
-                  margin: EdgeInsets.only(left: marginValue),
-                  child: CupertinoSwitch(
-                    activeColor: Colors.lightGreen,
-                    trackColor: Colors.red,
-                    thumbColor: Colors.white,
-                    value: switchValue,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          switchValue = value;
-                          print(switchValue);
-                          if (details == "Location") {
-                            DatabaseServices(uid: loggedInUser.uid)
-                                .updateLocationPrivacyStatus(switchValue);
-                          } else if (details == "Age") {
-                            DatabaseServices(uid: loggedInUser.uid)
-                                .updateAgePrivacyStatus(switchValue);
-                          } else if (details == "Books") {
-                            DatabaseServices(uid: loggedInUser.uid)
-                                .updateBooksPrivacyStatus(switchValue);
-                          } else if (details == "Favourites") {
-                            DatabaseServices(uid: loggedInUser.uid)
-                                .updateFavouritePrivacyStatus(switchValue);
-                          }
-                        },
-                      );
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      var snackBar = SnackBar(
-                        content: switchValue == true
-                            ? Text('$details switched on!')
-                            : Text('$details switched off!'),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 30),
+            child: Text(
+              instructionText,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          Transform.scale(
+            scale: 0.8,
+            child: Container(
+              margin: EdgeInsets.only(left: marginValue),
+              child: CupertinoSwitch(
+                activeColor: Colors.lightGreen,
+                trackColor: Colors.red,
+                thumbColor: Colors.white,
+                value: switchValue,
+                onChanged: (value) {
+                  setState(
+                    () {
+                      switchValue = value;
+                      print(switchValue);
+                      if (details == "Location") {
+                        DatabaseServices(uid: loggedInUser.uid)
+                            .updateLocationPrivacyStatus(switchValue);
+                      } else if (details == "Age") {
+                        DatabaseServices(uid: loggedInUser.uid)
+                            .updateAgePrivacyStatus(switchValue);
+                      } else if (details == "Books") {
+                        DatabaseServices(uid: loggedInUser.uid)
+                            .updateBooksPrivacyStatus(switchValue);
+                      } else if (details == "Favourites") {
+                        DatabaseServices(uid: loggedInUser.uid)
+                            .updateFavouritePrivacyStatus(switchValue);
+                      }
                     },
-                  ),
-                ),
+                  );
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  var snackBar = SnackBar(
+                    content: switchValue == true
+                        ? Text('$details switched on!')
+                        : Text('$details switched off!'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
               ),
-            ],
+            ),
           ),
         ],
       ),

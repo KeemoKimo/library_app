@@ -7,6 +7,107 @@ import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/variables.dart';
 
 class MyAccountService {
+  //! MY PROFILE LABEL
+  static var myProfileLabel = Text(
+    "My Profile",
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 25,
+      fontWeight: FontWeight.bold,
+    ),
+  );
+
+  //! USER INFORMATION DECORATION
+  static var infoContainerDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.only(
+      topRight: Radius.circular(20),
+      topLeft: Radius.circular(20),
+    ),
+    boxShadow: [UIServices.mainBoxShadow],
+  );
+
+  //! ADD A PHOTO ICON
+  static var add_a_photo_icon = Container(
+    margin: EdgeInsets.only(top: 200, right: 10),
+    alignment: Alignment.bottomRight,
+    child: Icon(
+      Icons.add_a_photo,
+      color: Colors.white,
+      size: 30,
+    ),
+  );
+
+  //! USERNAME TEXT
+  static showUsernameText(String userName) {
+    return Text(
+      userName,
+      style: TextStyle(
+        fontSize: 23,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+//! EMAIL TEXT
+  static showEmailText(String userEmail) {
+    return Text(
+      userEmail,
+      style: TextStyle(
+        fontSize: 16,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  //! MY ACCOUNT SHOW PROFILE PICTURE CONTAINER (CIRCLE)
+  static showMyProfilePicRoundedContainer(String profileURL) {
+    return Container(
+      margin: EdgeInsets.only(top: 40),
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(width: 3, color: Colors.white),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: profileURL == ''
+              ? NetworkImage(
+                  'https://www.brother.ca/resources/images/no-product-image.png')
+              : NetworkImage(profileURL),
+        ),
+      ),
+    );
+  }
+
+//! SHOW USER PROFILE PICTURE WHEN USER HOLD
+  static showProfilePicturePopup(BuildContext context, String profileURL) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 10,
+          child: Container(
+            width: 400,
+            height: 400,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              boxShadow: [UIServices.mainBoxShadow],
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: profileURL == ''
+                    ? NetworkImage(
+                        'https://www.brother.ca/resources/images/no-product-image.png')
+                    : NetworkImage(profileURL),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   //! COUNT ALL BOOKS FOR THIS USER
   static countBooks(var loggedInUser, totalBooks) async {
     QuerySnapshot _myDoc = await Variables.firestore
@@ -172,51 +273,6 @@ class MyAccountService {
           UIServices.makeRowItem(Icons.favorite, "Total Favourites",
               totalFavourites!, Colors.white),
         ],
-      ),
-    );
-  }
-
-//! ABOUT ME TEXTBOX (EDIT PROFILE)
-  static makeAboutMeTextbox(TextEditingController controller) {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.only(left: 20, right: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color(0xFF4D028A),
-      ),
-      child: TextFormField(
-        controller: controller,
-        maxLines: 15,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          counterStyle: TextStyle(color: Colors.white),
-          labelText: "About me",
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          labelStyle: TextStyle(color: Colors.white),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none),
-        ),
-      ),
-    );
-  }
-
-//! CUSTOM ALIGN TEXT (EDIT PROFILE)
-  static makeCustomAlignedText(String text) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF4D028A),
-        ),
       ),
     );
   }

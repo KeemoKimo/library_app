@@ -1,11 +1,13 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/ScreenService/EditProfileService.dart';
 import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/ScreenService/MyAccountService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/variables.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -55,12 +57,7 @@ class _EditProfileState extends State<EditProfile> {
 
     var mainBody = Container(
       padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/ScreenBG/editProfileBackground.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: EditProfileService.editProfileBG,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -68,7 +65,7 @@ class _EditProfileState extends State<EditProfile> {
           child: Column(
             children: [
               UIServices.makeSpace(40),
-              MyAccountService.makeCustomAlignedText("👨 Your Information :"),
+              EditProfileService.makeCustomAlignedText("👨 Your Information :"),
               UIServices.makeSpace(40),
               //! Username text field
               UIServices.makeCustomTextField(
@@ -79,11 +76,11 @@ class _EditProfileState extends State<EditProfile> {
                   ageController, "Your age", context, false, 2),
               UIServices.makeSpace(20),
               //! About me text field
-              MyAccountService.makeAboutMeTextbox(aboutController),
-              UIServices.customDivider(Color(0xFF4D028A)),
+              EditProfileService.makeAboutMeTextbox(aboutController),
+              UIServices.customDivider(Variables.themePurple),
               //! Country picker container
               UIServices.makeSpace(20),
-              MyAccountService.makeCustomAlignedText("📍 Location :"),
+              EditProfileService.makeCustomAlignedText("📍 Location :"),
               UIServices.makeSpace(40),
               StatefulBuilder(
                 builder: (context, setState) {
@@ -97,36 +94,7 @@ class _EditProfileState extends State<EditProfile> {
                         },
                       );
                     },
-                    child: Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFF4D028A),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text(
-                              '$pickedCountry',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(right: 20),
-                            child: Icon(
-                              Icons.swap_horizontal_circle_sharp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: EditProfileService.makeCountryPicker(pickedCountry),
                   );
                 },
               ),
@@ -171,13 +139,7 @@ class _EditProfileState extends State<EditProfile> {
                 );
               } catch (e) {
                 setState(() => loading = false);
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return UIServices.showPopup(
-                        e.toString(), 'assets/images/error.png', true);
-                  },
-                );
+                EditProfileService.showErrorPopup(context, e);
               }
             },
             child: const Icon(Icons.edit),

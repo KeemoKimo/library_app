@@ -105,6 +105,7 @@ flutter:
     - assets/ScreenBG/EditBookInfoBG.png
     - assets/ScreenBG/ResetPasswordBG.png
     - assets/ScreenBG/VerifyEmailBG.png
+    - assets/ScreenBG/EditProfileBG.png
   fonts:
     - family: Lato
       fonts:
