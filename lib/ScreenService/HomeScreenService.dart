@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DecorationService.dart';
 import 'package:library_app/Services/UIServices.dart';
+import 'package:library_app/main.dart';
+import 'package:library_app/variables.dart';
 
 class HomeScreenService {
 //! MAIN PICTURE FOR HOMESCREEN
@@ -73,7 +75,7 @@ class HomeScreenService {
         UIServices.makeSpace(50),
         Text(
           "Loading data...",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.blue),
         ),
       ],
     ),
@@ -231,7 +233,7 @@ class HomeScreenService {
                   Text(
                     bookTitle,
                     style: TextStyle(
-                        color: Color(0xFFFF7400),
+                        color: Variables.themeHotBookInfo,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -300,10 +302,52 @@ class HomeScreenService {
     );
   }
 
+//! MAKE LOGOUT FUNCTION FOR LISTILE
+  static logOut(BuildContext context, var auth) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Do you want to sign out?",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
+          ),
+          content: Text("You are about to sign out of this account."),
+          actions: [
+            HomeScreenService.makeCancelButton(context),
+            HomeScreenService.makeSignOutButton(
+              context,
+              auth,
+              LoginPage(),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 //! MAKE DRAWER DIVIDER
   static var makeDivider = Divider(
     height: 1,
     thickness: 1,
     color: Colors.black,
   );
+
+//! MAKE LOG OUT LISTILE
+  static makeLogOutListTile(BuildContext context, var auth) {
+    return ListTile(
+      tileColor: Colors.red,
+      leading: Icon(Icons.login_outlined, color: Colors.white),
+      title: const Text(
+        'Log Out',
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+      onTap: () async {
+        HomeScreenService.logOut(context, auth);
+      },
+    );
+  }
 }

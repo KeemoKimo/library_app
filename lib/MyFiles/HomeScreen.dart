@@ -14,7 +14,6 @@ import 'package:library_app/categoryPages/SelectCategoryPage.dart';
 import 'package:library_app/MyFiles/myAccount.dart';
 import 'package:library_app/otherUserFiles/otherUserList.dart';
 import 'package:library_app/variables.dart';
-import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -68,17 +67,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             HomeScreenService.makeDrawerHeader(loggedInUser),
             HomeScreenService.buildListTile(
                 CupertinoIcons.person_fill,
-                Color(0xFF4D028A),
+                Variables.themePurple,
                 "My Account",
                 MyAccountPage(
                   loggedInUser: loggedInUser,
                 ),
                 context),
             HomeScreenService.buildListTile(CupertinoIcons.group_solid,
-                Color(0xFF4D028A), 'Find People', OtherUserList(), context),
+                Variables.themePurple, 'Find People', OtherUserList(), context),
             HomeScreenService.buildListTile(
                 Icons.list,
-                Color(0xFF4D028A),
+                Variables.themePurple,
                 'Browse Categories',
                 SelectCategoryPage(loggedInUser: loggedInUser),
                 context),
@@ -100,41 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             HomeScreenService.makeDivider,
             HomeScreenService.buildListTile(
                 Icons.info, Colors.black, 'About Us', AboutUs(), context),
-            ListTile(
-              tileColor: Colors.red,
-              leading: Icon(Icons.login_outlined, color: Colors.white),
-              title: const Text(
-                'Log Out',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text(
-                        "Do you want to sign out?",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                      ),
-                      content:
-                          Text("You are about to sign out of this account."),
-                      actions: [
-                        HomeScreenService.makeCancelButton(context),
-                        HomeScreenService.makeSignOutButton(
-                          context,
-                          auth,
-                          LoginPage(),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
+            HomeScreenService.makeLogOutListTile(context, auth),
           ],
         ),
       ),
@@ -175,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       false),
                   UIServices.makeSpace(20),
                   HomeScreenService.verticalBookList(snapshot),
-                  UIServices.customDivider(Color(0xFFFC5F12)),
+                  UIServices.customDivider(Variables.themeHotBookInfo),
                   //! LIST FOR ALL BOOKS
                   HomeScreenService.customTitle(
                       'YOUR ',
@@ -191,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   UIServices.bookListViewBuilder(
                       snapshot, loggedInUser, 7, 2, false),
                   UIServices.makeSpace(20),
-                  UIServices.customDivider(Color(0xFF333399)),
+                  UIServices.customDivider(Variables.themeBookInfo),
                   //! LIST FOR ALL FAVOURITES
                   HomeScreenService.customTitle(
                       'YOUR ',

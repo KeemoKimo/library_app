@@ -8,4 +8,6 @@ class Variables {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static FirebaseStorage storage = FirebaseStorage.instance;
   static var themePurple = Color(0xFF4D028A);
+  static var themeBookInfo = Color(0xFF333399);
+  static var themeHotBookInfo = Color(0xFFFD4700);
 }
