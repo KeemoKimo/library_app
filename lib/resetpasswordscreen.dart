@@ -15,12 +15,7 @@ class _ResetScreenState extends State<ResetScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/ScreenBG/ResetPasswordBG.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: ResetAndVerifyService.resetPassBg,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
@@ -29,23 +24,17 @@ class _ResetScreenState extends State<ResetScreen> {
             child: Column(
               children: [
                 //! RESET PASSWORD LABEL
-                Text(
-                  "Reset your password",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Variables.themePurple,
-                      fontSize: 30),
-                ),
+                ResetAndVerifyService.resetPassText,
                 UIServices.makeSpace(20),
                 //! EMAIL TEXTFIELD
                 LoginPageService.makeAuthenticationTextField(emailController,
                     false, "Enter your email...", double.infinity, 20, 20),
-                //! SEND REQUEST BUTTON
                 UIServices.makeSpace(20),
+                //! SEND REQUEST BUTTON
                 Container(
                   width: double.infinity,
                   height: 50,
-                  margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                  margin: EdgeInsets.only(left: 30, right: 30),
                   decoration: LoginPageService.btnLoginProperties,
                   child: TextButton(
                     child: RegisterPageService.btnSendRequest,
@@ -59,14 +48,7 @@ class _ResetScreenState extends State<ResetScreen> {
                             email: emailController.text);
                         print(emailController.text);
                         Navigator.pop(context);
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return UIServices.showPopup(
-                                  "Request sent! Please check your email.",
-                                  "assets/images/success.png",
-                                  false);
-                            });
+                        ResetAndVerifyService.showSentRequestDialog(context);
                       }
                     },
                   ),

@@ -347,3 +347,81 @@ class RegisterPageService {
     }
   }
 }
+
+//! MANAGE THE FUNCTION / UI FOR RESET PASSWORD and VERIFY EMAIL PAGE
+class ResetAndVerifyService {
+  //! POPUP SHOWING USER THAT THE REQUEST IS SENT
+  static showSentRequestDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return UIServices.showPopup("Request sent! Please check your email.",
+            "assets/images/success.png", false);
+      },
+    );
+  }
+
+  //! TEXT FOR RESET PASSWORD
+  static var resetPassText = Text(
+    "Reset your password",
+    style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Variables.themePurple,
+        fontSize: 30),
+  );
+
+  //! RESET PASSWORD BACKGROUND
+  static var resetPassBg = BoxDecoration(
+    image: DecorationImage(
+      image: AssetImage("assets/ScreenBG/ResetPasswordBG.png"),
+      fit: BoxFit.cover,
+    ),
+  );
+
+//! VERIFY EMAIL - ANIMATION
+  static var verifyAnimation = Container(
+    width: 300,
+    height: 300,
+    child: Lottie.asset("assets/Animations/verifyEmail.json"),
+  );
+
+//! VERIFY EMAIL - TEXT
+  static verifyEmailText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
+    );
+  }
+
+//! VERIFY EMAIL - BUTTON
+  static makeVerifyButton(BuildContext context) {
+    return Container(
+      width: 150,
+      decoration: BoxDecoration(
+          color: Variables.themePurple,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [UIServices.mainBoxShadow]),
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        },
+        child: Text(
+          "Skip Verification",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+//! VERIFY EMAIL - BACKGROUND
+  static var verifyEmailBg = BoxDecoration(
+    image: DecorationImage(
+      image: AssetImage("assets/ScreenBG/VerifyEmailBG.png"),
+      fit: BoxFit.cover,
+    ),
+  );
+}

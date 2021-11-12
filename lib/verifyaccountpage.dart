@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/MyFiles/HomeScreen.dart';
+import 'package:library_app/ScreenService/AuthenticationService.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/variables.dart';
-import 'package:lottie/lottie.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({Key? key}) : super(key: key);
@@ -39,18 +38,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds: 4), () {
       setState(() {
         isVisible = true;
       });
     });
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/ScreenBG/VerifyEmailBG.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: ResetAndVerifyService.verifyEmailBg,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
@@ -58,19 +52,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //! ANIMATION
-              Container(
-                width: 300,
-                height: 300,
-                child: Lottie.asset("assets/Animations/verifyEmail.json"),
-              ),
-
-              Text(
-                "A Verification is sent to : ",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 20),
-              ),
+              ResetAndVerifyService.verifyAnimation,
+              //! TEXT SHOWING USER THAT VERIFY REQUEST IS SENT
+              ResetAndVerifyService.verifyEmailText("Verification sent to"),
               UIServices.makeSpace(30),
               Text(
                 user.email!,
@@ -80,37 +64,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     fontSize: 25),
               ),
               UIServices.makeSpace(30),
-              Text(
-                "Please check and verify it.",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 20),
-              ),
+              ResetAndVerifyService.verifyEmailText(
+                  "Please check and verify it!"),
               UIServices.makeSpace(50),
               //! SKIP VERIFICATION TEXT, USER HAVE OPTION TO EITHER SKIP OR VERIFY
               Visibility(
                 visible: isVisible,
-                child: Container(
-                  width: 150,
-                  decoration: BoxDecoration(
-                      color: Variables.themePurple,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [UIServices.mainBoxShadow]),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
-                    },
-                    child: Text(
-                      "Skip Verification",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                  ),
-                ),
+                child: ResetAndVerifyService.makeVerifyButton(context),
               ),
             ],
           ),
