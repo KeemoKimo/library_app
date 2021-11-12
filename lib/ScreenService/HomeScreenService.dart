@@ -168,7 +168,7 @@ class HomeScreenService {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       width: double.infinity,
-      height: 400,
+      height: 420,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -192,7 +192,6 @@ class HomeScreenService {
           return Container(
             padding: EdgeInsets.all(20),
             width: 300,
-            height: 300,
             child: GestureDetector(
               onTap: () {
                 Navigator.pushNamed(
@@ -215,7 +214,11 @@ class HomeScreenService {
                   ),
                 );
               },
-              child: Column(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                direction: Axis.horizontal,
+                spacing: 8.0,
+                runSpacing: 20.0,
                 children: [
                   Container(
                     width: 230,

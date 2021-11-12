@@ -1,9 +1,133 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:intl/intl.dart';
 
+import 'HomeScreenService.dart';
+
 class BookInfoService {
+  //! SHOW DELETE POPUP
+  static showDeleteBookPopup(
+      BuildContext context, var bookCollection, bookID, loggedInUser) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Do you want to delete this book?",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
+          ),
+          content:
+              Text("Books deleted cannot be recovered. Please think wisely."),
+          actions: [
+            HomeScreenService.makeCancelButton(context),
+            BookInfoService.makeDeleteButton(
+                bookCollection, bookID, loggedInUser, HomeScreen(), context),
+          ],
+        );
+      },
+    );
+  }
+
+  //! MAKE AUTHOR TEXT
+  static showAuthorText(var bookID) {
+    return Text(
+      bookID.bookAuthor,
+      style: TextStyle(
+        fontSize: 15,
+        color: Colors.black,
+      ),
+    );
+  }
+
+  //! MAKE CATEGORY TEXT
+  static showCategoryText(var bookID) {
+    return Text(
+      bookID.bookCategory,
+      style: TextStyle(
+        fontSize: 20,
+        color: Colors.black,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  //! MAKE BOOK START / FINISH DATE
+  static showStartFinishDate(var bookID) {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(CupertinoIcons.time_solid, color: Color(0xFF333399)),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "Start: ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF333399),
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " ${bookID.bookStartDate.day} / ${bookID.bookStartDate.month} / ${bookID.bookStartDate.year}",
+                ),
+              ],
+            ),
+          ),
+          BookInfoService.makeColumnDetailsSplitter(Color(0xFF333399)),
+          Icon(CupertinoIcons.hourglass_bottomhalf_fill,
+              color: Color(0xFF333399)),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "Finish: ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF333399),
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " ${bookID.bookEndDate.day} / ${bookID.bookEndDate.month} / ${bookID.bookEndDate.year}",
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //! SHOW BOOK COVER CONTAINER
+  static showBookCoverContainer(var bookID) {
+    return Container(
+      margin: EdgeInsets.only(top: 50, bottom: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [UIServices.mainBoxShadow],
+      ),
+      width: 350,
+      height: 550,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        child: Image.network(
+          bookID.bookCover,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   //! DETAILS FOR LANGUAGE, PAGE, YEAR OF THE BOOK
   static makeColumnDetails(var getValue, String underText, Color color) {
     return Column(
@@ -34,7 +158,7 @@ class BookInfoService {
     );
   }
 
-  //! FUNCTION TO MAKE USER NAVIGATE TO THE EDIT BOOKS PAGE
+  //! USER NAVIGATE TO THE EDIT BOOKS PAGE
   static goToEditBookPage(
       String routeName, BuildContext context, var bookID) async {
     await Navigator.pushNamed(
@@ -58,7 +182,7 @@ class BookInfoService {
     );
   }
 
-  //!FUNCTION TO MAKE THE ROW THAT CONTAIN LANGUAGE, PAGE, YEAR
+  //! MAKE THE ROW THAT CONTAIN LANGUAGE, PAGE, YEAR
   static makeDetailRow(var argument, bool isGreatPick) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

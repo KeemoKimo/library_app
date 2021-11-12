@@ -63,26 +63,13 @@ class _BookInfoState extends State<BookInfo> {
           child: Column(
             children: [
               //! BOOK COVER
-              Container(
-                margin: EdgeInsets.only(top: 50, bottom: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [UIServices.mainBoxShadow],
-                ),
-                width: 350,
-                height: 550,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  child: Image.network(
-                    bookID.bookCover,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-
+              BookInfoService.showBookCoverContainer(bookID),
               //! TITLE & TOGGLE FAVOURITE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                direction: Axis.horizontal,
+                spacing: 8.0,
+                runSpacing: 20.0,
                 children: [
                   Container(
                     margin: EdgeInsets.only(right: 10),
@@ -182,78 +169,18 @@ class _BookInfoState extends State<BookInfo> {
               ),
               UIServices.makeSpace(10),
               //! CATEGORY AND AUTHOR
-              Text(
-                bookID.bookCategory,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              BookInfoService.showCategoryText(bookID),
               UIServices.makeSpace(10),
-              Text(
-                bookID.bookAuthor,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-              ),
+              BookInfoService.showAuthorText(bookID),
               UIServices.makeSpace(30),
               //! LANGUAGE , PAGES , YEAR
               BookInfoService.makeDetailRow(bookID, false),
-              UIServices.customDivider(Color(0xFF333399)),
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(CupertinoIcons.time_solid, color: Color(0xFF333399)),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Start: ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF333399),
-                            ),
-                          ),
-                          TextSpan(
-                            text:
-                                " ${bookID.bookStartDate.day} / ${bookID.bookStartDate.month} / ${bookID.bookStartDate.year}",
-                          ),
-                        ],
-                      ),
-                    ),
-                    BookInfoService.makeColumnDetailsSplitter(
-                        Color(0xFF333399)),
-                    Icon(CupertinoIcons.hourglass_bottomhalf_fill,
-                        color: Color(0xFF333399)),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Finish: ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF333399),
-                            ),
-                          ),
-                          TextSpan(
-                            text:
-                                " ${bookID.bookEndDate.day} / ${bookID.bookEndDate.month} / ${bookID.bookEndDate.year}",
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              UIServices.customDivider(Color(0xFF333399)),
+              UIServices.customDivider(Variables.themeBookInfo),
+              BookInfoService.showStartFinishDate(bookID),
+              UIServices.customDivider(Variables.themeBookInfo),
               //! BOOK DESCRIPTION
               BookInfoService.showDescription(bookID, false),
-              UIServices.customDivider(Color(0xFF333399)),
+              UIServices.customDivider(Variables.themeBookInfo),
             ],
           ),
         ),
@@ -263,7 +190,7 @@ class _BookInfoState extends State<BookInfo> {
         spaceBetweenChildren: 10,
         overlayColor: Colors.black,
         overlayOpacity: 0.7,
-        backgroundColor: Color(0xFF333399),
+        backgroundColor: Variables.themeBookInfo,
         children: [
           SpeedDialChild(
             backgroundColor: Colors.green,
@@ -276,7 +203,7 @@ class _BookInfoState extends State<BookInfo> {
             },
           ),
           SpeedDialChild(
-            backgroundColor: Color(0xFF333399),
+            backgroundColor: Variables.themeBookInfo,
             foregroundColor: Colors.white,
             child: Icon(Icons.settings),
             label: "Edit Information",
@@ -290,27 +217,8 @@ class _BookInfoState extends State<BookInfo> {
             child: Icon(Icons.delete),
             label: "Delete Book",
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(
-                      "Do you want to delete this book?",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    ),
-                    content: Text(
-                        "Books deleted cannot be recovered. Please think wisely."),
-                    actions: [
-                      HomeScreenService.makeCancelButton(context),
-                      BookInfoService.makeDeleteButton(bookCollection, bookID,
-                          loggedInUser, HomeScreen(), context),
-                    ],
-                  );
-                },
-              );
+              BookInfoService.showDeleteBookPopup(
+                  context, bookCollection, bookID, loggedInUser);
             },
           ),
         ],

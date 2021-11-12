@@ -101,11 +101,11 @@ class _EditBookInfoState extends State<EditBookInfo> {
                 //! BOOK TITLE
                 UIServices.makeSpace(40),
                 UIServices.makeCustomTextField(titleController,
-                    'Title : ${bookID.bookTitle}', context, true, 20),
+                    'Title : ${bookID.bookTitle}', context, true, 40),
                 //! BOOK AUTHOR
                 space20,
                 UIServices.makeCustomTextField(authorController,
-                    'Author : ${bookID.bookAuthor}', context, true, 40),
+                    'Author : ${bookID.bookAuthor}', context, true, 20),
                 //! BOOK PAGES
                 space20,
                 UIServices.makeCustomTextField(numberOfPageController,

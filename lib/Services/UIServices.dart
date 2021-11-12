@@ -57,6 +57,7 @@ class UIServices {
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.all(20),
                   width: 230,
                   //color: Colors.red,
                   child: Column(
