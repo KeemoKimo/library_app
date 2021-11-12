@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/AddBookService.dart';
 import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:library_app/variables.dart';
 import '../Services/UIServices.dart';
 
 // ignore: camel_case_types
@@ -49,6 +51,7 @@ class _addBookPageState extends State<addBookPage> {
       basicInfoPageKey = GlobalKey(),
       lastPageKey = GlobalKey();
   bool loading = false;
+
   getCurrentUser() async {
     try {
       final user = auth.currentUser;
@@ -166,30 +169,10 @@ class _addBookPageState extends State<addBookPage> {
                   height: MediaQuery.of(context).size.height,
                   child: Stack(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        height: 600,
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [UIServices.mainBoxShadow],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          child: _image != null
-                              ? Image.file(
-                                  _image!,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  'assets/images/noBookCover.png',
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                      ),
+                      AddBookService.makeImageContainer(_image),
                       //! FLOATY BUTTON
                       UIServices.makeSpeedDial(
-                        Color(0xFF4D028A),
+                        Variables.themePurple,
                         Icons.arrow_forward,
                         Colors.green,
                         Colors.white,
@@ -217,97 +200,39 @@ class _addBookPageState extends State<addBookPage> {
                 //! SECOND SCREEN - BASIC INFO
                 Container(
                   padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/ScreenBG/2ndScreenAddBook.png"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  decoration: AddBookService.screen2BG,
                   key: basicInfoPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: Stack(
+                    child: Column(
                       children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              //! BOOK TITLE
-                              UIServices.makeCustomTextField(titleController,
-                                  'Enter book title...', context, true, 20),
-                              UIServices.makeSpace(20),
-                              //! BOOK AUTHOR
-                              UIServices.makeCustomTextField(authorController,
-                                  'Enter author name...', context, true, 40),
-                              UIServices.makeSpace(20),
-                              //! NUMBER OF PAGE
-                              UIServices.makeCustomTextField(
-                                  numberOfPageController,
-                                  'Enter number of page...',
-                                  context,
-                                  true,
-                                  5),
-                              UIServices.makeSpace(20),
-                              //! YEAR OF PUBLICATION
-                              UIServices.makeCustomTextField(
-                                  publishedYearController,
-                                  'Enter year of publication...',
-                                  context,
-                                  true,
-                                  7),
-                              UIServices.makeSpace(20),
-                              //! LANGUAGE
-                              UIServices.makeCustomTextField(languageController,
-                                  'Enter book language...', context, true, 10),
-                              //! DESCRIPTION
-                              Container(
-                                margin: EdgeInsets.only(top: 20),
-                                padding: EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFF4D028A),
-                                ),
-                                child: TextFormField(
-                                  textAlign: TextAlign.center,
-                                  controller: descriptionController,
-                                  maxLines: 10,
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    counterStyle:
-                                        TextStyle(color: Colors.white),
-                                    labelText: "Write a brief description...",
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    labelStyle: TextStyle(color: Colors.white),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide.none),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide.none),
-                                    errorBorder: InputBorder.none,
-                                    focusedErrorBorder: InputBorder.none,
-                                    errorStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      height: 0.1,
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Enter in the field!!";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        //! BOOK TITLE
+                        UIServices.makeCustomTextField(titleController,
+                            'Book title...', context, true, 20),
+                        UIServices.makeSpace(20),
+                        //! BOOK AUTHOR
+                        UIServices.makeCustomTextField(authorController,
+                            'Author name...', context, true, 40),
+                        UIServices.makeSpace(20),
+                        //! NUMBER OF PAGE
+                        UIServices.makeCustomTextField(numberOfPageController,
+                            'Number of Page...', context, true, 5),
+                        UIServices.makeSpace(20),
+                        //! YEAR OF PUBLICATION
+                        UIServices.makeCustomTextField(publishedYearController,
+                            'Publish Year...', context, true, 7),
+                        UIServices.makeSpace(20),
+                        //! LANGUAGE
+                        UIServices.makeCustomTextField(languageController,
+                            'Book Language...', context, true, 10),
+                        //! DESCRIPTION
+                        AddBookService.makeDescriptionTextBox(
+                            descriptionController),
                         //! FLOATY BUTTON basic info page
                         Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height),
+                          margin: EdgeInsets.only(top: 20),
                           child: UIServices.makeSpeedDial(
                             Color(0xFFf83600),
                             Icons.arrow_forward,
@@ -330,19 +255,12 @@ class _addBookPageState extends State<addBookPage> {
                 ),
                 //! THIRD SCREEN FINISHING
                 Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          AssetImage("assets/ScreenBG/3rdScreenAddBooks.png"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  decoration: AddBookService.screen3BG,
                   key: lastPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   padding: EdgeInsets.all(10),
                   child: SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -350,14 +268,7 @@ class _addBookPageState extends State<addBookPage> {
                           margin: EdgeInsets.only(top: 100),
                           child: Column(
                             children: [
-                              Text(
-                                'Category',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4D028A),
-                                ),
-                              ),
+                              AddBookService.makeText("Category"),
                               Container(
                                 decoration: BoxDecoration(
                                   color: Color(0xFF4D028A),
@@ -410,38 +321,19 @@ class _addBookPageState extends State<addBookPage> {
                               ),
                               //! CHOOSE START DATE
                               UIServices.makeSpace(50),
-                              Text(
-                                'Start Date',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4D028A),
-                                ),
-                              ),
+                              AddBookService.makeText("Start Date"),
                               Container(
                                 margin: EdgeInsets.only(
                                     left: 20, right: 20, top: 20),
                                 width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF4D028A),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                                decoration: AddBookService.datePickerDecoration,
                                 child: ListTile(
-                                  title: Text(
-                                    _startDate.day.toString() +
-                                        " / " +
-                                        _startDate.month.toString() +
-                                        " / " +
-                                        _startDate.year.toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    color: Colors.white,
-                                  ),
+                                  title: AddBookService.currentDateText(
+                                      _startDate.day,
+                                      _startDate.month,
+                                      _startDate.year),
+                                  trailing:
+                                      AddBookService.datePickContainerIcon,
                                   onTap: () async {
                                     DateTime? pickedDate = await showDatePicker(
                                       context: context,
@@ -465,38 +357,19 @@ class _addBookPageState extends State<addBookPage> {
                               ),
                               //! CHOOSE END DATE
                               UIServices.makeSpace(50),
-                              Text(
-                                'End Date',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4D028A),
-                                ),
-                              ),
+                              AddBookService.makeText("Finished Date"),
                               Container(
                                 width: double.infinity,
                                 margin: EdgeInsets.only(
                                     left: 20, right: 20, top: 20),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF4D028A),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                                decoration: AddBookService.datePickerDecoration,
                                 child: ListTile(
-                                  title: Text(
-                                    _endDate.day.toString() +
-                                        " / " +
-                                        _endDate.month.toString() +
-                                        " / " +
-                                        _endDate.year.toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    color: Colors.white,
-                                  ),
+                                  title: AddBookService.currentDateText(
+                                      _endDate.day,
+                                      _endDate.month,
+                                      _endDate.year),
+                                  trailing:
+                                      AddBookService.datePickContainerIcon,
                                   onTap: () async {
                                     DateTime? pickedDate = await showDatePicker(
                                       context: context,
@@ -527,6 +400,7 @@ class _addBookPageState extends State<addBookPage> {
                             Container(
                               margin: EdgeInsets.only(left: 20),
                               child: FloatingActionButton(
+                                heroTag: null,
                                 backgroundColor: Colors.red,
                                 onPressed: () =>
                                     UIServices.scrollToItem(basicInfoPageKey),
@@ -536,6 +410,7 @@ class _addBookPageState extends State<addBookPage> {
                             Container(
                               margin: EdgeInsets.only(right: 20),
                               child: FloatingActionButton(
+                                heroTag: null,
                                 backgroundColor: Colors.green,
                                 onPressed: () async {
                                   setState(() => loading = true);

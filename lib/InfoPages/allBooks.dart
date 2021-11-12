@@ -82,8 +82,8 @@ class _AllBooksPageState extends State<AllBooksPage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: UIServices.makeAppBarTextfield(
-            _searchController, "Search all your books...", Color(0xFF4D028A)),
+        appBar: UIServices.makeAppBarTextfield(_searchController,
+            "Search all your books...", Variables.themePurple),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(

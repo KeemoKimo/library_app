@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:library_app/MyFiles/HomeScreen.dart';
 import 'package:library_app/ScreenService/AuthenticationService.dart';
-import 'package:library_app/ScreenService/Loading.dart';
 import 'package:library_app/ScreenService/LoadingScreens/creatingUser.dart';
 import 'package:library_app/verifyaccountpage.dart';
 import 'package:lottie/lottie.dart';

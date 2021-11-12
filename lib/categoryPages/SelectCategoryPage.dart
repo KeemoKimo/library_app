@@ -9,7 +9,6 @@ import 'package:library_app/categoryPages/historical.dart';
 import 'package:library_app/categoryPages/non_fiction.dart';
 import 'package:library_app/categoryPages/philosophy.dart';
 import 'package:library_app/categoryPages/sci_fi.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SelectCategoryPage extends StatefulWidget {
   final User loggedInUser;

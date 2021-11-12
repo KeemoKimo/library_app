@@ -18,8 +18,6 @@ import 'package:library_app/otherUserFiles/otherUserInfo.dart';
 import 'package:library_app/resetpasswordscreen.dart';
 import 'package:library_app/splashscreen.dart';
 import 'package:library_app/variables.dart';
-import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'MyFiles/HomeScreen.dart';
 import 'Services/UIServices.dart';
 import 'ScreenService/AuthenticationService.dart';
