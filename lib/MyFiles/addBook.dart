@@ -235,7 +235,7 @@ class _addBookPageState extends State<addBookPage> {
                             children: [
                               //! BOOK TITLE
                               UIServices.makeCustomTextField(titleController,
-                                  'Enter book title...', context, true, 40),
+                                  'Enter book title...', context, true, 20),
                               UIServices.makeSpace(20),
                               //! BOOK AUTHOR
                               UIServices.makeCustomTextField(authorController,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class SciFiPage extends StatefulWidget {
@@ -37,27 +38,14 @@ class _SciFiPageState extends State<SciFiPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          colors: [
-            Color(0xFF635478),
-            Color(0xFF8F7A74),
-            Color(0xFF6F5641),
-            Color(0xFFD9A497),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: UIServices.makeCategoryPage(
-              'Sci - Fi', "assets/images/sci_fi.jpg", allResult, loggedInUser),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFF635478),
+        Color(0xFF8F7A74),
+        Color(0xFF6F5641),
+        Color(0xFFD9A497),
+        "Sci - Fi",
+        "assets/images/sci_fi.jpg",
+        allResult,
+        loggedInUser);
   }
 }

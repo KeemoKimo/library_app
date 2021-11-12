@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class HistoricalPage extends StatefulWidget {
@@ -40,27 +41,14 @@ class _HistoricalPageState extends State<HistoricalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF73665d),
-            Color(0xFFf6e09c),
-            Color(0xFF887a61),
-            Color(0xFF53382c),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: UIServices.makeCategoryPage('Historical',
-              "assets/images/wingedHussars.jpg", allResult, loggedInUser),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFF73665d),
+        Color(0xFFf6e09c),
+        Color(0xFF887a61),
+        Color(0xFF53382c),
+        "Historical",
+        "assets/images/wingedHussars.jpg",
+        allResult,
+        loggedInUser);
   }
 }

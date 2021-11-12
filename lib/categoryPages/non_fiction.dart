@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 // ignore: camel_case_types
@@ -41,26 +42,14 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF8f7f6d),
-            Color(0xFFece0d2),
-            Color(0xFF4e4235),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: UIServices.makeCategoryPage('Non - Fiction',
-              "assets/images/anneFrank.jpg", allResult, loggedInUser),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFF8f7f6d),
+        Color(0xFFece0d2),
+        Color(0xFF4e4235),
+        Color(0xFFece0d2),
+        "Non - Fiction",
+        "assets/images/anneFrank.jpg",
+        allResult,
+        loggedInUser);
   }
 }

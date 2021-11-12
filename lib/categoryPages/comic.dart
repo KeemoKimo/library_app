@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class ComicPage extends StatefulWidget {
@@ -39,27 +40,14 @@ class _ComicPageState extends State<ComicPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFA82214),
-            Color(0xFF108662),
-            Color(0xFFF0AE27),
-            Color(0xFF621D53),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: UIServices.makeCategoryPage(
-              'Comic', "assets/images/comics.jpg", allResult, loggedInUser),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFFA82214),
+        Color(0xFF108662),
+        Color(0xFFF0AE27),
+        Color(0xFF621D53),
+        "Comic",
+        "assets/images/comics.jpg",
+        allResult,
+        loggedInUser);
   }
 }

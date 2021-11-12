@@ -68,36 +68,8 @@ class _OtherUserListState extends State<OtherUserList> {
       color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Color(0xFF4D028A),
-          automaticallyImplyLeading: false,
-          title: Container(
-            height: 50,
-            child: TextField(
-              style: TextStyle(color: Colors.white),
-              controller: _searchController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-                fillColor: Colors.transparent,
-                filled: true,
-                contentPadding: EdgeInsets.zero,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: BorderSide.none,
-                ),
-                hintStyle: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
-                hintText: "Search users...",
-              ),
-            ),
-          ),
-        ),
+        appBar: UIServices.makeAppBarTextfield(
+            _searchController, "Search user ...", Variables.themePurple),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(

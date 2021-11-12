@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class PhilosophyPage extends StatefulWidget {
@@ -38,27 +39,14 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          colors: [
-            Color(0xFFD2BFA9),
-            Color(0xFFEADDCA),
-            Color(0xFFA5BBD1),
-            Color(0xFF83735D),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: UIServices.makeCategoryPage('Philosophy',
-              "assets/images/plato_philosopher.jpg", allResult, loggedInUser),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFFD2BFA9),
+        Color(0xFFEADDCA),
+        Color(0xFFA5BBD1),
+        Color(0xFF83735D),
+        "Philosophy",
+        "assets/images/plato_philosopher.jpg",
+        allResult,
+        loggedInUser);
   }
 }

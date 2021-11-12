@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 // ignore: camel_case_types
@@ -39,29 +40,14 @@ class _fictionPageState extends State<fictionPage> {
   }
 
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          colors: [
-            Color(0xFFf47835),
-            Color(0xFFb0482e),
-            Color(0xFFf36714),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          color: Colors.transparent,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: UIServices.makeCategoryPage('Fictional',
-                "assets/images/fictional.jpg", allResult, loggedInUser),
-          ),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFFf47835),
+        Color(0xFFb0482e),
+        Color(0xFFf36714),
+        Color(0xFFf47835),
+        "Fictional",
+        "assets/images/fictional.jpg",
+        allResult,
+        loggedInUser);
   }
 }

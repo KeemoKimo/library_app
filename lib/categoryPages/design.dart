@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/CategoryService.dart';
 import 'package:library_app/Services/UIServices.dart';
 
 class DesignPage extends StatefulWidget {
@@ -38,27 +39,14 @@ class _DesignPageState extends State<DesignPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFE6E6E6),
-            Color(0xFF000000),
-            Color(0xFF8B8B8B),
-            Color(0xFF5F5F5F),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: UIServices.makeCategoryPage(
-              'Design', "assets/images/design.jpg", allResult, loggedInUser),
-        ),
-      ),
-    );
+    return CategoryService.makeCategoryBody(
+        Color(0xFFE6E6E6),
+        Color(0xFF000000),
+        Color(0xFF8B8B8B),
+        Color(0xFF5F5F5F),
+        "Design",
+        "assets/images/design.jpg",
+        allResult,
+        loggedInUser);
   }
 }

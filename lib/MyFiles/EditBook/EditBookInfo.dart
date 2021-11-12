@@ -101,7 +101,7 @@ class _EditBookInfoState extends State<EditBookInfo> {
                 //! BOOK TITLE
                 UIServices.makeSpace(40),
                 UIServices.makeCustomTextField(titleController,
-                    'Title : ${bookID.bookTitle}', context, true, 40),
+                    'Title : ${bookID.bookTitle}', context, true, 20),
                 //! BOOK AUTHOR
                 space20,
                 UIServices.makeCustomTextField(authorController,
@@ -173,6 +173,7 @@ class _EditBookInfoState extends State<EditBookInfo> {
           Container(
             margin: EdgeInsets.only(left: 30),
             child: FloatingActionButton(
+              heroTag: null,
               backgroundColor: Colors.red,
               onPressed: () {
                 setState(() {});
@@ -182,6 +183,7 @@ class _EditBookInfoState extends State<EditBookInfo> {
           ),
           Container(
             child: FloatingActionButton(
+              heroTag: null,
               backgroundColor: Colors.green,
               onPressed: () async {
                 Loading();
