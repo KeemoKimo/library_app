@@ -97,6 +97,10 @@ flutter:
     - assets/Animations/changingPhoto.json
     - assets/Animations/creatingUser.json
     - assets/Animations/verifyEmail.json
+    - assets/Animations/DeveloperAnimation.json
+    - assets/Animations/OurTeamAnimation.json
+    - assets/Animations/vision.json
+    - assets/Animations/service.json
     - assets/ScreenBG/allBooksBackground.png
     - assets/ScreenBG/favBooksBackground.png
     - assets/ScreenBG/editProfileBackground.png
@@ -106,6 +110,7 @@ flutter:
     - assets/ScreenBG/ResetPasswordBG.png
     - assets/ScreenBG/VerifyEmailBG.png
     - assets/ScreenBG/EditProfileBG.png
+    - assets/ScreenBG/AboutUsBG.png
   fonts:
     - family: Lato
       fonts:
