@@ -67,109 +67,99 @@ class _LoginPageState extends State<LoginPage> {
   int selectedIndex = 0;
   bool loading = false;
 
-//! MAIN BUILD METHOD
   @override
   Widget build(BuildContext context) {
-    //! LOGIN SCREEN
-
+    //! MAIN SCREEN BODY
     var loginScreen = Material(
       type: MaterialType.transparency,
-      child: Center(
-        child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              //!IMAGE FOR LOGIN
-              LoginPageService.loginScreenAnimation,
-              //!The rest of the login form
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    //? EMAIL TEXT BOX
-                    LoginPageService.makeAuthenticationTextField(
-                        emailController, false, "Enter email...", 350, 0, 20),
-                    //? PASSWORD TEXT BOX / ICON
-                    Row(
-                      children: [
-                        LoginPageService.makeAuthenticationTextField(
-                            passwordController,
-                            isObscure,
-                            "Enter Password...",
-                            310,
-                            20,
-                            0),
-                        GestureDetector(
-                          onTap: () {
-                            setState(
-                              () {
-                                if (isObscure == true) {
-                                  isObscure = false;
-                                } else {
-                                  isObscure = true;
-                                }
-                              },
-                            );
-                          },
-                          child: LoginPageService.revealPassword,
-                        ),
-                      ],
-                    ),
-                    UIServices.makeSpace(50),
-                    //? LOG IN BUTTON
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                      decoration: LoginPageService.btnLoginProperties,
-                      child: TextButton(
-                        child: LoginPageService.btnLogin,
-                        onPressed: () async {
-                          try {
-                            if (emailController.text == "" ||
-                                passwordController.text == "") {
-                              LoginPageService.showEmptyTextBoxPopup(context);
-                            } else if (emailController.text.contains('@') ==
-                                false) {
-                              LoginPageService.showProperEmailPopup(context);
-                            } else {
-                              setState(() => loading = true);
-                              await auth.signInWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text);
-                              LoginPageService.goHomeScreen(context);
-                            }
-                          } on FirebaseAuthException catch (e) {
-                            setState(() => loading = false);
-                            LoginPageService.catchExceptions(e, context);
-                          } catch (e) {
-                            LoginPageService.showDefaultErrorPopup(context);
-                          }
-                        },
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Center(
+          child: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Column(
+              children: [
+                //!IMAGE FOR LOGIN
+                LoginPageService.loginScreenAnimation,
+                //!The rest of the login form
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      //? EMAIL TEXT BOX
+                      LoginPageService.makeAuthenticationTextField(
+                          emailController, false, "Enter email...", 350, 0, 20),
+                      //? PASSWORD TEXT BOX / ICON
+                      Row(
+                        children: [
+                          LoginPageService.makeAuthenticationTextField(
+                              passwordController,
+                              isObscure,
+                              "Enter Password...",
+                              310,
+                              20,
+                              0),
+                          GestureDetector(
+                            onTap: () {
+                              setState(
+                                () {
+                                  if (isObscure == true) {
+                                    isObscure = false;
+                                  } else {
+                                    isObscure = true;
+                                  }
+                                },
+                              );
+                            },
+                            child: LoginPageService.revealPassword,
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      UIServices.makeSpace(50),
+                      //? LOG IN BUTTON
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        margin:
+                            EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                        decoration: LoginPageService.btnLoginProperties,
+                        child: TextButton(
+                          child: LoginPageService.btnLogin,
+                          onPressed: () async {
+                            try {
+                              if (emailController.text == "" ||
+                                  passwordController.text == "") {
+                                LoginPageService.showEmptyTextBoxPopup(context);
+                              } else if (emailController.text.contains('@') ==
+                                  false) {
+                                LoginPageService.showProperEmailPopup(context);
+                              } else {
+                                setState(() => loading = true);
+                                await auth.signInWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                                LoginPageService.goHomeScreen(context);
+                              }
+                            } on FirebaseAuthException catch (e) {
+                              setState(() => loading = false);
+                              LoginPageService.catchExceptions(e, context);
+                            } catch (e) {
+                              LoginPageService.showDefaultErrorPopup(context);
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              //! FORGOT PASSWORD
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ResetScreen()),
-                  );
-                },
-                child: Text(
-                  "Forgot Password ?",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+                //! FORGOT PASSWORD
+                LoginPageService.makeForgotPassword(context, ResetScreen()),
+              ],
+            ),
           ),
         ),
       ),
     );
-    //! REGISTER SCREEN INSTANCE
     var registerScreen = RegisterAccount();
     var screens = [loginScreen, registerScreen];
     return loading == true

@@ -43,36 +43,39 @@ class _VerifyEmailState extends State<VerifyEmail> {
         isVisible = true;
       });
     });
-    return Container(
-      decoration: ResetAndVerifyService.verifyEmailBg,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //! ANIMATION
-              ResetAndVerifyService.verifyAnimation,
-              //! TEXT SHOWING USER THAT VERIFY REQUEST IS SENT
-              ResetAndVerifyService.verifyEmailText("Verification sent to"),
-              UIServices.makeSpace(30),
-              Text(
-                user.email!,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Variables.themePurple,
-                    fontSize: 25),
-              ),
-              UIServices.makeSpace(30),
-              ResetAndVerifyService.verifyEmailText(
-                  "Please check and verify it!"),
-              UIServices.makeSpace(50),
-              //! SKIP VERIFICATION TEXT, USER HAVE OPTION TO EITHER SKIP OR VERIFY
-              Visibility(
-                visible: isVisible,
-                child: ResetAndVerifyService.makeVerifyButton(context),
-              ),
-            ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Container(
+        decoration: ResetAndVerifyService.verifyEmailBg,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //! ANIMATION
+                ResetAndVerifyService.verifyAnimation,
+                //! TEXT SHOWING USER THAT VERIFY REQUEST IS SENT
+                ResetAndVerifyService.verifyEmailText("Verification sent to"),
+                UIServices.makeSpace(30),
+                Text(
+                  user.email!,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Variables.themePurple,
+                      fontSize: 25),
+                ),
+                UIServices.makeSpace(30),
+                ResetAndVerifyService.verifyEmailText(
+                    "Please check and verify it!"),
+                UIServices.makeSpace(50),
+                //! SKIP VERIFICATION TEXT, USER HAVE OPTION TO EITHER SKIP OR VERIFY
+                Visibility(
+                  visible: isVisible,
+                  child: ResetAndVerifyService.makeVerifyButton(context),
+                ),
+              ],
+            ),
           ),
         ),
       ),

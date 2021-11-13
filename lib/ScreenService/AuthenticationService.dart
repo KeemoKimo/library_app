@@ -7,8 +7,6 @@ import 'package:page_transition/page_transition.dart';
 
 //! MANAGES THE FUNCTIONS / UI FOR LOGIN
 class LoginPageService {
-  //=============================================================================== VARIABLES
-
   //! ANIMATION IMAGE FOR THE LOGIN SCREEN
   static var loginScreenAnimation = Container(
     width: 200,
@@ -74,8 +72,6 @@ class LoginPageService {
     borderRadius: BorderRadius.circular(15),
     boxShadow: [UIServices.mainBoxShadow],
   );
-
-  //=============================================================================== FUNCTIONS
 
   //! GO TO HOME SCREEN AFTER LOGIN BTN PRESSED
   static goHomeScreen(BuildContext context) {
@@ -152,6 +148,22 @@ class LoginPageService {
           }
           return null;
         },
+      ),
+    );
+  }
+
+//! TEXT BUTTON FORGOT PASSWORD
+  static makeForgotPassword(BuildContext context, var screen) {
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => screen),
+        );
+      },
+      child: Text(
+        "Forgot Password ?",
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -286,6 +298,19 @@ class RegisterPageService {
       fontSize: 20,
     ),
   );
+
+  //! MAKE POPUP FOR USERNAME ERROR
+  static makeUsernameErrorPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return UIServices.showPopup(
+            "Please enter username that is less than 20 characters!",
+            "assets/images/error.png",
+            true);
+      },
+    );
+  }
 
   //! CATCH ANY EXCEPTIONS
   static catchExceptions(var e, context) {

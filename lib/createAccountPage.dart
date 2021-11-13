@@ -29,18 +29,18 @@ class _RegisterAccountState extends State<RegisterAccount> {
   Widget build(BuildContext context) {
     return loading == true
         ? CreatingUser()
-        : Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Container(
-              child: Center(
+        : WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
                 child: SingleChildScrollView(
                   physics: ClampingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      //!Registration label
-
+                      //! ANIMATION
                       Container(
                         width: 300,
                         height: 300,
@@ -89,7 +89,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                 child: RegisterPageService.btnRegister,
                                 onPressed: () async {
                                   try {
-                                    //! CHECK IF USER FILL IN FORM
                                     if (emailController.text == "" ||
                                         passwordController.text == "" ||
                                         usernameController.text == "") {
@@ -101,6 +100,10 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                         false) {
                                       LoginPageService.showProperEmailPopup(
                                           context);
+                                    } else if (usernameController.text.length >
+                                        20) {
+                                      RegisterPageService
+                                          .makeUsernameErrorPopup(context);
                                     } else {
                                       setState(() => loading = true);
                                       UserCredential userCredential = await auth
@@ -128,15 +131,17 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                             false,
                                             false,
                                           )
-                                          .then((_) => {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        VerifyEmail(),
-                                                  ),
+                                          .then(
+                                            (_) => {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VerifyEmail(),
                                                 ),
-                                              });
+                                              ),
+                                            },
+                                          );
                                     }
                                   } on FirebaseAuthException catch (e) {
                                     setState(() => loading = false);
