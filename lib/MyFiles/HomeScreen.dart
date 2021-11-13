@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 context),
             HomeScreenService.buildListTile(CupertinoIcons.group_solid,
-                Variables.themePurple, 'Find People', OtherUserList(), context),
+                Variables.themePurple, 'Explore', OtherUserList(), context),
             HomeScreenService.buildListTile(
                 Icons.list,
                 Variables.themePurple,
