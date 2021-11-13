@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/HomeScreenService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/variables.dart';
@@ -30,11 +31,7 @@ class _OtherUserBooksState extends State<OtherUserBooks> {
           stream: bookSnapshot,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.black,
-                ),
-              );
+              return HomeScreenService.loadingIndicator;
             }
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -54,8 +51,8 @@ class _OtherUserBooksState extends State<OtherUserBooks> {
                       String bookAuthor = snapshot.data!.docs[index]['author'];
 
                       return (bookOwner == userID.email)
-                          ? UIServices.buildCardTile(
-                              bookCover, bookCategory, bookTitle, bookAuthor)
+                          ? UIServices.buildCardTile(bookCover, bookCategory,
+                              bookTitle, bookAuthor, false)
                           : SizedBox(
                               height: 0,
                             );

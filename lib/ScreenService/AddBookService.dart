@@ -3,6 +3,12 @@ import 'package:library_app/Services/UIServices.dart';
 import 'package:library_app/variables.dart';
 
 class AddBookService {
+  //! SCROLL TO ITEM
+  static Future scrollToItem(GlobalKey keyName) async {
+    final context = keyName.currentContext!;
+    await Scrollable.ensureVisible(context, duration: Duration(seconds: 1));
+  }
+
   //! (SCREEN 1) - IMAGE CONTAINER
   static makeImageContainer(var _image) {
     return Container(

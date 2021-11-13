@@ -27,6 +27,7 @@ class MyAccountService {
   );
 
   //! ADD A PHOTO ICON
+  // ignore: non_constant_identifier_names
   static var add_a_photo_icon = Container(
     margin: EdgeInsets.only(top: 200, right: 10),
     alignment: Alignment.bottomRight,

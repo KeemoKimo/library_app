@@ -36,6 +36,7 @@ class UIServices {
     final String category,
     final String title,
     final String author,
+    final bool isVisible,
   ) {
     return Card(
       semanticContainer: true,
@@ -58,7 +59,7 @@ class UIServices {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  width: 230,
+                  width: isVisible == true ? 230 : 260,
                   //color: Colors.red,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -91,17 +92,19 @@ class UIServices {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.black,
-                  size: 15,
+                Visibility(
+                  visible: isVisible,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black,
+                    size: 15,
+                  ),
                 )
               ],
             ),
           ),
         ],
       ),
-      //color: Colors.yellowAccent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -192,57 +195,6 @@ class UIServices {
     );
   }
 
-//!MAKE CUSTOM CARD FOR OTHER USER PAGE
-  static Container customCard(
-      String displayText,
-      IconData firstIcon,
-      IconData secondIcon,
-      double marginTop,
-      Color mainIconColor,
-      Color secondIconColor) {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: marginTop),
-            height: 60,
-            child: Card(
-              shadowColor: Colors.black,
-              elevation: 5,
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: Icon(
-                      firstIcon,
-                      color: mainIconColor,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      '$displayText',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    secondIcon,
-                    size: 15,
-                    color: secondIconColor,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
 //!GENERATE CUSTOM BOOK LIST VIEW(CAN SET WETHER TO SHOW FAVOURITES OR NO)
   static ListView bookListViewBuilder(
       AsyncSnapshot<QuerySnapshot<Object?>> snapshot,
@@ -300,7 +252,7 @@ class UIServices {
                       );
                     },
                     child: UIServices.buildCardTile(
-                        bookCover, bookCategory, bookTitle, bookAuthor),
+                        bookCover, bookCategory, bookTitle, bookAuthor, true),
                   )
                 : SizedBox(
                     height: 0,
@@ -330,7 +282,7 @@ class UIServices {
                       );
                     },
                     child: UIServices.buildCardTile(
-                        bookCover, bookCategory, bookTitle, bookAuthor),
+                        bookCover, bookCategory, bookTitle, bookAuthor, true),
                   )
                 : SizedBox(
                     height: 0,
@@ -463,12 +415,6 @@ class UIServices {
     );
   }
 
-//! SCROLL TO ITEM
-  static Future scrollToItem(GlobalKey keyName) async {
-    final context = keyName.currentContext!;
-    await Scrollable.ensureVisible(context, duration: Duration(seconds: 1));
-  }
-
 //! MAKE SPEEDIAL
   static Align makeSpeedDial(
     Color mainColor,
@@ -513,7 +459,7 @@ class UIServices {
     );
   }
 
-//! TRANSPARENT APP BAR TEXTFIELD
+//!  APP BAR TEXTFIELD
   static AppBar makeAppBarTextfield(
       TextEditingController controller, String hintText, Color color) {
     return AppBar(
@@ -545,32 +491,6 @@ class UIServices {
           ),
         ),
       ),
-    );
-  }
-
-//! FAB INFO BOOKS
-  static FloatingActionButton makeFABInfoBooks(Color fabBgColor,
-      snackBarBgColor, snackBarFgColor, BuildContext context, String content) {
-    return FloatingActionButton(
-      backgroundColor: fabBgColor,
-      child: Icon(
-        Icons.info,
-        color: Colors.white,
-      ),
-      onPressed: () {
-        final snackBar = SnackBar(
-          duration: Duration(seconds: 2),
-          content: Text(
-            content,
-            style: TextStyle(
-              color: snackBarFgColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          backgroundColor: snackBarBgColor,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
     );
   }
 

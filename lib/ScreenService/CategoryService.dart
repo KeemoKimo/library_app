@@ -133,8 +133,12 @@ class CategoryService {
                         ),
                       );
                     },
-                    child: UIServices.buildCardTile(data.bookCover,
-                        data.bookCategory, data.bookTitle, data.bookAuthor),
+                    child: UIServices.buildCardTile(
+                        data.bookCover,
+                        data.bookCategory,
+                        data.bookTitle,
+                        data.bookAuthor,
+                        true),
                   )
                 : SizedBox(
                     height: 0,

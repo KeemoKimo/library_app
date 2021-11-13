@@ -178,7 +178,7 @@ class _addBookPageState extends State<addBookPage> {
                         Colors.white,
                         "Next Page",
                         () => (_image != null)
-                            ? UIServices.scrollToItem(basicInfoPageKey)
+                            ? AddBookService.scrollToItem(basicInfoPageKey)
                             : showDialog(
                                 context: context,
                                 builder: (BuildContext ctx) {
@@ -240,13 +240,13 @@ class _addBookPageState extends State<addBookPage> {
                             Colors.white,
                             "Next page",
                             () => _formKey.currentState!.validate()
-                                ? UIServices.scrollToItem(lastPageKey)
+                                ? AddBookService.scrollToItem(lastPageKey)
                                 : print("error"),
                             Icons.arrow_back,
                             Colors.red,
                             Colors.white,
                             "Previous Page",
-                            () => UIServices.scrollToItem(pickImagePageKey),
+                            () => AddBookService.scrollToItem(pickImagePageKey),
                           ),
                         ),
                       ],
@@ -402,8 +402,8 @@ class _addBookPageState extends State<addBookPage> {
                               child: FloatingActionButton(
                                 heroTag: null,
                                 backgroundColor: Colors.red,
-                                onPressed: () =>
-                                    UIServices.scrollToItem(basicInfoPageKey),
+                                onPressed: () => AddBookService.scrollToItem(
+                                    basicInfoPageKey),
                                 child: Icon(Icons.arrow_back),
                               ),
                             ),

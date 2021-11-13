@@ -129,7 +129,8 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
                                     data.bookCover,
                                     data.bookCategory,
                                     data.bookTitle,
-                                    data.bookAuthor),
+                                    data.bookAuthor,
+                                    true),
                               )
                             : SizedBox(
                                 height: 0,

@@ -127,7 +127,8 @@ class _AllBooksPageState extends State<AllBooksPage> {
                                     data.bookCover,
                                     data.bookCategory,
                                     data.bookTitle,
-                                    data.bookAuthor),
+                                    data.bookAuthor,
+                                    true),
                               )
                             : SizedBox(
                                 height: 0,

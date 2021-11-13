@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/ScreenService/MyAccountService.dart';
+import 'package:library_app/ScreenService/OtherUserService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
 
@@ -44,246 +46,194 @@ class _OtherUserInfoState extends State<OtherUserInfo> {
       color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Container(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Center(
-              child: Column(
-                children: [
-                  UIServices.makeSpace(40),
-                  //! USER PROFILE PHOTO
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            elevation: 10,
-                            child: Container(
-                              width: 400,
-                              height: 400,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                boxShadow: [UIServices.mainBoxShadow],
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: userID.userPFP == ''
-                                      ? NetworkImage(
-                                          'https://www.brother.ca/resources/images/no-product-image.png')
-                                      : NetworkImage(userID.userPFP),
-                                ),
-                              ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Center(
+            child: Column(
+              children: [
+                UIServices.makeSpace(40),
+                //! USER PROFILE PHOTO
+                GestureDetector(
+                  onTap: () {
+                    MyAccountService.showProfilePicturePopup(
+                        context, userID.userPFP);
+                  },
+                  child: MyAccountService.showMyProfilePicRoundedContainer(
+                    userID.userPFP == ""
+                        ? 'https://www.brother.ca/resources/images/no-product-image.png'
+                        : userID.userPFP,
+                  ),
+                ),
+                //! USER NAME AND EMAIL
+                UIServices.makeSpace(20),
+                OtherUserService.showUsernameText(userID),
+                UIServices.makeSpace(10),
+                OtherUserService.showUserEmail(userID),
+                //! USER INFORMATION
+                UIServices.makeSpace(30),
+                Container(
+                  decoration: OtherUserService.containerDecor,
+                  child: Column(
+                    children: [
+                      UIServices.makeSpace(40),
+                      UIServices.customAlignedText(Alignment.centerLeft,
+                          "More about ${userID.userUserName}", Colors.white),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              userID.userAbout,
+                              style: TextStyle(
+                                  wordSpacing: 2,
+                                  letterSpacing: 1,
+                                  color: Colors.white,
+                                  height: 1.5),
                             ),
-                          );
-                        },
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 20),
-                      width: 170,
-                      height: 170,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [UIServices.mainBoxShadow],
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: userID.userPFP == ''
-                              ? NetworkImage(
-                                  'https://www.brother.ca/resources/images/no-product-image.png')
-                              : NetworkImage(userID.userPFP),
+                            UIServices.makeSpace(20),
+                            UIServices.customDivider(Colors.white),
+                            UIServices.makeSpace(20),
+                            UIServices.makeRowItem(
+                                Icons.location_city,
+                                "Location",
+                                userID.isShowLocation == true
+                                    ? "${userID.userLocation}"
+                                    : "Location Disclosed!",
+                                Colors.white),
+                            UIServices.makeSpace(40),
+                            UIServices.makeRowItem(
+                                CupertinoIcons.calendar,
+                                "Created Date",
+                                "${userID.userCreatedDate} / ${userID.userCreatedMonth} / ${userID.userCreatedYear}",
+                                Colors.white),
+                            UIServices.makeSpace(40),
+                            UIServices.makeRowItem(
+                                CupertinoIcons.person_2_fill,
+                                "Age",
+                                userID.isShowAge == true
+                                    ? "${userID.age} years old"
+                                    : "Private",
+                                Colors.white),
+                          ],
                         ),
                       ),
-                    ),
-                  ),
-                  //! USER NAME AND EMAIL
-                  UIServices.makeSpace(20),
-                  Text(
-                    userID.userUserName,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFF4D028A),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  UIServices.makeSpace(10),
-                  Text(
-                    userID.email,
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Color(0xFF4D028A),
-                        fontStyle: FontStyle.italic),
-                  ),
-                  //! USER INFORMATION
-                  UIServices.makeSpace(30),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFF4D028A),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15)),
-                    ),
-                    child: Column(
-                      children: [
-                        UIServices.makeSpace(40),
-                        UIServices.customAlignedText(Alignment.centerLeft,
-                            "More about ${userID.userUserName}", Colors.white),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(20),
-                          margin: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                userID.userAbout,
-                                style: TextStyle(
-                                    wordSpacing: 2,
-                                    letterSpacing: 1,
-                                    color: Colors.white,
-                                    height: 1.5),
-                              ),
-                              UIServices.makeSpace(20),
-                              UIServices.customDivider(Colors.white),
-                              UIServices.makeSpace(20),
-                              UIServices.makeRowItem(
-                                  Icons.location_city,
-                                  "Location",
-                                  userID.isShowLocation == true
-                                      ? "${userID.userLocation}"
-                                      : "Location Disclosed!",
-                                  Colors.white),
-                              UIServices.makeSpace(40),
-                              UIServices.makeRowItem(
-                                  CupertinoIcons.calendar,
-                                  "Created Date",
-                                  "${userID.userCreatedDate} / ${userID.userCreatedMonth} / ${userID.userCreatedYear}",
-                                  Colors.white),
-                              UIServices.makeSpace(40),
-                              UIServices.makeRowItem(
-                                  CupertinoIcons.person_2_fill,
-                                  "Age",
-                                  userID.isShowAge == true
-                                      ? "${userID.age} years old"
-                                      : "Private",
-                                  Colors.white),
-                            ],
-                          ),
+                      UIServices.makeSpace(40),
+                      //! USER STATISTICS
+                      UIServices.customAlignedText(
+                          Alignment.centerLeft, "Statistic", Colors.white),
+                      Container(
+                        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                        padding: EdgeInsets.all(20),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        UIServices.makeSpace(40),
-                        //! USER STATISTICS
-                        UIServices.customAlignedText(
-                            Alignment.centerLeft, "Statistic", Colors.white),
-                        Container(
-                          margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-                          padding: EdgeInsets.all(20),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            children: [
-                              UIServices.makeRowItem(
-                                  CupertinoIcons.book_fill,
-                                  "Total Books",
-                                  "${userID.totalBooks}",
-                                  Colors.white),
-                              UIServices.makeSpace(40),
-                              UIServices.makeRowItem(
-                                  CupertinoIcons.heart_fill,
-                                  "Total Favourites",
-                                  "${userID.userTotalFavourites}",
-                                  Colors.white),
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            UIServices.makeRowItem(
+                                CupertinoIcons.book_fill,
+                                "Total Books",
+                                "${userID.totalBooks}",
+                                Colors.white),
+                            UIServices.makeSpace(40),
+                            UIServices.makeRowItem(
+                                CupertinoIcons.heart_fill,
+                                "Total Favourites",
+                                "${userID.userTotalFavourites}",
+                                Colors.white),
+                          ],
                         ),
+                      ),
 
-                        //! CHECK IF USER SHOW BOOKS & FAVOURITES
-                        userID.isShowBook == true
-                            ? GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    'otherUserBooks',
-                                    arguments: UserArguments(
-                                      userID.age,
-                                      userID.email,
-                                      userID.userPFP,
-                                      userID.totalBooks,
-                                      userID.userUserName,
-                                      userID.userAbout,
-                                      userID.userTotalFavourites,
-                                      userID.userLocation,
-                                      userID.userCreatedDate,
-                                      userID.userCreatedMonth,
-                                      userID.userCreatedYear,
-                                      userID.isShowLocation,
-                                      userID.isShowAge,
-                                      userID.isShowBook,
-                                      userID.isShowFavourite,
-                                    ),
-                                  );
-                                },
-                                child: Column(
-                                  children: [
-                                    UIServices.customDivider(Colors.white),
-                                    UIServices.customCard(
-                                      'All Books',
-                                      Icons.menu_book_rounded,
-                                      Icons.arrow_forward_ios_rounded,
-                                      10,
-                                      Color(0xFF331832),
-                                      Color(0xFF331832),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : UIServices.makeSpace(0),
-                        userID.isShowFavourite == true
-                            ? GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    'otherUserFavourites',
-                                    arguments: UserArguments(
-                                      userID.age,
-                                      userID.email,
-                                      userID.userPFP,
-                                      userID.totalBooks,
-                                      userID.userUserName,
-                                      userID.userAbout,
-                                      userID.userTotalFavourites,
-                                      userID.userLocation,
-                                      userID.userCreatedDate,
-                                      userID.userCreatedMonth,
-                                      userID.userCreatedYear,
-                                      userID.isShowLocation,
-                                      userID.isShowAge,
-                                      userID.isShowBook,
-                                      userID.isShowFavourite,
-                                    ),
-                                  );
-                                  //print('${userID.email} favourites books!');
-                                },
-                                child: UIServices.customCard(
-                                  'All Favourite',
-                                  CupertinoIcons.star_circle_fill,
-                                  Icons.arrow_forward_ios_rounded,
-                                  10,
-                                  Color(0xFF331832),
-                                  Color(0xFF331832),
-                                ),
-                              )
-                            : UIServices.makeSpace(0),
-                        UIServices.customDivider(Colors.white),
-                      ],
-                    ),
+                      //! CHECK IF USER SHOW BOOKS & FAVOURITES
+                      userID.isShowBook == true
+                          ? GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  'otherUserBooks',
+                                  arguments: UserArguments(
+                                    userID.age,
+                                    userID.email,
+                                    userID.userPFP,
+                                    userID.totalBooks,
+                                    userID.userUserName,
+                                    userID.userAbout,
+                                    userID.userTotalFavourites,
+                                    userID.userLocation,
+                                    userID.userCreatedDate,
+                                    userID.userCreatedMonth,
+                                    userID.userCreatedYear,
+                                    userID.isShowLocation,
+                                    userID.isShowAge,
+                                    userID.isShowBook,
+                                    userID.isShowFavourite,
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  UIServices.customDivider(Colors.white),
+                                  OtherUserService.customCard(
+                                    'All Books',
+                                    Icons.menu_book_rounded,
+                                    Icons.arrow_forward_ios_rounded,
+                                    10,
+                                    Color(0xFF331832),
+                                    Color(0xFF331832),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : UIServices.makeSpace(0),
+                      userID.isShowFavourite == true
+                          ? GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  'otherUserFavourites',
+                                  arguments: UserArguments(
+                                    userID.age,
+                                    userID.email,
+                                    userID.userPFP,
+                                    userID.totalBooks,
+                                    userID.userUserName,
+                                    userID.userAbout,
+                                    userID.userTotalFavourites,
+                                    userID.userLocation,
+                                    userID.userCreatedDate,
+                                    userID.userCreatedMonth,
+                                    userID.userCreatedYear,
+                                    userID.isShowLocation,
+                                    userID.isShowAge,
+                                    userID.isShowBook,
+                                    userID.isShowFavourite,
+                                  ),
+                                );
+                                //print('${userID.email} favourites books!');
+                              },
+                              child: OtherUserService.customCard(
+                                'All Favourite',
+                                CupertinoIcons.star_circle_fill,
+                                Icons.arrow_forward_ios_rounded,
+                                10,
+                                Color(0xFF331832),
+                                Color(0xFF331832),
+                              ),
+                            )
+                          : UIServices.makeSpace(0),
+                      UIServices.customDivider(Colors.white),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
