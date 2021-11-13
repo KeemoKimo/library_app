@@ -173,8 +173,7 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Stack(
                     children: [
                       AddBookService.makeImageContainer(_image),
                       //! FLOATY BUTTON

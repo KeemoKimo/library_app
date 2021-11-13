@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:library_app/ScreenService/AllBooksService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/BookService.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -49,31 +50,8 @@ class _AllBooksPageState extends State<AllBooksPage> {
     var showResult = [];
     if (_searchController.text != "") {
       //have search parameter
-      if (sortByValue == "title") {
-        for (var bookSnapshots in allResult) {
-          var title =
-              UIServices.fromSnapshot(bookSnapshots).title.toLowerCase();
-          if (title.contains(_searchController.text.toLowerCase())) {
-            showResult.add(bookSnapshots);
-          }
-        }
-      } else if (sortByValue == "bookCategory") {
-        for (var bookSnapshots in allResult) {
-          var category =
-              UIServices.fromSnapshot(bookSnapshots).bookCategory.toLowerCase();
-          if (category.contains(_searchController.text.toLowerCase())) {
-            showResult.add(bookSnapshots);
-          }
-        }
-      } else if (sortByValue == "bookAuthor") {
-        for (var bookSnapshots in allResult) {
-          var author =
-              UIServices.fromSnapshot(bookSnapshots).bookAuthor.toLowerCase();
-          if (author.contains(_searchController.text.toLowerCase())) {
-            showResult.add(bookSnapshots);
-          }
-        }
-      }
+      AllBookService.checkSearchResult(
+          sortByValue, allResult, _searchController, showResult);
     } else {
       showResult = List.from(allResult);
     }
@@ -180,6 +158,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
               setState(
                 () {
                   sortByValue = value.toString();
+                  AllBookService.changeFABFilter(value, context);
                   if (value == "title") {
                     fabIcon = Icons.title;
                   } else if (value == "bookCategory") {
@@ -192,43 +171,18 @@ class _AllBooksPageState extends State<AllBooksPage> {
             },
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Container(
-                  color: Variables.themeHotBookInfo,
-                  width: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.title, color: Colors.white),
-                      Text("Title", style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ),
+                child: AllBookService.makeFilterItemContainer(
+                    Icons.title, "Title"),
                 value: "title",
               ),
               PopupMenuItem(
-                child: Container(
-                  width: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.category, color: Colors.white),
-                      Text("Category", style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ),
+                child: AllBookService.makeFilterItemContainer(
+                    Icons.category, "Category"),
                 value: "bookCategory",
               ),
               PopupMenuItem(
-                child: Container(
-                  width: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.person, color: Colors.white),
-                      Text("Author", style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ),
+                child: AllBookService.makeFilterItemContainer(
+                    Icons.person, "Author"),
                 value: "bookAuthor",
               ),
             ],

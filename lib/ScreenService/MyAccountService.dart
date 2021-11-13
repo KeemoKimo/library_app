@@ -69,7 +69,7 @@ class MyAccountService {
       height: 200,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(width: 3, color: Colors.white),
+        boxShadow: [UIServices.mainBoxShadow],
         image: DecorationImage(
           fit: BoxFit.cover,
           image: profileURL == ''

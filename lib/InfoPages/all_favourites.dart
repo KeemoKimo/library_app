@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:library_app/ScreenService/AllBooksService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/BookService.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -24,6 +25,8 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
   late Future resultsLoaded;
+  var sortByValue = "title";
+  var fabIcon = Icons.title;
 
   @override
   void initState() {
@@ -58,12 +61,8 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
     var showResult = [];
     if (_searchController.text != "") {
       //have search parameter
-      for (var bookSnapshots in allResult) {
-        var title = UIServices.fromSnapshot(bookSnapshots).title.toLowerCase();
-        if (title.contains(_searchController.text.toLowerCase())) {
-          showResult.add(bookSnapshots);
-        }
-      }
+      AllBookService.checkSearchResult(
+          sortByValue, allResult, _searchController, showResult);
     } else {
       showResult = List.from(allResult);
     }
@@ -151,6 +150,48 @@ class _AllFavouritesPageState extends State<AllFavouritesPage> {
                         ),
                       ],
                     ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Variables.themeHotBookInfo,
+          onPressed: () {},
+          child: PopupMenuButton(
+            color: Variables.themeHotBookInfo,
+            icon: Icon(fabIcon),
+            elevation: 20,
+            enabled: true,
+            onSelected: (value) {
+              setState(
+                () {
+                  sortByValue = value.toString();
+                  AllBookService.changeFABFilter(value, context);
+                  if (value == "title") {
+                    fabIcon = Icons.title;
+                  } else if (value == "bookCategory") {
+                    fabIcon = Icons.category;
+                  } else if (value == "bookAuthor") {
+                    fabIcon = Icons.person;
+                  }
+                },
+              );
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: AllBookService.makeFilterItemContainer(
+                    Icons.title, "Title"),
+                value: "title",
+              ),
+              PopupMenuItem(
+                child: AllBookService.makeFilterItemContainer(
+                    Icons.category, "Category"),
+                value: "bookCategory",
+              ),
+              PopupMenuItem(
+                child: AllBookService.makeFilterItemContainer(
+                    Icons.person, "Author"),
+                value: "bookAuthor",
+              ),
             ],
           ),
         ),
