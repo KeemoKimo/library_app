@@ -45,7 +45,7 @@ class LoginPageService {
 
   //! REVEAL PASSWORD IMAGE
   static var revealPassword = Container(
-    margin: EdgeInsets.only(top: 20, left: 10),
+    margin: EdgeInsets.only(top: 20, left: 10, right: 20),
     width: 30,
     height: 30,
     child: Icon(

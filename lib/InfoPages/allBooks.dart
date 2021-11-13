@@ -23,6 +23,8 @@ class _AllBooksPageState extends State<AllBooksPage> {
   TextEditingController _searchController = TextEditingController();
   List allResult = [], searchedResultList = [];
   late Future resultsLoaded;
+  var sortByValue = "title";
+  var fabIcon = Icons.title;
 
   @override
   void initState() {
@@ -47,10 +49,29 @@ class _AllBooksPageState extends State<AllBooksPage> {
     var showResult = [];
     if (_searchController.text != "") {
       //have search parameter
-      for (var bookSnapshots in allResult) {
-        var title = UIServices.fromSnapshot(bookSnapshots).title.toLowerCase();
-        if (title.contains(_searchController.text.toLowerCase())) {
-          showResult.add(bookSnapshots);
+      if (sortByValue == "title") {
+        for (var bookSnapshots in allResult) {
+          var title =
+              UIServices.fromSnapshot(bookSnapshots).title.toLowerCase();
+          if (title.contains(_searchController.text.toLowerCase())) {
+            showResult.add(bookSnapshots);
+          }
+        }
+      } else if (sortByValue == "bookCategory") {
+        for (var bookSnapshots in allResult) {
+          var category =
+              UIServices.fromSnapshot(bookSnapshots).bookCategory.toLowerCase();
+          if (category.contains(_searchController.text.toLowerCase())) {
+            showResult.add(bookSnapshots);
+          }
+        }
+      } else if (sortByValue == "bookAuthor") {
+        for (var bookSnapshots in allResult) {
+          var author =
+              UIServices.fromSnapshot(bookSnapshots).bookAuthor.toLowerCase();
+          if (author.contains(_searchController.text.toLowerCase())) {
+            showResult.add(bookSnapshots);
+          }
         }
       }
     } else {
@@ -144,6 +165,72 @@ class _AllBooksPageState extends State<AllBooksPage> {
                             fontSize: 20),
                       ),
                     ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Variables.themeHotBookInfo,
+          onPressed: () {},
+          child: PopupMenuButton(
+            color: Variables.themeHotBookInfo,
+            icon: Icon(fabIcon),
+            elevation: 20,
+            enabled: true,
+            onSelected: (value) {
+              setState(
+                () {
+                  sortByValue = value.toString();
+                  if (value == "title") {
+                    fabIcon = Icons.title;
+                  } else if (value == "bookCategory") {
+                    fabIcon = Icons.category;
+                  } else if (value == "bookAuthor") {
+                    fabIcon = Icons.person;
+                  }
+                },
+              );
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Container(
+                  color: Variables.themeHotBookInfo,
+                  width: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.title, color: Colors.white),
+                      Text("Title", style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+                value: "title",
+              ),
+              PopupMenuItem(
+                child: Container(
+                  width: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.category, color: Colors.white),
+                      Text("Category", style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+                value: "bookCategory",
+              ),
+              PopupMenuItem(
+                child: Container(
+                  width: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.person, color: Colors.white),
+                      Text("Author", style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+                value: "bookAuthor",
+              ),
             ],
           ),
         ),

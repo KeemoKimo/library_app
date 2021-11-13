@@ -14,7 +14,7 @@ class AddBookService {
     return Container(
       width: double.infinity,
       height: 600,
-      margin: EdgeInsets.only(left: 20, right: 20),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         boxShadow: [UIServices.mainBoxShadow],

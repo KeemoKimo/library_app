@@ -126,6 +126,8 @@ class _addBookPageState extends State<addBookPage> {
           false,
         );
         print('Uploaded Image');
+
+        Navigator.pop(context);
         await showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -133,7 +135,6 @@ class _addBookPageState extends State<addBookPage> {
                 'assets/images/success.png', false);
           },
         );
-        Navigator.pop(context);
       } catch (e) {
         showDialog(
           context: context,
@@ -172,42 +173,34 @@ class _addBookPageState extends State<addBookPage> {
                   ),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Stack(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AddBookService.makeImageContainer(_image),
-                            //! FLOATY BUTTON
-                            UIServices.makeSpeedDial(
-                              Variables.themePurple,
-                              Icons.arrow_forward,
-                              Colors.green,
-                              Colors.white,
-                              "Next Page",
-                              () => (_image != null)
-                                  ? AddBookService.scrollToItem(
-                                      basicInfoPageKey)
-                                  : showDialog(
-                                      context: context,
-                                      builder: (BuildContext ctx) {
-                                        return UIServices.showPopup(
-                                            "Please select an image first!",
-                                            "assets/images/error.png",
-                                            true);
-                                      },
-                                    ),
-                              Icons.add_a_photo,
-                              Color(0xFF333399),
-                              Colors.white,
-                              "Choose a cover",
-                              () => pickImage(),
-                            ),
-                          ],
-                        ),
-                      )
+                      AddBookService.makeImageContainer(_image),
+                      //! FLOATY BUTTON
+                      UIServices.makeSpeedDial(
+                        Variables.themePurple,
+                        Icons.arrow_forward,
+                        Colors.green,
+                        Colors.white,
+                        "Next Page",
+                        () => (_image != null)
+                            ? AddBookService.scrollToItem(basicInfoPageKey)
+                            : showDialog(
+                                context: context,
+                                builder: (BuildContext ctx) {
+                                  return UIServices.showPopup(
+                                      "Please select an image first!",
+                                      "assets/images/error.png",
+                                      true);
+                                },
+                              ),
+                        Icons.add_a_photo,
+                        Color(0xFF333399),
+                        Colors.white,
+                        "Choose a cover",
+                        () => pickImage(),
+                      ),
                     ],
                   ),
                 ),
