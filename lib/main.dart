@@ -96,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                               passwordController,
                               isObscure,
                               "Enter Password...",
-                              320,
-                              10,
+                              330,
+                              20,
                               0),
                           GestureDetector(
                             onTap: () {

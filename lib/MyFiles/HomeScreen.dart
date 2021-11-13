@@ -117,6 +117,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             if (!snapshot.hasData) {
               return HomeScreenService.loadingIndicator;
             }
+
             MyAccountService.countBooks(loggedInUser, totalBooks);
             MyAccountService.countFavourites(loggedInUser, totalFavourites);
             return SingleChildScrollView(
