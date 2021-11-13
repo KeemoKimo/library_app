@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:library_app/Services/Arguments.dart';
+import 'package:lottie/lottie.dart';
 
 class UIServices {
   //!VARIABLES FOR GETTING BOOK INFORMATION
@@ -115,21 +116,22 @@ class UIServices {
   }
 
 //!MAKE CUSTOM ERROR POP UP
-  static AlertDialog showPopup(String details, String imagePath, bool isError) {
+  static AlertDialog showPopup(String details, bool isError) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(imagePath),
-              ),
-            ),
-          ),
+          (isError == true)
+              ? Container(
+                  width: 150,
+                  height: 150,
+                  child: Lottie.asset('assets/Animations/error.json'),
+                )
+              : Container(
+                  width: 150,
+                  height: 150,
+                  child: Lottie.asset('assets/Animations/check.json'),
+                ),
           (isError == true)
               ? Container(
                   child: Text(

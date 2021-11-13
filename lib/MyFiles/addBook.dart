@@ -131,8 +131,8 @@ class _addBookPageState extends State<addBookPage> {
         await showDialog(
           context: context,
           builder: (BuildContext context) {
-            return UIServices.showPopup("Your book has been added successfully",
-                'assets/images/success.png', false);
+            return UIServices.showPopup(
+                "Your book has been added successfully", false);
           },
         );
       } catch (e) {
@@ -140,9 +140,7 @@ class _addBookPageState extends State<addBookPage> {
           context: context,
           builder: (BuildContext context) {
             return UIServices.showPopup(
-                "There was an error adding in your inputted book data",
-                'assets/images/error.png',
-                true);
+                "There was an error adding in your inputted book data", true);
           },
         );
       }
@@ -189,9 +187,7 @@ class _addBookPageState extends State<addBookPage> {
                                 context: context,
                                 builder: (BuildContext ctx) {
                                   return UIServices.showPopup(
-                                      "Please select an image first!",
-                                      "assets/images/error.png",
-                                      true);
+                                      "Please select an image first!", true);
                                 },
                               ),
                         Icons.add_a_photo,

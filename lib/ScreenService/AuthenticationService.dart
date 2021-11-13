@@ -9,8 +9,8 @@ import 'package:page_transition/page_transition.dart';
 class LoginPageService {
   //! ANIMATION IMAGE FOR THE LOGIN SCREEN
   static var loginScreenAnimation = Container(
-    width: 200,
-    height: 200,
+    width: 230,
+    height: 230,
     child: Lottie.asset("assets/Animations/loginAnimation.json"),
   );
 
@@ -90,8 +90,7 @@ class LoginPageService {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UIServices.showPopup(
-            'Please enter in all the fields!', 'assets/images/error.png', true);
+        return UIServices.showPopup('Please enter in all the fields!', true);
       },
     );
   }
@@ -100,8 +99,7 @@ class LoginPageService {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UIServices.showPopup(
-            'Please enter a proper email', 'assets/images/error.png', true);
+        return UIServices.showPopup('Please enter a proper email', true);
       },
     );
   }
@@ -110,8 +108,8 @@ class LoginPageService {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UIServices.showPopup('Something went wrong, please try again!',
-            'assets/images/error.png', true);
+        return UIServices.showPopup(
+            'Something went wrong, please try again!', true);
       },
     );
   }
@@ -177,8 +175,7 @@ class LoginPageService {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return UIServices.showPopup('This email does not exists!',
-                  'assets/images/error.png', true);
+              return UIServices.showPopup('This email does not exists!', true);
             },
           );
           break;
@@ -187,8 +184,7 @@ class LoginPageService {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return UIServices.showPopup(
-                  'Incorrect password!', 'assets/images/error.png', true);
+              return UIServices.showPopup('Incorrect password!', true);
             },
           );
           break;
@@ -197,8 +193,8 @@ class LoginPageService {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return UIServices.showPopup('User not found, please create one!',
-                  'assets/images/error.png', true);
+              return UIServices.showPopup(
+                  'User not found, please create one!', true);
             },
           );
           break;
@@ -207,8 +203,8 @@ class LoginPageService {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return UIServices.showPopup('This account has been disabled!',
-                  'assets/images/error.png', true);
+              return UIServices.showPopup(
+                  'This account has been disabled!', true);
             },
           );
           break;
@@ -218,9 +214,7 @@ class LoginPageService {
             context: context,
             builder: (BuildContext context) {
               return UIServices.showPopup(
-                  'There is too many request! Please slow down!',
-                  'assets/images/error.png',
-                  true);
+                  'There is too many request! Please slow down!', true);
             },
           );
           break;
@@ -230,9 +224,7 @@ class LoginPageService {
             context: context,
             builder: (BuildContext context) {
               return UIServices.showPopup(
-                  'This operation is not allowed at the current moment!',
-                  'assets/images/error.png',
-                  true);
+                  'This operation is not allowed at the current moment!', true);
             },
           );
           break;
@@ -242,9 +234,7 @@ class LoginPageService {
             context: context,
             builder: (BuildContext context) {
               return UIServices.showPopup(
-                  'Something went wrong, please try again!',
-                  'assets/images/error.png',
-                  true);
+                  'Something went wrong, please try again!', true);
             },
           );
       }
@@ -252,8 +242,8 @@ class LoginPageService {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return UIServices.showPopup('Something went wrong, please try again!',
-              'assets/images/error.png', true);
+          return UIServices.showPopup(
+              'Something went wrong, please try again!', true);
         },
       );
     }
@@ -305,9 +295,7 @@ class RegisterPageService {
       context: context,
       builder: (BuildContext context) {
         return UIServices.showPopup(
-            "Please enter username that is less than 20 characters!",
-            "assets/images/error.png",
-            true);
+            "Please enter username that is less than 20 characters!", true);
       },
     );
   }
@@ -321,9 +309,7 @@ class RegisterPageService {
             context: context,
             builder: (BuildContext context) {
               return UIServices.showPopup(
-                  'Create a password with more than 6 characters!',
-                  'assets/images/error.png',
-                  true);
+                  'Create a password with more than 6 characters!', true);
             },
           );
           break;
@@ -331,8 +317,8 @@ class RegisterPageService {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return UIServices.showPopup('Enter in your email to create!',
-                  'assets/images/error.png', true);
+              return UIServices.showPopup(
+                  'Enter in your email to create!', true);
             },
           );
           break;
@@ -341,9 +327,7 @@ class RegisterPageService {
             context: context,
             builder: (BuildContext context) {
               return UIServices.showPopup(
-                  'This user already exists! Please make a unique one!',
-                  'assets/images/error.png',
-                  true);
+                  'This user already exists! Please make a unique one!', true);
             },
           );
           break;
@@ -353,9 +337,7 @@ class RegisterPageService {
             context: context,
             builder: (BuildContext context) {
               return UIServices.showPopup(
-                  'The provided credintial could not be created!',
-                  'assets/images/error.png',
-                  true);
+                  'The provided credintial could not be created!', true);
             },
           );
       }
@@ -364,9 +346,7 @@ class RegisterPageService {
         context: context,
         builder: (BuildContext context) {
           return UIServices.showPopup(
-              'The provided credintial could not be created!',
-              'assets/images/error.png',
-              true);
+              'The provided credintial could not be created!', true);
         },
       );
     }
@@ -380,8 +360,8 @@ class ResetAndVerifyService {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UIServices.showPopup("Request sent! Please check your email.",
-            "assets/images/success.png", false);
+        return UIServices.showPopup(
+            "Request sent! Please check your email.", false);
       },
     );
   }

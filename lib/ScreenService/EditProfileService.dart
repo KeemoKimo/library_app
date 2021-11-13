@@ -51,8 +51,7 @@ class EditProfileService {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UIServices.showPopup(
-            e.toString(), 'assets/images/error.png', true);
+        return UIServices.showPopup(e.toString(), true);
       },
     );
   }

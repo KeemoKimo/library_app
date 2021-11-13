@@ -102,6 +102,8 @@ flutter:
     - assets/Animations/vision.json
     - assets/Animations/service.json
     - assets/Animations/editing.json
+    - assets/Animations/error.json
+    - assets/Animations/check.json
     - assets/ScreenBG/allBooksBackground.png
     - assets/ScreenBG/favBooksBackground.png
     - assets/ScreenBG/editProfileBackground.png
