@@ -47,6 +47,7 @@ class _fictionPageState extends State<fictionPage> {
         "Fictional",
         "assets/images/fictional.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

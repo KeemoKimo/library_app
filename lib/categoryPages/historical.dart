@@ -48,6 +48,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
         "Historical",
         "assets/images/wingedHussars.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

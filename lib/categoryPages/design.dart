@@ -46,6 +46,7 @@ class _DesignPageState extends State<DesignPage> {
         "Design",
         "assets/images/design.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

@@ -49,6 +49,7 @@ class _Non_Fiction_PageState extends State<Non_Fiction_Page> {
         "Non - Fiction",
         "assets/images/anneFrank.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

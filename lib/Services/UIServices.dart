@@ -59,7 +59,7 @@ class UIServices {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  width: isVisible == true ? 230 : 260,
+                  width: isVisible == true ? 230 : 250,
                   //color: Colors.red,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

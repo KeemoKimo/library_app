@@ -52,6 +52,7 @@ class _BiographyPageState extends State<BiographyPage> {
         "Biography",
         "assets/images/sittingBull.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

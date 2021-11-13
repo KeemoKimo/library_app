@@ -46,6 +46,7 @@ class _PhilosophyPageState extends State<PhilosophyPage> {
         "Philosophy",
         "assets/images/plato_philosopher.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

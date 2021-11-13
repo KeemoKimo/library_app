@@ -47,6 +47,7 @@ class _ComicPageState extends State<ComicPage> {
         "Comic",
         "assets/images/comics.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }

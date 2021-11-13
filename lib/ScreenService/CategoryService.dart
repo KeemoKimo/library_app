@@ -151,7 +151,7 @@ class CategoryService {
 
   //! MAKE THE WHOLE CATEGORY PAGE BODY
   static Container makeCategoryBody(Color c1, c2, c3, c4, String categoryName,
-      imagePath, var allResult, loggedInUser) {
+      imagePath, var allResult, loggedInUser, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -161,11 +161,19 @@ class CategoryService {
         ),
       ),
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: CategoryService.makeCategoryPageItem(
               categoryName, imagePath, allResult, loggedInUser),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back),
+          backgroundColor: Colors.red,
         ),
       ),
     );

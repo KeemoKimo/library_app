@@ -168,7 +168,7 @@ class HomeScreenService {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       width: double.infinity,
-      height: 420,
+      height: 430,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,

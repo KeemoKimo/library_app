@@ -357,9 +357,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
     try {
       XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
       print('Image Picking Process Starting');
-      setState(() => loading = true);
-      await new Future.delayed(const Duration(seconds: 2));
       if (image != null) {
+        setState(() => loading = true);
         userProfilePicture = File(image.path);
         print(userProfilePicture);
         print(File(image.path));

@@ -167,34 +167,36 @@ class _addBookPageState extends State<addBookPage> {
                   key: pickImagePageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Stack(
-                    children: [
-                      AddBookService.makeImageContainer(_image),
-                      //! FLOATY BUTTON
-                      UIServices.makeSpeedDial(
-                        Variables.themePurple,
-                        Icons.arrow_forward,
-                        Colors.green,
-                        Colors.white,
-                        "Next Page",
-                        () => (_image != null)
-                            ? AddBookService.scrollToItem(basicInfoPageKey)
-                            : showDialog(
-                                context: context,
-                                builder: (BuildContext ctx) {
-                                  return UIServices.showPopup(
-                                      "Please select an image first!",
-                                      "assets/images/error.png",
-                                      true);
-                                },
-                              ),
-                        Icons.add_a_photo,
-                        Color(0xFF333399),
-                        Colors.white,
-                        "Choose a cover",
-                        () => pickImage(),
-                      ),
-                    ],
+                  child: SafeArea(
+                    child: Stack(
+                      children: [
+                        AddBookService.makeImageContainer(_image),
+                        //! FLOATY BUTTON
+                        UIServices.makeSpeedDial(
+                          Variables.themePurple,
+                          Icons.arrow_forward,
+                          Colors.green,
+                          Colors.white,
+                          "Next Page",
+                          () => (_image != null)
+                              ? AddBookService.scrollToItem(basicInfoPageKey)
+                              : showDialog(
+                                  context: context,
+                                  builder: (BuildContext ctx) {
+                                    return UIServices.showPopup(
+                                        "Please select an image first!",
+                                        "assets/images/error.png",
+                                        true);
+                                  },
+                                ),
+                          Icons.add_a_photo,
+                          Color(0xFF333399),
+                          Colors.white,
+                          "Choose a cover",
+                          () => pickImage(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 //! SECOND SCREEN - BASIC INFO
@@ -204,52 +206,59 @@ class _addBookPageState extends State<addBookPage> {
                   key: basicInfoPageKey,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        //! BOOK TITLE
-                        UIServices.makeCustomTextField(titleController,
-                            'Book title...', context, true, 40),
-                        UIServices.makeSpace(20),
-                        //! BOOK AUTHOR
-                        UIServices.makeCustomTextField(authorController,
-                            'Author name...', context, true, 20),
-                        UIServices.makeSpace(20),
-                        //! NUMBER OF PAGE
-                        UIServices.makeCustomTextField(numberOfPageController,
-                            'Number of Page...', context, true, 5),
-                        UIServices.makeSpace(20),
-                        //! YEAR OF PUBLICATION
-                        UIServices.makeCustomTextField(publishedYearController,
-                            'Publish Year...', context, true, 7),
-                        UIServices.makeSpace(20),
-                        //! LANGUAGE
-                        UIServices.makeCustomTextField(languageController,
-                            'Book Language...', context, true, 10),
-                        //! DESCRIPTION
-                        AddBookService.makeDescriptionTextBox(
-                            descriptionController),
-                        //! FLOATY BUTTON basic info page
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: UIServices.makeSpeedDial(
-                            Color(0xFFf83600),
-                            Icons.arrow_forward,
-                            Colors.green,
-                            Colors.white,
-                            "Next page",
-                            () => _formKey.currentState!.validate()
-                                ? AddBookService.scrollToItem(lastPageKey)
-                                : print("error"),
-                            Icons.arrow_back,
-                            Colors.red,
-                            Colors.white,
-                            "Previous Page",
-                            () => AddBookService.scrollToItem(pickImagePageKey),
+                  child: SafeArea(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        children: [
+                          //! BOOK TITLE
+                          UIServices.makeCustomTextField(titleController,
+                              'Book title...', context, true, 40),
+                          UIServices.makeSpace(20),
+                          //! BOOK AUTHOR
+                          UIServices.makeCustomTextField(authorController,
+                              'Author name...', context, true, 20),
+                          UIServices.makeSpace(20),
+                          //! NUMBER OF PAGE
+                          UIServices.makeCustomTextField(numberOfPageController,
+                              'Number of Page...', context, true, 5),
+                          UIServices.makeSpace(20),
+                          //! YEAR OF PUBLICATION
+                          UIServices.makeCustomTextField(
+                              publishedYearController,
+                              'Publish Year...',
+                              context,
+                              true,
+                              7),
+                          UIServices.makeSpace(20),
+                          //! LANGUAGE
+                          UIServices.makeCustomTextField(languageController,
+                              'Book Language...', context, true, 10),
+                          //! DESCRIPTION
+                          AddBookService.makeDescriptionTextBox(
+                              descriptionController),
+                          //! FLOATY BUTTON basic info page
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            child: UIServices.makeSpeedDial(
+                              Color(0xFFf83600),
+                              Icons.arrow_forward,
+                              Colors.green,
+                              Colors.white,
+                              "Next page",
+                              () => _formKey.currentState!.validate()
+                                  ? AddBookService.scrollToItem(lastPageKey)
+                                  : print("error"),
+                              Icons.arrow_back,
+                              Colors.red,
+                              Colors.white,
+                              "Previous Page",
+                              () =>
+                                  AddBookService.scrollToItem(pickImagePageKey),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

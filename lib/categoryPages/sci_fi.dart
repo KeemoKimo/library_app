@@ -45,6 +45,7 @@ class _SciFiPageState extends State<SciFiPage> {
         "Sci-Fi",
         "assets/images/sci_fi.jpg",
         allResult,
-        loggedInUser);
+        loggedInUser,
+        context);
   }
 }
