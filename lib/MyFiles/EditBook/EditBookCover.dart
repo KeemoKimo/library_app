@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_app/ScreenService/Loading.dart';
+import 'package:library_app/ScreenService/LoadingScreens/editing.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/DatabaseSerivces.dart';
 import 'package:image_picker/image_picker.dart';
@@ -182,6 +183,6 @@ class _EditBookState extends State<EditBook> {
         ],
       ),
     );
-    return loading == true ? Loading() : mainBody;
+    return loading == true ? EditingLoading() : mainBody;
   }
 }
