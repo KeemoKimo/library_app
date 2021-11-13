@@ -273,7 +273,6 @@ class HomeScreenService {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Stack(
@@ -281,7 +280,7 @@ class HomeScreenService {
                   Text(
                     '${loggedInUser.email}',
                     style: TextStyle(
-                      fontSize: 23,
+                      fontSize: 20,
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
                         ..strokeWidth = 6
@@ -292,7 +291,7 @@ class HomeScreenService {
                     '${loggedInUser.email}',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 23,
+                      fontSize: 20,
                     ),
                   ),
                 ],

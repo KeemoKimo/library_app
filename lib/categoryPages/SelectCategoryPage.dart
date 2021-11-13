@@ -27,107 +27,101 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              //! FICTIONAL
-              GestureDetector(
-                  onTap: () {
-                    CategoryService.goNewScreen(
-                      context,
-                      fictionPage(loggedInUser: loggedInUser),
-                    );
-                  },
-                  child: CategoryService.makeCategoryContainer(
-                      'assets/images/fictional.jpg',
-                      'Ficitional',
-                      Alignment.topCenter)),
-              //! NON FICTION
-              GestureDetector(
-                  onTap: () {
-                    CategoryService.goNewScreen(
-                      context,
-                      Non_Fiction_Page(loggedInUser: loggedInUser),
-                    );
-                  },
-                  child: CategoryService.makeCategoryContainer(
-                      'assets/images/anneFrank.jpg',
-                      'Non-Fictional',
-                      Alignment.bottomCenter)),
-              //! HISTORICAL
-              GestureDetector(
-                  onTap: () {
-                    CategoryService.goNewScreen(
-                      context,
-                      HistoricalPage(loggedInUser: loggedInUser),
-                    );
-                  },
-                  child: CategoryService.makeCategoryContainer(
-                      'assets/images/wingedHussars.jpg',
-                      'Historical',
-                      Alignment.topCenter)),
-              //! PHILOSOPHY
-              GestureDetector(
-                  onTap: () {
-                    CategoryService.goNewScreen(
-                      context,
-                      PhilosophyPage(loggedInUser: loggedInUser),
-                    );
-                  },
-                  child: CategoryService.makeCategoryContainer(
-                      'assets/images/plato_philosopher.jpg',
-                      'Philosophy',
-                      Alignment.topCenter)),
-              //! SCI FI
-              GestureDetector(
-                  onTap: () {
-                    CategoryService.goNewScreen(
-                      context,
-                      SciFiPage(loggedInUser: loggedInUser),
-                    );
-                  },
-                  child: CategoryService.makeCategoryContainer(
-                      'assets/images/sci_fi.jpg',
-                      'Sci-Fi',
-                      Alignment.topCenter)),
-              //! COMIC
-              GestureDetector(
-                  onTap: () {
-                    CategoryService.goNewScreen(
-                      context,
-                      ComicPage(loggedInUser: loggedInUser),
-                    );
-                  },
-                  child: CategoryService.makeCategoryContainer(
-                      'assets/images/comics.jpg',
-                      'Comic',
-                      Alignment.topCenter)),
-              //! BIOGRAPHY
-              GestureDetector(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            //! FICTIONAL
+            GestureDetector(
                 onTap: () {
                   CategoryService.goNewScreen(
                     context,
-                    BiographyPage(loggedInUser: loggedInUser),
+                    fictionPage(loggedInUser: loggedInUser),
                   );
                 },
                 child: CategoryService.makeCategoryContainer(
-                    'assets/images/sittingBull.jpg',
-                    'Biography',
-                    Alignment.topCenter),
-              ),
-              //! DESIGN
-              GestureDetector(
+                    'assets/images/fictional.jpg',
+                    'Ficitional',
+                    Alignment.topCenter)),
+            //! NON FICTION
+            GestureDetector(
                 onTap: () {
                   CategoryService.goNewScreen(
-                      context, DesignPage(loggedInUser: loggedInUser));
+                    context,
+                    Non_Fiction_Page(loggedInUser: loggedInUser),
+                  );
                 },
                 child: CategoryService.makeCategoryContainer(
-                    'assets/images/design.jpg', 'Design', Alignment.center),
-              )
-            ],
-          ),
+                    'assets/images/anneFrank.jpg',
+                    'Non-Fictional',
+                    Alignment.bottomCenter)),
+            //! HISTORICAL
+            GestureDetector(
+                onTap: () {
+                  CategoryService.goNewScreen(
+                    context,
+                    HistoricalPage(loggedInUser: loggedInUser),
+                  );
+                },
+                child: CategoryService.makeCategoryContainer(
+                    'assets/images/wingedHussars.jpg',
+                    'Historical',
+                    Alignment.topCenter)),
+            //! PHILOSOPHY
+            GestureDetector(
+                onTap: () {
+                  CategoryService.goNewScreen(
+                    context,
+                    PhilosophyPage(loggedInUser: loggedInUser),
+                  );
+                },
+                child: CategoryService.makeCategoryContainer(
+                    'assets/images/plato_philosopher.jpg',
+                    'Philosophy',
+                    Alignment.topCenter)),
+            //! SCI FI
+            GestureDetector(
+                onTap: () {
+                  CategoryService.goNewScreen(
+                    context,
+                    SciFiPage(loggedInUser: loggedInUser),
+                  );
+                },
+                child: CategoryService.makeCategoryContainer(
+                    'assets/images/sci_fi.jpg', 'Sci-Fi', Alignment.topCenter)),
+            //! COMIC
+            GestureDetector(
+                onTap: () {
+                  CategoryService.goNewScreen(
+                    context,
+                    ComicPage(loggedInUser: loggedInUser),
+                  );
+                },
+                child: CategoryService.makeCategoryContainer(
+                    'assets/images/comics.jpg', 'Comic', Alignment.topCenter)),
+            //! BIOGRAPHY
+            GestureDetector(
+              onTap: () {
+                CategoryService.goNewScreen(
+                  context,
+                  BiographyPage(loggedInUser: loggedInUser),
+                );
+              },
+              child: CategoryService.makeCategoryContainer(
+                  'assets/images/sittingBull.jpg',
+                  'Biography',
+                  Alignment.topCenter),
+            ),
+            //! DESIGN
+            GestureDetector(
+              onTap: () {
+                CategoryService.goNewScreen(
+                    context, DesignPage(loggedInUser: loggedInUser));
+              },
+              child: CategoryService.makeCategoryContainer(
+                  'assets/images/design.jpg', 'Design', Alignment.center),
+            )
+          ],
         ),
       ),
     );

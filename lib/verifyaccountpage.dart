@@ -58,12 +58,15 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 //! TEXT SHOWING USER THAT VERIFY REQUEST IS SENT
                 ResetAndVerifyService.verifyEmailText("Verification sent to"),
                 UIServices.makeSpace(30),
-                Text(
-                  user.email!,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Variables.themePurple,
-                      fontSize: 25),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Text(
+                    user.email!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Variables.themePurple,
+                        fontSize: 25),
+                  ),
                 ),
                 UIServices.makeSpace(30),
                 ResetAndVerifyService.verifyEmailText(

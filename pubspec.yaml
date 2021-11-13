@@ -112,6 +112,7 @@ flutter:
     - assets/ScreenBG/VerifyEmailBG.png
     - assets/ScreenBG/EditProfileBG.png
     - assets/ScreenBG/AboutUsBG.png
+
   fonts:
     - family: Lato
       fonts:

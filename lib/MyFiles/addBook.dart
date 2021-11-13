@@ -165,38 +165,46 @@ class _addBookPageState extends State<addBookPage> {
                 Container(
                   padding: EdgeInsets.only(top: 50),
                   key: pickImagePageKey,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/ScreenBG/VerifyEmailBG.png'),
+                        fit: BoxFit.cover),
+                  ),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: SafeArea(
-                    child: Stack(
-                      children: [
-                        AddBookService.makeImageContainer(_image),
-                        //! FLOATY BUTTON
-                        UIServices.makeSpeedDial(
-                          Variables.themePurple,
-                          Icons.arrow_forward,
-                          Colors.green,
-                          Colors.white,
-                          "Next Page",
-                          () => (_image != null)
-                              ? AddBookService.scrollToItem(basicInfoPageKey)
-                              : showDialog(
-                                  context: context,
-                                  builder: (BuildContext ctx) {
-                                    return UIServices.showPopup(
-                                        "Please select an image first!",
-                                        "assets/images/error.png",
-                                        true);
-                                  },
-                                ),
-                          Icons.add_a_photo,
-                          Color(0xFF333399),
-                          Colors.white,
-                          "Choose a cover",
-                          () => pickImage(),
-                        ),
-                      ],
-                    ),
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AddBookService.makeImageContainer(_image),
+                          //! FLOATY BUTTON
+                          UIServices.makeSpeedDial(
+                            Variables.themePurple,
+                            Icons.arrow_forward,
+                            Colors.green,
+                            Colors.white,
+                            "Next Page",
+                            () => (_image != null)
+                                ? AddBookService.scrollToItem(basicInfoPageKey)
+                                : showDialog(
+                                    context: context,
+                                    builder: (BuildContext ctx) {
+                                      return UIServices.showPopup(
+                                          "Please select an image first!",
+                                          "assets/images/error.png",
+                                          true);
+                                    },
+                                  ),
+                            Icons.add_a_photo,
+                            Color(0xFF333399),
+                            Colors.white,
+                            "Choose a cover",
+                            () => pickImage(),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
                 //! SECOND SCREEN - BASIC INFO
