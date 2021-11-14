@@ -422,6 +422,15 @@ class ResetAndVerifyService {
     );
   }
 
+  //! SUCCESSFUL VERIFY POPUP
+  static showSuccessVerifyPopup(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return UIServices.showPopup("Account Verified Successfully!", false);
+        });
+  }
+
 //! VERIFY EMAIL - BACKGROUND
   static var verifyEmailBg = BoxDecoration(
     image: DecorationImage(

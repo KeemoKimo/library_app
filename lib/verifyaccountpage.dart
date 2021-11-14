@@ -24,7 +24,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
     user = auth.currentUser!;
     user.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(Duration(seconds: 3), (timer) {
       checkEmailVerified();
     });
     super.initState();
@@ -86,11 +86,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
   //! FUNCTION TO LISTEN IF THE EMAIL IS VERIFIED
-
   Future<void> checkEmailVerified() async {
     user = auth.currentUser!;
     await user.reload();
     if (user.emailVerified) {
+      ResetAndVerifyService.showSuccessVerifyPopup(context);
       timer.cancel();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
