@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_app/ScreenService/AuthenticationService.dart';
 import 'package:library_app/ScreenService/HomeScreenService.dart';
 import 'package:library_app/Services/Arguments.dart';
 import 'package:library_app/Services/UIServices.dart';
@@ -24,7 +25,7 @@ class _OtherUserBooksState extends State<OtherUserBooks> {
   Widget build(BuildContext context) {
     final userID = ModalRoute.of(context)!.settings.arguments as UserArguments;
     return Container(
-      color: Colors.white,
+      decoration: ResetAndVerifyService.verifyEmailBg,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: StreamBuilder<QuerySnapshot>(
